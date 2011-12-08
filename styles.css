@@ -1,0 +1,377 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0;
+	padding:0;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img { 
+	border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul {
+	list-style:none;
+}
+caption,th {
+	text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%;
+	font-weight:normal;
+}
+q:before,q:after {
+	content:'';
+}
+abbr,acronym { border:0;
+}
+
+/************ end reset **************/
+
+
+/******** Main Section Styles ********/
+
+body {
+	text-align:center;
+	background:url(images/bg.jpg) repeat;
+	font-size:100%;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#333;
+}
+
+#logo {
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-5;	
+}
+
+#page {
+	text-align:left;
+	width:920px;
+	margin:30px auto;
+	background-color:#fff;
+	background-color:rgba(255,255,255,0.5);
+	border:2px solid #ccc;
+	border-radius:5px;
+	padding:20px;
+	font-size:75%;
+	overflow:hidden;
+	
+	-webkit-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+	-moz-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+	box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+}
+
+.navigation {
+	float:left;
+	width:150px;
+	background-color:#fff;
+	margin-right:20px;
+}
+
+.middlecol {
+	float:left;
+	width:450px;
+	padding:15px 15px 15px 0;
+}
+
+.widecol {
+	float:left;
+	width:680px;
+}
+
+.rightcol {
+	float:right;
+	width:225px;
+	padding-top:15px;
+}
+
+.frame {
+	border: 1px solid #ccc;
+	border-radius:5px;
+	padding:15px;
+}
+
+.container {
+	margin-bottom:20px;
+	overflow:hidden;
+}
+
+.miniprofile {
+	float:left;
+	padding-left:3px;
+}
+
+.miniprofile p {
+	margin-bottom:2px;
+	font-size:11px;
+}
+
+.navigation h2.mainheader, h2.mainheader {
+	font-size:160%;
+	color:#3E5071;
+	font-weight:bold;
+	border-bottom: 2px solid #ccc;
+}
+
+#loginform {
+	text-align:left;
+	padding: 30px;
+	margin: 100px auto;
+	width:150px;
+	
+	border:2px solid #ccc;
+	border-radius:5px;
+	
+	-webkit-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+	-moz-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+	box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+}
+	
+
+#courselist {
+	width:400px;
+	float:left;
+}
+
+#courseinfo {
+	width:400px;
+	float:right;
+}
+
+/********* Navigation Styles *********/
+
+.navigation h2 {
+	color:#666;
+	font-size:120%;
+	margin-bottom:10px;
+}
+
+.navigation ul li a {
+	display:block;
+	font-size:100%;
+	padding-bottom:5px;
+}
+
+.navigation ul {
+	padding-bottom: 10px;
+}
+
+/****** Feedback Box Styles ********/
+.feedback {
+	position:absolute;
+	text-align:left;
+	font-size:75%;
+	top:140px;
+	left:20px;
+	width:100px;
+	padding:15px;
+	border: 2px solid #666;
+	border-radius:5px;
+	background:rgba(50,50,50,0.2);
+}
+
+.error {
+	color:#C00;
+}
+
+.success {
+	color:#060;
+}
+
+
+/********* Basic Typography Styles ***********/
+
+p {
+	margin-bottom:1em;
+}
+
+h2 {
+	font-size:150%;
+	margin-bottom:.5em;
+	font-weight:bold;
+}
+
+h3 {
+	font-size:130%;
+	font-weight:bold;
+	margin-bottom:1em;
+}
+
+strong {
+	font-weight:bold;
+}
+
+a {
+	color:#0593c8;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+a:hover {
+	color:#ed1c24;
+	text-decoration:underline;
+}
+
+a img {
+	border:none;
+}
+
+th {
+	font-weight:bold;
+}
+
+/*********** Course Page Styles ************/
+.coursepage .middlecol {
+	width:370px;
+}
+
+.coursepage .middlecol ul {
+	list-style-type:disc;
+	margin: 0 0 20px 20px;
+}
+.coursepage .middlecol li, 
+.coursepage .rightcol li {
+	margin-bottom:.5em;
+}
+
+.coursepage .middlecol textarea {
+	margin-bottom:20px;
+}
+
+.coursepage .middlecol div {
+	width:325px;
+	text-align:right;
+	margin-bottom:20px;
+}
+
+.coursepage .middlecol div h3 {
+	text-align:left;
+}
+
+.coursepage .middlecol div input {
+	width:220px;
+}
+
+.coursepage .rightcol {
+	width:310px;
+}
+
+.clonedInput input { /* competency form field width */
+	width:270px;
+}
+
+/*********** User Page Styles *************/
+
+/** user list **/
+
+.users .rightcol .user p {
+	margin-bottom:3px;
+}
+
+.user {
+	margin-bottom:10px;
+	overflow:hidden;
+}
+
+.user div {
+	padding-top:3px;
+}
+
+.thumb {
+	float:left;
+	padding:3px;
+	border: 1px solid #ccc;
+	border-radius:5px;
+	margin-right:3px;
+}
+
+/** Manage users table **/
+.usertable td, .usertable th {
+	padding: 5px 10px 5px 5px;
+}
+
+.usertable tr:hover {
+	background:#d0e1f3;
+}
+
+.even {
+	background:#EBEBEB;
+	background:rgba(50,50,50,0.2);
+}
+
+.adminuseredit {
+	padding:15px 15px 0 15px;
+	margin-bottom:15px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	width:630px;
+	overflow:hidden;
+}
+
+.formsection {
+	float:left;
+	width:210px;
+	text-align:right;
+	margin-bottom:10px;
+}
+
+/** New Account Form **/
+div.formcontainer {
+	width: 250px;
+	text-align:right;
+	float:left;
+}
+
+.formcontainer input, .formcontainer select {
+	width: 170px;
+}
+
+
+/** user profile **/
+
+.photo {
+	float:left;
+	padding:5px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	margin-right: 10px;
+}
+
+.profileinfo {
+	width: 300px;
+	float:left;
+}
+
+.profileinfo p, .profileinfo h3 {
+	margin-bottom:.5em;
+}
+
+/*********** Admin Page Styles *************/
+
+#adminnav {
+	float:left;
+	width:180px;
+	background:#fff;
+	margin-right:20px;
+}
+
+#admincontent {
+	float:left;
+	width:600px;
+}
+
+#addtermform {
+	width:250px;
+	float:left;
+}
+
+#termlist {
+	width: 125px;
+	float:left;
+	margin-right:20px;
+}
