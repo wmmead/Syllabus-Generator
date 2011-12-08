@@ -1,26 +1,8 @@
-<?php session_start();
-if (isset($_GET['logoff']))
-{
-	session_destroy();
-	session_start();
-}
-?>
-
+<?php require_once('includes/session.php'); ?>
 <?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
 <?php require_once('includes/functions-users.php'); ?>
-
-<?php 
-
-$val = set_codes();
-if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
-{
-	if(isset($_POST['login']))
-	{
-	authenticateperson(mysql_prep($_POST['login']), mysql_prep($_POST['password']), KEY);
-	}
-}
-?>
+<?php require_once('includes/authcheck.php'); ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
