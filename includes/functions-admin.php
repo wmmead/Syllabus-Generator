@@ -165,7 +165,8 @@ function display_terms()
 		
 		if($locked == 0)
 		{
-			print "<p><a href='admin.php?termedit=$id'>Edit</a></p>";
+			print "<p><a href='admin.php?termedit=$id'>Edit Term Dates</a></p>";
+			print "<p><a href='admin.php?termsections=$id'>Edit Term Sections</a></p>";
 			include('includes/admin/term-lock.php');
 		}
 		

@@ -48,8 +48,7 @@
     
     <div class="middlecol">
     	<h2 class="mainheader">Manage Terms</h2>
-        <?php // display_term_management(); ?>
-        <p><a href="admin.php?addterm=yes">Add a Term</a></p>
+        
         <?php
         if(isset($_GET['addterm']) && $_SESSION['type'] == 2)
 		{
@@ -59,8 +58,13 @@
 		{
 			include('includes/admin/term-edit.php');
 		}
+		elseif(isset($_GET['termsections']) && $_SESSION['type'] == 2)
+		{
+			include('includes/admin/term-sections.php');
+		}
 		else
 		{
+			print "<p><a href=\"admin.php?addterm=yes\">Add a Term</a></p>";
 			display_terms();
 		}
 		?>
