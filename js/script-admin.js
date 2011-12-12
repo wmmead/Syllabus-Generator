@@ -1,21 +1,5 @@
 $(document).ready(function(){
 	
-	$('#addPrereq').click(function() {
-		
-		var num     = $('.clonedPrereq').length;
-		var newNum  = new Number(num + 1);
-
-		var newElem = $('#prereq-input' + num).clone().attr('id', 'prereq-input' + newNum);
-
-		newElem.children('label').attr('for', 'prereq' + newNum);
-		newElem.children('input').attr('id', 'prereq' + newNum).attr('name', 'prereq' + newNum).attr('value', '');
-
-		$('#prereq-input' + num).after(newElem);
-
-		if (newNum == 50)
-			$('#addPrereq').attr('disabled','disabled');
-	});
-	
 	$('#addHoliday').click(function() {
 		var num     = $('.clonedHoliday').length;
 		var newNum  = new Number(num + 1);
@@ -32,4 +16,19 @@ $(document).ready(function(){
 		if (newNum == 10)
 			$('#addHoliday').attr('disabled','disabled');
 	});
+	
+	$('#addPolicy').click(function() {
+		var num     = $('.clonedPolicy').length;
+		var newNum  = new Number(num + 1);
+
+		var newElem = $('#policyinput' + num).clone().attr('id', 'policyinput' + newNum);
+		
+		newElem.children('input').attr('id', 'policy' + newNum).attr('name', 'policy' + newNum).attr('value', '');
+
+		$('#policyinput' + num).after(newElem);
+
+		if (newNum == 50)
+			$('#addPolicy').attr('disabled','disabled');
+	});
+	
 });

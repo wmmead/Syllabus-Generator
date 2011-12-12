@@ -49,6 +49,9 @@
     <div class="middlecol">
     	<h2 class="mainheader">Manage Terms</h2>
         
+        <!-- page functions here -->
+        <?php update_grade_policies(); ?>
+        
         <?php
         if(isset($_GET['addterm']) && $_SESSION['type'] == 2)
 		{

@@ -275,4 +275,91 @@ function display_gradepolicy_editor($id)
 	}
 }
 
+function edit_grade_policies($id)
+{
+	
+	$termid = $id;
+	
+	$query = "select policy, ordr from gradingpolicies where term_id='$termid' and type='0' order by ordr";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	
+	if($numrows > 0 )
+	{
+		while($row = mysql_fetch_row($result))
+		{
+			list($policy, $order)=$row;
+			print "<p id='policyinput$order' class='clonedPolicy'>\n";
+			print "<input id='policy$order' name='policy$order' type='text' class='policyfield' value='$policy' />\n";
+			print "</p>\n";
+		}
+		print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
+	}
+	
+	else
+	{
+		$prevtermid = $termid - 1;
+		$query = "select policy, ordr from gradingpolicies where term_id='$prevtermid' and type='0' order by ordr";
+		$result = mysql_query($query);
+		$numrows = mysql_num_rows($result);
+		
+		if($numrows > 0)
+		{
+			while($row = mysql_fetch_row($result))
+			{
+				list($policy, $order) = $row;
+				$query ="insert into gradingpolicies values('', '$termid', NULL, '0', '$policy', '$order')";
+				mysql_query($query);
+			}
+			
+			$query = "select policy, ordr from gradingpolicies where term_id='$termid' and type='0' order by ordr";
+			$result = mysql_query($query);
+			$numrows = mysql_num_rows($result);
+			
+			if($numrows > 0 )
+			{
+				while($row = mysql_fetch_row($result))
+				{
+					list($policy, $order)=$row;
+					print "<p id='policyinput$order' class='clonedPolicy'>\n";
+					print "<input id='policy$order' name='policy$order' type='text' class='policyfield' value='$policy' />\n";
+					print "</p>\n";
+				}
+				print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
+			}
+		}
+	}
+}
+
+function update_grade_policies()
+{
+	if(isset($_POST['updatepolicies']))
+	{
+		$id = $_POST['id'];
+		$del_query = "DELETE FROM gradingpolicies WHERE term_id='$id' AND type='0'";
+		mysql_query($del_query);
+		add_policy($_POST, $id);
+	}
+}
+
+function add_policy($data, $id)
+{
+	$counter = 1;
+	foreach($data as $key => $value)
+	{
+		$test = substr($key, 0, 6);
+		if($test == 'policy')
+		{
+			if(!empty($value))
+			{
+				$value = clean_up_ms(mysql_prep($value));
+				$query = "insert into gradingpolicies values('', '$id', NULL, '0', '$value', '$counter')";
+				mysql_query($query);
+				$counter++;
+			}
+		}
+	}
+}
+
+
 ?>

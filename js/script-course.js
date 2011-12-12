@@ -18,5 +18,21 @@ $(document).ready(function(){
 		if (newNum == 50)
 			$('#addComp').attr('disabled','disabled');
 	});
+	
+	$('#addPrereq').click(function() {
+		
+		var num     = $('.clonedPrereq').length;
+		var newNum  = new Number(num + 1);
+
+		var newElem = $('#prereq-input' + num).clone().attr('id', 'prereq-input' + newNum);
+
+		newElem.children('label').attr('for', 'prereq' + newNum);
+		newElem.children('input').attr('id', 'prereq' + newNum).attr('name', 'prereq' + newNum).attr('value', '');
+
+		$('#prereq-input' + num).after(newElem);
+
+		if (newNum == 50)
+			$('#addPrereq').attr('disabled','disabled');
+	});
 
 });
