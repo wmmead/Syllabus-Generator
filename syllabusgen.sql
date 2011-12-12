@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2011 at 07:39 PM
+-- Generation Time: Dec 11, 2011 at 07:55 PM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -218,6 +218,41 @@ CREATE TABLE `evalscales` (
 -- Dumping data for table `evalscales`
 --
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gradingpolicies`
+--
+
+CREATE TABLE `gradingpolicies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `term_id` int(11) NOT NULL,
+  `class_id` int(11) DEFAULT NULL,
+  `type` tinyint(1) NOT NULL,
+  `policy` varchar(255) NOT NULL,
+  `ordr` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=65 ;
+
+--
+-- Dumping data for table `gradingpolicies`
+--
+
+INSERT INTO `gradingpolicies` VALUES(36, 12, NULL, 0, 'Class time will be spent in a productive manner.', 1);
+INSERT INTO `gradingpolicies` VALUES(37, 12, NULL, 0, 'Grading will be done on a point system.', 2);
+INSERT INTO `gradingpolicies` VALUES(38, 12, NULL, 0, 'Points for individual activities will be announced.', 3);
+INSERT INTO `gradingpolicies` VALUES(39, 12, NULL, 0, 'All work must be received by the set deadlines.', 4);
+INSERT INTO `gradingpolicies` VALUES(40, 12, NULL, 0, 'Late work receives a grade of zero.', 5);
+INSERT INTO `gradingpolicies` VALUES(41, 12, NULL, 0, 'On-time projects may be redone with instructor approval.', 6);
+INSERT INTO `gradingpolicies` VALUES(42, 12, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
+INSERT INTO `gradingpolicies` VALUES(58, 13, NULL, 0, 'Class time will be spent in a productive manner.', 1);
+INSERT INTO `gradingpolicies` VALUES(59, 13, NULL, 0, 'Grading will be done on a point system.', 2);
+INSERT INTO `gradingpolicies` VALUES(60, 13, NULL, 0, 'Points for individual activities will be announced.', 3);
+INSERT INTO `gradingpolicies` VALUES(61, 13, NULL, 0, 'All work must be received by the set deadlines.', 4);
+INSERT INTO `gradingpolicies` VALUES(62, 13, NULL, 0, 'Late work receives a grade of zero.', 5);
+INSERT INTO `gradingpolicies` VALUES(63, 13, NULL, 0, 'On-time projects may be redone with instructor approval.', 6);
+INSERT INTO `gradingpolicies` VALUES(64, 13, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
 
 -- --------------------------------------------------------
 
