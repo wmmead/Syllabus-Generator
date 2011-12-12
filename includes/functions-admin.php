@@ -267,4 +267,12 @@ function edit_holidays()
 	}	
 }
 
+function display_gradepolicy_editor($id)
+{
+	if(isset($_GET['gradepolicies']))
+	{
+		include('includes/admin/grade-policy-edit.php');
+	}
+}
+
 ?>

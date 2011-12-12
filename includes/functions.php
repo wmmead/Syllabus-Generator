@@ -257,6 +257,7 @@ function clean_up_ms($src)
 	$src = str_replace("“", '\"', $src);
 	$src = str_replace("–", "-", $src);
 	$src = str_replace("…", "...", $src);
+	$src = str_replace("•	", "", $src);
 	return $src;	
 }
 

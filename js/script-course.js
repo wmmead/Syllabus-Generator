@@ -1,0 +1,22 @@
+$(document).ready(function(){
+	
+	$('#addComp').click(function() {
+		var num     = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
+		var newNum  = new Number(num + 1);      // the numeric ID of the new input field being added
+
+		// create the new element via clone(), and manipulate it's ID using newNum value
+		var newElem = $('#input' + num).clone().attr('id', 'input' + newNum);
+
+		// manipulate the name/id values of the input inside the new elements
+		newElem.children('label').attr('for', 'comp' + newNum);
+		newElem.children('input').attr('id', 'comp' + newNum).attr('name', 'comp' + newNum).attr('value', '');
+
+		// insert the new element after the final "duplicatable" input field
+		$('#input' + num).after(newElem);
+
+		// business rule: you can only add 50 competencies
+		if (newNum == 50)
+			$('#addComp').attr('disabled','disabled');
+	});
+
+});
