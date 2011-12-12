@@ -10,6 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>AI Syllabus Generator Admin Page</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript" src="js/tinymceInit.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="js/script-admin.js"></script>
 </head>
