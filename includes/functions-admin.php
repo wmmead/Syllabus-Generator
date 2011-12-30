@@ -328,6 +328,13 @@ function edit_grade_policies($id)
 				print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
 			}
 		}
+		else
+		{
+			print "<p id='policyinput1' class='clonedPolicy'>\n";
+			print "<input id='policy1' name='policy1' type='text' class='policyfield' />\n";
+			print "</p>\n";
+			print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
+		}
 	}
 }
 
