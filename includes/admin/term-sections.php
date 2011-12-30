@@ -10,3 +10,8 @@
 	<h3><a href="admin.php?termsections=<?php echo $id; ?>&gradepolicies=<?php echo $id; ?>">Grading Policies</a></h3>
     <?php display_gradepolicy_editor($id); ?>
 </div>
+
+<div class="frame container">
+	<h3><a href="admin.php?termsections=<?php echo $id; ?>&sections=<?php echo $id; ?>">Sections</a></h3>
+    <?php display_section_editor($id); ?>
+</div>

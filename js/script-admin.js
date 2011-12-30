@@ -28,7 +28,27 @@ $(document).ready(function(){
 		$('#policyinput' + num).after(newElem);
 
 		if (newNum == 50)
+		{
 			$('#addPolicy').attr('disabled','disabled');
+		}
+	});
+	
+	$('#addSection').click(function() {
+		alert('click');
+		var num     = $('.clonedSection').length;
+		var newNum  = new Number(num + 1);
+
+		var newElem = $('#sectioninput' + num).clone().attr('id', 'sectioninput' + newNum);
+		
+		newElem.children('input').attr('id', 'title' + newNum).attr('name', 'title' + newNum).attr('value', '');
+		newElem.children('textarea').attr('id', 'content' + newNum).attr('name', 'content' + newNum);
+
+		$('#sectioninput' + num).after(newElem);
+
+		if (newNum == 50)
+		{
+			$('#addSection').attr('disabled','disabled');
+		}
 	});
 	
 });
