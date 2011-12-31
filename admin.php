@@ -10,9 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>AI Syllabus Generator Admin Page</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="js/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript" src="js/tinymceInit.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="js/tiny_mce/jquery.tinymce.js"></script>
 <script type="text/javascript" src="js/script-admin.js"></script>
 </head>
 
@@ -52,7 +51,7 @@
     	<h2 class="mainheader">Manage Terms</h2>
         
         <!-- page functions here -->
-        <?php update_grade_policies(); ?>
+        <?php update_grade_policies(); update_sections(); ?>
         
         <?php
         if(isset($_GET['addterm']) && $_SESSION['type'] == 2)

@@ -234,8 +234,9 @@ function add_holidays($data, $id, $year)
 					$date = $year . "-" . $month . "-" . $day;
 					$query = "insert into dates values('', '$id', '$date', '$weekday', '$name', '$counter')";
 					mysql_query($query);
+					$counter++;
 				}
-				$counter++;
+				
 			}
 		}
 	}
@@ -367,10 +368,12 @@ function add_policy($data, $id)
 			{
 				$value = clean_up_ms(mysql_prep($value));
 				$query = "insert into gradingpolicies values('', '$id', NULL, '0', '$value', '$counter')";
+				//print $query;
 				mysql_query($query);
+				$counter++;
 			}
 		}
-		$counter++;
+		
 	}
 }
 
@@ -395,6 +398,7 @@ function edit_section_policies($id)
 	
 	if($numrows > 0 )
 	{
+		print "<div class='fieldcontainer'>\n";
 		while($row = mysql_fetch_row($result))
 		{
 			list($title, $content, $order)=$row;
@@ -405,6 +409,7 @@ function edit_section_policies($id)
 			print "<textarea id='content$order' name='content$order' class='sectionfield' cols='50' rows='15'>$content</textarea><br /><br />\n";
 			print "</div>\n";
 		}
+		print "</div>\n";
 		print "<p><input type='button' id='addSection' value='add another section' /></p>\n";
 	}
 	else
@@ -428,6 +433,7 @@ function edit_section_policies($id)
 			
 			if($numrows > 0 )
 			{
+				print "<div class='fieldcontainer'>\n";
 				while($row = mysql_fetch_row($result))
 				{
 					list($title, $content, $order)=$row;
@@ -440,11 +446,14 @@ function edit_section_policies($id)
 					cols='50' rows='15'>$content</textarea><br /><br />\n";
 					print "</div>\n";
 				}
+				print "</div>\n";
 				print "<p><input type='button' id='addSection' value='add another section' /></p>\n";
+				
 			}
 		}
 		else
 		{
+			print "<div class='fieldcontainer'>\n";
 			print "<div id='sectioninput1' class='clonedSection'>\n";
 			print "<label for='title1'>Title</label><br />\n";
 			print "<input id='title1' name='title1' type='text' class='sectionfield' /><br /><br />\n";
@@ -452,14 +461,16 @@ function edit_section_policies($id)
 			print "<textarea id='content1' name='content1' class='sectionfield' 
 			cols='50' rows='15'></textarea><br /><br />\n";
 			print "</div>\n";
+			print "</div>\n";
 			print "<p><input type='button' id='addSection' value='add another section' /></p>\n";
+			
 		}
 	}
 }
 
 function update_sections()
 {
-	if(isset($_POST['updatesections']))
+	if(isset($_POST['updatesection']))
 	{
 		$id = $_POST['id'];
 		$del_query = "DELETE FROM sections WHERE term_id='$id'";
@@ -481,10 +492,12 @@ function add_sections($data, $id)
 			if(!empty($title) && !empty($content))
 			{
 				$query = "insert into sections values('', '$id', '$title', '$content', '$counter')";
+				//print $query;
 				mysql_query($query);
+				$counter++;
 			}
 		}
-		$counter++;
+		
 	}
 }
 

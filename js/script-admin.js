@@ -33,22 +33,52 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('.clonedSection textarea').tinymce({
+			script_url : 'js/tiny_mce/tiny_mce.js',
+			theme : "advanced",
+			plugins : "spellchecker, paste", 
+			theme_advanced_buttons1 : "bold,italic,underline,|,bullist,numlist,|,outdent,indent,|,code,|,spellchecker",
+			theme_advanced_buttons2 : "",
+			theme_advanced_buttons3 : "",      
+			theme_advanced_toolbar_location : "top",
+			theme_advanced_toolbar_align : "left",
+			theme_advanced_resizing : false,
+			paste_create_paragraphs : false,
+			paste_create_linebreaks : false,
+			paste_use_dialog : true,
+			paste_auto_cleanup_on_paste : true,
+			paste_convert_middot_lists : true,
+			paste_unindented_list_class : "unindentedList",
+			paste_convert_headers_to_strong : true
+			});
+	
 	$('#addSection').click(function() {
-		alert('click');
 		var num     = $('.clonedSection').length;
 		var newNum  = new Number(num + 1);
 
-		var newElem = $('#sectioninput' + num).clone().attr('id', 'sectioninput' + newNum);
-		
-		newElem.children('input').attr('id', 'title' + newNum).attr('name', 'title' + newNum).attr('value', '');
-		newElem.children('textarea').attr('id', 'content' + newNum).attr('name', 'content' + newNum);
+		$("<div></div>").attr('id', 'sectioninput' + newNum).attr('class', 'clonedSection').appendTo('.fieldcontainer');
+		$("#sectioninput" + newNum).html("<label for='title" + newNum + "'>Title</label><br /><input type='text' id='title" + newNum +"' /><br /><br /><label for='content" + newNum + "'>Content</label>");
+		$('#title' + newNum).attr('name', 'title' + newNum);
+		$('<textarea cols="55" rows="15"></textarea>').attr('id', 'content' + newNum).attr('name', 'content' + newNum).appendTo("#sectioninput" + newNum);
+		$('#content' + newNum).tinymce({
+			script_url : 'tiny_mce/tiny_mce.js',
+			theme : "advanced",
+			plugins : "spellchecker, paste", 
+			theme_advanced_buttons1 : "bold,italic,underline,|,bullist,numlist,|,outdent,indent,|,code,|,spellchecker",
+			theme_advanced_buttons2 : "",
+			theme_advanced_buttons3 : "",      
+			theme_advanced_toolbar_location : "top",
+			theme_advanced_toolbar_align : "left",
+			theme_advanced_resizing : false,
+			paste_create_paragraphs : false,
+			paste_create_linebreaks : false,
+			paste_use_dialog : true,
+			paste_auto_cleanup_on_paste : true,
+			paste_convert_middot_lists : true,
+			paste_unindented_list_class : "unindentedList",
+			paste_convert_headers_to_strong : true
+			});
 
-		$('#sectioninput' + num).after(newElem);
-
-		if (newNum == 50)
-		{
-			$('#addSection').attr('disabled','disabled');
-		}
 	});
 	
 });
