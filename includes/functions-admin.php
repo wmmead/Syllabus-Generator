@@ -406,7 +406,7 @@ function edit_section_policies($id)
 			print "<label for='title$order'>Title</label><br />\n";
 			print "<input id='title$order' name='title$order' type='text' class='sectionfield' value='$title' /><br /><br />\n";
 			print "<label for='content$order'>Content</label><br />\n";
-			print "<textarea id='content$order' name='content$order' class='sectionfield' cols='50' rows='15'>$content</textarea><br /><br />\n";
+			print "<textarea id='content$order' name='content$order' class='sectionfield' cols='58' rows='15'>$content</textarea>\n";
 			print "</div>\n";
 		}
 		print "</div>\n";
@@ -443,7 +443,7 @@ function edit_section_policies($id)
 					<br /><br />\n";
 					print "<label for='content$order'>Content</label><br />\n";
 					print "<textarea id='content$order' name='content$order' class='sectionfield' 
-					cols='50' rows='15'>$content</textarea><br /><br />\n";
+					cols='58' rows='15'>$content</textarea>\n";
 					print "</div>\n";
 				}
 				print "</div>\n";
@@ -459,7 +459,7 @@ function edit_section_policies($id)
 			print "<input id='title1' name='title1' type='text' class='sectionfield' /><br /><br />\n";
 			print "<label for='content1'>Content</label><br />\n";
 			print "<textarea id='content1' name='content1' class='sectionfield' 
-			cols='50' rows='15'></textarea><br /><br />\n";
+			cols='58' rows='15'></textarea>\n";
 			print "</div>\n";
 			print "</div>\n";
 			print "<p><input type='button' id='addSection' value='add another section' /></p>\n";

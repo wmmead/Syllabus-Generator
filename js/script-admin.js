@@ -59,7 +59,7 @@ $(document).ready(function(){
 		$("<div></div>").attr('id', 'sectioninput' + newNum).attr('class', 'clonedSection').appendTo('.fieldcontainer');
 		$("#sectioninput" + newNum).html("<label for='title" + newNum + "'>Title</label><br /><input type='text' id='title" + newNum +"' /><br /><br /><label for='content" + newNum + "'>Content</label>");
 		$('#title' + newNum).attr('name', 'title' + newNum);
-		$('<textarea cols="55" rows="15"></textarea>').attr('id', 'content' + newNum).attr('name', 'content' + newNum).appendTo("#sectioninput" + newNum);
+		$('<textarea cols="58" rows="15"></textarea>').attr('id', 'content' + newNum).attr('name', 'content' + newNum).appendTo("#sectioninput" + newNum);
 		$('#content' + newNum).tinymce({
 			script_url : 'tiny_mce/tiny_mce.js',
 			theme : "advanced",

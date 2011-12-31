@@ -379,3 +379,11 @@ div.formcontainer {
 .policyfield {
 	width:100%;
 }
+
+.fieldcontainer input {
+	width: 300px;
+}
+
+.clonedSection {
+	margin-bottom:20px;
+}
