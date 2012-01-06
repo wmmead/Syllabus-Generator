@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 31, 2011 at 02:13 PM
+-- Generation Time: Jan 06, 2012 at 02:46 PM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -72,19 +72,42 @@ CREATE TABLE `classes` (
   `course_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `term_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `classes`
+--
+
+INSERT INTO `classes` VALUES(3, 5, 1, 12, 0);
+INSERT INTO `classes` VALUES(4, 1, 1, 12, 0);
+INSERT INTO `classes` VALUES(5, 10, 1, 13, 0);
+INSERT INTO `classes` VALUES(6, 5, 1, 11, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `class_details`
+--
+
+CREATE TABLE `class_details` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
   `length` tinyint(2) NOT NULL,
   `day` varchar(1) NOT NULL,
-  `period` int(1) NOT NULL,
+  `period` tinyint(1) NOT NULL,
   `materials` text NOT NULL,
   `methods` text NOT NULL,
   `tech` text NOT NULL,
   `hwhrs` text NOT NULL,
-  `officehrs` varchar(200) NOT NULL,
+  `officehrs` varchar(255) NOT NULL,
+  `add_req` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Dumping data for table `classes`
+-- Dumping data for table `class_details`
 --
 
 
@@ -102,7 +125,7 @@ CREATE TABLE `competencies` (
   `type` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=96 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=98 ;
 
 --
 -- Dumping data for table `competencies`
@@ -122,6 +145,8 @@ INSERT INTO `competencies` VALUES(92, 1, 0, 'Use digital type as an expressive a
 INSERT INTO `competencies` VALUES(93, 1, 0, 'Use color as an expressive and informational tool of communication.', 0, 3);
 INSERT INTO `competencies` VALUES(94, 1, 0, 'Understand the role of timing in an interactive experience.', 0, 4);
 INSERT INTO `competencies` VALUES(95, 1, 0, 'Understand and apply principles of grid structures to layout navigational systems.', 0, 5);
+INSERT INTO `competencies` VALUES(96, 11, 0, 'a competency', 0, 1);
+INSERT INTO `competencies` VALUES(97, 11, 0, 'another competency', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -140,7 +165,7 @@ CREATE TABLE `courses` (
   `credit` tinyint(2) NOT NULL,
   `dept` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `courses`
@@ -150,6 +175,7 @@ INSERT INTO `courses` VALUES(1, 'MM2201', 'Interface Design', 'This course is an
 INSERT INTO `courses` VALUES(5, 'MM3312', 'Computer-based Traning', 'This course provides an exploration of authoring techniques for interactive training and education. Students gain experience in the process of design, development, and evaluation of effective computer-based training systems.', 44, 22, 22, 3, 1);
 INSERT INTO `courses` VALUES(7, 'MM4403', 'Senior Project Development', 'Students conduct project-based research of advanced topic in multimedia design.', 44, 22, 22, 3, 1);
 INSERT INTO `courses` VALUES(10, 'MM3323', 'Advanced Web Based Programming', 'This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.', 44, 22, 22, 3, 1);
+INSERT INTO `courses` VALUES(11, 'MM1123', 'Fundamentals Of Web Programming', 'some stuff in here', 44, 22, 22, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -183,21 +209,24 @@ INSERT INTO `dates` VALUES(37, 13, '2011-11-25', 'Friday', 'Thanksgiving', 2);
 CREATE TABLE `depts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `abbrv` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `depts`
 --
 
-INSERT INTO `depts` VALUES(1, 'Web Design and Interactive Media');
-INSERT INTO `depts` VALUES(2, 'Digital Film and Video Production');
-INSERT INTO `depts` VALUES(3, 'Graphic Design');
-INSERT INTO `depts` VALUES(4, 'Interior Design');
-INSERT INTO `depts` VALUES(5, 'Culinary');
-INSERT INTO `depts` VALUES(6, 'Media Arts and Animation');
-INSERT INTO `depts` VALUES(7, 'Game Art and Design');
-INSERT INTO `depts` VALUES(8, 'Fashion');
+INSERT INTO `depts` VALUES(1, 'Web Design and Interactive Media', 'WDIM');
+INSERT INTO `depts` VALUES(2, 'Digital Film and Video Production', 'DFVP');
+INSERT INTO `depts` VALUES(3, 'Graphic Design', 'GD');
+INSERT INTO `depts` VALUES(4, 'Interior Design', 'ID');
+INSERT INTO `depts` VALUES(5, 'Culinary', 'Cul');
+INSERT INTO `depts` VALUES(6, 'Media Arts and Animation', 'MAA');
+INSERT INTO `depts` VALUES(7, 'Game Art and Design', 'GAD');
+INSERT INTO `depts` VALUES(8, 'Fashion Retailing', 'FR');
+INSERT INTO `depts` VALUES(9, 'Foundation Studies', 'FS');
+INSERT INTO `depts` VALUES(10, 'General Education', 'GE');
 
 -- --------------------------------------------------------
 
@@ -267,7 +296,7 @@ CREATE TABLE `prereqs` (
   `prereq` varchar(200) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `prereqs`
@@ -275,6 +304,7 @@ CREATE TABLE `prereqs` (
 
 INSERT INTO `prereqs` VALUES(6, 10, 'MM2233 Intermediate Web-based Programming', 1);
 INSERT INTO `prereqs` VALUES(8, 1, 'Permission of Academic Director/Advisor ', 1);
+INSERT INTO `prereqs` VALUES(9, 11, 'none', 1);
 
 -- --------------------------------------------------------
 
@@ -322,7 +352,7 @@ CREATE TABLE `terms` (
   `enddate` date NOT NULL,
   `locked` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `terms`
