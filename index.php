@@ -1,7 +1,7 @@
 <?php require_once('includes/session.php'); ?>
 <?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
-<?php require_once('includes/functions-users.php'); ?>
+<?php require_once('includes/functions-syllabi.php'); ?>
 <?php require_once('includes/authcheck.php'); ?>
 
 
@@ -29,7 +29,7 @@
 		else
 		{
 ?>
-
+	<?php $userid = $_SESSION['id']; ?>
 <div id="page">
 	<div class="navigation frame">
 		<?php include('includes/navigation.php'); ?>
@@ -37,6 +37,29 @@
     
     <div class="middlecol">
     <h2 class="mainheader">Your Syllabi</h2>
+    
+    <!-- page functions here -->
+        <?php add_syllabus(); ?>
+    
+    <?php
+        if(isset($_GET['addsyll']))
+		{
+			include('includes/syllabi/add-syllabus.php');
+		}
+		elseif(isset($_GET['termedit']) && $_SESSION['type'] == 2)
+		{
+			//include('includes/admin/term-edit.php');
+		}
+		elseif(isset($_GET['termsections']) && $_SESSION['type'] == 2)
+		{
+			//include('includes/admin/term-sections.php');
+		}
+		else
+		{
+			display_user_terms();
+		}
+		?>
+    
     </div>
     
     <div class="rightcol">

@@ -13,7 +13,7 @@
 	<h2>Syllabi</h2>
     <ul>
     	<li><a href="index.php">Your Syllabi</a></li>
-        <li><a href="#">Create a New Syllabus</a></li>
+        <li><a href="index.php?addsyll=yes">Create a New Syllabus</a></li>
         <li><a href="#">Find a Syllabus</a></li>
     </ul>
     <h2>People</h2>
