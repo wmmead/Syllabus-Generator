@@ -240,6 +240,13 @@ th {
 	margin-bottom:.5em;
 }
 
+.fold {
+	color:#0593c8;
+	font-weight:bold;
+	background:url(images/sidearrow.png) left 0px no-repeat;
+	padding-left:23px;
+}
+
 /*********** Course Page Styles ************/
 .coursepage .middlecol {
 	width:370px;

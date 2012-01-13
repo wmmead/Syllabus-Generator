@@ -12,7 +12,7 @@
 <title>AI Syllabus Generator Main Page</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/script-index.js"></script>
 </head>
 
 <body>

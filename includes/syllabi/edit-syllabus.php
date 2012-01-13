@@ -8,10 +8,10 @@
     <strong>Term / Year:</strong> <?php echo syll_info("term", $classid); ?> <?php echo syll_info("year", $classid); ?><br />
     <strong>Status:</strong> <?php echo syll_info("status", $classid); ?></p>
     
-    <h4><a href="#">View Course Details</a></h4>
+    <h4 class="fold">Course Details</h4>
     
     <?php $courseid = syll_info("courseid", $classid); ?>
-    <div class="toggle-on">
+    <div class="hide">
     	<p><strong>Total Hours:</strong> <?php echo course_item("totalhrs", $courseid); ?> Hours<br />
         <p><strong>Lecture Hours:</strong> <?php echo course_item("lecthrs", $courseid); ?> Hours<br />
         <p><strong>Lab Hours:</strong> <?php echo course_item("labhrs", $courseid); ?> Hours<br />
