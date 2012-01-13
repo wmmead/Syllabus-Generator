@@ -46,9 +46,9 @@
 		{
 			include('includes/syllabi/add-syllabus.php');
 		}
-		elseif(isset($_GET['termedit']) && $_SESSION['type'] == 2)
+		elseif(isset($_GET['sylledit']))
 		{
-			//include('includes/admin/term-edit.php');
+			include('includes/syllabi/edit-syllabus.php');
 		}
 		elseif(isset($_GET['termsections']) && $_SESSION['type'] == 2)
 		{

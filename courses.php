@@ -48,7 +48,7 @@
 		}
 		elseif(isset($_GET['courseid']))
 		{
-			display_course_info();
+			include('includes/courses/course-desc.php');
 		}
 		else
 		{

@@ -199,6 +199,72 @@ function profile_item($item, $id)
 	return $the_item;
 }
 
+//Course details
+function course_item($item, $id)
+{
+	$query = "select * from courses where id = '$id'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	
+	$field_names = array("id", "number", "name", "desc", "totalhrs", "lecthrs", "labhrs", "credit", "dept");
+	$course_info = array_combine($field_names, $row);
+	$the_item = $course_info[$item];
+	return $the_item;	
+}
+
+function output_core_competencies($id)
+{
+	$query = "select competency from competencies where course_id='$id' and type='0' order by ordr";
+	$result = mysql_query($query);
+	
+	$num_rows = mysql_num_rows($result);
+	if($num_rows > 0)
+	{
+		print "<ul>";
+		
+		while($row = mysql_fetch_row($result))
+		{
+			list($competency) = $row;
+			print "<li>$competency</li>";
+		}
+		
+		print "</ul>";
+	}
+	else
+	{
+		print "<ul>\n";
+		print "<li>none</li>\n";
+		print "</ul>\n";
+	}
+}
+
+function output_prerequisites($id)
+{	
+	$query = "select prereq from prereqs where course_id='$id' order by ordr";
+	$result = mysql_query($query);
+	
+	$num_rows = mysql_num_rows($result);
+	if($num_rows > 0)
+	{
+		print "<ul>";
+		
+		while($row = mysql_fetch_row($result))
+		{
+			list($prereq) = $row;
+			print "<li>$prereq</li>";
+		}
+		
+		print "</ul>";
+	}
+	else
+	{
+		print "<ul>\n";
+		print "<li>none</li>\n";
+		print "</ul>\n";
+	}
+}
+
+
 //Authentication Functions
 function set_codes()
 {

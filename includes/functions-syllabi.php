@@ -92,4 +92,29 @@ function display_user_terms()
 	}
 }
 
+function syll_info($item, $classid)
+{
+	$query = "select users.fname, users.lname, users.phone, users.email,courses.id, courses.name, 
+	courses.coursenum, classes.status, terms.year, terms.term 
+	from classes left join terms on classes.term_id = terms.id 
+	left join courses on classes.course_id = courses.id left join users 
+	on classes.user_id = users.id where classes.id = '$classid'";
+	
+	$result = mysql_query($query);
+	
+	$row = mysql_fetch_row($result);
+	list($fname, $lname, $phone, $email, $courseid, $coursename, $coursenum, $statusnum, $year, $termnum) = $row;
+	$termnames = array('', 'Winter', 'Spring', 'Summer', 'Fall');
+	$statusnames = array('Draft', 'Approved', 'Published');
+	$term = $termnames[$termnum];
+	$status = $statusnames[$statusnum];
+	
+	$row = array($fname, $lname, $phone, $email, $courseid, $coursename, $coursenum, $status, $year, $term);
+	
+	$field_names = array("fname", "lname", "phone", "email", "courseid", "course", "coursenum", "status", "year", "term");
+	$syllabus_info = array_combine($field_names, $row);
+	$the_item = $syllabus_info[$item];
+	return $the_item;
+}
+
 ?>
