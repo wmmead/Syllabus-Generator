@@ -247,6 +247,18 @@ th {
 	padding-left:23px;
 }
 
+.fold:hover {
+	color:#ed1c24;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+.example {
+	color:#666666;
+	font-size:95%;
+	font-style:italic;
+}
+
 /*********** Course Page Styles ************/
 .coursepage .middlecol {
 	width:370px;

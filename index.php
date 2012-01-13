@@ -12,6 +12,7 @@
 <title>AI Syllabus Generator Main Page</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="js/tiny_mce/jquery.tinymce.js"></script>
 <script type="text/javascript" src="js/script-index.js"></script>
 </head>
 
@@ -49,10 +50,6 @@
 		elseif(isset($_GET['sylledit']))
 		{
 			include('includes/syllabi/edit-syllabus.php');
-		}
-		elseif(isset($_GET['termsections']) && $_SESSION['type'] == 2)
-		{
-			//include('includes/admin/term-sections.php');
 		}
 		else
 		{
