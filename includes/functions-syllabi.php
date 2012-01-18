@@ -117,4 +117,249 @@ function syll_info($item, $classid)
 	return $the_item;
 }
 
+function edit_addtl_competencies($id, $type)
+{
+	$query ="select competency, ordr from competencies where class_id='$id' and type='$type' order by ordr";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	if($numrows == 0)
+	{
+		print "<p id='input1' class='clonedInput'>\n";
+		print "<label for='comp1'>Competency</label><br />\n";
+		print "<input id='comp1' name='comp1' type='text' />\n";
+		print "</p>";
+	}
+	else
+	{
+		while($row = mysql_fetch_row($result))
+		{
+			list($competency, $order)=$row;
+			print "<p id='input$order' class='clonedInput'>\n";
+			print "<label for='comp$order'>Competency</label><br />\n";
+			print "<input id='comp$order' name='comp$order' type='text' value='$competency' />\n";
+			print "</p>\n";
+		}
+	}
+	print "<p><input type='button' id='addComp' value='add another competency' /></p>\n";
+}
+
+function edit_addtn_grade_policies($id, $type)
+{	
+	$query = "select policy, ordr from gradingpolicies where class_id='$id' and type='$type' order by ordr";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	
+	if($numrows > 0 )
+	{
+		while($row = mysql_fetch_row($result))
+		{
+			list($policy, $order)=$row;
+			print "<p id='policyinput$order' class='clonedPolicy'>\n";
+			print "<label for='policy$order'>Policy</label><br />\n";
+			print "<input id='policy$order' name='policy$order' type='text' class='policyfield' value='$policy' />\n";
+			print "</p>\n";
+		}
+		print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
+	}
+	
+	else
+	{
+		print "<p id='policyinput1' class='clonedPolicy'>\n";
+		print "<label for='policy1'>Policy</label><br />\n";
+		print "<input id='policy1' name='policy1' type='text' class='policyfield' />\n";
+		print "</p>\n";
+		print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
+	}
+}
+
+function edit_books($id)
+{
+	$query = "select * from books where class_id = '$id' order by ordr";
+	
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	$booktypes = array('Required', 'Recommended', 'Suggested');
+	
+	if($numrows > 0 )
+	{
+		while($row = mysql_fetch_row($result))
+		{
+			list($bookid, $classid, $title, $author, $date, $isbn, $link, $type, $order) = $row;
+			print "<p id=book$order class='clonedbook'>\n";
+			print "<select name='booktype$order'>\n";
+			print "<option value='none'>---</option>\n";
+			for ($i=0; $i<3; $i++)
+			{
+				if($i == $type)
+				{
+					print "<option value='$i' selected='selected'>$booktypes[$i]</option>\n";
+				}
+				else
+				{
+					print "<option value='$i'>$booktypes[$i]</option>\n";
+				}
+			}
+			print "</select><br />\n";
+			print "<label for 'bookname$order'>Title</label><br />\n";
+			print "<input id='bookname$order' name='bookname$order' type='text' /><br /><br />\n";
+			print "<label for 'author$order'>Author</label><br />\n";
+			print "<input id='author$order' name='author$order' type='text' /><br /><br />\n";
+			print "<label for 'date$order'>Date</label><br />\n";
+			print "<input id='date$order' name='date$order' type='text' /><br /><br />\n";
+			print "<label for 'isbn$order'>ISBN</label><br />\n";
+			print "<input id='isbn$order' name='isbn$order' type='text' /><br /><br />\n";
+			print "<label for 'link$order'>Link</label><br />\n";
+			print "<input id='link$order' name='link$order' type='text' /><br /><br />\n";
+			print "</p>";
+		}
+	}
+	
+	else
+	{
+		print "<p id=book1 class='clonedbook'>\n";
+		print "<select name='booktype1'>\n";
+			print "<option value='none' selected='selected'>---</option>\n";
+			for ($i=0; $i<3; $i++)
+			{
+				print "<option value='$i'>$booktypes[$i]</option>\n";
+			}
+			print "</select><br />\n";
+		print "<label for 'bookname1'>Title</label><br />\n";
+		print "<input id='bookname1' name='bookname1' type='text' /><br /><br />\n";
+		print "<label for 'author1'>Author</label><br />\n";
+		print "<input id='author1' name='author1' type='text' /><br /><br />\n";
+		print "<label for 'date1'>Date</label><br />\n";
+		print "<input id='date1' name='date1' type='text' /><br /><br />\n";
+		print "<label for 'isbn1'>ISBN</label><br />\n";
+		print "<input id='isbn1' name='isbn1' type='text' /><br /><br />\n";
+		print "<label for 'link1'>Link</label><br />\n";
+		print "<input id='link1' name='link1' type='text' /><br /><br />\n";
+		print "</p>";
+	}
+	print "<p><input type='button' id='addBook' value='add another book' /></p>\n";
+}
+
+function term_start_date($classid)
+{
+	$query ="select terms.startdate from terms left join classes on terms.id = classes.term_id where classes.id = '$classid' ";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($result);
+		$startdate = $row[0];
+		return $startdate;
+	}
+	else { return NULL; }
+}
+
+function class_date($classid, $termstart, $week, $day="")
+{
+	$week_offset = $week -1;
+	
+	if(!empty($day))
+	{	
+		switch ($day)
+		{
+			case "Monday": $num = 0;  break;
+			case "Tuesday": $num = 1;  break;
+			case "Wednesday": $num = 2;  break;
+			case "Thursday": $num = 3;  break;
+			case "Friday": $num = 4;  break;
+			case "Saturday": $num = 5;  break;
+			case "Sunday": $num = 6;  break;
+			default: $num = 0;
+		}
+		
+		$startdate = strtotime ( $num . ' day' , strtotime( $termstart ) ) ;
+		$startdate = date( 'Y-m-j' , $startdate );
+		
+		if($week_offset > 0)
+		{
+			$weekdate = strtotime ( $week_offset . ' week' , strtotime( $startdate ) ) ;
+			$weekdate = date( 'M jS, Y' , $weekdate );
+			print $weekdate;
+		}
+		
+		else
+		{
+			$startdate = date( 'M jS, Y' , strtotime ($startdate) );
+			print $startdate;
+		}
+	}
+}
+
+
+function return_day($classid)
+{
+	$query="select day from class_details where class_id = '$classid'";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($result);
+		$day = $row[0];
+		return $day;
+	}
+	else { return NULL; }
+}
+
+function return_full_date($classid, $termstart, $week, $day)
+{
+	$week_offset = $week -1;	
+	switch ($day)
+	{
+		case "Monday": $num = 0;  break;
+		case "Tuesday": $num = 1;  break;
+		case "Wednesday": $num = 2;  break;
+		case "Thursday": $num = 3;  break;
+		case "Friday": $num = 4;  break;
+		case "Saturday": $num = 5;  break;
+		case "Sunday": $num = 6;  break;
+		default: $num = 0;
+	}
+	
+	$startdate = strtotime ( $num . ' day' , strtotime( $termstart ) ) ;
+	$startdate = date( 'Y-m-j' , $startdate );
+	
+	if($week_offset > 0)
+	{
+		$weekdate = strtotime ( $week_offset . ' week' , strtotime( $startdate ) ) ;
+		$weekdate = date( 'Y-m-j' , $weekdate );
+		return $weekdate;
+	}
+	
+	else
+	{
+		$startdate = date( 'Y-m-j' , strtotime ($startdate) );
+		return $startdate;
+	}
+}
+
+function print_holiday($classid, $termstart, $week, $day="")
+{
+	/*print $classid;
+	print $termstart;
+	print $week;
+	print $day;*/
+	
+	if(!empty($day))
+	{
+		$date = return_full_date($classid, $termstart, $week, $day);
+		//print $date;
+		$query = "select name from dates where date = '$date'";
+		$result = mysql_query($query);
+		$numrows = mysql_num_rows($result);
+		
+		if($numrows > 0)
+		{
+			$row = mysql_fetch_row($result);
+			$name = $row[0];
+			print "$name";
+		}
+	}
+}
+
+
 ?>
