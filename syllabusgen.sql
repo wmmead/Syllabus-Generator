@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 06, 2012 at 02:46 PM
+-- Generation Time: Feb 01, 2012 at 11:19 AM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -28,15 +28,37 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE `activities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
-  `weeknum` tinyint(2) NOT NULL,
-  `desc` text NOT NULL,
+  `meeting` tinyint(2) NOT NULL,
+  `activities` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
 
 --
 -- Dumping data for table `activities`
 --
 
+INSERT INTO `activities` VALUES(34, 9, 1, '');
+INSERT INTO `activities` VALUES(35, 9, 2, '');
+INSERT INTO `activities` VALUES(36, 9, 3, '');
+INSERT INTO `activities` VALUES(37, 9, 4, '');
+INSERT INTO `activities` VALUES(38, 9, 5, '');
+INSERT INTO `activities` VALUES(39, 9, 6, '');
+INSERT INTO `activities` VALUES(40, 9, 7, '');
+INSERT INTO `activities` VALUES(41, 9, 8, '');
+INSERT INTO `activities` VALUES(42, 9, 9, '');
+INSERT INTO `activities` VALUES(43, 9, 10, '');
+INSERT INTO `activities` VALUES(44, 9, 11, '');
+INSERT INTO `activities` VALUES(45, 10, 1, '');
+INSERT INTO `activities` VALUES(46, 10, 2, '');
+INSERT INTO `activities` VALUES(47, 10, 3, '');
+INSERT INTO `activities` VALUES(48, 10, 4, '');
+INSERT INTO `activities` VALUES(49, 10, 5, '');
+INSERT INTO `activities` VALUES(50, 10, 6, '');
+INSERT INTO `activities` VALUES(51, 10, 7, '');
+INSERT INTO `activities` VALUES(52, 10, 8, '');
+INSERT INTO `activities` VALUES(53, 10, 9, '');
+INSERT INTO `activities` VALUES(54, 10, 10, '');
+INSERT INTO `activities` VALUES(55, 10, 11, '');
 
 -- --------------------------------------------------------
 
@@ -53,6 +75,7 @@ CREATE TABLE `books` (
   `isbn` varchar(50) NOT NULL,
   `link` varchar(255) NOT NULL,
   `type` tinyint(1) NOT NULL,
+  `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -72,18 +95,37 @@ CREATE TABLE `classes` (
   `course_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `term_id` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `classes`
 --
 
-INSERT INTO `classes` VALUES(3, 5, 1, 12, 0);
-INSERT INTO `classes` VALUES(4, 1, 1, 12, 0);
-INSERT INTO `classes` VALUES(5, 10, 1, 13, 0);
-INSERT INTO `classes` VALUES(6, 5, 1, 11, 0);
+INSERT INTO `classes` VALUES(9, 5, 1, 11, 0, 0);
+INSERT INTO `classes` VALUES(10, 10, 1, 11, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `class_days_times`
+--
+
+CREATE TABLE `class_days_times` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `day` varchar(20) NOT NULL,
+  `starttime` varchar(20) NOT NULL,
+  `endtime` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `class_days_times`
+--
+
 
 -- --------------------------------------------------------
 
@@ -94,9 +136,6 @@ INSERT INTO `classes` VALUES(6, 5, 1, 11, 0);
 CREATE TABLE `class_details` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
-  `length` tinyint(2) NOT NULL,
-  `day` varchar(1) NOT NULL,
-  `period` tinyint(1) NOT NULL,
   `materials` text NOT NULL,
   `methods` text NOT NULL,
   `tech` text NOT NULL,
@@ -104,7 +143,7 @@ CREATE TABLE `class_details` (
   `officehrs` varchar(255) NOT NULL,
   `add_req` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `class_details`
@@ -125,7 +164,7 @@ CREATE TABLE `competencies` (
   `type` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=98 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=111 ;
 
 --
 -- Dumping data for table `competencies`
@@ -145,8 +184,10 @@ INSERT INTO `competencies` VALUES(92, 1, 0, 'Use digital type as an expressive a
 INSERT INTO `competencies` VALUES(93, 1, 0, 'Use color as an expressive and informational tool of communication.', 0, 3);
 INSERT INTO `competencies` VALUES(94, 1, 0, 'Understand the role of timing in an interactive experience.', 0, 4);
 INSERT INTO `competencies` VALUES(95, 1, 0, 'Understand and apply principles of grid structures to layout navigational systems.', 0, 5);
-INSERT INTO `competencies` VALUES(96, 11, 0, 'a competency', 0, 1);
-INSERT INTO `competencies` VALUES(97, 11, 0, 'another competency', 0, 2);
+INSERT INTO `competencies` VALUES(107, 11, 0, 'a competency', 0, 1);
+INSERT INTO `competencies` VALUES(108, 11, 0, 'another competency', 0, 2);
+INSERT INTO `competencies` VALUES(109, 11, 0, 'more cheese', 0, 3);
+INSERT INTO `competencies` VALUES(110, 11, 0, 'big llamas', 0, 4);
 
 -- --------------------------------------------------------
 
@@ -175,7 +216,7 @@ INSERT INTO `courses` VALUES(1, 'MM2201', 'Interface Design', 'This course is an
 INSERT INTO `courses` VALUES(5, 'MM3312', 'Computer-based Traning', 'This course provides an exploration of authoring techniques for interactive training and education. Students gain experience in the process of design, development, and evaluation of effective computer-based training systems.', 44, 22, 22, 3, 1);
 INSERT INTO `courses` VALUES(7, 'MM4403', 'Senior Project Development', 'Students conduct project-based research of advanced topic in multimedia design.', 44, 22, 22, 3, 1);
 INSERT INTO `courses` VALUES(10, 'MM3323', 'Advanced Web Based Programming', 'This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.', 44, 22, 22, 3, 1);
-INSERT INTO `courses` VALUES(11, 'MM1123', 'Fundamentals Of Web Programming', 'some stuff in here', 44, 22, 22, 3, 1);
+INSERT INTO `courses` VALUES(11, 'MM1123', 'Fundamentals Of Web Programming', 'Here is a better description for the course', 44, 22, 22, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -191,7 +232,7 @@ CREATE TABLE `dates` (
   `name` varchar(200) NOT NULL,
   `ordr` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `dates`
@@ -199,6 +240,7 @@ CREATE TABLE `dates` (
 
 INSERT INTO `dates` VALUES(36, 13, '2011-11-24', 'Thursday', 'Thanksgiving', 1);
 INSERT INTO `dates` VALUES(37, 13, '2011-11-25', 'Friday', 'Thanksgiving', 2);
+INSERT INTO `dates` VALUES(38, 12, '2011-08-03', 'Wednesday', 'Crazy Pointless Holiday', 1);
 
 -- --------------------------------------------------------
 
@@ -296,7 +338,7 @@ CREATE TABLE `prereqs` (
   `prereq` varchar(200) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `prereqs`
@@ -304,7 +346,7 @@ CREATE TABLE `prereqs` (
 
 INSERT INTO `prereqs` VALUES(6, 10, 'MM2233 Intermediate Web-based Programming', 1);
 INSERT INTO `prereqs` VALUES(8, 1, 'Permission of Academic Director/Advisor ', 1);
-INSERT INTO `prereqs` VALUES(9, 11, 'none', 1);
+INSERT INTO `prereqs` VALUES(13, 11, 'none', 1);
 
 -- --------------------------------------------------------
 
@@ -352,7 +394,7 @@ CREATE TABLE `terms` (
   `enddate` date NOT NULL,
   `locked` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `terms`
@@ -360,7 +402,7 @@ CREATE TABLE `terms` (
 
 INSERT INTO `terms` VALUES(10, 1, 2011, '2011-01-10', '2011-03-23', 1);
 INSERT INTO `terms` VALUES(11, 2, 2011, '2011-10-04', '2011-12-16', 0);
-INSERT INTO `terms` VALUES(12, 3, 2011, '2011-07-10', '2011-09-24', 0);
+INSERT INTO `terms` VALUES(12, 3, 2011, '2011-07-11', '2011-09-24', 0);
 INSERT INTO `terms` VALUES(13, 4, 2011, '2011-10-03', '2011-12-16', 0);
 
 -- --------------------------------------------------------
