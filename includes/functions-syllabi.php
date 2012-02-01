@@ -34,13 +34,31 @@ function add_syllabus()
 			$userid = $_POST['userid'];
 			$termid = $_POST['term'];
 			$courseid = $_POST['course'];
+			$classtype = $_POST['classtype'];
 			
-			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '0')";
+			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0')";
 			//print $query;
 			mysql_query($query);
+			
+			$lastid = mysql_insert_id();
+			
+			switch ($classtype)
+			{
+				case "0": $meetings = 11;  break;
+				case "1": $meetings = 11;  break;
+				default: $meetings = 11;
+			}
+			
+			for($i=0; $i<$meetings; $i++)
+			{
+				$counter = $i+1;
+				$query = "insert into activities values('', '$lastid', '$counter', '' )";
+				mysql_query($query);
+			}
+			
 			print "<div class='feedback success'>Syllabus record successfully created.</div>";
 		}
-		else { print "<div class='feedback error'>ERROR: Both the Term and Course fields are required.</div>"; }
+		else { print "<div class='feedback error'>ERROR: Term, Course, and Class type fields are required.</div>"; }
 	}
 }
 
@@ -170,6 +188,22 @@ function edit_addtn_grade_policies($id, $type)
 		print "</p>\n";
 		print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
 	}
+}
+
+function edit_meeting_times($classid)
+{
+	$query = "select type from classes where id = '$classid'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	$classtype = $row[0];
+	
+	switch($classtype)
+			{
+				case "0": include('syllabi/once-per-week.php');  break;
+				case "1": include('syllabi/twice-per-week.php');  break;
+				default: include('syllabi/once-per-week.php');
+			}
+	
 }
 
 function edit_books($id)
