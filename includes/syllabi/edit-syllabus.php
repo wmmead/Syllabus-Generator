@@ -1,6 +1,4 @@
 <?php $classid = $_GET['sylledit']; ?>
-<?php $termstart = term_start_date($classid); ?>
-<?php //$day = return_day($classid); ?>
 
 <div class="frame container">
 	
@@ -71,7 +69,7 @@
     <?php edit_addtn_grade_policies($classid, "1"); ?>
     </div>
     
-    
+    <?php display_activity_form($classid); ?>
     
     </form>
 

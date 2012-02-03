@@ -73,7 +73,7 @@ function display_user_terms()
 				from classes left join terms on classes.term_id = terms.id 
 				left join courses on classes.course_id = courses.id where user_id = '$userid'
 				order by terms.year desc, terms.term desc, courses.coursenum asc";
-	//print $query;
+
 	$result = mysql_query($query);
 	$numrows = mysql_num_rows($result);
 	if($numrows > 0)
@@ -198,12 +198,27 @@ function edit_meeting_times($classid)
 	$classtype = $row[0];
 	
 	switch($classtype)
-			{
-				case "0": include('syllabi/once-per-week.php');  break;
-				case "1": include('syllabi/twice-per-week.php');  break;
-				default: include('syllabi/once-per-week.php');
-			}
+	{
+		case "0": include('syllabi/once-per-week.php');  break;
+		case "1": include('syllabi/twice-per-week.php');  break;
+		default: include('syllabi/once-per-week.php');
+	}
 	
+}
+
+function display_activity_form($classid)
+{
+	$query = "select type from classes where id = '$classid'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	$classtype = $row[0];
+	
+	switch($classtype)
+	{
+		case "0": include('syllabi/activities-once-per-week.php');  break;
+		case "1": include('syllabi/activities-twice-per-week.php');  break;
+		default: include('syllabi/activities-once-per-week.php');
+	}
 }
 
 function edit_books($id)
@@ -287,6 +302,22 @@ function term_start_date($classid)
 	else { return NULL; }
 }
 
+function mid_term_start_date($classid)
+{
+	$query ="select terms.startdate from terms left join classes on terms.id = classes.term_id where classes.id = '$classid' ";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($result);
+		$startdate = $row[0];
+		$startdate = strtotime ( '5 week' , strtotime( $startdate ) );
+		$startdate = date( 'Y-m-j' , $startdate );
+		return $startdate;
+	}
+	else { return NULL; }
+}
+
 function class_date($classid, $termstart, $week, $day="")
 {
 	$week_offset = $week -1;
@@ -326,7 +357,8 @@ function class_date($classid, $termstart, $week, $day="")
 
 function return_day($classid)
 {
-	$query="select day from class_details where class_id = '$classid'";
+	$query="select day from class_days_times where class_id = '$classid'";
+	//print $query;
 	$result = mysql_query($query);
 	$numrows = mysql_num_rows($result);
 	
@@ -335,6 +367,16 @@ function return_day($classid)
 		$row = mysql_fetch_row($result);
 		$day = $row[0];
 		return $day;
+	}
+	elseif($numrows == 2)
+	{
+		$twodays = array();
+		while($row = mysql_fetch_row($result))
+		{
+			$day = $row[0];
+			array_push($twodays, $day);
+		}
+		return $twodays;
 	}
 	else { return NULL; }
 }
@@ -372,16 +414,10 @@ function return_full_date($classid, $termstart, $week, $day)
 }
 
 function print_holiday($classid, $termstart, $week, $day="")
-{
-	/*print $classid;
-	print $termstart;
-	print $week;
-	print $day;*/
-	
+{	
 	if(!empty($day))
 	{
 		$date = return_full_date($classid, $termstart, $week, $day);
-		//print $date;
 		$query = "select name from dates where date = '$date'";
 		$result = mysql_query($query);
 		$numrows = mysql_num_rows($result);
