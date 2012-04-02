@@ -27,8 +27,11 @@
 
 </div>
 
-<div class="frame container">
-	<h4>Syllabus Details</h4>
+
+	<div class="frame">
+	<h4 class="fold">Syllabus Details</h4>
+    
+    <div class="hide">
     <form method="post" action="index.php?sylledit=<?php echo $classid; ?>">
     
     <?php edit_meeting_times($classid); ?>
@@ -47,10 +50,14 @@
     
     <p><strong><label for="tech">Technology Required</label></strong><br />
     <textarea name="tech" class="tinymice" id="tech" cols=55 rows="5"></textarea></p>
+    </div><!-- end hide -->
+    </div><!-- end frame -->
     
     <div class="frame">
-    <h4>Books</h4>
-    <?php edit_books($classid); ?>
+    <h4 class="fold">Books</h4>
+        <div class="hide">
+        <?php edit_books($classid); ?>
+        </div>
     </div>
     
     <p><strong><label for="additional">Additional Requirements</label></strong><br />
@@ -72,5 +79,3 @@
     <?php display_activity_form($classid); ?>
     
     </form>
-
-</div>

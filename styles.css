@@ -417,3 +417,28 @@ div.formcontainer {
 .randomstyle {
 	color:green;
 }
+
+/********* Book Section styles ********/
+
+.lableblock {
+	display:block;
+	width:60px;
+	text-align:right;
+	float:left;
+	clear:left;
+	margin-right:10px;
+}
+
+.long {
+	width: 300px;
+	float:left;
+}
+
+.short {
+	width: 113px;
+	float:left;
+}
+
+.noclear {
+	clear:none;
+}

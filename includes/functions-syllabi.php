@@ -234,8 +234,8 @@ function edit_books($id)
 		while($row = mysql_fetch_row($result))
 		{
 			list($bookid, $classid, $title, $author, $date, $isbn, $link, $type, $order) = $row;
-			print "<p id=book$order class='clonedbook'>\n";
-			print "<select name='booktype$order'>\n";
+			print "<p id=book$order class='clonedbook frame'>\n";
+			print "<select name='booktype$order' class='booktype'>\n";
 			print "<option value='none'>---</option>\n";
 			for ($i=0; $i<3; $i++)
 			{
@@ -248,41 +248,41 @@ function edit_books($id)
 					print "<option value='$i'>$booktypes[$i]</option>\n";
 				}
 			}
-			print "</select><br />\n";
-			print "<label for 'bookname$order'>Title</label><br />\n";
-			print "<input id='bookname$order' name='bookname$order' type='text' /><br /><br />\n";
-			print "<label for 'author$order'>Author</label><br />\n";
-			print "<input id='author$order' name='author$order' type='text' /><br /><br />\n";
-			print "<label for 'date$order'>Date</label><br />\n";
-			print "<input id='date$order' name='date$order' type='text' /><br /><br />\n";
-			print "<label for 'isbn$order'>ISBN</label><br />\n";
-			print "<input id='isbn$order' name='isbn$order' type='text' /><br /><br />\n";
-			print "<label for 'link$order'>Link</label><br />\n";
-			print "<input id='link$order' name='link$order' type='text' /><br /><br />\n";
+			print "</select><br /><br />\n";
+			print "<label for 'bookname$order' class='lableblock titlelabel'>Title</label>";
+			print "<input id='bookname$order' name='bookname$order' type='text' class='long title' /><br /><br />\n";
+			print "<label for 'author$order' class='lableblock authortitle'>Author</label>";
+			print "<input id='author$order' name='author$order' type='text'  class='long author' /><br /><br />\n";
+			print "<label for 'date$order' class='lableblock datetitle'>Date</label>";
+			print "<input id='date$order' name='date$order' type='text' class='short date' /><br /><br />\n";
+			print "<label for 'isbn$order' class='lableblock noclear isbntitle'>ISBN</label>";
+			print "<input id='isbn$order' name='isbn$order' type='text' class='short isbn' /><br /><br />\n";
+			print "<label for 'link$order' class='lableblock linktitle'>Link</label>";
+			print "<input id='link$order' name='link$order' type='text' class='long link' /><br /><br />\n";
 			print "</p>";
 		}
 	}
 	
 	else
 	{
-		print "<p id=book1 class='clonedbook'>\n";
-		print "<select name='booktype1'>\n";
+		print "<p id=book1 class='clonedbook frame'>\n";
+		print "<select name='booktype1' class='booktype'>\n";
 			print "<option value='none' selected='selected'>---</option>\n";
 			for ($i=0; $i<3; $i++)
 			{
 				print "<option value='$i'>$booktypes[$i]</option>\n";
 			}
-			print "</select><br />\n";
-		print "<label for 'bookname1'>Title</label><br />\n";
-		print "<input id='bookname1' name='bookname1' type='text' /><br /><br />\n";
-		print "<label for 'author1'>Author</label><br />\n";
-		print "<input id='author1' name='author1' type='text' /><br /><br />\n";
-		print "<label for 'date1'>Date</label><br />\n";
-		print "<input id='date1' name='date1' type='text' /><br /><br />\n";
-		print "<label for 'isbn1'>ISBN</label><br />\n";
-		print "<input id='isbn1' name='isbn1' type='text' /><br /><br />\n";
-		print "<label for 'link1'>Link</label><br />\n";
-		print "<input id='link1' name='link1' type='text' /><br /><br />\n";
+			print "</select><br /><br />\n";
+		print "<label for 'bookname1' class='lableblock titlelabel'>Title</label>";
+		print "<input id='bookname1' name='bookname1' type='text' class='long title' /><br /><br />\n";
+		print "<label for 'author1' class='lableblock authorlabel'>Author</label>";
+		print "<input id='author1' name='author1' type='text' class='long author' /><br /><br />\n";
+		print "<label for 'date1' class='lableblock datetitle'>Date</label>";
+		print "<input id='date1' name='date1' type='text' class='short date' />";
+		print "<label for 'isbn1' class='lableblock noclear isbntitle'>ISBN</label>";
+		print "<input id='isbn1' name='isbn1' type='text' class='short isbn' /><br /><br />\n";
+		print "<label for 'link1' class='lableblock linktitle'>Link</label>";
+		print "<input id='link1' name='link1' type='text' class='long link' /><br /><br />\n";
 		print "</p>";
 	}
 	print "<p><input type='button' id='addBook' value='add another book' /></p>\n";
