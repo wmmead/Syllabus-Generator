@@ -1,5 +1,14 @@
 $(document).ready(function(){
 	
+	$("input[name^=perc]").sum({
+		bind: "keyup",
+		selector: "#totalpercent",
+		oncalc: function(){
+			if($("#totalpercent").val() != "100"){ $('#totalpercent').css("color", "red"); }
+			else{ $("#totalpercent").css("color", "green"); }
+			}
+		});
+	
 	$(".hide").hide();
 	
 	$(".fold").click(function(){
@@ -75,6 +84,32 @@ $(document).ready(function(){
 		if (newNum == 10)
 		{
 			$('#addPolicy').attr('disabled','disabled');
+		}
+	});
+	
+	$('#addEval').click(function() {
+		var num     = $('.clonedeval').length;
+		var newNum  = new Number(num + 1);
+
+		var newElem = $('#eval' + num).clone().attr('id', 'eval' + newNum);
+
+		newElem.children('.description').attr('id', 'desc' + newNum).attr('name', 'desc' + newNum).attr('value', '');
+		newElem.children('.percent').attr('id', 'percent' + newNum).attr('name', 'percent' + newNum).attr('value', '');
+
+		$('#eval' + num).after(newElem);
+
+		$("input[name^=perc]").sum({
+		bind: "keyup",
+		selector: "#totalpercent",
+		oncalc: function(){
+			if($("#totalpercent").val() != "100"){ $('#totalpercent').css("color", "red"); }
+			else{ $("#totalpercent").css("color", "green"); }
+			}
+		});
+		
+		if (newNum == 10)
+		{
+			$('#addEval').attr('disabled','disabled');
 		}
 	});
 	

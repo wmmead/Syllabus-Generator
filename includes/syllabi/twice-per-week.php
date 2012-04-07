@@ -1,5 +1,6 @@
-<p><strong><label for="day">First Day the Course Meets</label></strong><br />
+<p><strong><label for="day">First Day the Class Meets</label></strong><br />
 <select name="day1" id="day1">
+	<option value="0" selected = "selected"> --- </option>
     <?php weekday_select_list($selected = '') ?>
 </select>
 </p>
@@ -10,8 +11,9 @@
 <p><strong><label for="endtime1">End Time</label></strong><br />
 <input type="text" name="endtime1" id="endtime1" value="" /> <span class="example">i.e. 12:00 pm</span></p>
 
-<p><strong><label for="day">Second Day the Course Meets</label></strong><br />
+<p><strong><label for="day">Second Day the Class Meets</label></strong><br />
 <select name="day2" id="day2">
+	<option value="0" selected = "selected"> --- </option>
     <?php weekday_select_list($selected = '') ?>
 </select>
 </p>

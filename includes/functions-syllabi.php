@@ -221,6 +221,35 @@ function display_activity_form($classid)
 	}
 }
 
+function edit_eval_process($id)
+{
+	$query = "select descrip, percent, ordr from evalscales where class_id='$id' order by ordr";
+	
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	
+	if($numrows > 0)
+	{
+		while($row = mysql_fetch_row($result))
+		{
+			list($description, $percent, $order) = $row;
+			print "<p id='eval$order' class='clonedeval'>";
+			print "<input type='text' value='$description' name='desc$order' id='desc$order' class='description' />";
+			print "<input type='text' value='$percent' name='perc$order' id='perc$order' class='percent' />%";
+			print "</p>\n";
+		}
+		print "<p><input type='button' id='addEval' value='add an evaluation item' /></p>\n";
+	}
+	else
+	{
+		print "<p id='eval1' class='clonedeval'>";
+		print "<input type='text' name='desc1' id='desc1' class='description' />";
+		print "<input type='text' name='perc1' id='perc1' class='percent' />%";
+		print "</p>\n";
+		print "<p><input type='button' id='addEval' value='add an evaluation item' /></p>\n";
+	}
+}
+
 function edit_books($id)
 {
 	$query = "select * from books where class_id = '$id' order by ordr";

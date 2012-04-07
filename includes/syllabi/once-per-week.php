@@ -1,5 +1,6 @@
-<p><strong><label for="day1">Day the Course Meets</label></strong><br />
+<p><strong><label for="day1">Day the Class Meets</label></strong><br />
 <select name="day1" id="day1">
+	<option value="0" selected = "selected"> --- </option>
     <?php weekday_select_list($selected = '') ?>
 </select>
 </p>

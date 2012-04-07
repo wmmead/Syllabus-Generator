@@ -54,28 +54,59 @@
     </div><!-- end frame -->
     
     <div class="frame">
+    <h4 class="fold">Evaluation Process</h4>
+        <div class="hide">
+        <p><span class="desclabel">Description</span> Percent</p>
+        <?php edit_eval_process($classid) ?>
+        <p class="rightjustify"><label>Total Percent <input type="text" name="totalpercent" id="totalpercent" readonly="readonly" />%</label></p>
+        </div>
+    </div>
+    
+    <div class="frame">
     <h4 class="fold">Books</h4>
         <div class="hide">
         <?php edit_books($classid); ?>
         </div>
     </div>
     
-    <p><strong><label for="additional">Additional Requirements</label></strong><br />
-    <span class="example">Optional: Use this section to specify any additional requirements for students</span><br />
-    <textarea name="additional" class="tinymice" id="additional" cols=55 rows="5"></textarea></p>
-    
     <div class="frame">
-    <h4>Additional Competetencies</h4>
-    <p><span class="example">Optional: Use this section to add competencies that go beyond the ones required for the course.</span></p>
-    <?php edit_addtl_competencies($classid, "1"); ?>
+    <h4 class="fold"><label for="focus">Course Focus (optional)</label></h4>
+        <div class="hide">
+        <p><span class="example">Use this section to add a descriptive focus for the course</span><br />
+        <textarea name="focus" class="tinymice" id="focus" cols=55 rows="5"></textarea></p>
+        </div>
     </div>
     
     <div class="frame">
-    <h4>Additional Grading Policies</h4>
-    <p><span class="example">Optional: Use this section to add additional grading policies that go beyond the ones required for all courses.</span></p>
-    <?php edit_addtn_grade_policies($classid, "1"); ?>
+    <h4 class="fold"><label for="additional">Additional Requirements (optional)</label></h4>
+        <div class="hide">
+        <p><span class="example">Use this section to specify any additional requirements for students</span><br />
+        <textarea name="additional" class="tinymice" id="additional" cols=55 rows="5"></textarea></p>
+        </div>
+    </div>
+    
+    <div class="frame">
+    <h4 class="fold">Additional Competetencies (optional)</h4>
+        <div class="hide">
+        <p><span class="example">Use this section to add competencies that go beyond the ones required for the course.</span></p>
+        <?php edit_addtl_competencies($classid, "1"); ?>
+        </div>
+    </div>
+    
+    <div class="frame">
+    <h4 class="fold">Additional Grading Policies (optional)</h4>
+        <div class="hide">
+        <p><span class="example">Use this section to add additional grading policies that go beyond the ones required for all courses.</span></p>
+        <?php edit_addtn_grade_policies($classid, "1"); ?>
+        </div>
     </div>
     
     <?php display_activity_form($classid); ?>
+    
+    <div id="updatebar">
+    
+    	<input type="submit" name="update" id="update" value="Save your progress!" />
+    
+    </div>
     
     </form>

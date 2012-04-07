@@ -3,7 +3,7 @@
     <strong>Holiday:</strong><br />
     
     <select name="wkday<?php echo $order; ?>" class="weekday" id="wkday<?php echo $order; ?>">
-        <option value="0"> --- </option>
+    	<option value="0" selected = "selected"> --- </option>
         <?php weekday_select_list($weekday); ?>
     </select>
     

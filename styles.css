@@ -144,6 +144,10 @@ body {
 	float:right;
 }
 
+div.activitycontent {
+	margin-bottom:20px;
+}
+
 /********* Navigation Styles *********/
 
 .navigation h2 {
@@ -441,4 +445,57 @@ div.formcontainer {
 
 .noclear {
 	clear:none;
+}
+
+/************ Evaluation Section Styles *********/
+
+input.description {
+	width: 270px;
+}
+
+input.percent {
+	width: 30px;
+	margin-left:30px;
+}
+
+input#totalpercent {
+	width:30px;
+}
+
+.desclabel {
+	padding-right: 240px;
+}
+
+.rightjustify {
+	text-align:right;
+	padding-right:70px;
+}
+
+/********** Save Progress Bar **********/
+
+#updatebar {
+	width:900px;
+	height:35px;
+	padding:20px;
+	position:fixed;
+	z-index:100;
+	bottom:0px;
+	left:50%;
+	margin-left:-472px;
+	background: rgba(0,0,0,0.8);
+	border-top: 2px solid #333;
+	border-right: 2px solid #333;
+	border-left: 2px solid #333;
+	
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+}
+
+#update {
+	font-size:150%;
+	padding:5px;
 }
