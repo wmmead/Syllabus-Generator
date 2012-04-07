@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 01, 2012 at 11:19 AM
+-- Generation Time: Apr 06, 2012 at 07:38 PM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -120,12 +120,15 @@ CREATE TABLE `class_days_times` (
   `starttime` varchar(20) NOT NULL,
   `endtime` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `class_days_times`
 --
 
+INSERT INTO `class_days_times` VALUES(1, 9, 'Wednesday', '8:00 am', '12:00 pm');
+INSERT INTO `class_days_times` VALUES(2, 10, 'Monday', '1:00 pm', '5:00 pm');
+INSERT INTO `class_days_times` VALUES(3, 10, 'Wednesday', '1:00pm', '5:00pm');
 
 -- --------------------------------------------------------
 
@@ -142,8 +145,9 @@ CREATE TABLE `class_details` (
   `hwhrs` text NOT NULL,
   `officehrs` varchar(255) NOT NULL,
   `add_req` text NOT NULL,
+  `focus` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `class_details`
@@ -232,7 +236,7 @@ CREATE TABLE `dates` (
   `name` varchar(200) NOT NULL,
   `ordr` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `dates`
@@ -241,6 +245,8 @@ CREATE TABLE `dates` (
 INSERT INTO `dates` VALUES(36, 13, '2011-11-24', 'Thursday', 'Thanksgiving', 1);
 INSERT INTO `dates` VALUES(37, 13, '2011-11-25', 'Friday', 'Thanksgiving', 2);
 INSERT INTO `dates` VALUES(38, 12, '2011-08-03', 'Wednesday', 'Crazy Pointless Holiday', 1);
+INSERT INTO `dates` VALUES(39, 11, '2011-05-30', 'Monday', 'Memorial Day', 1);
+INSERT INTO `dates` VALUES(40, 11, '2011-06-08', 'Wednesday', 'Random weird holiday', 2);
 
 -- --------------------------------------------------------
 
@@ -279,9 +285,9 @@ INSERT INTO `depts` VALUES(10, 'General Education', 'GE');
 CREATE TABLE `evalscales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
-  `desc` varchar(100) NOT NULL,
+  `descrip` varchar(256) NOT NULL,
   `percent` tinyint(2) NOT NULL,
-  `order` tinyint(2) NOT NULL,
+  `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -401,7 +407,7 @@ CREATE TABLE `terms` (
 --
 
 INSERT INTO `terms` VALUES(10, 1, 2011, '2011-01-10', '2011-03-23', 1);
-INSERT INTO `terms` VALUES(11, 2, 2011, '2011-10-04', '2011-12-16', 0);
+INSERT INTO `terms` VALUES(11, 2, 2011, '2011-04-04', '2011-06-17', 0);
 INSERT INTO `terms` VALUES(12, 3, 2011, '2011-07-11', '2011-09-24', 0);
 INSERT INTO `terms` VALUES(13, 4, 2011, '2011-10-03', '2011-12-16', 0);
 
@@ -430,7 +436,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'Bill', 'Mead', 'wmmead', 0xb99f24961740, 2, '530-313-5141', 'wmead@aii.edu', 1, 'userphoto1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porttitor consequat augue, id ullamcorper est cursus sagittis. Praesent vel nibh sit amet arcu euismod euismod. In porta rhoncus sem, nec elementum lacus suscipit id. Praesent molestie adipiscing magna, a tempus sem semper a. Cras nibh ante, mattis a iaculis a, vehicula et nisi. In tincidunt ullamcorper pulvinar. Vivamus ut tristique ipsum. Morbi diam urna, lacinia et sollicitudin feugiat, condimentum ac urna. Duis aliquet adipiscing sem quis sagittis. Morbi sed dolor elit.');
+INSERT INTO `users` VALUES(1, 'William', 'Mead', 'wmmead', 0xb99f24961740, 2, '530-313-5141', 'wmead@aii.edu', 1, 'userphoto1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porttitor consequat augue, id ullamcorper est cursus sagittis. Praesent vel nibh sit amet arcu euismod euismod. In porta rhoncus sem, nec elementum lacus suscipit id. Praesent molestie adipiscing magna, a tempus sem semper a. Cras nibh ante, mattis a iaculis a, vehicula et nisi. In tincidunt ullamcorper pulvinar. Vivamus ut tristique ipsum. Morbi diam urna, lacinia et sollicitudin feugiat, condimentum ac urna. Duis aliquet adipiscing sem quis sagittis. Morbi sed dolor elit.');
 INSERT INTO `users` VALUES(3, 'Joey', 'Schmo', 'jschmo', 0xb99f24961740, 0, '123-456-6789', 'joe@somewhere.com', 0, '', NULL);
 INSERT INTO `users` VALUES(4, 'Sandy', 'Green', 'sgreen', 0xb99f24961740, 0, '213-098-9876', 'sgreen@gmail.com', 1, 'userphoto4.jpg', 'none listed');
 INSERT INTO `users` VALUES(5, 'Bob', 'Smith', 'bsmith', 0xb99f24961740, 0, '432-345-5431', 'bill@meaddesign.net', 1, '', 'none listed');
