@@ -278,16 +278,16 @@ function edit_books($id)
 				}
 			}
 			print "</select><br /><br />\n";
-			print "<label for 'bookname$order' class='lableblock titlelabel'>Title</label>";
-			print "<input id='bookname$order' name='bookname$order' type='text' class='long title' /><br /><br />\n";
-			print "<label for 'author$order' class='lableblock authortitle'>Author</label>";
-			print "<input id='author$order' name='author$order' type='text'  class='long author' /><br /><br />\n";
-			print "<label for 'date$order' class='lableblock datetitle'>Date</label>";
-			print "<input id='date$order' name='date$order' type='text' class='short date' /><br /><br />\n";
-			print "<label for 'isbn$order' class='lableblock noclear isbntitle'>ISBN</label>";
-			print "<input id='isbn$order' name='isbn$order' type='text' class='short isbn' /><br /><br />\n";
-			print "<label for 'link$order' class='lableblock linktitle'>Link</label>";
-			print "<input id='link$order' name='link$order' type='text' class='long link' /><br /><br />\n";
+			print "<label for='bookname$order' class='lableblock titlelabel'>Title</label>";
+			print "<input id='bookname$order' name='bookname$order' type='text' class='long title' value='$title' /><br /><br />\n";
+			print "<label for='author$order' class='lableblock authortitle'>Author</label>";
+			print "<input id='author$order' name='author$order' type='text'  class='long author' value='$author' /><br /><br />\n";
+			print "<label for='date$order' class='lableblock datetitle'>Date</label>";
+			print "<input id='date$order' name='date$order' type='text' class='short date' value='$date' />\n";
+			print "<label for='isbn$order' class='lableblock noclear isbntitle'>ISBN</label>";
+			print "<input id='isbn$order' name='isbn$order' type='text' class='short isbn' value='$isbn' /><br /><br />\n";
+			print "<label for='link$order' class='lableblock linktitle'>Link</label>";
+			print "<input id='link$order' name='link$order' type='text' class='long link' value='$link' /><br /><br />\n";
 			print "</p>";
 		}
 	}
@@ -302,15 +302,15 @@ function edit_books($id)
 				print "<option value='$i'>$booktypes[$i]</option>\n";
 			}
 			print "</select><br /><br />\n";
-		print "<label for 'bookname1' class='lableblock titlelabel'>Title</label>";
+		print "<label for='bookname1' class='lableblock titlelabel'>Title</label>";
 		print "<input id='bookname1' name='bookname1' type='text' class='long title' /><br /><br />\n";
-		print "<label for 'author1' class='lableblock authorlabel'>Author</label>";
+		print "<label for='author1' class='lableblock authorlabel'>Author</label>";
 		print "<input id='author1' name='author1' type='text' class='long author' /><br /><br />\n";
-		print "<label for 'date1' class='lableblock datetitle'>Date</label>";
+		print "<label for='date1' class='lableblock datetitle'>Date</label>";
 		print "<input id='date1' name='date1' type='text' class='short date' />";
-		print "<label for 'isbn1' class='lableblock noclear isbntitle'>ISBN</label>";
+		print "<label for='isbn1' class='lableblock noclear isbntitle'>ISBN</label>";
 		print "<input id='isbn1' name='isbn1' type='text' class='short isbn' /><br /><br />\n";
-		print "<label for 'link1' class='lableblock linktitle'>Link</label>";
+		print "<label for='link1' class='lableblock linktitle'>Link</label>";
 		print "<input id='link1' name='link1' type='text' class='long link' /><br /><br />\n";
 		print "</p>";
 	}
@@ -617,6 +617,96 @@ function process_eval()
 	
 }
 
+function process_books()
+{
+	$data = pull_data_from_array($_POST, 'bookname', 8);
+	$num_rows_with_content = $data[0];
+	$num_total_rows = $data[1];
+		
+	$classid = $_POST['classid'];
+	
+	$query = "select id from books where class_id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 0)
+	{
+		$counter = 1;
+		$ordr = 1;
+		
+		for($i=0; $i<$num_total_rows; $i++)
+		{
+			$title = mysql_prep($_POST["bookname".$counter]);
+			$author = mysql_prep($_POST["author".$counter]);
+			$date = mysql_prep($_POST["date".$counter]);
+			$isbn = mysql_prep($_POST["isbn".$counter]);
+			$link = mysql_prep($_POST["link".$counter]);
+			$type = $_POST["booktype".$counter];
+			
+			if($title != '')
+			{
+				$query = "insert into books values('', '$classid', '$title', '$author', 
+				'$date', '$isbn', '$link', '$type', '$ordr')";
+				mysql_query($query);
+				$ordr++;
+			}
+			$counter++;
+		}
+	}
+	
+	elseif($numrows == $num_rows_with_content)
+	{
+		$counter = 1;
+		$ordr = 1;
+		
+		for($i=0; $i<$num_total_rows; $i++)
+		{
+			$title = mysql_prep($_POST["bookname".$counter]);
+			$author = mysql_prep($_POST["author".$counter]);
+			$date = mysql_prep($_POST["date".$counter]);
+			$isbn = mysql_prep($_POST["isbn".$counter]);
+			$link = mysql_prep($_POST["link".$counter]);
+			$type = $_POST["booktype".$counter];
+			
+			if($title != '')
+			{
+				$query = "update books set title='$title', author='$author', date='$date', 
+				isbn='$isbn', link='$link', type='$type', where class_id='$classid' and ordr='$ordr'";
+				mysql_query($query);
+				$ordr++;
+			}
+			$counter++;
+		}
+	}
+	
+	else
+	{
+		$del_query = "DELETE FROM books WHERE class_id='$classid'";
+		mysql_query($del_query);
+		
+		$counter = 1;
+		$ordr = 1;
+		
+		for($i=0; $i<$num_total_rows; $i++)
+		{
+			$title = mysql_prep($_POST["bookname".$counter]);
+			$author = mysql_prep($_POST["author".$counter]);
+			$date = mysql_prep($_POST["date".$counter]);
+			$isbn = mysql_prep($_POST["isbn".$counter]);
+			$link = mysql_prep($_POST["link".$counter]);
+			$type = $_POST["booktype".$counter];
+			
+			if($title != '')
+			{
+				$query = "insert into books values('', '$classid', '$title', '$author', 
+				'$date', '$isbn', '$link', '$type', '$ordr')";
+				mysql_query($query);
+				$ordr++;
+			}
+			$counter++;
+		}
+	}
+}
+
 function process_form($classid)
 {
 	if(isset($_POST['update']))
@@ -625,6 +715,7 @@ function process_form($classid)
 		if(isset($_POST['day2'])) { process_class_times('2'); }
 		process_class_details();
 		process_eval();
+		process_books();
 	}
 	
 }
