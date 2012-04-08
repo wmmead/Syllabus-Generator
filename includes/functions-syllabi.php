@@ -386,7 +386,7 @@ function class_date($classid, $termstart, $week, $day="")
 
 function return_day($classid)
 {
-	$query="select day from class_days_times where class_id = '$classid'";
+	$query="select classday from class_days_times where class_id = '$classid'";
 	//print $query;
 	$result = mysql_query($query);
 	$numrows = mysql_num_rows($result);
@@ -460,5 +460,130 @@ function print_holiday($classid, $termstart, $week, $day="")
 	}
 }
 
+/***************** Process Syllabus Form functions *******************/
+
+function process_class_times($num)
+{
+	$classid = $_POST['classid'];
+	
+	switch ($num)
+	{
+		case "1": $day = $_POST["day1"]; $start = $_POST["timestart1"]; $end = $_POST["timeend1"]; break;
+		case "2": $day = $_POST["day2"]; $start = $_POST["timestart2"]; $end = $_POST["timeend2"]; break;
+		default: $day = $_POST["day1"]; $start = $_POST["timestart1"]; $end = $_POST["timeend1"];
+	}
+	
+	$query = "select classday, starttime, endtime from class_days_times where class_id = '$classid' and ordr = '$num'";
+	//print $query . "<br /><br />";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 0)
+	{
+		$query = "insert into class_days_times values('', '$classid', '$day', '$start', '$end', '$num')";
+		mysql_query($query);
+	}
+	else
+	{
+		if($numrows == 1)
+		{
+			$row = mysql_fetch_row($results);
+			list($storedday, $storedstart, $storedend) = $row;
+			
+			if($day != $storedday || $start != $storedstart || $end != $storedend)
+			{
+				$query = "update class_days_times set classday='$day', starttime='$start', 
+				endtime='$end' where class_id='$classid' and ordr='$num'";
+				mysql_query($query);
+			}
+		}
+	}
+}
+
+function process_class_details()
+{
+	$classid = $_POST['classid'];
+	$hwhrs = mysql_prep($_POST['hwhrs']);
+	$officehrs = mysql_prep($_POST['officehrs']);
+	$materials = mysql_prep($_POST['materials']);
+	$methods = mysql_prep($_POST['methods']);
+	$tech = mysql_prep($_POST['tech']);
+	$focus = mysql_prep($_POST['focus']);
+	$additional = mysql_prep($_POST['additional']);
+	
+	$hwhrslength = strlen($hwhrs);
+	$officehrslength = strlen($officehrs);
+	
+	if($hwhrslength > 254){ $hwhrs = cut_long_strings($hwhrs, 254);}
+	if($officehrs > 254){ $officehrs = cut_long_strings($officehrs, 254);}
+	
+	
+	$query = "select id from class_details where class_id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 0)
+	{
+		$query = "insert into class_details values('', '$classid', 
+		'$materials', '$methods', '$tech', '$hwhrs', '$officehrs', '$additional', '$focus')";
+	}
+	elseif($numrows == 1)
+	{
+		$query = "update class_details set materials='$materials', methods='$methods', 
+		tech='$tech', hwhrs='$hwhrs', officehrs='$officehrs', add_req='$additional', 
+		focus='$focus' where class_id='$classid'";
+	}
+	else
+	{
+		$del_query = "DELETE FROM class_details WHERE class_id='$classid'";
+		mysql_query($del_query);
+		
+		$query = "insert into class_details values('', '$classid', 
+		'$materials', '$methods', '$tech', '$hwhrs', '$officehrs', '$additional', '$focus')";
+	}
+	
+	mysql_query($query);
+}
+
+function process_form($classid)
+{
+	if(isset($_POST['update']))
+	{
+		process_class_times('1');
+		if(isset($_POST['day2'])) { process_class_times('2'); }
+		process_class_details();
+	}
+	
+}
+
+/***************** Displaying Form Data Functions *******************/
+
+function get_class_times($classid, $ordr)
+{
+	$query = "select classday, starttime, endtime from class_days_times where class_id = '$classid' and ordr = '$ordr'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		return $row;
+	}
+	else { return NULL; }
+}
+
+function get_class_details($classid)
+{
+	$query = "select * from class_details where class_id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		list($id, $classid, $materials, $methods, $tech, $hwhrs, $officehrs, $addreq, $focus) = $row;
+		$data = array('materials'=>$materials, 'methods'=>$methods, 'tech'=>$tech, 
+		'hwhrs'=>$hwhrs, 'officehrs'=>$officehrs, 'addreq'=>$addreq, 'focus'=>$focus);
+		
+		return $data;
+	}
+	else { return NULL; }
+}
 
 ?>

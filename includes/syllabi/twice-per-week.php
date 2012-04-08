@@ -1,25 +1,61 @@
-<p><strong><label for="day">First Day the Class Meets</label></strong><br />
+<?php $data = get_class_times($classid, 1); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
+
+<div class="container">
+<div class="timeblock">
+<p><strong><label for="day1">1st Day the Class Meets</label></strong><br />
 <select name="day1" id="day1">
-	<option value="0" selected = "selected"> --- </option>
-    <?php weekday_select_list($selected = '') ?>
+	<option value="0"> --- </option>
+    <?php weekday_select_list($selected = $day) ?>
 </select>
 </p>
+</div>
 
-<p><strong><label for="starttime1">Start Time</label></strong><br />
-<input type="text" name="starttime1" id="starttime1" value="" /> <span class="example">i.e. 8:00 am</span></p>
+<div class="timeblock">
+<p><strong><label for="timestart1">Start Time</label></strong><br />
+<select name="timestart1" id="timestart1">
+	<option value="0"> --- </option>
+    <?php time_select_list($selected = $stime) ?>
+</select>
+</p>
+</div>
 
-<p><strong><label for="endtime1">End Time</label></strong><br />
-<input type="text" name="endtime1" id="endtime1" value="" /> <span class="example">i.e. 12:00 pm</span></p>
+<div class="timeblock">
+<p><strong><label for="timeend1">End Time</label></strong><br />
+<select name="timeend1" id="timeend1">
+	<option value="0"> --- </option>
+    <?php time_select_list($selected = $etime) ?>
+</select>
+</p>
+</div>
+</div><!-- end container -->
 
-<p><strong><label for="day">Second Day the Class Meets</label></strong><br />
+<?php $data = get_class_times($classid, 2); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
+
+<div class="container">
+<div class="timeblock">
+<p><strong><label for="day2">2nd Day the Class Meets</label></strong><br />
 <select name="day2" id="day2">
-	<option value="0" selected = "selected"> --- </option>
-    <?php weekday_select_list($selected = '') ?>
+	<option value="0"> --- </option>
+    <?php weekday_select_list($selected = $day) ?>
 </select>
 </p>
+</div>
 
-<p><strong><label for="starttime2">Start Time</label></strong><br />
-<input type="text" name="starttime2" id="starttime2" value="" /> <span class="example">i.e. 8:00 am</span></p>
+<div class="timeblock">
+<p><strong><label for="timestart2">Start Time</label></strong><br />
+<select name="timestart2" id="timestart2">
+	<option value="0"> --- </option>
+    <?php time_select_list($selected = $stime) ?>
+</select>
+</p>
+</div>
 
-<p><strong><label for="endtime2">End Time</label></strong><br />
-<input type="text" name="endtime2" id="endtime2" value="" /> <span class="example">i.e. 12:00 pm</span></p>
+<div class="timeblock">
+<p><strong><label for="timeend2">End Time</label></strong><br />
+<select name="timeend2" id="timeend2">
+	<option value="0"> --- </option>
+    <?php time_select_list($selected = $etime) ?>
+</select>
+</p>
+</div>
+</div><!-- end container -->

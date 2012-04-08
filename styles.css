@@ -148,6 +148,11 @@ div.activitycontent {
 	margin-bottom:20px;
 }
 
+.timeblock {
+	float:left;
+	margin-right: 15px;
+}
+
 /********* Navigation Styles *********/
 
 .navigation h2 {
@@ -408,6 +413,10 @@ div.formcontainer {
 
 .policyfield {
 	width:100%;
+}
+
+.fullwidth {
+	width: 400px;
 }
 
 .fieldcontainer input {
