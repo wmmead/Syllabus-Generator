@@ -30,14 +30,12 @@
 
 </div>
 
-
+	<form method="post" action="index.php?sylledit=<?php echo $classid; ?>">
+    <input type="hidden" name="classid" value="<?php echo $classid; ?>" />
 	<div class="frame">
 	<h4 class="fold">Syllabus Details</h4>
     
     <div class="hide">
-    <form method="post" action="index.php?sylledit=<?php echo $classid; ?>">
-    
-    <input type="hidden" name="classid" value="<?php echo $classid; ?>" />
     
     <?php edit_meeting_times($classid); ?>
     

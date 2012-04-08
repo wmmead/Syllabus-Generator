@@ -94,7 +94,7 @@ $(document).ready(function(){
 		var newElem = $('#eval' + num).clone().attr('id', 'eval' + newNum);
 
 		newElem.children('.description').attr('id', 'desc' + newNum).attr('name', 'desc' + newNum).attr('value', '');
-		newElem.children('.percent').attr('id', 'percent' + newNum).attr('name', 'percent' + newNum).attr('value', '');
+		newElem.children('.percent').attr('id', 'perc' + newNum).attr('name', 'perc' + newNum).attr('value', '');
 
 		$('#eval' + num).after(newElem);
 

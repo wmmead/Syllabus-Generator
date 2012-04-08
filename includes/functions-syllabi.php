@@ -543,6 +543,80 @@ function process_class_details()
 	mysql_query($query);
 }
 
+function process_eval()
+{
+	$data = pull_data_from_array($_POST, 'desc', 4);
+	$num_rows_with_content = $data[0];
+	$num_total_rows = $data[1];
+		
+	$classid = $_POST['classid'];
+	
+	$query = "select id from evalscales where class_id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 0)
+	{
+		$counter = 1;
+		$ordr = 1;
+		
+		for($i=0; $i<$num_total_rows; $i++)
+		{
+			$description = mysql_prep($_POST["desc".$counter]);
+			$percent = mysql_prep($_POST["perc".$counter]);
+			if($description != '')
+			{
+				$query = "insert into evalscales values('', '$classid', '$description', '$percent', '$ordr')";
+				mysql_query($query);
+				$ordr++;
+			}
+			$counter++;
+		}
+	}
+	
+	elseif($numrows == $num_rows_with_content)
+	{
+		$counter = 1;
+		$ordr = 1;
+		
+		for($i=0; $i<$num_total_rows; $i++)
+		{
+			$description = mysql_prep($_POST["desc".$counter]);
+			$percent = mysql_prep($_POST["perc".$counter]);
+			if($description != '')
+			{
+				$query = "update evalscales set descrip='$description', percent='$percent' 
+				where class_id='$classid' and ordr='$ordr'";
+				mysql_query($query);
+				$ordr++;
+			}
+			$counter++;
+		}
+	}
+	
+	else
+	{
+		$del_query = "DELETE FROM evalscales WHERE class_id='$classid'";
+		mysql_query($del_query);
+		
+		$counter = 1;
+		$ordr = 1;
+		
+		for($i=0; $i<$num_total_rows; $i++)
+		{
+			$description = mysql_prep($_POST["desc".$counter]);
+			$percent = mysql_prep($_POST["perc".$counter]);
+			if($description != '')
+			{
+				$query = "insert into evalscales values('', '$classid', '$description', '$percent', '$ordr')";
+				mysql_query($query);
+				$ordr++;
+			}
+			$counter++;
+		}
+	}
+	
+}
+
 function process_form($classid)
 {
 	if(isset($_POST['update']))
@@ -550,6 +624,7 @@ function process_form($classid)
 		process_class_times('1');
 		if(isset($_POST['day2'])) { process_class_times('2'); }
 		process_class_details();
+		process_eval();
 	}
 	
 }
@@ -584,6 +659,31 @@ function get_class_details($classid)
 		return $data;
 	}
 	else { return NULL; }
+}
+
+/****************** Helper functions *********************/
+
+function pull_data_from_array($data, $item, $itemlength)
+{
+	$counter = 0;
+	$fieldnum = 0;
+	foreach($data as $key => $value)
+	{
+		$test = substr($key, 0, $itemlength);
+		if($test == $item)
+		{
+			$fieldnum++;
+			$field = $item.$fieldnum;
+			
+			if($_POST[$field] != '')
+			{
+				$counter++;
+			}
+		}	
+	}
+	
+	$data = array($counter, $fieldnum);
+	return $data;
 }
 
 ?>
