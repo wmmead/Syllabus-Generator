@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 06, 2012 at 07:38 PM
+-- Generation Time: Apr 07, 2012 at 06:20 PM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -116,9 +116,10 @@ INSERT INTO `classes` VALUES(10, 10, 1, 11, 1, 0);
 CREATE TABLE `class_days_times` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
-  `day` varchar(20) NOT NULL,
+  `classday` varchar(20) NOT NULL,
   `starttime` varchar(20) NOT NULL,
   `endtime` varchar(20) NOT NULL,
+  `ordr` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
@@ -126,9 +127,9 @@ CREATE TABLE `class_days_times` (
 -- Dumping data for table `class_days_times`
 --
 
-INSERT INTO `class_days_times` VALUES(1, 9, 'Wednesday', '8:00 am', '12:00 pm');
-INSERT INTO `class_days_times` VALUES(2, 10, 'Monday', '1:00 pm', '5:00 pm');
-INSERT INTO `class_days_times` VALUES(3, 10, 'Wednesday', '1:00pm', '5:00pm');
+INSERT INTO `class_days_times` VALUES(1, 9, 'Thursday', '1:00 pm', '5:00 pm', 1);
+INSERT INTO `class_days_times` VALUES(2, 10, 'Tuesday', '8:00 am', '12:00 pm', 1);
+INSERT INTO `class_days_times` VALUES(3, 10, 'Wednesday', '8:00 am', '12:00 pm', 2);
 
 -- --------------------------------------------------------
 
@@ -142,17 +143,18 @@ CREATE TABLE `class_details` (
   `materials` text NOT NULL,
   `methods` text NOT NULL,
   `tech` text NOT NULL,
-  `hwhrs` text NOT NULL,
+  `hwhrs` varchar(255) NOT NULL,
   `officehrs` varchar(255) NOT NULL,
   `add_req` text NOT NULL,
   `focus` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `class_details`
 --
 
+INSERT INTO `class_details` VALUES(1, 10, '<p>We have lots of important materials</p>', '<p>We teach u <span style="text-decoration: underline;"><em><strong>real</strong></em></span> good.</p>', '<p>We are gonna use computers and stuff.</p>', '4 hours per week', 'I am available pretty much all the time', '<p>You must be a good student.</p>', '<p>Lets focus on making some cool stuff.</p>');
 
 -- --------------------------------------------------------
 
