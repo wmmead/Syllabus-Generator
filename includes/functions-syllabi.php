@@ -622,87 +622,244 @@ function process_books()
 	$data = pull_data_from_array($_POST, 'bookname', 8);
 	$num_rows_with_content = $data[0];
 	$num_total_rows = $data[1];
+	$classid = $_POST['classid'];
+	
+	if($num_rows_with_content > 0)
+	{
+		$query = "select id from books where class_id = '$classid'";
+		$results = mysql_query($query);
+		$numrows = mysql_num_rows($results);
+		if($numrows == 0)
+		{
+			$counter = 1;
+			$ordr = 1;
+			
+			for($i=0; $i<$num_total_rows; $i++)
+			{
+				$title = mysql_prep($_POST["bookname".$counter]);
+				$author = mysql_prep($_POST["author".$counter]);
+				$date = mysql_prep($_POST["date".$counter]);
+				$isbn = mysql_prep($_POST["isbn".$counter]);
+				$link = mysql_prep($_POST["link".$counter]);
+				$type = $_POST["booktype".$counter];
+				
+				if($title != '')
+				{
+					$query = "insert into books values('', '$classid', '$title', '$author', 
+					'$date', '$isbn', '$link', '$type', '$ordr')";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
+			}
+		}
+		
+		elseif($numrows == $num_rows_with_content)
+		{
+			$counter = 1;
+			$ordr = 1;
+			
+			for($i=0; $i<$num_total_rows; $i++)
+			{
+				$title = mysql_prep($_POST["bookname".$counter]);
+				$author = mysql_prep($_POST["author".$counter]);
+				$date = mysql_prep($_POST["date".$counter]);
+				$isbn = mysql_prep($_POST["isbn".$counter]);
+				$link = mysql_prep($_POST["link".$counter]);
+				$type = $_POST["booktype".$counter];
+				
+				if($title != '')
+				{
+					$query = "update books set title='$title', author='$author', date='$date', 
+					isbn='$isbn', link='$link', type='$type', where class_id='$classid' and ordr='$ordr'";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
+			}
+		}
+		
+		else
+		{
+			$del_query = "DELETE FROM books WHERE class_id='$classid'";
+			mysql_query($del_query);
+			
+			$counter = 1;
+			$ordr = 1;
+			
+			for($i=0; $i<$num_total_rows; $i++)
+			{
+				$title = mysql_prep($_POST["bookname".$counter]);
+				$author = mysql_prep($_POST["author".$counter]);
+				$date = mysql_prep($_POST["date".$counter]);
+				$isbn = mysql_prep($_POST["isbn".$counter]);
+				$link = mysql_prep($_POST["link".$counter]);
+				$type = $_POST["booktype".$counter];
+				
+				if($title != '')
+				{
+					$query = "insert into books values('', '$classid', '$title', '$author', 
+					'$date', '$isbn', '$link', '$type', '$ordr')";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
+			}
+		}
+	}
+}
+
+function process_addtl_comp()
+{
+	$data = pull_data_from_array($_POST, 'comp', 4);
+	$num_rows_with_content = $data[0];
+	$num_total_rows = $data[1];
 		
 	$classid = $_POST['classid'];
 	
-	$query = "select id from books where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
-	if($numrows == 0)
+	if($num_rows_with_content > 0)
 	{
-		$counter = 1;
-		$ordr = 1;
+		$query = "select count(id) from competencies where class_id='$classid' and type='1'";
 		
-		for($i=0; $i<$num_total_rows; $i++)
+		$results = mysql_query($query);
+		$count = mysql_fetch_row($results);
+		$numrows = $count[0];
+		
+		if($numrows == 0)
 		{
-			$title = mysql_prep($_POST["bookname".$counter]);
-			$author = mysql_prep($_POST["author".$counter]);
-			$date = mysql_prep($_POST["date".$counter]);
-			$isbn = mysql_prep($_POST["isbn".$counter]);
-			$link = mysql_prep($_POST["link".$counter]);
-			$type = $_POST["booktype".$counter];
+			$counter = 1;
+			$ordr = 1;
 			
-			if($title != '')
+			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$query = "insert into books values('', '$classid', '$title', '$author', 
-				'$date', '$isbn', '$link', '$type', '$ordr')";
-				mysql_query($query);
-				$ordr++;
+				$competency = mysql_prep($_POST["comp".$counter]);
+				
+				if($competency != '')
+				{
+					$query = "insert into competencies values('', '0', '$classid', '$competency', 
+					'1', '$ordr')";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
 			}
-			$counter++;
+		}
+		
+		elseif($numrows == $num_rows_with_content)
+		{
+			$counter = 1;
+			$ordr = 1;
+			
+			for($i=0; $i<$num_total_rows; $i++)
+			{
+				$competency = mysql_prep($_POST["comp".$counter]);
+				
+				if($competency != '')
+				{
+					$query = "update competencies set competency='$competency' where class_id='$classid' and ordr='$ordr'";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
+			}
+		}
+		else
+		{
+			$del_query = "DELETE FROM competencies WHERE class_id='$classid'";
+			mysql_query($del_query);
+			
+			$counter = 1;
+			$ordr = 1;
+			
+			for($i=0; $i<$num_total_rows; $i++)
+			{
+				$competency = mysql_prep($_POST["comp".$counter]);
+				
+				if($competency != '')
+				{
+					$query = "insert into competencies values('', '0', '$classid', '$competency', 
+					'1', '$ordr')";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
+			}
 		}
 	}
-	
-	elseif($numrows == $num_rows_with_content)
-	{
-		$counter = 1;
-		$ordr = 1;
+}
+
+function process_addtl_policies()
+{
+	$data = pull_data_from_array($_POST, 'policy', 6);
+	$num_rows_with_content = $data[0];
+	$num_total_rows = $data[1];
 		
-		for($i=0; $i<$num_total_rows; $i++)
+	$classid = $_POST['classid'];
+	
+	if($num_rows_with_content > 0)
+	{
+		$query = "select count(id) from gradingpolicies where class_id='$classid' and type='1'";
+		
+		$results = mysql_query($query);
+		$count = mysql_fetch_row($results);
+		$numrows = $count[0];
+		
+		if($numrows == 0)
 		{
-			$title = mysql_prep($_POST["bookname".$counter]);
-			$author = mysql_prep($_POST["author".$counter]);
-			$date = mysql_prep($_POST["date".$counter]);
-			$isbn = mysql_prep($_POST["isbn".$counter]);
-			$link = mysql_prep($_POST["link".$counter]);
-			$type = $_POST["booktype".$counter];
+			$counter = 1;
+			$ordr = 1;
 			
-			if($title != '')
+			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$query = "update books set title='$title', author='$author', date='$date', 
-				isbn='$isbn', link='$link', type='$type', where class_id='$classid' and ordr='$ordr'";
-				mysql_query($query);
-				$ordr++;
+				$policy = mysql_prep($_POST["policy".$counter]);
+				
+				if($policy != '')
+				{
+					$query = "insert into gradingpolicies values('', '0', '$classid', '1', '$policy', '$ordr')";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
 			}
-			$counter++;
 		}
-	}
-	
-	else
-	{
-		$del_query = "DELETE FROM books WHERE class_id='$classid'";
-		mysql_query($del_query);
-		
-		$counter = 1;
-		$ordr = 1;
-		
-		for($i=0; $i<$num_total_rows; $i++)
+		elseif($numrows == $num_rows_with_content)
 		{
-			$title = mysql_prep($_POST["bookname".$counter]);
-			$author = mysql_prep($_POST["author".$counter]);
-			$date = mysql_prep($_POST["date".$counter]);
-			$isbn = mysql_prep($_POST["isbn".$counter]);
-			$link = mysql_prep($_POST["link".$counter]);
-			$type = $_POST["booktype".$counter];
+			$counter = 1;
+			$ordr = 1;
 			
-			if($title != '')
+			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$query = "insert into books values('', '$classid', '$title', '$author', 
-				'$date', '$isbn', '$link', '$type', '$ordr')";
-				mysql_query($query);
-				$ordr++;
+				$policy = mysql_prep($_POST["policy".$counter]);
+				
+				if($policy != '')
+				{
+					$query = "update gradingpolicies set policy='$policy' where class_id='$classid' and ordr='$ordr'";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
 			}
-			$counter++;
+		}
+		else
+		{
+			$del_query = "DELETE FROM gradingpolicies WHERE class_id='$classid'";
+			mysql_query($del_query);
+			
+			$counter = 1;
+			$ordr = 1;
+			
+			for($i=0; $i<$num_total_rows; $i++)
+			{
+				$policy = mysql_prep($_POST["policy".$counter]);
+				
+				if($policy != '')
+				{
+					$query = "insert into gradingpolicies values('', '0', '$classid', '1', '$policy', '$ordr')";
+					mysql_query($query);
+					$ordr++;
+				}
+				$counter++;
+			}
 		}
 	}
 }
@@ -716,6 +873,8 @@ function process_form($classid)
 		process_class_details();
 		process_eval();
 		process_books();
+		process_addtl_comp();
+		process_addtl_policies();
 	}
 	
 }
