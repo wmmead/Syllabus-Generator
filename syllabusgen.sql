@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2012 at 06:20 PM
+-- Generation Time: Apr 24, 2012 at 10:49 AM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -29,7 +29,7 @@ CREATE TABLE `activities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
   `meeting` tinyint(2) NOT NULL,
-  `activities` text,
+  `activity` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
 
@@ -37,10 +37,10 @@ CREATE TABLE `activities` (
 -- Dumping data for table `activities`
 --
 
-INSERT INTO `activities` VALUES(34, 9, 1, '');
-INSERT INTO `activities` VALUES(35, 9, 2, '');
+INSERT INTO `activities` VALUES(34, 9, 1, '<p><strong>Classwork:</strong> here is some classwork</p>\r\n<p><strong>Homework</strong>: here is some homework</p>\r\n<p><strong>Quizes</strong>: Get ready for the quiz</p>');
+INSERT INTO `activities` VALUES(35, 9, 2, '<p>We do some stuff there</p>');
 INSERT INTO `activities` VALUES(36, 9, 3, '');
-INSERT INTO `activities` VALUES(37, 9, 4, '');
+INSERT INTO `activities` VALUES(37, 9, 4, '<p>Some more stuff in week 4</p>');
 INSERT INTO `activities` VALUES(38, 9, 5, '');
 INSERT INTO `activities` VALUES(39, 9, 6, '');
 INSERT INTO `activities` VALUES(40, 9, 7, '');
@@ -77,12 +77,14 @@ CREATE TABLE `books` (
   `type` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `books`
 --
 
+INSERT INTO `books` VALUES(4, 10, 'Some title', 'some author', '2012', '1234', 'http://amazon.com', 1, 1);
+INSERT INTO `books` VALUES(5, 10, 'Another Book', 'Bob Smith', '2011', '56789', 'http://www.amazon.com/PHP-MySQL-Web-Development-Edition/dp/0672329166/ref=sr_1_2?ie=UTF8&qid=1333859850&sr=8-2', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -127,7 +129,7 @@ CREATE TABLE `class_days_times` (
 -- Dumping data for table `class_days_times`
 --
 
-INSERT INTO `class_days_times` VALUES(1, 9, 'Thursday', '1:00 pm', '5:00 pm', 1);
+INSERT INTO `class_days_times` VALUES(1, 9, 'Monday', '1:00 pm', '5:00 pm', 1);
 INSERT INTO `class_days_times` VALUES(2, 10, 'Tuesday', '8:00 am', '12:00 pm', 1);
 INSERT INTO `class_days_times` VALUES(3, 10, 'Wednesday', '8:00 am', '12:00 pm', 2);
 
@@ -148,13 +150,14 @@ CREATE TABLE `class_details` (
   `add_req` text NOT NULL,
   `focus` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `class_details`
 --
 
 INSERT INTO `class_details` VALUES(1, 10, '<p>We have lots of important materials</p>', '<p>We teach u <span style="text-decoration: underline;"><em><strong>real</strong></em></span> good.</p>', '<p>We are gonna use computers and stuff.</p>', '4 hours per week', 'I am available pretty much all the time', '<p>You must be a good student.</p>', '<p>Lets focus on making some cool stuff.</p>');
+INSERT INTO `class_details` VALUES(2, 9, '<p>lots of materials</p>', '<p>We teach <strong><span style="text-decoration: underline;"><em>good</em></span></strong> shit</p>', '<p>computers and stuff</p>', '4 hours per week', 'sometimes whenever', '', '');
 
 -- --------------------------------------------------------
 
@@ -170,7 +173,7 @@ CREATE TABLE `competencies` (
   `type` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=111 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=139 ;
 
 --
 -- Dumping data for table `competencies`
@@ -194,6 +197,9 @@ INSERT INTO `competencies` VALUES(107, 11, 0, 'a competency', 0, 1);
 INSERT INTO `competencies` VALUES(108, 11, 0, 'another competency', 0, 2);
 INSERT INTO `competencies` VALUES(109, 11, 0, 'more cheese', 0, 3);
 INSERT INTO `competencies` VALUES(110, 11, 0, 'big llamas', 0, 4);
+INSERT INTO `competencies` VALUES(136, 0, 9, 'Demonstrate the ability to make good stuff', 1, 1);
+INSERT INTO `competencies` VALUES(137, 0, 9, 'and one more for good luck', 1, 2);
+INSERT INTO `competencies` VALUES(138, 0, 9, 'Be excellent at stuff', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -291,12 +297,18 @@ CREATE TABLE `evalscales` (
   `percent` tinyint(2) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `evalscales`
 --
 
+INSERT INTO `evalscales` VALUES(14, 10, 'Homework', 10, 1);
+INSERT INTO `evalscales` VALUES(15, 10, 'Classwork', 40, 2);
+INSERT INTO `evalscales` VALUES(16, 10, 'Tests', 50, 3);
+INSERT INTO `evalscales` VALUES(18, 9, 'Homework', 20, 1);
+INSERT INTO `evalscales` VALUES(19, 9, 'Classwork', 30, 2);
+INSERT INTO `evalscales` VALUES(20, 9, 'other stuff', 50, 3);
 
 -- --------------------------------------------------------
 
@@ -312,7 +324,7 @@ CREATE TABLE `gradingpolicies` (
   `policy` varchar(255) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=68 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=78 ;
 
 --
 -- Dumping data for table `gradingpolicies`
@@ -333,6 +345,8 @@ INSERT INTO `gradingpolicies` VALUES(62, 13, NULL, 0, 'Late work receives a grad
 INSERT INTO `gradingpolicies` VALUES(63, 13, NULL, 0, 'On-time projects may be redone with instructor approval.', 6);
 INSERT INTO `gradingpolicies` VALUES(64, 13, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
 INSERT INTO `gradingpolicies` VALUES(67, 11, NULL, 0, 'cheese!', 1);
+INSERT INTO `gradingpolicies` VALUES(76, 0, 9, 1, 'You must do really good work in this class', 1);
+INSERT INTO `gradingpolicies` VALUES(77, 0, 9, 1, 'make this class great', 2);
 
 -- --------------------------------------------------------
 
