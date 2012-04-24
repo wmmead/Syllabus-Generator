@@ -864,6 +864,29 @@ function process_addtl_policies()
 	}
 }
 
+function process_activities()
+{
+	$classid = $_POST['classid'];
+	$data = $_POST;
+	$meetingnum = 1;
+	foreach($data as $key => $value)
+	{
+		$test = substr($key, 0, 7);
+		if($test == "meeting")
+		{
+			
+			if($value != "")
+			{
+				$activity = mysql_prep($value);
+				$query = "update activities set activity='$activity' where class_id='$classid' and meeting='$meetingnum'";
+				mysql_query($query);
+			}
+			
+			$meetingnum++;
+		}	
+	}
+}
+
 function process_form($classid)
 {
 	if(isset($_POST['update']))
@@ -875,6 +898,7 @@ function process_form($classid)
 		process_books();
 		process_addtl_comp();
 		process_addtl_policies();
+		process_activities();
 	}
 	
 }
@@ -909,6 +933,19 @@ function get_class_details($classid)
 		return $data;
 	}
 	else { return NULL; }
+}
+
+function display_activities($classid)
+{	
+	$query = "select activity from activities where class_id='$classid'";
+	$data = array();
+	$results = mysql_query($query);
+	while($rows = mysql_fetch_row($results))
+	{
+		array_push($data, $rows[0]);
+	}
+	
+	return $data;
 }
 
 /****************** Helper functions *********************/

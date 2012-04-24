@@ -269,6 +269,10 @@ th {
 	font-style:italic;
 }
 
+.alert {
+	color:#FF0000;
+}
+
 /*********** Course Page Styles ************/
 .coursepage .middlecol {
 	width:370px;
