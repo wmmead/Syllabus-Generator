@@ -119,13 +119,16 @@ $(document).ready(function(){
 
 		var newElem = $('#book' + num).clone().attr('id', 'book' + newNum);
 		
-		newElem.children('.booktype').attr('name', 'booktype' + newNum);
+		newElem.children('.booktype').attr('name', 'booktype' + newNum).val('');
 		
 		newElem.children('.titlelabel').attr('for', 'bookname' + newNum);
 		newElem.children('.title').attr('id', 'bookname' + newNum).attr('name', 'bookname' + newNum).val('');
 		
 		newElem.children('.authorlabel').attr('for', 'author' + newNum);
 		newElem.children('.author').attr('id', 'author' + newNum).attr('name', 'author' + newNum).val('');
+		
+		newElem.children('.publabel').attr('for', 'pub' + newNum);
+		newElem.children('.publisher').attr('id', 'pub' + newNum).attr('name', 'pub' + newNum).val('');
 		
 		newElem.children('.datelabel').attr('for', 'date' + newNum);
 		newElem.children('.date').attr('id', 'date' + newNum).attr('name', 'date' + newNum).val('');

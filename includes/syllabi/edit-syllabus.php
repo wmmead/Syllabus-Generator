@@ -33,8 +33,8 @@
 	<form method="post" action="index.php?sylledit=<?php echo $classid; ?>">
     <input type="hidden" name="classid" value="<?php echo $classid; ?>" />
 	<div class="frame">
+    <?php output_status(check_syllabus_details($classid)); ?>
 	<h4 class="fold">Syllabus Details</h4>
-    
     <div class="hide">
     
     <?php edit_meeting_times($classid); ?>
@@ -58,6 +58,7 @@
     </div><!-- end frame -->
     
     <div class="frame">
+    <?php output_status(check_eval_status($classid)); ?>
     <h4 class="fold">Evaluation Process</h4>
         <div class="hide">
         <p><span class="desclabel">Description</span> Percent</p>
@@ -67,6 +68,7 @@
     </div>
     
     <div class="frame">
+    <?php check_books($classid); ?>
     <h4 class="fold">Books</h4>
         <div class="hide">
         <?php edit_books($classid); ?>

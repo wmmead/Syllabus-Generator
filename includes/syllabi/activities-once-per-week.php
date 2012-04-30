@@ -4,6 +4,7 @@
 
 
 <div class="frame">
+<?php check_meetings($classid); ?>
 <h4 class="fold">Weekly Activities</h4>
         
     <div class="hide">        

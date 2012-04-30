@@ -256,17 +256,17 @@ function edit_books($id)
 	
 	$result = mysql_query($query);
 	$numrows = mysql_num_rows($result);
-	$booktypes = array('Required', 'Recommended', 'Suggested');
+	$booktypes = array('', 'Required', 'Recommended', 'Suggested');
 	
 	if($numrows > 0 )
 	{
 		while($row = mysql_fetch_row($result))
 		{
-			list($bookid, $classid, $title, $author, $date, $isbn, $link, $type, $order) = $row;
+			list($bookid, $classid, $title, $author, $publisher, $date, $isbn, $link, $type, $order) = $row;
 			print "<p id=book$order class='clonedbook frame'>\n";
 			print "<select name='booktype$order' class='booktype'>\n";
-			print "<option value='none'>---</option>\n";
-			for ($i=0; $i<3; $i++)
+			print "<option value='0'>---</option>\n";
+			for ($i=1; $i<4; $i++)
 			{
 				if($i == $type)
 				{
@@ -280,8 +280,10 @@ function edit_books($id)
 			print "</select><br /><br />\n";
 			print "<label for='bookname$order' class='lableblock titlelabel'>Title</label>";
 			print "<input id='bookname$order' name='bookname$order' type='text' class='long title' value='$title' /><br /><br />\n";
-			print "<label for='author$order' class='lableblock authortitle'>Author</label>";
+			print "<label for='author$order' class='lableblock authorlabel'>Author</label>";
 			print "<input id='author$order' name='author$order' type='text'  class='long author' value='$author' /><br /><br />\n";
+			print "<label for='pub$order' class='lableblock publabel'>Publisher</label>";
+			print "<input id='pub$order' name='pub$order' type='text'  class='long publisher' value='$publisher' /><br /><br />\n";
 			print "<label for='date$order' class='lableblock datetitle'>Date</label>";
 			print "<input id='date$order' name='date$order' type='text' class='short date' value='$date' />\n";
 			print "<label for='isbn$order' class='lableblock noclear isbntitle'>ISBN</label>";
@@ -296,8 +298,8 @@ function edit_books($id)
 	{
 		print "<p id=book1 class='clonedbook frame'>\n";
 		print "<select name='booktype1' class='booktype'>\n";
-			print "<option value='none' selected='selected'>---</option>\n";
-			for ($i=0; $i<3; $i++)
+			print "<option value='0' selected='selected'>---</option>\n";
+			for ($i=1; $i<4; $i++)
 			{
 				print "<option value='$i'>$booktypes[$i]</option>\n";
 			}
@@ -306,6 +308,8 @@ function edit_books($id)
 		print "<input id='bookname1' name='bookname1' type='text' class='long title' /><br /><br />\n";
 		print "<label for='author1' class='lableblock authorlabel'>Author</label>";
 		print "<input id='author1' name='author1' type='text' class='long author' /><br /><br />\n";
+		print "<label for='pub1' class='lableblock publabel'>Publisher</label>";
+		print "<input id='pub1' name='pub1' type='text' class='long publisher' /><br /><br />\n";
 		print "<label for='date1' class='lableblock datetitle'>Date</label>";
 		print "<input id='date1' name='date1' type='text' class='short date' />";
 		print "<label for='isbn1' class='lableblock noclear isbntitle'>ISBN</label>";
@@ -638,6 +642,7 @@ function process_books()
 			{
 				$title = mysql_prep($_POST["bookname".$counter]);
 				$author = mysql_prep($_POST["author".$counter]);
+				$publisher = mysql_prep($_POST["pub".$counter]);
 				$date = mysql_prep($_POST["date".$counter]);
 				$isbn = mysql_prep($_POST["isbn".$counter]);
 				$link = mysql_prep($_POST["link".$counter]);
@@ -645,7 +650,7 @@ function process_books()
 				
 				if($title != '')
 				{
-					$query = "insert into books values('', '$classid', '$title', '$author', 
+					$query = "insert into books values('', '$classid', '$title', '$author', '$publisher', 
 					'$date', '$isbn', '$link', '$type', '$ordr')";
 					mysql_query($query);
 					$ordr++;
@@ -663,6 +668,7 @@ function process_books()
 			{
 				$title = mysql_prep($_POST["bookname".$counter]);
 				$author = mysql_prep($_POST["author".$counter]);
+				$publisher = mysql_prep($_POST["pub".$counter]);
 				$date = mysql_prep($_POST["date".$counter]);
 				$isbn = mysql_prep($_POST["isbn".$counter]);
 				$link = mysql_prep($_POST["link".$counter]);
@@ -670,8 +676,9 @@ function process_books()
 				
 				if($title != '')
 				{
-					$query = "update books set title='$title', author='$author', date='$date', 
-					isbn='$isbn', link='$link', type='$type', where class_id='$classid' and ordr='$ordr'";
+					$query = "update books set title='$title', author='$author', publisher='$publisher', pubdate='$date', 
+					isbn='$isbn', link='$link', booktype='$type' where class_id='$classid' and ordr='$ordr'";
+					//print $query;
 					mysql_query($query);
 					$ordr++;
 				}
@@ -691,6 +698,7 @@ function process_books()
 			{
 				$title = mysql_prep($_POST["bookname".$counter]);
 				$author = mysql_prep($_POST["author".$counter]);
+				$publisher = mysql_prep($_POST["pub".$counter]);
 				$date = mysql_prep($_POST["date".$counter]);
 				$isbn = mysql_prep($_POST["isbn".$counter]);
 				$link = mysql_prep($_POST["link".$counter]);
@@ -698,7 +706,7 @@ function process_books()
 				
 				if($title != '')
 				{
-					$query = "insert into books values('', '$classid', '$title', '$author', 
+					$query = "insert into books values('', '$classid', '$title', '$author', '$publisher', 
 					'$date', '$isbn', '$link', '$type', '$ordr')";
 					mysql_query($query);
 					$ordr++;
@@ -874,13 +882,9 @@ function process_activities()
 		$test = substr($key, 0, 7);
 		if($test == "meeting")
 		{
-			
-			if($value != "")
-			{
-				$activity = mysql_prep($value);
-				$query = "update activities set activity='$activity' where class_id='$classid' and meeting='$meetingnum'";
-				mysql_query($query);
-			}
+			$activity = mysql_prep($value);
+			$query = "update activities set activity='$activity' where class_id='$classid' and meeting='$meetingnum'";
+			mysql_query($query);
 			
 			$meetingnum++;
 		}	
@@ -946,6 +950,136 @@ function display_activities($classid)
 	}
 	
 	return $data;
+}
+
+/****************** Check Form Completion *****************/
+
+function check_syllabus_details($classid)
+{
+	$query = "select classday, starttime, endtime from class_days_times where class_id='$classid'";
+	$results = mysql_query($query);
+	$row = mysql_fetch_row($results);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		list($classday, $starttime, $endtime)=$row;
+		if($classday != '0' && $starttime != '0' && $endtime != '0')
+		{
+			$query = "select materials, methods, tech, hwhrs, officehrs from class_details where class_id='$classid'";
+			$results = mysql_query($query);
+			$row = mysql_fetch_row($results);
+			$numrows = mysql_num_rows($results);
+			if($numrows > 0)
+			{
+				list($materials, $methods, $tech, $hwhrs, $officehrs)=$row;
+				if($materials != '' && $methods != '' && $tech != '' && $hwhrs != '' && $officehrs != '')
+				{
+					//print "$materials, $methods, $tech, $hwhrs, $officehrs";
+					return TRUE;
+				}
+				else { return FALSE; }
+			}
+			else { return FALSE; }
+		}
+		else { return FALSE; }
+	}
+	else { return FALSE; }	
+}
+
+function check_eval_status($classid)
+{
+	$query = "select descrip, percent from evalscales where class_id='$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$total = 0;
+		while($row = mysql_fetch_row($results))
+		{
+			list($descrip, $percent)=$row;
+			if($descrip != '' && $percent != '')
+			{
+				$total = $total + $percent;
+			}
+		}
+		if($total == 100)
+		{
+			return TRUE;
+		}
+		else { return FALSE; }
+		
+	}
+	else { return FALSE; }
+}
+
+function check_books($classid)
+{
+	$query = "select title, author, publisher, pubdate, isbn, booktype from books where class_id='$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$total = 0;
+		$incomplete = 0;
+		while($row = mysql_fetch_row($results))
+		{
+			list($title, $author, $publisher, $pubdate, $isbn, $booktype)=$row;
+			if($title == '' || $author == '' || $publisher == '' || $pubdate == '' || $isbn == '' || $booktype == '0')
+			{
+				$incomplete++;
+			}
+			else { $total++; }
+		}
+		
+		if($incomplete > 0 )
+		{
+			print "<p class='error alignright'>incomplete</p>";	
+		}
+		else
+		{
+			if($total == 1) { print "<p class='success alignright'>1 book</p>"; }
+			else { print "<p class='success alignright'>$total books</p>"; }
+		}
+	}
+	else { print "<p class='success alignright'>0 books</p>"; }
+}
+
+function check_meetings($classid)
+{
+	$query = "select meeting, activity from activities where class_id='$classid' order by meeting";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$total = 0;
+		$incomplete = 0;
+		while($row = mysql_fetch_row($results))
+		{
+			list($meeting, $activity)=$row;
+			if($activity != '')
+			{
+				$total++;
+			}
+		}
+		if($total < $numrows)
+		{
+			if($total == 1) { print "<p class='error alignright'>1 week complete</p>"; }
+			else { print "<p class='error alignright'>$total weeks complete</p>"; }
+		}
+		else { print "<p class='success alignright'>$total weeks complete</p>"; }
+	}
+}
+
+function output_status($check)
+{
+	if($check)
+	{
+		print "<p class='success alignright'>complete</p>";
+	}
+	else
+	{
+		print "<p class='error alignright'>incomplete</p>";
+	}
 }
 
 /****************** Helper functions *********************/
