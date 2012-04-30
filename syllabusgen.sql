@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 24, 2012 at 10:49 AM
+-- Generation Time: Apr 29, 2012 at 11:05 PM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -31,7 +31,7 @@ CREATE TABLE `activities` (
   `meeting` tinyint(2) NOT NULL,
   `activity` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=67 ;
 
 --
 -- Dumping data for table `activities`
@@ -59,6 +59,17 @@ INSERT INTO `activities` VALUES(52, 10, 8, '');
 INSERT INTO `activities` VALUES(53, 10, 9, '');
 INSERT INTO `activities` VALUES(54, 10, 10, '');
 INSERT INTO `activities` VALUES(55, 10, 11, '');
+INSERT INTO `activities` VALUES(56, 11, 1, '<p>The first week we will do some stuff...</p>');
+INSERT INTO `activities` VALUES(57, 11, 2, '<p>another thing in here</p>');
+INSERT INTO `activities` VALUES(58, 11, 3, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(59, 11, 4, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(60, 11, 5, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(61, 11, 6, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(62, 11, 7, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(63, 11, 8, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(64, 11, 9, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(65, 11, 10, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(66, 11, 11, '<p>even more stuff</p>');
 
 -- --------------------------------------------------------
 
@@ -71,20 +82,22 @@ CREATE TABLE `books` (
   `class_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
-  `date` varchar(100) NOT NULL,
+  `publisher` varchar(255) NOT NULL,
+  `pubdate` varchar(100) NOT NULL,
   `isbn` varchar(50) NOT NULL,
   `link` varchar(255) NOT NULL,
-  `type` tinyint(1) NOT NULL,
+  `booktype` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `books`
 --
 
-INSERT INTO `books` VALUES(4, 10, 'Some title', 'some author', '2012', '1234', 'http://amazon.com', 1, 1);
-INSERT INTO `books` VALUES(5, 10, 'Another Book', 'Bob Smith', '2011', '56789', 'http://www.amazon.com/PHP-MySQL-Web-Development-Edition/dp/0672329166/ref=sr_1_2?ie=UTF8&qid=1333859850&sr=8-2', 0, 2);
+INSERT INTO `books` VALUES(6, 10, 'Some title', 'some author', '', '2012', '1234', 'http://amazon.com', 1, 1);
+INSERT INTO `books` VALUES(16, 11, 'I love cheese', 'My Author', 'some publisher', 'date', '1234', 'http://amazon.com', 1, 1);
+INSERT INTO `books` VALUES(17, 11, 'This is required', 'the required author', 'pub', 'date', '5432', '', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -100,7 +113,7 @@ CREATE TABLE `classes` (
   `type` tinyint(2) NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `classes`
@@ -108,6 +121,7 @@ CREATE TABLE `classes` (
 
 INSERT INTO `classes` VALUES(9, 5, 1, 11, 0, 0);
 INSERT INTO `classes` VALUES(10, 10, 1, 11, 1, 0);
+INSERT INTO `classes` VALUES(11, 1, 1, 13, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -123,7 +137,7 @@ CREATE TABLE `class_days_times` (
   `endtime` varchar(20) NOT NULL,
   `ordr` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `class_days_times`
@@ -132,6 +146,7 @@ CREATE TABLE `class_days_times` (
 INSERT INTO `class_days_times` VALUES(1, 9, 'Monday', '1:00 pm', '5:00 pm', 1);
 INSERT INTO `class_days_times` VALUES(2, 10, 'Tuesday', '8:00 am', '12:00 pm', 1);
 INSERT INTO `class_days_times` VALUES(3, 10, 'Wednesday', '8:00 am', '12:00 pm', 2);
+INSERT INTO `class_days_times` VALUES(4, 11, 'Tuesday', '8:00 am', '12:00 pm', 1);
 
 -- --------------------------------------------------------
 
@@ -150,7 +165,7 @@ CREATE TABLE `class_details` (
   `add_req` text NOT NULL,
   `focus` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `class_details`
@@ -158,6 +173,7 @@ CREATE TABLE `class_details` (
 
 INSERT INTO `class_details` VALUES(1, 10, '<p>We have lots of important materials</p>', '<p>We teach u <span style="text-decoration: underline;"><em><strong>real</strong></em></span> good.</p>', '<p>We are gonna use computers and stuff.</p>', '4 hours per week', 'I am available pretty much all the time', '<p>You must be a good student.</p>', '<p>Lets focus on making some cool stuff.</p>');
 INSERT INTO `class_details` VALUES(2, 9, '<p>lots of materials</p>', '<p>We teach <strong><span style="text-decoration: underline;"><em>good</em></span></strong> shit</p>', '<p>computers and stuff</p>', '4 hours per week', 'sometimes whenever', '', '');
+INSERT INTO `class_details` VALUES(3, 11, '<p>big cheese</p>', '<p>more cheese</p>', '<p>Lots of cheese</p>', '4 hours per week', 'all the freaking time', '', '');
 
 -- --------------------------------------------------------
 
@@ -297,18 +313,19 @@ CREATE TABLE `evalscales` (
   `percent` tinyint(2) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `evalscales`
 --
 
-INSERT INTO `evalscales` VALUES(14, 10, 'Homework', 10, 1);
-INSERT INTO `evalscales` VALUES(15, 10, 'Classwork', 40, 2);
-INSERT INTO `evalscales` VALUES(16, 10, 'Tests', 50, 3);
 INSERT INTO `evalscales` VALUES(18, 9, 'Homework', 20, 1);
 INSERT INTO `evalscales` VALUES(19, 9, 'Classwork', 30, 2);
 INSERT INTO `evalscales` VALUES(20, 9, 'other stuff', 50, 3);
+INSERT INTO `evalscales` VALUES(21, 10, 'Stuff', 100, 1);
+INSERT INTO `evalscales` VALUES(28, 11, 'something', 80, 1);
+INSERT INTO `evalscales` VALUES(29, 11, 'else', 10, 2);
+INSERT INTO `evalscales` VALUES(30, 11, 'Oh, one more thing', 10, 3);
 
 -- --------------------------------------------------------
 
