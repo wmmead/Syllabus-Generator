@@ -49,6 +49,12 @@ $(document).ready(function(){
 			paste_convert_middot_lists : true,
 			paste_unindented_list_class : "unindentedList",
 			paste_convert_headers_to_strong : true
+	});
+			
+	$("#various1").fancybox({
+				'titlePosition'		: 'inside',
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none'
 			});
 			
 	$('#addComp').click(function() {

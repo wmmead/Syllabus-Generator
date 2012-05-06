@@ -684,6 +684,7 @@ function process_books()
 				}
 				$counter++;
 			}
+
 		}
 		
 		else
@@ -713,6 +714,18 @@ function process_books()
 				}
 				$counter++;
 			}
+		}
+	}
+	
+	else
+	{
+		$query = "select id from books where class_id = '$classid'";
+		$results = mysql_query($query);
+		$numrows = mysql_num_rows($results);
+		if($numrows > 0)
+		{
+			$del_query = "DELETE FROM books WHERE class_id='$classid'";
+			mysql_query($del_query);
 		}
 	}
 }
@@ -1012,7 +1025,7 @@ function check_eval_status($classid)
 	else { return FALSE; }
 }
 
-function check_books($classid)
+function check_books($classid, $output)
 {
 	$query = "select title, author, publisher, pubdate, isbn, booktype from books where class_id='$classid'";
 	$results = mysql_query($query);
@@ -1033,18 +1046,30 @@ function check_books($classid)
 		
 		if($incomplete > 0 )
 		{
-			print "<p class='error alignright'>incomplete</p>";	
+			book_output("error", $output, $total); return FALSE;	
 		}
 		else
 		{
-			if($total == 1) { print "<p class='success alignright'>1 book</p>"; }
-			else { print "<p class='success alignright'>$total books</p>"; }
+			if($total == 1) { book_output("success1", $output, $total); return TRUE; }
+			else { book_output("success2", $output, $total); return TRUE; }
 		}
 	}
-	else { print "<p class='success alignright'>0 books</p>"; }
+	else { book_output("success3", $output, $total=''); return TRUE; }
 }
 
-function check_meetings($classid)
+function book_output($type, $output, $total)
+{
+	switch ($type)
+	{
+		case "error": if($output == "yes"){ print "<p class='error alignright'>incomplete</p>"; } break;
+		case "success1": if($output == "yes"){ print "<p class='success alignright'>1 book</p>"; } break;
+		case "success2": if($output == "yes"){ print "<p class='success alignright'>$total books</p>"; } break;
+		case "success3": if($output == "yes"){ print "<p class='success alignright'>0 books</p>"; } break;
+		default: print "<p class='error alignright'>error, something went wrong</p>";
+	}
+}
+
+function check_meetings($classid, $output)
 {
 	$query = "select meeting, activity from activities where class_id='$classid' order by meeting";
 	$results = mysql_query($query);
@@ -1063,10 +1088,23 @@ function check_meetings($classid)
 		}
 		if($total < $numrows)
 		{
-			if($total == 1) { print "<p class='error alignright'>1 week complete</p>"; }
-			else { print "<p class='error alignright'>$total weeks complete</p>"; }
+			if($total == 1) { meeting_output("error1", $output, $total); }
+			else { meeting_output("error2", $output, $total); }
+			return FALSE;
 		}
-		else { print "<p class='success alignright'>$total weeks complete</p>"; }
+		else { meeting_output("success", $output, $total); }
+		return TRUE;
+	}
+}
+
+function meeting_output($type, $output, $total)
+{
+	switch ($type)
+	{
+		case "error1": if($output == "yes"){ print "<p class='error alignright'>1 meeting complete</p>"; } break;
+		case "error2": if($output == "yes"){ print "<p class='error alignright'>$total meetings complete</p>"; } break;
+		case "success": if($output == "yes"){ print "<p class='success alignright'>$total meetings complete</p>"; } break;
+		default: print "<p class='error alignright'>error, something went wrong</p>";
 	}
 }
 
@@ -1079,6 +1117,61 @@ function output_status($check)
 	else
 	{
 		print "<p class='error alignright'>incomplete</p>";
+	}
+}
+
+function add_submit_button($classid)
+{
+	if(check_syllabus_details($classid) && check_eval_status($classid) && check_books($classid, "no") && check_meetings($classid, "no"))
+	{
+		//echo "<input type='button' id='approval' class='submitbttn fancybox' href='#inline1' value='Send to Director for Approval' />";
+		echo "<a href='index.php?syllsubmit=$classid'>Send to Director for Approval</a>";
+	}
+}
+
+function check_syllabus_completion($classid)
+{
+	if(check_syllabus_details($classid) && check_eval_status($classid) && check_books($classid, "no") && check_meetings($classid, "no"))
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
+/****************** Syllabus Submission ******************/
+
+function output_directors()
+{
+	$query = "select id, fname, lname from users where type='1' order by lname";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		while($row = mysql_fetch_row($results))
+		{
+			list($id, $fname, $lname)=$row;
+			print "<input type='radio' id='$id' name='director' value='$id' /> <label for='$id'>$fname $lname</label><br />\n";
+		}
+	}
+	
+}
+
+function submit_syllabus_for_review($classid)
+{
+	if(isset($_POST['submitsyllabus']))
+	{
+		if(isset($_POST['director']))
+		{
+			$query = "update classes set status='1' where id='$classid'";
+			mysql_query($query);
+		}
+		else
+		{
+			print "<div class='feedback error'>Please select an Academic Director</div>"; 
+		}
 	}
 }
 

@@ -3,6 +3,7 @@
 <?php $activity = display_activities($classid);?>
 
 <div class="frame">
+<?php check_meetings($classid, "yes"); ?>
 <h4 class="fold">Weekly Activities</h4>
 
     <div class="hide">

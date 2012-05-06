@@ -68,7 +68,7 @@
     </div>
     
     <div class="frame">
-    <?php check_books($classid); ?>
+    <?php check_books($classid, "yes"); ?>
     <h4 class="fold">Books</h4>
         <div class="hide">
         <?php edit_books($classid); ?>
@@ -111,7 +111,8 @@
     
     <div id="updatebar">
     
-    	<input type="submit" name="update" id="update" value="Save your progress!" />
+    	<input type="submit" name="update" id="update" class="submitbttn" value="Save your progress!" />
+        <?php add_submit_button($classid); ?>
     
     </div>
     
