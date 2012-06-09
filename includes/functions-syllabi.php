@@ -123,7 +123,7 @@ function syll_info($item, $classid)
 	$row = mysql_fetch_row($result);
 	list($fname, $lname, $phone, $email, $courseid, $coursename, $coursenum, $statusnum, $year, $termnum) = $row;
 	$termnames = array('', 'Winter', 'Spring', 'Summer', 'Fall');
-	$statusnames = array('Draft', 'Approved', 'Published');
+	$statusnames = array('Draft', 'Review', 'Approved', 'Published');
 	$term = $termnames[$termnum];
 	$status = $statusnames[$statusnum];
 	

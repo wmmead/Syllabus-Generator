@@ -40,7 +40,7 @@ function add_term()
 				$start_date = $year_start . "-" . $month_start . "-" . $day_start;
 				$end_date = $year_end . "-" . $month_end . "-" . $day_end;
 				
-				$query = "insert into terms values('', '$term', '$year', '$start_date', '$end_date')";
+				$query = "insert into terms values('', '$term', '$year', '$start_date', '$end_date', '0')";
 				mysql_query($query);
 				
 				$lastid = mysql_insert_id();
