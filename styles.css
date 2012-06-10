@@ -150,9 +150,10 @@ div.activitycontent {
 	position:absolute;
 	text-align:left;
 	font-size:75%;
-	top:140px;
+	bottom:340px;
 	left:20px;
-	width:100px;
+	width:130px;
+	line-height: normal;
 	padding:15px;
 	border: 2px solid #666;
 	border-radius:5px;
@@ -444,7 +445,7 @@ div.formcontainer {
 **/
 
 /************ Evaluation Section Styles *********/
-
+/**
 input.description {
 	width: 270px;
 	float: left;
@@ -468,19 +469,22 @@ input#totalpercent {
 	width:100px;
 	margin-left: 310px;
 }
+**/
 
 /********** Save Progress Bar **********/
 
+/**
+
 #updatebar {
-	width:900px;
-	height:20px;
+	width:150px;
+	height:120px;
 	padding:20px;
 	position:fixed;
 	z-index:100;
 	bottom:0px;
 	left:50%;
 	margin-left:-472px;
-	background: rgba(5,147,200,0.3);
+	background: rgba(5,147,200,0.6);
 	border-top: 2px solid #ccc;
 	border-right: 2px solid #ccc;
 	border-left: 2px solid #ccc;
@@ -493,7 +497,22 @@ input#totalpercent {
 	border-radius: 5px 5px 0px 0px;
 }
 
+#update {
+	width: 150px;
+}
+
+#approval-btn {
+	width: 130px;
+	color: #444;
+	text-align: center;
+}
+
+#approval-btn:hover {
+	text-decoration: none;
+}
+
 .submitbttn {
 	font-size:150%;
 	padding:5px;
 }
+**/

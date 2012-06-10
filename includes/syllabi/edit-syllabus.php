@@ -16,9 +16,9 @@
     <?php $courseid = syll_info("courseid", $classid); ?>
     <div class="hide">
     	<p><strong>Total Hours:</strong> <?php echo course_item("totalhrs", $courseid); ?> Hours<br />
-        <p><strong>Lecture Hours:</strong> <?php echo course_item("lecthrs", $courseid); ?> Hours<br />
-        <p><strong>Lab Hours:</strong> <?php echo course_item("labhrs", $courseid); ?> Hours<br />
-        <p><strong>Credits:</strong> <?php echo course_item("credit", $courseid); ?> Credits</p>
+        <strong>Lecture Hours:</strong> <?php echo course_item("lecthrs", $courseid); ?> Hours<br />
+        <strong>Lab Hours:</strong> <?php echo course_item("labhrs", $courseid); ?> Hours<br />
+        <strong>Credits:</strong> <?php echo course_item("credit", $courseid); ?> Credits</p>
         <p><strong>Course Description:</strong><br /> 
         <?php echo course_item("desc", $courseid); ?></p>
         <p><strong>Course Competencies</strong></p>

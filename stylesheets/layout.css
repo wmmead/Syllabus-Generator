@@ -37,6 +37,22 @@ body {
 	border:2px solid #ccc;
 	border-radius:5px;
 	overflow:hidden;
+	padding-top: 10px;
+	
+	-webkit-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+	-moz-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+	box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
+}
+
+#loginform {
+	text-align:left;
+	
+	margin: 100px auto;
+	width: 300px;
+	padding: 20px;
+	
+	border:2px solid #ccc;
+	border-radius:5px;
 	
 	-webkit-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
 	-moz-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
@@ -51,7 +67,6 @@ body {
 }
 
 .nav {
-	margin-top: 10px;
 	background: #fff;
 }
 
@@ -60,8 +75,8 @@ body {
 }
 
 #page div.userlist {
-	margin:0;
-	width:200px;
+	margin:0 0 0 10px;
+	width:190px;
 }
 
 
@@ -82,6 +97,86 @@ body {
 	font-size: 75%;
 	line-height: normal;
 }
+
+/******* Display Table Styles *******/
+
+table.display-table td {
+	padding: 0 20px 0 10px;
+}
+
+table.display-table th {
+	text-align: left;
+}
+
+table.display-table tr:nth-child(even) {
+	background: #ccc;;
+}
+
+/************ Evaluation Section Styles *********/
+input.description {
+	width: 270px;
+	float: left;
+}
+
+input.percent {
+	width: 30px;
+	margin-left:30px;
+	float: left;
+}
+
+input#totalpercent {
+	width:30px;
+}
+
+.desclabel {
+	padding-right: 240px;
+}
+
+.rightjustify {
+	width:100px;
+	margin-left: 310px;
+}
+
+
+/********** Save Progress Bar **********/
+
+#updatebar {
+	width:150px;
+	height:120px;
+	padding:20px;
+	position:fixed;
+	z-index:100;
+	bottom:0px;
+	left:50%;
+	margin-left:-472px;
+	background: rgba(5,147,200,0.6);
+	border-top: 2px solid #ccc;
+	border-right: 2px solid #ccc;
+	border-left: 2px solid #ccc;
+	
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
+}
+
+#update {
+	width: 150px;
+}
+
+#approval-btn {
+	width: 130px;
+	color: #444;
+	text-align: center;
+}
+
+#approval-btn:hover {
+	text-decoration: none;
+}
+
+
 
 
 

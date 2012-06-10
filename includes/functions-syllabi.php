@@ -307,7 +307,7 @@ function edit_books($id)
 			}
 			print "</select>\n";
 		print "<label for='bookname1' class='lableblock titlelabel'>Title</label>";
-		print "<input id='bookname1' name='bookname1' type='text' class='long title' />n";
+		print "<input id='bookname1' name='bookname1' type='text' class='long title' />\n";
 		print "<label for='author1' class='lableblock authorlabel'>Author</label>";
 		print "<input id='author1' name='author1' type='text' class='long author' />\n";
 		print "<label for='pub1' class='lableblock publabel'>Publisher</label>";
@@ -1127,7 +1127,7 @@ function add_submit_button($classid)
 	if(check_syllabus_details($classid) && check_eval_status($classid) && check_books($classid, "no") && check_meetings($classid, "no"))
 	{
 		//echo "<input type='button' id='approval' class='submitbttn fancybox' href='#inline1' value='Send to Director for Approval' />";
-		echo "<a href='index.php?syllsubmit=$classid'>Send to Director for Approval</a>";
+		echo "<a class='button' id='approval-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
 	}
 }
 
@@ -1155,7 +1155,7 @@ function output_directors()
 		while($row = mysql_fetch_row($results))
 		{
 			list($id, $fname, $lname)=$row;
-			print "<input type='radio' id='$id' name='director' value='$id' /> <label for='$id'>$fname $lname</label><br />\n";
+			print "<label><input type='radio' id='$id' name='director' value='$id' /> $fname $lname</label>\n";
 		}
 	}
 	
@@ -1169,11 +1169,61 @@ function submit_syllabus_for_review($classid)
 		{
 			$query = "update classes set status='1' where id='$classid'";
 			mysql_query($query);
+			
+			$director = $_POST['director'];
+			$userid = $_SESSION['id'];
+			
+			$query = "insert into syll_process values('', '$classid', '$userid', '$director', '1', NOW())";
+			mysql_query($query);
 		}
 		else
 		{
-			print "<div class='feedback error'>Please select an Academic Director</div>"; 
+			print "<div class='feedback error'>ERROR: Please select an Academic Director</div>"; 
 		}
+	}
+}
+
+function display_edit_or_review($classid)
+{
+	$query = "select status from classes where id = '$classid'";
+	$result = mysql_query($query);
+	$rows = mysql_fetch_row($result);
+	$status = $rows[0];
+	
+	switch ($status)
+	{
+		case "0": include('includes/syllabi/edit-syllabus.php'); break;
+		case "1": include('includes/syllabi/review-syllabus.php'); break;
+		default: print "<p class='error'>error, something went wrong</p>";
+	}
+}
+
+function display_syllabus_process_message()
+{
+	$type = $_SESSION['type'];
+	
+	if($type == 1)
+	{
+		$query = "SELECT
+		syll_process.class_id,
+		courses.coursenum,
+		courses.name,
+		users.fname,
+		users.lname
+	FROM
+		syllabusgen.syll_process syll_process,
+		syllabusgen.classes classes,
+		syllabusgen.courses courses,
+		syllabusgen.users users
+	WHERE
+		syll_process.class_id = classes.id AND
+		syll_process.user_id = users.id AND
+		classes.course_id = courses.id AND
+		syll_process.status = 1 
+	order by date_time";
+	
+	$results = mysql_query($query);
+	
 	}
 }
 

@@ -1,10 +1,12 @@
 <div id="loginform">
 
 <form method='post' action="index.php">
-<p>U <input name='login' id="login" type='text' /></p> 
+<label for="id">Username</label>
+<input name='login' id="login" type='text' />
 
-<p>P <input name='password' type='password' /></p>
+<label for='password'>Password</label>
+<input id='password' name='password' type='password' />
 
-<p><input type='submit' name='enter' value= 'login' /></p>
+<input type='submit' name='enter' value= 'login' />
 </form>
 </div>

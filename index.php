@@ -58,7 +58,6 @@
     </div>
     
     <div class="nine columns">
-    <h2 class="mainheader">Your Syllabi</h2>
     
     <!-- page functions here -->
         <?php add_syllabus(); ?>
@@ -70,7 +69,8 @@
 		}
 		elseif(isset($_GET['sylledit']))
 		{
-			include('includes/syllabi/edit-syllabus.php');
+			submit_syllabus_for_review($_GET['sylledit']);
+			display_edit_or_review($_GET['sylledit']);
 		}
 		elseif(isset($_GET['syllsubmit']))
 		{
@@ -78,6 +78,7 @@
 		}
 		else
 		{
+			print "<h2 class='mainheader'>Your Syllabi</h2>";
 			display_user_terms();
 		}
 		?>
@@ -88,7 +89,7 @@
     <h2 class="mainheader">Welcome Back</h2>
     <?php $id = $_SESSION['id']; ?>
     
-	    <div>
+	    <div class="clearfix">
 	    <img src="thumbs/<?php echo profile_item('photo', $id); ?>" class="thumb" />
 	        <div class="miniprofile">
 	        <p><strong><?php echo profile_item('fname', $id); ?> <?php echo profile_item('lname', $id); ?></strong><br>
