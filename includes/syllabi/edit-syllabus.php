@@ -3,7 +3,7 @@
 <?php process_form($classid); ?>
 <?php $data = get_class_details($classid); ?>
 
-<div class="frame container">
+<div class="frame">
 	
     <h4>Course Information</h4>
 	<p><strong>Course:</strong> <?php echo syll_info("coursenum", $classid); ?> <?php echo syll_info("course", $classid); ?><br />
@@ -39,21 +39,20 @@
     
     <?php edit_meeting_times($classid); ?>
     
-    <p><strong><label for="hwhrs">Estimated Homework Hours</label></strong><br />
-    <input type="text" name="hwhrs" id="hwhrs" value="<?php echo $data['hwhrs']; ?>" /> <span class="example">i.e. 4 hours per week</span></p>
+    <label for="hwhrs">Estimated Homework Hours <span class="example">i.e. 4 hours per week</span></label>
+    <input type="text" name="hwhrs" id="hwhrs" value="<?php echo $data['hwhrs']; ?>" /> 
     
-    <p><strong><label for="officehrs">Instructor Availability Outside of Class</label></strong><br />
-    <input type="text" name="officehrs" id="officehrs" value="<?php echo $data['officehrs']; ?>" class="fullwidth" /><br />
-    <span class="example">i.e. Wednesdays from 12 - 1 pm and by appointment</span></p>
+    <label for="officehrs">Instructor Availability Outside of Class <br><span class="example">i.e. Wednesdays from 12 - 1 pm and by appointment</span></label>
+    <input type="text" name="officehrs" id="officehrs" value="<?php echo $data['officehrs']; ?>" class="fullwidth" />
     
-    <p><strong><label for="materials">Materials Required for the Course</label></strong><br />
-    <textarea name="materials" class="tinymice" id="materials" cols=55 rows="5"><?php echo $data['materials']; ?></textarea></p>
+    <label for="materials">Materials Required for the Course</label>
+    <textarea name="materials" class="tinymice" id="materials" cols=55 rows="5"><?php echo $data['materials']; ?></textarea>
     
-    <p><strong><label for="methods">Methods of Instruction</label></strong><br />
-    <textarea name="methods" class="tinymice" id="methods" cols=55 rows="5"><?php echo $data['methods']; ?></textarea></p>
+    <label for="methods">Methods of Instruction</label>
+    <textarea name="methods" class="tinymice" id="methods" cols=55 rows="5"><?php echo $data['methods']; ?></textarea>
     
-    <p><strong><label for="tech">Technology Required</label></strong><br />
-    <textarea name="tech" class="tinymice" id="tech" cols=55 rows="5"><?php echo $data['tech']; ?></textarea></p>
+    <label for="tech">Technology Required</label>
+    <textarea name="tech" class="tinymice" id="tech" cols=55 rows="5"><?php echo $data['tech']; ?></textarea>
     </div><!-- end hide -->
     </div><!-- end frame -->
     
@@ -63,7 +62,7 @@
         <div class="hide">
         <p><span class="desclabel">Description</span> Percent</p>
         <?php edit_eval_process($classid) ?>
-        <p class="rightjustify"><label>Total Percent <input type="text" name="totalpercent" id="totalpercent" readonly="readonly" />%</label></p>
+        <p class="rightjustify"><label>Total Percent <input type="text" name="totalpercent" id="totalpercent" readonly="readonly" /></label></p>
         </div>
     </div>
     
@@ -76,7 +75,7 @@
     </div>
     
     <div class="frame">
-    <h4 class="fold"><label for="focus">Course Focus (optional)</label></h4>
+    <h4 class="fold">Course Focus (optional)</h4>
         <div class="hide">
         <p><span class="example">Use this section to add a descriptive focus for the course</span><br />
         <textarea name="focus" class="tinymice" id="focus" cols=55 rows="5"><?php echo $data['focus']; ?></textarea></p>
@@ -84,7 +83,7 @@
     </div>
     
     <div class="frame">
-    <h4 class="fold"><label for="additional">Additional Requirements (optional)</label></h4>
+    <h4 class="fold">Additional Requirements (optional)</h4>
         <div class="hide">
         <p><span class="example">Use this section to specify any additional requirements for students</span><br />
         <textarea name="additional" class="tinymice" id="additional" cols=55 rows="5"><?php echo $data['addreq']; ?></textarea></p>

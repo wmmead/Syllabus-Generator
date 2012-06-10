@@ -21,7 +21,7 @@ $(document).ready(function(){
 		
 		currentDiv.slideToggle('slow', function(){
 			
-		$(".mceLayout").attr("style", "width:400px;");// this is a hack to fix width on the tinymce textboxes
+		$(".mceLayout").attr("style", "width:480px; margin-bottom:15px;");// this is a hack to fix width on the tinymce textboxes
 			
 		if($(this).is(':hidden'))
 			{

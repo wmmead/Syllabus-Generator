@@ -1,4 +1,4 @@
-<div class="middlecol">
+<div class="nine columns">
 
     <h2 class="mainheader">Create an Account</h2>
     <form method="post" action="users.php?new=yes">

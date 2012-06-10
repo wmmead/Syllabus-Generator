@@ -224,9 +224,9 @@ function display_users()
 			print "<img src='thumbs/$photo' class='thumb' alt='$fname $lname' />";
 		}
 		print "<div>";
-		print "<p><a href='users.php?profileid=$id'>$fname $lname</a></p>";
-		print "<p>Phone: $phone</p>";
-    	print "<p>$email</p>";
+		print "<p><a href='users.php?profileid=$id'>$fname $lname</a><br>";
+		print "$phone<br>";
+    	print "$email</p>";
 		print "</div>";
 		print "</div>";
 	}

@@ -249,7 +249,7 @@ function output_core_competencies($id)
 	$num_rows = mysql_num_rows($result);
 	if($num_rows > 0)
 	{
-		print "<ul>";
+		print "<ul class='disc'>";
 		
 		while($row = mysql_fetch_row($result))
 		{
@@ -261,7 +261,7 @@ function output_core_competencies($id)
 	}
 	else
 	{
-		print "<ul>\n";
+		print "<ul class='disc'>\n";
 		print "<li>none</li>\n";
 		print "</ul>\n";
 	}
@@ -275,7 +275,7 @@ function output_prerequisites($id)
 	$num_rows = mysql_num_rows($result);
 	if($num_rows > 0)
 	{
-		print "<ul>";
+		print "<ul class='disc'>";
 		
 		while($row = mysql_fetch_row($result))
 		{
@@ -287,7 +287,7 @@ function output_prerequisites($id)
 	}
 	else
 	{
-		print "<ul>\n";
+		print "<ul class='disc'>\n";
 		print "<li>none</li>\n";
 		print "</ul>\n";
 	}

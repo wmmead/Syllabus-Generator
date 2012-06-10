@@ -93,7 +93,7 @@ function display_user_terms()
 			
 			if($section < $section_init)
 			{
-				print "<div class='container frame'>\n";
+				print "<div class='frame'>\n";
 				print "<h2>$termnames[$term] $year</h2>\n";
 				print "<div ";
 				if($counter < 3) { print "class='opened'>\n"; }
@@ -143,7 +143,7 @@ function edit_addtl_competencies($id, $type)
 	if($numrows == 0)
 	{
 		print "<p id='input1' class='clonedInput'>\n";
-		print "<label for='comp1'>Competency</label><br />\n";
+		print "<label for='comp1'>Competency</label>\n";
 		print "<input id='comp1' name='comp1' type='text' />\n";
 		print "</p>";
 	}
@@ -153,7 +153,7 @@ function edit_addtl_competencies($id, $type)
 		{
 			list($competency, $order)=$row;
 			print "<p id='input$order' class='clonedInput'>\n";
-			print "<label for='comp$order'>Competency</label><br />\n";
+			print "<label for='comp$order'>Competency</label>\n";
 			print "<input id='comp$order' name='comp$order' type='text' value='$competency' />\n";
 			print "</p>\n";
 		}
@@ -173,7 +173,7 @@ function edit_addtn_grade_policies($id, $type)
 		{
 			list($policy, $order)=$row;
 			print "<p id='policyinput$order' class='clonedPolicy'>\n";
-			print "<label for='policy$order'>Policy</label><br />\n";
+			print "<label for='policy$order'>Policy</label>\n";
 			print "<input id='policy$order' name='policy$order' type='text' class='policyfield' value='$policy' />\n";
 			print "</p>\n";
 		}
@@ -183,7 +183,7 @@ function edit_addtn_grade_policies($id, $type)
 	else
 	{
 		print "<p id='policyinput1' class='clonedPolicy'>\n";
-		print "<label for='policy1'>Policy</label><br />\n";
+		print "<label for='policy1'>Policy</label>\n";
 		print "<input id='policy1' name='policy1' type='text' class='policyfield' />\n";
 		print "</p>\n";
 		print "<p><input type='button' id='addPolicy' value='add another grade policy' /></p>\n";
@@ -235,7 +235,7 @@ function edit_eval_process($id)
 			list($description, $percent, $order) = $row;
 			print "<p id='eval$order' class='clonedeval'>";
 			print "<input type='text' value='$description' name='desc$order' id='desc$order' class='description' />";
-			print "<input type='text' value='$percent' name='perc$order' id='perc$order' class='percent' />%";
+			print "<input type='text' value='$percent' name='perc$order' id='perc$order' class='percent' /><span style='float:left;display:block;padding:5px;'>%</span>";
 			print "</p>\n";
 		}
 		print "<p><input type='button' id='addEval' value='add an evaluation item' /></p>\n";
@@ -244,7 +244,7 @@ function edit_eval_process($id)
 	{
 		print "<p id='eval1' class='clonedeval'>";
 		print "<input type='text' name='desc1' id='desc1' class='description' />";
-		print "<input type='text' name='perc1' id='perc1' class='percent' />%";
+		print "<input type='text' name='perc1' id='perc1' class='percent' /><span style='float:left;display:block;padding:10px 0;'>%</span>";
 		print "</p>\n";
 		print "<p><input type='button' id='addEval' value='add an evaluation item' /></p>\n";
 	}
@@ -264,6 +264,7 @@ function edit_books($id)
 		{
 			list($bookid, $classid, $title, $author, $publisher, $date, $isbn, $link, $type, $order) = $row;
 			print "<p id=book$order class='clonedbook frame'>\n";
+			print "<label>Type of book</label>\n";
 			print "<select name='booktype$order' class='booktype'>\n";
 			print "<option value='0'>---</option>\n";
 			for ($i=1; $i<4; $i++)
@@ -277,19 +278,19 @@ function edit_books($id)
 					print "<option value='$i'>$booktypes[$i]</option>\n";
 				}
 			}
-			print "</select><br /><br />\n";
+			print "</select>\n";
 			print "<label for='bookname$order' class='lableblock titlelabel'>Title</label>";
-			print "<input id='bookname$order' name='bookname$order' type='text' class='long title' value='$title' /><br /><br />\n";
+			print "<input id='bookname$order' name='bookname$order' type='text' class='long title' value='$title' />\n";
 			print "<label for='author$order' class='lableblock authorlabel'>Author</label>";
-			print "<input id='author$order' name='author$order' type='text'  class='long author' value='$author' /><br /><br />\n";
+			print "<input id='author$order' name='author$order' type='text'  class='long author' value='$author' />\n";
 			print "<label for='pub$order' class='lableblock publabel'>Publisher</label>";
-			print "<input id='pub$order' name='pub$order' type='text'  class='long publisher' value='$publisher' /><br /><br />\n";
+			print "<input id='pub$order' name='pub$order' type='text'  class='long publisher' value='$publisher' />\n";
 			print "<label for='date$order' class='lableblock datetitle'>Date</label>";
 			print "<input id='date$order' name='date$order' type='text' class='short date' value='$date' />\n";
 			print "<label for='isbn$order' class='lableblock noclear isbntitle'>ISBN</label>";
-			print "<input id='isbn$order' name='isbn$order' type='text' class='short isbn' value='$isbn' /><br /><br />\n";
+			print "<input id='isbn$order' name='isbn$order' type='text' class='short isbn' value='$isbn' />\n";
 			print "<label for='link$order' class='lableblock linktitle'>Link</label>";
-			print "<input id='link$order' name='link$order' type='text' class='long link' value='$link' /><br /><br />\n";
+			print "<input id='link$order' name='link$order' type='text' class='long link' value='$link' />\n";
 			print "</p>";
 		}
 	}
@@ -297,25 +298,26 @@ function edit_books($id)
 	else
 	{
 		print "<p id=book1 class='clonedbook frame'>\n";
+		print "<label>Type of book</label>\n";
 		print "<select name='booktype1' class='booktype'>\n";
 			print "<option value='0' selected='selected'>---</option>\n";
 			for ($i=1; $i<4; $i++)
 			{
 				print "<option value='$i'>$booktypes[$i]</option>\n";
 			}
-			print "</select><br /><br />\n";
+			print "</select>\n";
 		print "<label for='bookname1' class='lableblock titlelabel'>Title</label>";
-		print "<input id='bookname1' name='bookname1' type='text' class='long title' /><br /><br />\n";
+		print "<input id='bookname1' name='bookname1' type='text' class='long title' />n";
 		print "<label for='author1' class='lableblock authorlabel'>Author</label>";
-		print "<input id='author1' name='author1' type='text' class='long author' /><br /><br />\n";
+		print "<input id='author1' name='author1' type='text' class='long author' />\n";
 		print "<label for='pub1' class='lableblock publabel'>Publisher</label>";
-		print "<input id='pub1' name='pub1' type='text' class='long publisher' /><br /><br />\n";
+		print "<input id='pub1' name='pub1' type='text' class='long publisher' />\n";
 		print "<label for='date1' class='lableblock datetitle'>Date</label>";
 		print "<input id='date1' name='date1' type='text' class='short date' />";
 		print "<label for='isbn1' class='lableblock noclear isbntitle'>ISBN</label>";
-		print "<input id='isbn1' name='isbn1' type='text' class='short isbn' /><br /><br />\n";
+		print "<input id='isbn1' name='isbn1' type='text' class='short isbn' />\n";
 		print "<label for='link1' class='lableblock linktitle'>Link</label>";
-		print "<input id='link1' name='link1' type='text' class='long link' /><br /><br />\n";
+		print "<input id='link1' name='link1' type='text' class='long link' />\n";
 		print "</p>";
 	}
 	print "<p><input type='button' id='addBook' value='add another book' /></p>\n";
