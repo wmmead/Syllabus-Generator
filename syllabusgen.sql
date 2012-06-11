@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 08, 2012 at 09:44 PM
+-- Generation Time: Jun 10, 2012 at 10:27 PM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -59,17 +59,17 @@ INSERT INTO `activities` VALUES(52, 10, 8, '');
 INSERT INTO `activities` VALUES(53, 10, 9, '');
 INSERT INTO `activities` VALUES(54, 10, 10, '');
 INSERT INTO `activities` VALUES(55, 10, 11, '');
-INSERT INTO `activities` VALUES(56, 11, 1, '<p>The first week we will do some stuff...</p>');
-INSERT INTO `activities` VALUES(57, 11, 2, '<p>another thing in here</p>');
-INSERT INTO `activities` VALUES(58, 11, 3, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(59, 11, 4, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(60, 11, 5, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(61, 11, 6, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(62, 11, 7, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(63, 11, 8, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(64, 11, 9, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(65, 11, 10, '<p>even more stuff</p>');
-INSERT INTO `activities` VALUES(66, 11, 11, '<p>even more stuff</p>');
+INSERT INTO `activities` VALUES(56, 11, 1, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(57, 11, 2, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(58, 11, 3, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(59, 11, 4, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(60, 11, 5, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(61, 11, 6, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(62, 11, 7, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(63, 11, 8, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(64, 11, 9, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(65, 11, 10, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
+INSERT INTO `activities` VALUES(66, 11, 11, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
 INSERT INTO `activities` VALUES(67, 12, 1, '');
 INSERT INTO `activities` VALUES(68, 12, 2, '');
 INSERT INTO `activities` VALUES(69, 12, 3, '');
@@ -156,7 +156,7 @@ CREATE TABLE `classes` (
 
 INSERT INTO `classes` VALUES(9, 5, 1, 11, 0, 0);
 INSERT INTO `classes` VALUES(10, 10, 1, 11, 1, 0);
-INSERT INTO `classes` VALUES(11, 1, 1, 13, 0, 1);
+INSERT INTO `classes` VALUES(11, 1, 1, 13, 0, 2);
 INSERT INTO `classes` VALUES(12, 5, 1, 13, 0, 0);
 INSERT INTO `classes` VALUES(13, 10, 1, 14, 0, 0);
 INSERT INTO `classes` VALUES(14, 1, 1, 15, 0, 0);
@@ -214,7 +214,7 @@ CREATE TABLE `class_details` (
 
 INSERT INTO `class_details` VALUES(1, 10, '<p>We have lots of important materials</p>', '<p>We teach u <span style="text-decoration: underline;"><em><strong>real</strong></em></span> good.</p>', '<p>We are gonna use computers and stuff.</p>', '4 hours per week', 'I am available pretty much all the time', '<p>You must be a good student.</p>', '<p>Lets focus on making some cool stuff.</p>');
 INSERT INTO `class_details` VALUES(2, 9, '<p>lots of materials</p>', '<p>We teach <strong><span style="text-decoration: underline;"><em>good</em></span></strong> shit</p>', '<p>computers and stuff</p>', '4 hours per week', 'sometimes whenever', '', '');
-INSERT INTO `class_details` VALUES(3, 11, '<p>big cheese</p>', '<p>more cheese</p>', '<p>Lots of cheese</p>', '4 hours per week', 'all the freaking time', '', '');
+INSERT INTO `class_details` VALUES(3, 11, '<p>big cheese</p>', '<p>more cheese</p>', '<p>Lots of cheese</p>', '4 hours per week', 'all the freaking time', '<p>Here are some additional requirements for the course. Just in case there were not enough before I added these.</p>', '<p>The focus of this course is on interface design elements and design patterns commonly found in web interfaces</p>');
 INSERT INTO `class_details` VALUES(4, 12, '<p>none</p>', '<p>sdfsdfsdsd</p>', '<p>fsdsdfsdf</p>', '4 hourse', 'whenever', '', '');
 INSERT INTO `class_details` VALUES(5, 13, '<p>USB Drive, notebook and your brain</p>', '<p>In class lectures and lab time.</p>', '<p>Computers, Internet, and Adobe Creative Suite</p>', '4 hours per week', 'One hour before class on Mondays', '', '');
 INSERT INTO `class_details` VALUES(6, 14, '<p>There are lots of materials required for this class.</p>', '<p>In class demonstrations, as well as research and development work.</p>', '<p>Computers and Adobe Creative Suite</p>', '4 hours per week', 'After class on mondays and by appointment', '', '');
@@ -233,7 +233,7 @@ CREATE TABLE `competencies` (
   `type` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=145 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=147 ;
 
 --
 -- Dumping data for table `competencies`
@@ -266,6 +266,8 @@ INSERT INTO `competencies` VALUES(141, 5, 0, 'Apply the basic principles of inst
 INSERT INTO `competencies` VALUES(142, 5, 0, 'Develop a concept for an instructional project.', 0, 4);
 INSERT INTO `competencies` VALUES(143, 5, 0, 'Support instructional needs effectively with multimedia elements including sound, video, and animation.', 0, 5);
 INSERT INTO `competencies` VALUES(144, 5, 0, 'Design and produce an interactive instructional project.', 0, 6);
+INSERT INTO `competencies` VALUES(145, 0, 11, 'Students must learn how to do xyx', 1, 1);
+INSERT INTO `competencies` VALUES(146, 0, 11, 'Also, students must learn how to do ABC', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -379,7 +381,7 @@ INSERT INTO `evalscales` VALUES(20, 9, 'other stuff', 50, 3);
 INSERT INTO `evalscales` VALUES(21, 10, 'Stuff', 100, 1);
 INSERT INTO `evalscales` VALUES(28, 11, 'something', 80, 1);
 INSERT INTO `evalscales` VALUES(29, 11, 'else', 10, 2);
-INSERT INTO `evalscales` VALUES(30, 11, 'Oh, one more thing', 10, 3);
+INSERT INTO `evalscales` VALUES(30, 11, 'Here is a really long description of stuff you might do in class', 10, 3);
 INSERT INTO `evalscales` VALUES(32, 12, 'tests', 20, 1);
 INSERT INTO `evalscales` VALUES(33, 12, 'quizes', 30, 2);
 INSERT INTO `evalscales` VALUES(34, 12, 'homework', 50, 3);
@@ -407,7 +409,7 @@ CREATE TABLE `gradingpolicies` (
   `policy` varchar(255) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=85 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
 
 --
 -- Dumping data for table `gradingpolicies`
@@ -437,6 +439,8 @@ INSERT INTO `gradingpolicies` VALUES(81, 14, NULL, 0, 'All work must be received
 INSERT INTO `gradingpolicies` VALUES(82, 14, NULL, 0, 'Late work receives a grade of zero.', 5);
 INSERT INTO `gradingpolicies` VALUES(83, 14, NULL, 0, 'On-time projects may be redone with instructor approval.', 6);
 INSERT INTO `gradingpolicies` VALUES(84, 14, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
+INSERT INTO `gradingpolicies` VALUES(85, 0, 11, 1, 'Students will also be graded on how well they can do XYZ', 1);
+INSERT INTO `gradingpolicies` VALUES(86, 0, 11, 1, 'Students must also show they can do this and that too.', 2);
 
 -- --------------------------------------------------------
 
@@ -504,6 +508,29 @@ INSERT INTO `sections` VALUES(29, 14, 'Library Operation Hours:', '<p>The librar
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `syll_process`
+--
+
+CREATE TABLE `syll_process` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `director_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `date_time` datetime NOT NULL,
+  `message` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `syll_process`
+--
+
+INSERT INTO `syll_process` VALUES(3, 11, 1, 6, 2, '2012-06-10 22:10:42', 'That is great');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `terms`
 --
 
@@ -553,7 +580,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(1, 'William', 'Mead', 'wmmead', 0xb99f24961740, 0, '530-313-5141', 'wmead@aii.edu', 1, 'userphoto1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porttitor consequat augue, id ullamcorper est cursus sagittis. Praesent vel nibh sit amet arcu euismod euismod. In porta rhoncus sem, nec elementum lacus suscipit id. Praesent molestie adipiscing magna, a tempus sem semper a. Cras nibh ante, mattis a iaculis a, vehicula et nisi. In tincidunt ullamcorper pulvinar. Vivamus ut tristique ipsum. Morbi diam urna, lacinia et sollicitudin feugiat, condimentum ac urna. Duis aliquet adipiscing sem quis sagittis. Morbi sed dolor elit.');
+INSERT INTO `users` VALUES(1, 'William', 'Mead', 'wmmead', 0xb99f24961740, 0, '530-219-8998', 'wmead@aii.edu', 1, 'userphoto1.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porttitor consequat augue, id ullamcorper est cursus sagittis. Praesent vel nibh sit amet arcu euismod euismod. In porta rhoncus sem, nec elementum lacus suscipit id. Praesent molestie adipiscing magna, a tempus sem semper a. Cras nibh ante, mattis a iaculis a, vehicula et nisi. In tincidunt ullamcorper pulvinar. Vivamus ut tristique ipsum. Morbi diam urna, lacinia et sollicitudin feugiat, condimentum ac urna. Duis aliquet adipiscing sem quis sagittis. Morbi sed dolor elit.');
 INSERT INTO `users` VALUES(3, 'Joey', 'Schmo', 'jschmo', 0xb99f24961740, 2, '123-456-6789', 'Bill@meaddesign.net', 1, 'userphoto3.jpg', 'Hi, I am the main administrator on this system!');
 INSERT INTO `users` VALUES(4, 'Sandy', 'Green', 'sgreen', 0xb99f24961740, 0, '213-098-9876', 'sgreen@gmail.com', 1, 'userphoto4.jpg', 'none listed');
 INSERT INTO `users` VALUES(5, 'Bob', 'Smith', 'bsmith', 0xb99f24961740, 1, '432-345-5431', 'bill@meaddesign.net', 1, '', 'none listed');
