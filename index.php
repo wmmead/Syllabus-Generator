@@ -61,6 +61,7 @@
     
     <!-- page functions here -->
         <?php add_syllabus(); ?>
+        <?php process_syllabus_review(); ?>
     
     <?php
         if(isset($_GET['addsyll']))
@@ -76,6 +77,16 @@
 		{
 			include('includes/syllabi/submit-syllabus.php');
 		}
+		elseif(isset($_GET['syllreview']))
+		{
+			include_message_form($_GET['syllreview']);
+			include('includes/syllabi/review-syllabus.php');
+		}
+		elseif(isset($_GET['syllrespond']))
+		{
+			include('includes/syllabi/respond-syllabus.php');
+		}
+		
 		else
 		{
 			print "<h2 class='mainheader'>Your Syllabi</h2>";
@@ -100,6 +111,9 @@
 	    </div>
         
         <h2 class="mainheader">Messages</h2>
+        <div id="messages">
+        	<?php display_syllabus_process_message(); ?>
+        </div>
     </div><!-- end three columns right side -->
     
 </div>

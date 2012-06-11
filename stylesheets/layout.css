@@ -166,17 +166,21 @@ input#totalpercent {
 	width: 150px;
 }
 
-#approval-btn {
+.link-btn {
 	width: 130px;
 	color: #444;
 	text-align: center;
 }
 
-#approval-btn:hover {
+.link-btn:hover {
 	text-decoration: none;
 }
 
+/********* Message Column Styles *****************/
 
+#messages h4 {
+	line-height: normal;
+}
 
 
 

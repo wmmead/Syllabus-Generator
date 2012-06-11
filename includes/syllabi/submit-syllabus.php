@@ -11,7 +11,10 @@
         
         <p><?php output_directors(); ?></p>
         
-        <p><input type="submit" name="submitsyllabus" value="Submit for Review" id="submitsyllabus" /></p>
+        <p><em>Optional, add a message for the Director.</em></p>
+        <textarea id='message' cols='50' rows='10' name='message'></textarea>
+        
+        <input type="submit" name="submitsyllabus" value="Submit for Review" id="submitsyllabus" />
         
         <p>Or you can <a href="index.php?sylledit=<?php echo $classid; ?>">cancel</a> and go back to editing the syllabus.</p>
         

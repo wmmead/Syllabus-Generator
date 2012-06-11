@@ -1127,7 +1127,7 @@ function add_submit_button($classid)
 	if(check_syllabus_details($classid) && check_eval_status($classid) && check_books($classid, "no") && check_meetings($classid, "no"))
 	{
 		//echo "<input type='button' id='approval' class='submitbttn fancybox' href='#inline1' value='Send to Director for Approval' />";
-		echo "<a class='button' id='approval-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
+		echo "<a class='button link-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
 	}
 }
 
@@ -1172,9 +1172,25 @@ function submit_syllabus_for_review($classid)
 			
 			$director = $_POST['director'];
 			$userid = $_SESSION['id'];
+			$message = mysql_prep($_POST['message']);
 			
-			$query = "insert into syll_process values('', '$classid', '$userid', '$director', '1', NOW())";
-			mysql_query($query);
+			$query = "SELECT COUNT(class_id) FROM syll_process WHERE class_id = '$classid'";
+			$results = mysql_query($query);
+			$row = mysql_fetch_row($results);
+			$count = $row[0];
+			
+			if($count == 1)
+			{
+				$query ="update syll_process set director_id='$director', status='1', date_time=NOW(), message='$message' where class_id='$classid'";
+				mysql_query($query);
+			}
+
+			else
+			{
+				$query = "insert into syll_process values('', '$classid', '$userid', '$director', '1', NOW(), '$message')";
+				mysql_query($query);
+			}
+			
 		}
 		else
 		{
@@ -1194,6 +1210,7 @@ function display_edit_or_review($classid)
 	{
 		case "0": include('includes/syllabi/edit-syllabus.php'); break;
 		case "1": include('includes/syllabi/review-syllabus.php'); break;
+		case "2": include('includes/syllabi/review-syllabus.php'); break;
 		default: print "<p class='error'>error, something went wrong</p>";
 	}
 }
@@ -1201,6 +1218,7 @@ function display_edit_or_review($classid)
 function display_syllabus_process_message()
 {
 	$type = $_SESSION['type'];
+	$userid = $_SESSION['id'];
 	
 	if($type == 1)
 	{
@@ -1219,11 +1237,111 @@ function display_syllabus_process_message()
 		syll_process.class_id = classes.id AND
 		syll_process.user_id = users.id AND
 		classes.course_id = courses.id AND
-		syll_process.status = 1 
+		syll_process.status = 1 AND 
+		syll_process.director_id = '$userid' 
 	order by date_time";
 	
 	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
 	
+		if($numrows > 0)
+		{
+			while($rows = mysql_fetch_row($results))
+			{
+				list($classid, $coursenum, $coursename, $fname, $lname) = $rows;
+				
+				echo "<div class='frame'>\n";
+				echo "<h4>Review Request</h4>\n";
+				echo "<p>Instructor <strong>$fname $lname</strong> has submitted a syllabus 
+				for <strong>$coursenum $coursename</strong> for review.</p>\n";
+				echo "<p class='remove-bottom'>Please <a href='index.php?syllreview=$classid'>review</a> the syllabus.</p>\n";
+				echo "</div>";
+			}		
+		}
+	}
+	
+	if($type == 0)
+	{
+		$query = "SELECT COUNT(class_id) FROM syll_process WHERE status = 0 OR status = 2 AND user_id = '$userid'";
+		$results = mysql_query($query);
+		$row = mysql_fetch_row($results);
+		$count = $row[0];
+		
+		if($count > 0)
+		{
+			output_instructor_messages($userid);
+		}
+	}
+}
+
+function include_message_form($classid)
+{
+	$query = "select message from syll_process where class_id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		$message = $row[0];
+		if($message != '')
+		{
+			include("includes/syllabi/message.php");
+		}
+	}
+}
+
+function output_message($classid)
+{
+$query = "select message from syll_process where class_id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		$message = $row[0];
+		if($message != '')
+		{
+			echo "<h3>Important Message</h3>\n";
+			echo "<p>$message</p>";
+		}
+	}
+}
+
+function output_status_bar($classid)
+{
+	$type = $_SESSION['type'];
+	
+	if($type > 0)
+	{
+		echo "<div id='updatebar'>\n";
+		echo "<a href='index.php?syllrespond=$classid' class='button link-btn'>Respond to Request</a>";
+		echo "</div>";
+	}
+}
+
+function process_syllabus_review()
+{
+	if(isset($_POST['respondsyllabus']))
+	{
+		$response = $_POST['response'];
+		$classid = $_POST['classid'];
+		$message = mysql_prep($_POST['message']);
+		if($response == "approve")
+		{
+			$query = "update syll_process set status='2', date_time=NOW(), message='$message' where class_id='$classid'";
+			mysql_query($query);
+			$query = "update classes set status='2' where id='$classid'";
+			mysql_query($query);	
+		}
+		else
+		{
+			$query = "update syll_process set status='0', date_time=NOW(), message='$message' where class_id='$classid'";
+			mysql_query($query);
+			$query = "update classes set status='0' where id='$classid'";
+			mysql_query($query);
+		}
 	}
 }
 
@@ -1250,6 +1368,58 @@ function pull_data_from_array($data, $item, $itemlength)
 	
 	$data = array($counter, $fieldnum);
 	return $data;
+}
+
+function output_instructor_messages($userid)
+{
+	$terms = array('', 'Winter', 'Spring', 'Summer', 'Fall');
+	$query = "SELECT
+	syll_process.class_id,
+	syll_process.status,
+	courses.coursenum,
+	courses.name,
+	users.fname,
+	users.lname,
+	users.email,
+	terms.term,
+	terms.year
+FROM
+	syllabusgen.syll_process syll_process,
+	syllabusgen.classes classes,
+	syllabusgen.courses courses,
+	syllabusgen.users users,
+	syllabusgen.terms terms
+WHERE
+	syll_process.class_id = classes.id AND
+	syll_process.director_id = users.id AND
+	classes.course_id = courses.id AND
+	classes.term_id = terms.id AND
+	syll_process.user_id = $userid AND
+	syll_process.status != 1 order by syll_process.date_time";
+	
+	$results = mysql_query($query);
+	
+	while($rows = mysql_fetch_row($results))
+	{
+		list($classid, $status, $coursenum, $coursename, $fname, $lname, $email, $termnum, $year) = $rows;
+		
+		if($status == '0')
+		{
+			echo "<div class='frame'>";
+			echo "<p>$fname $lname has requested that you revise the syllabus for $coursenum $coursename for $terms[$termnum] $year.</p>\n";
+			echo "<p>please <a href='index.php?sylledit=$classid'>revise the syllabus</a> and resubmit it.";
+			echo "</div>";
+		}
+		if($status == '2')
+		{
+			echo "<div class='frame'>";
+			echo "<p>Congratulations $fname $lname has approved the syllabus for $coursenum $coursename for $terms[$termnum] $year.</p>\n";
+			echo "<p>Please <a href='index.php?sylledit=$classid'>view the syllabus</a> and generate the file to upload to the class site</p>";
+			echo "<p>You can <a href='#'>delete this message</a>.</p>";
+			echo "</div>";
+		}
+	}
+	
 }
 
 ?>

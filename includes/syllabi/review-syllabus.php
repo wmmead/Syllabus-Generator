@@ -1,10 +1,19 @@
 <?php include("includes/functions-syllabus-read.php"); ?>
-<?php $classid = $_GET['sylledit']; ?>
+<?php 
+	if(isset($_GET['sylledit']))
+	{
+		$classid = $_GET['sylledit'];
+	}
+	elseif(isset($_GET['syllreview']))
+	{
+		$classid = $_GET['syllreview'];
+	}
+?>
 
 <?php $data = get_class_details($classid); ?>
 
 <div class="frame">
-	<h2>Your Syllabus</h2>
+	<h2>Course Syllabus</h2>
     <h4>Course Information</h4>
 	<p><strong>Course:</strong> <?php echo syll_info("coursenum", $classid); ?> <?php echo syll_info("course", $classid); ?><br />
     <strong>Instructor:</strong> <?php echo syll_info("fname", $classid); ?> <?php echo syll_info("lname", $classid); ?><br />
@@ -45,6 +54,8 @@
     <?php ouput_book_details($classid); ?>
     
     <?php output_activities($classid); ?>
+    
+    <?php output_status_bar($classid); ?>
     
     
    
