@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 10, 2012 at 10:27 PM
+-- Generation Time: Jun 11, 2012 at 11:47 PM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -158,7 +158,7 @@ INSERT INTO `classes` VALUES(9, 5, 1, 11, 0, 0);
 INSERT INTO `classes` VALUES(10, 10, 1, 11, 1, 0);
 INSERT INTO `classes` VALUES(11, 1, 1, 13, 0, 2);
 INSERT INTO `classes` VALUES(12, 5, 1, 13, 0, 0);
-INSERT INTO `classes` VALUES(13, 10, 1, 14, 0, 0);
+INSERT INTO `classes` VALUES(13, 10, 1, 14, 0, 1);
 INSERT INTO `classes` VALUES(14, 1, 1, 15, 0, 0);
 
 -- --------------------------------------------------------
@@ -409,7 +409,7 @@ CREATE TABLE `gradingpolicies` (
   `policy` varchar(255) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
 
 --
 -- Dumping data for table `gradingpolicies`
@@ -441,6 +441,13 @@ INSERT INTO `gradingpolicies` VALUES(83, 14, NULL, 0, 'On-time projects may be r
 INSERT INTO `gradingpolicies` VALUES(84, 14, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
 INSERT INTO `gradingpolicies` VALUES(85, 0, 11, 1, 'Students will also be graded on how well they can do XYZ', 1);
 INSERT INTO `gradingpolicies` VALUES(86, 0, 11, 1, 'Students must also show they can do this and that too.', 2);
+INSERT INTO `gradingpolicies` VALUES(87, 15, NULL, 0, 'Class time will be spent in a productive manner.', 1);
+INSERT INTO `gradingpolicies` VALUES(88, 15, NULL, 0, 'Grading will be done on a point system.', 2);
+INSERT INTO `gradingpolicies` VALUES(89, 15, NULL, 0, 'Points for individual activities will be announced.', 3);
+INSERT INTO `gradingpolicies` VALUES(90, 15, NULL, 0, 'All work must be received by the set deadlines.', 4);
+INSERT INTO `gradingpolicies` VALUES(91, 15, NULL, 0, 'Late work receives a grade of zero.', 5);
+INSERT INTO `gradingpolicies` VALUES(92, 15, NULL, 0, 'On-time projects may be redone with instructor approval.', 6);
+INSERT INTO `gradingpolicies` VALUES(93, 15, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
 
 -- --------------------------------------------------------
 
@@ -478,7 +485,7 @@ CREATE TABLE `sections` (
   `content` text NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `sections`
@@ -504,6 +511,14 @@ INSERT INTO `sections` VALUES(26, 14, 'Academic Dishonesty:', '<p>Students are e
 INSERT INTO `sections` VALUES(27, 14, 'Disability Policy Statement:', '<p>It is our policy not to discriminate against qualified students with documented disabilities in our educational programs, activities, or services. If you have a disability-related need for adjustments or other accommodations in this class see Steven Franklin, Director of Student Affairs located on the 2<sup>nd</sup> &nbsp;floor or e-mail him at sfranklin@aii.edu. You must inform your instructors and the Academic Affairs Office before the end of week one of classes and preferably before the class start.</p>', 6);
 INSERT INTO `sections` VALUES(28, 14, 'Student Assistance Program:', '<p>The college provides confidential short-term counseling, crisis intervention, and community referral services through the AllOne Health Student Assistance Program (SAP) for a wide range of concerns, including relationship issues, family problems, loneliness, depression, and alcohol or drug abuse. Services are available 24 hours a day, 7 days a week, at 1.888-617-3362. The Student Affairs office also offers programs on mental health-related topics each quarter. If you have any questions regarding counseling services, please contact the Student Affairs office.</p>', 7);
 INSERT INTO `sections` VALUES(29, 14, 'Library Operation Hours:', '<p>The library is open from 8 AM to 8 PM Monday &ndash; Thursday, 8 AM to 5 PM on Friday and 9 AM to 2 PM on Saturday. The library is closed on Sunday.&nbsp; Computers are available during these hours for students to work on classroom projects.</p>', 8);
+INSERT INTO `sections` VALUES(30, 15, 'Quarter Credit Hour Definition:', '<p>A quarter credit hour is an amount of work represented in intended learning outcomes and verified by evidence of student achievement that is an institutionally established equivalency that reasonably approximates not less than:</p>\r\n<p>(1) One hour of classroom or direct faculty instruction and a minimum of two hours of out-of-class student work each week for 10-12 weeks, or the equivalent amount of work over a different amount of time; or</p>\r\n<p>(2) At least an equivalent amount of work as required in paragraph (1) of this definition for other academic activities as established by the institution including laboratory work, internships, practica, studio work, and other academic work leading to the award of credit hours.</p>', 1);
+INSERT INTO `sections` VALUES(31, 15, 'Classroom Policy:', '<ul>\r\n<li>No food allowed in class or lab at any time. Drinks in recloseable bottles allowed in classroom.</li>\r\n<li>Edible items brought to class or lab must be thrown out.</li>\r\n<li>If student elects to eat/drink outside class or lab door, missed time is recorded as absent.</li>\r\n<li>Attendance is taken hourly. Tardiness or absence is recorded in 15-minute increments.</li>\r\n<li>Break times are scheduled by the instructor at appropriate intervals.</li>\r\n<li>No private software is to be brought to lab or loaded onto school computers.</li>\r\n<li>No software games are allowed in lab (unless in course curriculum).</li>\r\n<li>Headphones are required if listening to music during lab. No headphones are allowed in lecture.</li>\r\n<li>Any student who has special needs that may affect his or her performance in this class is asked to identify his/her needs to the instructor in private by the end of the first day of class. Any resulting class performance problems that may arise for those who do not identify their needs will not receive any special grading considerations.</li>\r\n<li>It is AI-Sacramento policy that cell phones may NOT be used in the classroom. If you have an emergency that requires you to take a call during class, you MUST inform the instructor before class begins, and step outside the room to take the call or text message.</li>\r\n</ul>', 2);
+INSERT INTO `sections` VALUES(32, 15, 'School-wide Attendance Policy:', '<p>Students who do not attend any classes for fourteen (14) consecutive calendar days and fail to notify the Academic Affairs Department will be withdrawn from school.&nbsp; In addition, the student may be involuntarily withdrawn at the discretion of the Academic Director, and with the approval of the Dean of Academic Affairs, at any time.</p>', 3);
+INSERT INTO `sections` VALUES(33, 15, 'Withdraw from a Course:', '<p>In order to withdraw from a course (that is, receive a grade of &ldquo;W&rdquo;), a student must meet with his or her Academic Director before noon on the Friday of week 9.</p>', 4);
+INSERT INTO `sections` VALUES(34, 15, 'Academic Dishonesty:', '<p>Students are expected to maintain the highest standards of academic honesty while pursuing their studies at The Art Institutes. Academic dishonesty includes but is not limited to: plagiarism and cheating; misuse of academic resources or facilities; and misuse of computer software, data, equipment or networks.</p>\r\n<p>Plagiarism is the use (copying) of another person&rsquo;s ideas, words, visual images or audio samples, presented in a manner that makes the work appear to be the student&rsquo;s original creation. All work that is not the student&rsquo;s original creation, or any idea or fact that is not &ldquo;common knowledge,&rdquo; must be documented to avoid even accidental infractions of the conduct code.</p>\r\n<p>Cheating is to gain unfair advantage on a grade by deception, fraud, or breaking the rules set forth by the instructor of the class. Cheating may include but is not limited to: copying the work of others; using notes or other materials when unauthorized; communicating to others during an exam; and any other unfair advantage as determined by the instructor.</p>\r\n<p>Students accused of academic dishonesty will be brought before a Student Conduct Committee. If the committee determines that there has been a violation of the Academic Dishonesty policy, the student will automatically fail the class and, depending on the severity of the infraction, may face further disciplinary action up to and including suspension from classes or expulsion from school.</p>', 5);
+INSERT INTO `sections` VALUES(35, 15, 'Disability Policy Statement:', '<p>It is our policy not to discriminate against qualified students with documented disabilities in our educational programs, activities, or services. If you have a disability-related need for adjustments or other accommodations in this class see Steven Franklin, Director of Student Affairs located on the 2<sup>nd</sup> &nbsp;floor or e-mail him at sfranklin@aii.edu. You must inform your instructors and the Academic Affairs Office before the end of week one of classes and preferably before the class start.</p>', 6);
+INSERT INTO `sections` VALUES(36, 15, 'Student Assistance Program:', '<p>The college provides confidential short-term counseling, crisis intervention, and community referral services through the AllOne Health Student Assistance Program (SAP) for a wide range of concerns, including relationship issues, family problems, loneliness, depression, and alcohol or drug abuse. Services are available 24 hours a day, 7 days a week, at 1.888-617-3362. The Student Affairs office also offers programs on mental health-related topics each quarter. If you have any questions regarding counseling services, please contact the Student Affairs office.</p>', 7);
+INSERT INTO `sections` VALUES(37, 15, 'Library Operation Hours:', '<p>The library is open from 8 AM to 8 PM Monday &ndash; Thursday, 8 AM to 5 PM on Friday and 9 AM to 2 PM on Saturday. The library is closed on Sunday.&nbsp; Computers are available during these hours for students to work on classroom projects.</p>', 8);
 
 -- --------------------------------------------------------
 
@@ -527,6 +542,7 @@ CREATE TABLE `syll_process` (
 --
 
 INSERT INTO `syll_process` VALUES(3, 11, 1, 6, 2, '2012-06-10 22:10:42', 'That is great');
+INSERT INTO `syll_process` VALUES(4, 13, 1, 6, 1, '2012-06-11 21:10:14', 'I think this one is good to go. Great course for students.');
 
 -- --------------------------------------------------------
 
@@ -585,5 +601,5 @@ INSERT INTO `users` VALUES(3, 'Joey', 'Schmo', 'jschmo', 0xb99f24961740, 2, '123
 INSERT INTO `users` VALUES(4, 'Sandy', 'Green', 'sgreen', 0xb99f24961740, 0, '213-098-9876', 'sgreen@gmail.com', 1, 'userphoto4.jpg', 'none listed');
 INSERT INTO `users` VALUES(5, 'Bob', 'Smith', 'bsmith', 0xb99f24961740, 1, '432-345-5431', 'bill@meaddesign.net', 1, '', 'none listed');
 INSERT INTO `users` VALUES(6, 'John', 'Dingleberry', 'jdingle', 0xb99f24961740, 1, '121-212-1122', 'mead@greasyfur.com', 1, '', '');
-INSERT INTO `users` VALUES(7, 'Phat', 'Monster', 'monster', 0xb99f24961740, 0, '222-333-4444', 'monster@somewhere.com', 1, 'userphoto7.jpg', 'none listed');
+INSERT INTO `users` VALUES(7, 'Phat', 'Monster', 'monster', 0xb99f24961740, 0, '222-333-4444', 'monster@really.long.somewhere.com', 1, 'userphoto7.jpg', 'none listed');
 INSERT INTO `users` VALUES(8, 'Mary', 'Johnson', 'mjohnson', 0xb99f24961740, 1, '340-549-2233', 'wmmead@mac.com', 1, '', '');
