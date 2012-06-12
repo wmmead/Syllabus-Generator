@@ -12,7 +12,7 @@
     <h2 class="mainheader">Edit Term Dates</h2>
     <form method="post" action="admin.php?termeid=<?php echo $id; ?>">
     	<input type="hidden" name="id" value="<?php echo $id; ?>" />
-    	<div class="container">
+    	<div>
         <div>
         <label for="term"><strong>Term:</strong></label>
         <select name="term">
@@ -58,7 +58,7 @@
         </select>
         </div>
         </div>
-        <div class="container">
+        <div>
         <h2 class="mainheader">Edit Holidays</h2>
             
             <?php edit_holidays(); ?>

@@ -93,11 +93,11 @@
 		?>
     </div><!-- end nine columns middle -->
     
-    <div class="three columns">
+    <div class="three columns userlist">
     <h2 class="mainheader">Welcome Back</h2>
     <?php $id = $_SESSION['id']; ?>
     
-    <div class="container">
+    <div class="user">
     <img src="thumbs/<?php echo profile_item('photo', $id); ?>" class="thumb" />
         <div class="miniprofile">
         <p><strong><?php echo profile_item('fname', $id); ?> <?php echo profile_item('lname', $id); ?></strong></p>
@@ -111,8 +111,6 @@
     </div><!-- end three columns right -->
 
 </div>
-</body>
-</html>
 
 <?php
 	} 
@@ -122,5 +120,10 @@
 		print "<p>You must be an administrator to see this page.</p>";
 	}
 ?>
+
+</body>
+</html>
+
+
 
 <?php require_once('includes/footer.php'); ?>

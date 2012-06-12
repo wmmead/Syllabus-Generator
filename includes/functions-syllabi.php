@@ -68,6 +68,7 @@ function display_user_terms()
 	$counter = 1;
 	$section_init = 10000000;
 	$termnames = array("", "Winter", "Spring", "Summer", "Fall");
+	$status = array("Draft", "Review", "Approved");
 	
 	$query = "select classes.id, terms.year, terms.term, courses.name, courses.coursenum, classes.status 
 				from classes left join terms on classes.term_id = terms.id 
@@ -80,7 +81,7 @@ function display_user_terms()
 	{	
 		while($row = mysql_fetch_row($result))
 		{
-			list($id, $year, $term, $coursename, $coursenum, $status) = $row;
+			list($id, $year, $term, $coursename, $coursenum, $statusnum) = $row;
 			
 			$section = $year.$term;
 			
@@ -94,14 +95,14 @@ function display_user_terms()
 			if($section < $section_init)
 			{
 				print "<div class='frame'>\n";
-				print "<h2>$termnames[$term] $year</h2>\n";
+				print "<h3 class='remove-bottom'>$termnames[$term] $year</h3>\n";
 				print "<div ";
 				if($counter < 3) { print "class='opened'>\n"; }
 				else { print "class='closed'>\n"; }
 				$counter++;
 			}
 			
-			print "<p><a href='index.php?sylledit=$id'>$coursenum $coursename</a></p>\n";
+			print "<p><a href='index.php?sylledit=$id'>$coursenum $coursename</a> <span class='status-$statusnum'>[$status[$statusnum]]</span></p>\n";
 			
 			$section_init = $section;
 		}
@@ -1318,6 +1319,26 @@ function output_status_bar($classid)
 		echo "<div id='updatebar'>\n";
 		echo "<a href='index.php?syllrespond=$classid' class='button link-btn'>Respond to Request</a>";
 		echo "</div>";
+	}
+	
+	if($type == 0)
+	{
+		$query = "select status from syll_process where class_id='$classid'";
+		$results = mysql_query($query);
+		$numrows = mysql_num_rows($results);
+		if($numrows == 1)
+		{
+			$row = mysql_fetch_row($results);
+			$status = $row[0];
+			
+			if($status == '2')
+			{
+				echo "<div id='updatebar'>\n";
+				echo "<a href='#' class='button link-btn'>Generate Syllabus File</a>";
+				echo "</div>";
+			}
+			
+		}
 	}
 }
 

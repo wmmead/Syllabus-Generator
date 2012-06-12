@@ -300,6 +300,14 @@ th {
 	overflow:hidden;
 }
 
+.user p {
+	max-width:120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .user div {
 	padding-top:3px;
 }
@@ -313,8 +321,19 @@ th {
 }
 
 /** Manage users table **/
+.usertable {
+	width:100%;
+}
 .usertable td, .usertable th {
 	padding: 5px 10px 5px 5px;
+	text-align: left;
+	font-size: 85%;
+	
+	max-width:150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .usertable tr:hover {
@@ -338,7 +357,6 @@ th {
 .formsection {
 	float:left;
 	width:210px;
-	text-align:right;
 	margin-bottom:10px;
 }
 

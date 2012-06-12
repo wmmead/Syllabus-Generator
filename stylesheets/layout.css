@@ -101,7 +101,7 @@ body {
 /******* Display Table Styles *******/
 
 table.display-table td {
-	padding: 0 20px 0 10px;
+	padding: 5px 20px 5px 10px;
 }
 
 table.display-table th {
@@ -180,6 +180,35 @@ input#totalpercent {
 
 #messages h4 {
 	line-height: normal;
+}
+
+
+/********* General Typography ****************/
+
+.status-0, .Draft {
+	font-weight: bold;
+	font-size: 80%;
+	color:blue;
+}
+
+.status-1, .Review {
+	font-weight: bold;
+	font-size: 80%;
+	color:#cc7504;
+}
+
+.status-2, .Approved {
+	font-weight: bold;
+	font-size: 80%;
+	color:#34a406;
+}
+
+.Draft, .Review, .Approved {
+	font-size: 100%;
+}
+
+.nav ul li {
+	margin-bottom: 5px;
 }
 
 

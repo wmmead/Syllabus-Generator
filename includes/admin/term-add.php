@@ -1,7 +1,7 @@
 <div class="frame">
     <h2 class="mainheader">Add Term Dates</h2>
     <form method="post" action="admin.php?terms=yes">
-    	<div class="container">
+    	<div>
         <div>
         <label for="term"><strong>Term:</strong></label>
         <select name="term">
@@ -47,7 +47,7 @@
         </select>
         </div>
         </div>
-        <div class="container">
+        <div>
         <h2 class="mainheader">Add Holidays</h2>
             <div id="holiday1" class="clonedHoliday">
             Holiday<br />

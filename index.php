@@ -71,6 +71,7 @@
 		elseif(isset($_GET['sylledit']))
 		{
 			submit_syllabus_for_review($_GET['sylledit']);
+			include_message_form($_GET['sylledit']);
 			display_edit_or_review($_GET['sylledit']);
 		}
 		elseif(isset($_GET['syllsubmit']))

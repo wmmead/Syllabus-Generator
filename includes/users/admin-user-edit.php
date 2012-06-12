@@ -1,4 +1,4 @@
-<div class="widecol frame">
+<div class="twelve columns frame" style="margin: 0;">
 
 <h2 class="mainheader">Manage All Users</h2>
 

@@ -115,7 +115,7 @@ function display_terms()
 		if($counter < 3) { $class = "open"; }
 		else { $class = "closed"; }
 		
-		print "<div class = 'frame container'>";
+		print "<div class = 'frame'>";
 		print "<h3>$termnames[$term] $year</h3>";
 		print "<div class='$class'>";
 		print "<p><strong>Start Date:</strong> $startdate<br />";

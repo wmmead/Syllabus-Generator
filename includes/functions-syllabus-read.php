@@ -162,6 +162,9 @@ function output_activities($classid)
 			echo "<p><strong>Meeting &#35;";
 			echo $meeting. ' ';
 			class_date($classid, $termstart, $meeting, $day);
+			echo " <span class='alert'>";
+			print_holiday($classid, $termstart, $meeting, $day);
+			echo "</span>";
 			echo "</strong></p>\n";
 			echo "$activity\n";
 			echo "</div>";
