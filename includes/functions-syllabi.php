@@ -390,6 +390,43 @@ function class_date($classid, $termstart, $week, $day="")
 	}
 }
 
+function return_class_date($classid, $termstart, $week, $day="")
+{
+	$week_offset = $week -1;
+	
+	if(!empty($day))
+	{	
+		switch ($day)
+		{
+			case "Monday": $num = 0;  break;
+			case "Tuesday": $num = 1;  break;
+			case "Wednesday": $num = 2;  break;
+			case "Thursday": $num = 3;  break;
+			case "Friday": $num = 4;  break;
+			case "Saturday": $num = 5;  break;
+			case "Sunday": $num = 6;  break;
+			default: $num = 0;
+		}
+		
+		$startdate = strtotime ( $num . ' day' , strtotime( $termstart ) ) ;
+		$startdate = date( 'Y-m-j' , $startdate );
+		
+		if($week_offset > 0)
+		{
+			$weekdate = strtotime ( $week_offset . ' week' , strtotime( $startdate ) ) ;
+			$weekdate = date( 'M jS, Y' , $weekdate );
+			return $weekdate;
+		}
+		
+		else
+		{
+			$startdate = date( 'M jS, Y' , strtotime ($startdate) );
+			return $startdate;
+		}
+	}
+}
+
+
 
 function return_day($classid)
 {
@@ -1444,6 +1481,8 @@ WHERE
 	
 }
 
+/************* Writing the Actual Syllabus PHP file *********************/
+
 function write_file($classid)
 {
 	$query = "SELECT
@@ -1487,6 +1526,13 @@ WHERE
 			fwrite($handle, output_classtimes($classid));
 			fwrite($handle, output_prereqs($classid));
 			fwrite($handle, output_coursedescript($classid));
+			fwrite($handle, output_all_competencies($classid));
+			fwrite($handle, output_all_books($classid));
+			fwrite($handle, output_course_details($classid));
+			fwrite($handle, output_class_evaluation($classid));
+			fwrite($handle, output_grading_policies($classid));
+			fwrite($handle, output_global_content($classid));
+			fwrite($handle, output_all_activities($classid));
 			fwrite($handle, output_page_close($classid));
 			
 			fclose($handle);
@@ -1722,9 +1768,269 @@ function output_coursedescript($classid)
 	}
 }
 
-function output_credit_hrs($classid)
+function output_grading_policies($classid)
 {
-	$query = "";
+	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$data .= '<ul>' . "\n";
+	
+	$query = "SELECT gradingpolicies.policy FROM classes, terms, gradingpolicies WHERE 
+	classes.term_id = terms.id AND terms.id = gradingpolicies.term_id AND classes.id = '$classid' order by ordr";
+	
+	$results = mysql_query($query);
+	
+	while($rows = mysql_fetch_row($results))
+	{
+		list($policy) = $rows;
+		$policy = escape_quotes($policy);
+		$data .= '<li>' . $policy . '</li>' . "\n";
+	}
+	
+	$query = "select policy from gradingpolicies where class_id = '$classid' order by ordr";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$data .= '</ul>' . "\n". '<p><strong>Additional Grading Policies</strong></p>' . "\n" . '<ul>' . "\n";
+		while($rows = mysql_fetch_row($results))
+		{
+			list($policy) = $rows;
+			$policy = escape_quotes($policy);
+			$data .= '<li>' . $policy . '</li>' . "\n";
+		}
+		
+		$data .= '</ul> \';' . "\n\n";
+	}
+	
+	else
+	{
+		$data .= '</ul> \';' . "\n\n";	
+	}
+	
+	$data .= '$docx->replaceTemplateVariableByHTML(\'GRADINGPOLICIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+
+	
+	return $data;
+}
+
+function output_global_content($classid)
+{
+	$counter = 1;
+	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$query = "SELECT sections.title, sections.content FROM classes, terms, sections WHERE
+	classes.term_id = terms.id AND terms.id = sections.term_id AND classes.id = '$classid' order by ordr";
+	
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		while($row = mysql_fetch_row($results))
+		{
+			list($title, $content) = $row;
+			$title = escape_quotes($title);
+			$content = escape_quotes($content);
+			
+			if($counter == 1)
+			{
+				$data .= '<p><strong>' . $title . '</strong></p>' . "\n" . $content . "\n\n" . '\';' . "\n\n";
+				$data .= '$docx->replaceTemplateVariableByHTML(\'SECTION1\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+				$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+			}
+			else
+			{
+				$data .= '<p><strong>' . $title . '</strong></p>' . "\n" . $content . "\n\n";
+			}
+			$counter++;
+		}
+		
+		$data .= '\';' . "\n\n";
+		$data .= '$docx->replaceTemplateVariableByHTML(\'SECTION2\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		
+		return $data;
+	}
+}
+
+function output_all_competencies($classid)
+{
+	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$data .= '<ul>' . "\n";
+	$query = "SELECT competencies.competency FROM classes, competencies WHERE
+	classes.course_id = competencies.course_id AND classes.id = '$classid' order by ordr";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		while($row = mysql_fetch_row($results))
+		{
+			list($competency) = $row;
+			$competency = escape_quotes($competency);
+			$data .= '<li>' . $competency . '</li>' . "\n";
+		}
+		
+		$data .= '</ul>' . "\n\n";
+	}
+	else
+	{
+		$data .= '<li>None listed</li>' . "\n";
+		$data .= '</ul>';
+	}
+	
+	$query = "select competency from competencies where class_id = '$classid' order by ordr";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$data .=  "\n" . '<p></strong>Additional Competencies</strong><br />' . "\n";
+		$data .= '<ul>' . "\n";
+		while($row = mysql_fetch_row($results))
+		{
+			list($competency) = $row;
+			$competency = escape_quotes($competency);
+			$data .= '<li>' . $competency . '</li>' . "\n";
+		}
+		
+		$data .= '</ul></p> \';' . "\n\n";
+	}
+	else
+	{
+		$data .= '\';' . "\n\n";
+	}
+	
+	$data .= '$docx->replaceTemplateVariableByHTML(\'COMPETENCIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		
+	return $data;
+}
+
+function output_course_details($classid)
+{
+	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$query = "select materials, methods, tech, hwhrs, add_req from class_details where class_id='$classid'";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($result);
+		list($materials, $methods, $tech, $hwhrs, $add_req) = $row;
+		$materials = escape_quotes($materials);
+		$methods = escape_quotes($methods);
+		$tech = escape_quotes($tech);
+		$hwhrs = escape_quotes($hwhrs);
+		$add_req = escape_quotes($add_req);
+		
+		$materials=substr_replace($materials, '<strong>Materials and Supplies:</strong> ', 3, 0);
+		$methods=substr_replace($methods, '<strong>Method of Instruction:</strong> ', 3, 0);
+		$tech=substr_replace($tech, '<strong>Technology Required:</strong> ', 3, 0);
+		
+		$data .= $methods . "\n";
+		$data .= $materials . "\n";
+		$data .= '<p><strong>Estimated Homework Hours:</strong> ' . $hwhrs . '</p>' . "\n";
+		$data .= $tech . "\n";
+		$data .= '\';' . "\n\n";
+		$data .= '$docx->replaceTemplateVariableByHTML(\'DETAILS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		
+		if($add_req != '')
+		{
+			$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+			$add_req=substr_replace($add_req, '<strong>Additional Course Requirements:</strong><br />', 3, 0);
+			$data .= $add_req . "\n";
+			$data .= '\';' . "\n\n";
+			$data .= '$docx->replaceTemplateVariableByHTML(\'ADDREQ\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		}
+		else
+		{
+			$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+			$data .= $add_req . "\n";
+			$data .= '\';' . "\n\n";
+			$data .= '$docx->replaceTemplateVariableByHTML(\'ADDREQ\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		}
+		
+		return $data;
+		
+	}	
+}
+
+function output_all_books($classid)
+{
+	$bookt = array('', 'Required Text', 'Recommended Text', 'Suggested Text');
+	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$query = "select title, author, publisher, pubdate, isbn, booktype from books where class_id = '$classid' order by ordr";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 0)
+	{
+		$data .= '<p><strong>Required Texts:</strong> None</p>\';' . "\n\n";
+		$data .= '$docx->replaceTemplateVariableByHTML(\'BOOKS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+	}
+	else
+	{
+		while($row = mysql_fetch_row($results))
+		{
+			list($title, $author, $publisher, $pubdate, $isbn, $bktype) = $row;
+			$booktype = $bookt[$bktype];
+			$title = escape_quotes($title);
+			$author = escape_quotes($author);
+			$publisher = escape_quotes($publisher);
+			$pubdate = escape_quotes($pubdate);
+			$isbn = escape_quotes($isbn);
+			$data .= '<p><strong>' . $booktype . ':</strong> ' . $title . ' by ' . $author . ', ' . $publisher . ', ©' . $pubdate . ', ISBN: ' . $isbn . '</p>' . "\n";
+			
+		}
+		$data .= '\';' . "\n\n";
+		$data .= '$docx->replaceTemplateVariableByHTML(\'BOOKS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+	}
+	return $data;
+}
+
+function output_class_evaluation($classid)
+{
+	$data = '$html = \'<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$query = "select descrip, percent from evalscales where class_id = '$classid' order by ordr";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$data .= '<p><strong>Process for Evaluation</strong></p>' . "\n";
+		$data .= '<table>' . "\n";
+		while($row = mysql_fetch_row($results))
+		{
+			list($descrip, $percent) = $row;
+			$descrip = escape_quotes($descrip);
+			$percent = escape_quotes($percent);
+			$data .= '<tr><td>' . $descrip . '</td><td>' . $percent . '%</td></tr>' . "\n";		
+		}
+		$data .= '<tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>' . "\n";
+		$data .= '</table> \';' . "\n\n";
+		$data .= '$docx->replaceTemplateVariableByHTML(\'EVALUATION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		
+		return $data;
+	}
+}
+
+function output_all_activities($classid)
+{
+	$termstart = term_start_date($classid);
+	$day = return_day($classid);
+	$data = '$html = \'<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$data .= '<table width="100%">' . "\n";
+		while($row = mysql_fetch_row($results))
+		{
+			list($meeting, $activity) = $row;
+			$activity = escape_quotes($activity);
+			$classdate = return_class_date($classid, $termstart, $meeting, $day);
+			
+			$data .= '<tr><td width="25%"><p><strong>Meeting #</strong>' . $meeting . '<br />' . $classdate . '</p></td><td width="75%">' . $activity . '</td></tr>' . "\n";		
+		}
+		$data .= '</table> \';' . "\n\n";
+		$data .= '$docx->replaceTemplateVariableByHTML(\'ACTIVITIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		
+		return $data;
+
+	}
+
 }
 
 

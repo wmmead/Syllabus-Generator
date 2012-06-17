@@ -365,7 +365,10 @@ function cut_long_strings($string, $length)
 function escape_quotes($src)
 {
 	$src = str_replace("'", "\'", $src);
-	$src = str_replace('"', '\"', $src);
+	$src = str_replace('&ldquo;', '"', $src);
+	$src = str_replace('&rdquo;', '"', $src);
+	$src = str_replace('&rsquo;', "\'", $src);
+	$src = str_replace('&lsquo;', "\'", $src);
 	return $src;
 }
 
