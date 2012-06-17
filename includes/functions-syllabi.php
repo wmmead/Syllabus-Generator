@@ -1230,10 +1230,10 @@ function display_syllabus_process_message()
 		users.fname,
 		users.lname
 	FROM
-		syllabusgen.syll_process syll_process,
-		syllabusgen.classes classes,
-		syllabusgen.courses courses,
-		syllabusgen.users users
+		syll_process,
+		classes,
+		courses,
+		users
 	WHERE
 		syll_process.class_id = classes.id AND
 		syll_process.user_id = users.id AND
@@ -1351,10 +1351,11 @@ function process_syllabus_review()
 		$message = mysql_prep($_POST['message']);
 		if($response == "approve")
 		{
-			$query = "update syll_process set status='2', date_time=NOW(), message='$message' where class_id='$classid'";
-			mysql_query($query);
-			$query = "update classes set status='2' where id='$classid'";
-			mysql_query($query);	
+			//$query = "update syll_process set status='2', date_time=NOW(), message='$message' where class_id='$classid'";
+			//mysql_query($query);
+			//$query = "update classes set status='2' where id='$classid'";
+			//mysql_query($query);
+			write_file($classid);	
 		}
 		else
 		{
@@ -1405,11 +1406,11 @@ function output_instructor_messages($userid)
 	terms.term,
 	terms.year
 FROM
-	syllabusgen.syll_process syll_process,
-	syllabusgen.classes classes,
-	syllabusgen.courses courses,
-	syllabusgen.users users,
-	syllabusgen.terms terms
+	syll_process,
+	classes,
+	courses,
+	users,
+	terms
 WHERE
 	syll_process.class_id = classes.id AND
 	syll_process.director_id = users.id AND
@@ -1442,5 +1443,289 @@ WHERE
 	}
 	
 }
+
+function write_file($classid)
+{
+	$query = "SELECT
+	classes.id,
+	users.lname,
+	terms.term,
+	terms.year,
+	courses.coursenum
+FROM
+	classes,
+	users,
+	terms,
+	courses
+WHERE
+	classes.course_id = courses.id AND
+	classes.user_id = users.id AND
+	classes.term_id = terms.id AND
+	classes.id = '$classid'";
+
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($result);
+		list($classid, $lname, $term, $year, $coursenum) = $row;
+		
+		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
+		$year = substr($year, -2);
+		
+		$term = $termcodes[$term];
+		
+		$file = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '.php';
+
+		if($handle = fopen($file, 'w'))
+		{
+			$content = '<?php' . "\n" . 'require_once(\'../../phpdocx_pro/classes/CreateDocx.inc\');' . "\n\n" . '$docx = new CreateDocx();' . "\n\n" . '$docx->addTemplate(\'../templates/template1.docx\');' . "\n";
+			
+			fwrite($handle, $content);
+			
+			fwrite($handle, output_basic_content($classid));
+			fwrite($handle, output_classtimes($classid));
+			fwrite($handle, output_prereqs($classid));
+			fwrite($handle, output_coursedescript($classid));
+			fwrite($handle, output_page_close($classid));
+			
+			fclose($handle);
+			echo "file successfully written";
+		}
+		else
+		{
+			echo "there was an error writing the file";
+		}
+	}
+}
+
+function output_basic_content($classid)
+{
+	$query = "SELECT
+	classes.id,
+	classes.type,
+	class_details.officehrs,
+	courses.coursenum,
+	courses.name,
+	courses.totalhrs,
+	courses.lecthrs,
+	courses.labhrs,
+	courses.credit,
+	users.fname,
+	users.lname,
+	users.phone,
+	users.email,
+	terms.term,
+	terms.year,
+	terms.startdate
+FROM
+	classes,
+	courses,
+	users,
+	terms,
+	class_details
+WHERE
+	classes.id = class_details.class_id AND
+	classes.course_id = courses.id AND
+	classes.user_id = users.id AND
+	classes.term_id = terms.id AND
+	classes.id = $classid";
+	
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($result);
+		list($classid, $type, $officehrs, $coursenum, $coursename, $coursehrs, $lecturehrs, $labhrs, 
+		$credit, $fname, $lname, $phone, $email, $term, $year, $startdate) = $row;
+		
+		$course_length = array("11 Weeks", "5.5 Weeks");
+		$type = $course_length[$type];
+		
+		$termnames = array("", "Winter", "Spring", "Summer", "Fall");
+		$term = $termnames[$term];
+		
+		$startdate = date("j/n/Y", strtotime($startdate));
+		
+		$classid = escape_quotes($classid);
+		$type = escape_quotes($type);
+		$officehrs = escape_quotes($officehrs);
+		$coursenum = escape_quotes($coursenum);
+		$coursename = escape_quotes($coursename);
+		$coursehrs = escape_quotes($coursehrs);
+		$lecturehrs = escape_quotes($lecturehrs);
+		$labhrs = escape_quotes($labhrs);
+		$credit = escape_quotes($credit);
+		$fname = escape_quotes($fname);
+		$lname = escape_quotes($lname);
+		$phone = escape_quotes($phone);
+		$email = escape_quotes($email);
+		$term = escape_quotes($term);
+		$year = escape_quotes($year);
+		$startdate = escape_quotes($startdate);
+		$data = '$docx->addTemplateVariable(\'COURSENUM\', \''. $coursenum . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'COURSETITLE\', \''. $coursename . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'SESSION\', \''. $term . ' ' . $year . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'INSTRUCTOR\', \''. $fname. ' ' . $lname . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'EMAIL\', \''. $email . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'PHONE\', \''. $phone . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'AVAILABILITY\', \''. $officehrs . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'WEEKS\', \''. $type . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'HOURS\', \''. $coursehrs . ' Hours\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'LECTURE\', \''. $lecturehrs . ' Hours\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'LAB\', \''. $labhrs . ' Hours\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'CREDITS\', \''. $credit . ' Credits\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'REVISED\', \''. $startdate . '\');' . "\n";
+		
+		return $data;
+	}
+}
+
+function output_classtimes($classid)
+{
+	$query = "select classday, starttime, endtime from class_days_times where class_id = '$classid' order by ordr";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		list($classday, $starttime, $endtime) = $row;
+		$classday = escape_quotes($classday);
+		$starttime = escape_quotes($starttime);
+		$endtime = escape_quotes($endtime);
+		$data = '$docx->addTemplateVariable(\'CLASSTIME\', \''. $classday . 's from '. $starttime . ' to ' . $endtime . '\');' . "\n";
+		return $data;
+	}
+	
+	if($numrows > 1)
+	{
+		$data = '$docx->addTemplateVariable(\'CLASSTIME\', \'';
+		while($rows = mysql_fetch_row($results))
+		{
+			list($classday, $starttime, $endtime) = $rows;
+			$classday = escape_quotes($classday);
+			$starttime = escape_quotes($starttime);
+			$endtime = escape_quotes($endtime);
+			
+			$data .= $classday . 's from '. $starttime . ' to ' . $endtime . ' and ';
+		}
+		
+		$data = substr($data, 0, -5);
+		$data .= '\');' . "\n";
+		return $data;
+	}	
+}
+
+function output_page_close($classid)
+{
+	$query = "SELECT
+	classes.id,
+	users.lname,
+	terms.term,
+	terms.year,
+	courses.coursenum
+FROM
+	classes,
+	users,
+	terms,
+	courses
+WHERE
+	classes.course_id = courses.id AND
+	classes.user_id = users.id AND
+	classes.term_id = terms.id AND
+	classes.id = '$classid'";
+
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($result);
+		list($classid, $lname, $term, $year, $coursenum) = $row;
+		
+		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
+		$year = substr($year, -2);
+		
+		$term = $termcodes[$term];
+		
+		$data = '$paramsPage = array( \'titlePage\' => 1, \'orient\' => \'normal\', \'top\' => 800, \'bottom\' => 800, \'right\' => 800, \'left\' => 800);' . "\n\n";
+
+		$data .= '$docx->createDocxAndDownload(\'' . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '\', $paramsPage);';
+		
+		$data .= "\n\n" . '?>';
+		return $data;
+	}
+
+}
+
+function output_prereqs($classid)
+{
+	$query = "SELECT prereqs.prereq FROM classes, courses, prereqs WHERE 
+	classes.course_id = courses.id AND courses.id = prereqs.course_id AND classes.id = '$classid' order by ordr";
+	
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		$prereq = escape_quotes($row[0]);
+		$data = '$docx->addTemplateVariable(\'PREREQS\', \''. $prereq . '\');' . "\n";
+		return $data;
+	}
+	
+	elseif($numrows > 1)
+	{
+		$data = '$docx->addTemplateVariable(\'PREREQS\', \'';
+		while($row = mysql_fetch_row($results))
+		{
+			list($prereq) = $row;
+			$prereq = escape_quotes($prereq);
+			$data .= $prereq . ', ';	
+		}
+		$data = substr($data, 0, -2);
+		$data .= '\');' . "\n";
+		return $data;
+	}
+	else
+	{
+		$data = '$docx->addTemplateVariable(\'PREREQS\', \''. 'None \');' . "\n";
+		return $data;
+	}
+}
+
+function output_coursedescript($classid)
+{
+	$query = "SELECT class_details.focus, courses.description FROM classes, class_details, courses WHERE
+	classes.id = class_details.class_id AND classes.course_id = courses.id AND classes.id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		$focus = escape_quotes($row[0]);
+		$description = escape_quotes($row[1]);
+		
+		if($focus == '')
+		{
+			$data = '$html = \'<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+			$data .= '<p><strong>Course Description:</strong><br />' . $description . '</p>\';' . "\n\n";
+			$data .= '$docx->replaceTemplateVariableByHTML(\'COURSEDESCRIPTION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+			return $data;
+		}
+		else
+		{
+			$data = '$html = \'<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+			$data .= '<p><strong>Course Description:</strong><br />' . $description . '</p>' . "\n";
+			$data .= '<p><strong>Course focus:</strong></p>' . $focus . '\';' . "\n\n";
+			$data .= '$docx->replaceTemplateVariableByHTML(\'COURSEDESCRIPTION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+			return $data;
+		}
+	}
+}
+
+function output_credit_hrs($classid)
+{
+	$query = "";
+}
+
 
 ?>

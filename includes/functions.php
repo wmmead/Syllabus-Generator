@@ -362,4 +362,11 @@ function cut_long_strings($string, $length)
 	return $string;
 }
 
+function escape_quotes($src)
+{
+	$src = str_replace("'", "\'", $src);
+	$src = str_replace('"', '\"', $src);
+	return $src;
+}
+
 ?>
