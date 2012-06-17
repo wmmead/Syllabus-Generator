@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 11, 2012 at 11:47 PM
+-- Generation Time: Jun 17, 2012 at 11:54 AM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -48,17 +48,17 @@ INSERT INTO `activities` VALUES(41, 9, 8, '');
 INSERT INTO `activities` VALUES(42, 9, 9, '');
 INSERT INTO `activities` VALUES(43, 9, 10, '');
 INSERT INTO `activities` VALUES(44, 9, 11, '');
-INSERT INTO `activities` VALUES(45, 10, 1, '<p>We will do some stuff in this class</p>');
-INSERT INTO `activities` VALUES(46, 10, 2, '');
-INSERT INTO `activities` VALUES(47, 10, 3, '');
-INSERT INTO `activities` VALUES(48, 10, 4, '');
-INSERT INTO `activities` VALUES(49, 10, 5, '');
-INSERT INTO `activities` VALUES(50, 10, 6, '');
-INSERT INTO `activities` VALUES(51, 10, 7, '');
-INSERT INTO `activities` VALUES(52, 10, 8, '');
-INSERT INTO `activities` VALUES(53, 10, 9, '');
-INSERT INTO `activities` VALUES(54, 10, 10, '');
-INSERT INTO `activities` VALUES(55, 10, 11, '');
+INSERT INTO `activities` VALUES(45, 10, 1, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(46, 10, 2, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(47, 10, 3, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(48, 10, 4, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(49, 10, 5, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(50, 10, 6, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(51, 10, 7, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(52, 10, 8, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(53, 10, 9, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
+INSERT INTO `activities` VALUES(54, 10, 10, '<p>No class cause of the holiday</p>');
+INSERT INTO `activities` VALUES(55, 10, 11, '<p><strong>Lecture:</strong> We will have a really exciting lecture.</p>\r\n<p><strong>Lab:</strong> We will do some really cool stuff in class</p>\r\n<p><strong>Homework:</strong> You will do a bunch of stuff at home</p>');
 INSERT INTO `activities` VALUES(56, 11, 1, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
 INSERT INTO `activities` VALUES(57, 11, 2, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
 INSERT INTO `activities` VALUES(58, 11, 3, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
@@ -70,17 +70,17 @@ INSERT INTO `activities` VALUES(63, 11, 8, '<p><strong>Lecture:</strong> Here is
 INSERT INTO `activities` VALUES(64, 11, 9, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
 INSERT INTO `activities` VALUES(65, 11, 10, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
 INSERT INTO `activities` VALUES(66, 11, 11, '<p><strong>Lecture:</strong> Here is the lecture for the week</p>\r\n<p><strong>Lab:</strong> In lab today we are going to do a lot of really important work for the current project we are working on.</p>\r\n<p><strong>Homework:</strong> For homework we will be working on all sorts of reading and practice.</p>');
-INSERT INTO `activities` VALUES(67, 12, 1, '');
-INSERT INTO `activities` VALUES(68, 12, 2, '');
-INSERT INTO `activities` VALUES(69, 12, 3, '');
-INSERT INTO `activities` VALUES(70, 12, 4, '');
-INSERT INTO `activities` VALUES(71, 12, 5, '');
-INSERT INTO `activities` VALUES(72, 12, 6, '');
-INSERT INTO `activities` VALUES(73, 12, 7, '');
-INSERT INTO `activities` VALUES(74, 12, 8, '');
-INSERT INTO `activities` VALUES(75, 12, 9, '');
-INSERT INTO `activities` VALUES(76, 12, 10, '');
-INSERT INTO `activities` VALUES(77, 12, 11, '');
+INSERT INTO `activities` VALUES(67, 12, 1, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(68, 12, 2, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(69, 12, 3, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(70, 12, 4, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(71, 12, 5, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(72, 12, 6, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(73, 12, 7, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(74, 12, 8, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(75, 12, 9, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(76, 12, 10, '<p>sdfasdfa</p>');
+INSERT INTO `activities` VALUES(77, 12, 11, '<p>sdfasdfa</p>');
 INSERT INTO `activities` VALUES(78, 13, 1, '<p><strong>Lab:</strong> We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong> We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong> Do stuff for homework</p>');
 INSERT INTO `activities` VALUES(79, 13, 2, '<p>Holiday no class</p>');
 INSERT INTO `activities` VALUES(80, 13, 3, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
@@ -92,17 +92,17 @@ INSERT INTO `activities` VALUES(85, 13, 8, '<p><strong>Lab:</strong>&nbsp;We wil
 INSERT INTO `activities` VALUES(86, 13, 9, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
 INSERT INTO `activities` VALUES(87, 13, 10, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
 INSERT INTO `activities` VALUES(88, 13, 11, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
-INSERT INTO `activities` VALUES(89, 14, 1, '');
-INSERT INTO `activities` VALUES(90, 14, 2, '');
-INSERT INTO `activities` VALUES(91, 14, 3, '');
-INSERT INTO `activities` VALUES(92, 14, 4, '');
-INSERT INTO `activities` VALUES(93, 14, 5, '');
-INSERT INTO `activities` VALUES(94, 14, 6, '');
-INSERT INTO `activities` VALUES(95, 14, 7, '');
-INSERT INTO `activities` VALUES(96, 14, 8, '');
-INSERT INTO `activities` VALUES(97, 14, 9, '');
-INSERT INTO `activities` VALUES(98, 14, 10, '');
-INSERT INTO `activities` VALUES(99, 14, 11, '');
+INSERT INTO `activities` VALUES(89, 14, 1, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(90, 14, 2, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(91, 14, 3, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(92, 14, 4, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(93, 14, 5, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(94, 14, 6, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(95, 14, 7, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(96, 14, 8, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(97, 14, 9, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(98, 14, 10, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
+INSERT INTO `activities` VALUES(99, 14, 11, '<p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>\r\n<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>\r\n<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p>');
 
 -- --------------------------------------------------------
 
@@ -122,7 +122,7 @@ CREATE TABLE `books` (
   `booktype` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `books`
@@ -131,8 +131,10 @@ CREATE TABLE `books` (
 INSERT INTO `books` VALUES(16, 11, 'I love cheese', 'My Author', 'some publisher', 'date', '1234', 'http://amazon.com', 1, 1);
 INSERT INTO `books` VALUES(17, 11, 'This is required', 'the required author', 'pub', 'date', '5432', '', 1, 2);
 INSERT INTO `books` VALUES(18, 9, 'some title', 'blah', 'blah', '2012', '1234', '', 1, 1);
-INSERT INTO `books` VALUES(19, 12, 'sdfd', 'sdfsds', 'fsdfs', 'sfsd', '1234', '', 1, 1);
 INSERT INTO `books` VALUES(20, 13, 'Some book title', 'the author', 'the publisher', '2012', '1234', '', 2, 1);
+INSERT INTO `books` VALUES(23, 12, 'sdfd', 'sdfsds', 'fsdfs', 'sfsd', '1234', '', 1, 1);
+INSERT INTO `books` VALUES(24, 14, 'Designing Interfaces', 'Jennifer Tidwell', 'Wiley', '2010', '978-324433455', '', 1, 1);
+INSERT INTO `books` VALUES(25, 14, 'Design of Everyday Things', 'Don Norman', 'Penguin', '1985', '978-555433433', '', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -155,11 +157,11 @@ CREATE TABLE `classes` (
 --
 
 INSERT INTO `classes` VALUES(9, 5, 1, 11, 0, 0);
-INSERT INTO `classes` VALUES(10, 10, 1, 11, 1, 0);
+INSERT INTO `classes` VALUES(10, 10, 1, 11, 1, 1);
 INSERT INTO `classes` VALUES(11, 1, 1, 13, 0, 2);
-INSERT INTO `classes` VALUES(12, 5, 1, 13, 0, 0);
-INSERT INTO `classes` VALUES(13, 10, 1, 14, 0, 1);
-INSERT INTO `classes` VALUES(14, 1, 1, 15, 0, 0);
+INSERT INTO `classes` VALUES(12, 5, 1, 13, 0, 1);
+INSERT INTO `classes` VALUES(13, 10, 1, 14, 0, 0);
+INSERT INTO `classes` VALUES(14, 1, 1, 15, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -215,9 +217,9 @@ CREATE TABLE `class_details` (
 INSERT INTO `class_details` VALUES(1, 10, '<p>We have lots of important materials</p>', '<p>We teach u <span style="text-decoration: underline;"><em><strong>real</strong></em></span> good.</p>', '<p>We are gonna use computers and stuff.</p>', '4 hours per week', 'I am available pretty much all the time', '<p>You must be a good student.</p>', '<p>Lets focus on making some cool stuff.</p>');
 INSERT INTO `class_details` VALUES(2, 9, '<p>lots of materials</p>', '<p>We teach <strong><span style="text-decoration: underline;"><em>good</em></span></strong> shit</p>', '<p>computers and stuff</p>', '4 hours per week', 'sometimes whenever', '', '');
 INSERT INTO `class_details` VALUES(3, 11, '<p>big cheese</p>', '<p>more cheese</p>', '<p>Lots of cheese</p>', '4 hours per week', 'all the freaking time', '<p>Here are some additional requirements for the course. Just in case there were not enough before I added these.</p>', '<p>The focus of this course is on interface design elements and design patterns commonly found in web interfaces</p>');
-INSERT INTO `class_details` VALUES(4, 12, '<p>none</p>', '<p>sdfsdfsdsd</p>', '<p>fsdsdfsdf</p>', '4 hourse', 'whenever', '', '');
+INSERT INTO `class_details` VALUES(4, 12, '<p>none</p>', '<p>sdfsdfsdsd</p>', '<p>fsdsdfsdf</p>', '4 hours', 'whenever', '', '');
 INSERT INTO `class_details` VALUES(5, 13, '<p>USB Drive, notebook and your brain</p>', '<p>In class lectures and lab time.</p>', '<p>Computers, Internet, and Adobe Creative Suite</p>', '4 hours per week', 'One hour before class on Mondays', '', '');
-INSERT INTO `class_details` VALUES(6, 14, '<p>There are lots of materials required for this class.</p>', '<p>In class demonstrations, as well as research and development work.</p>', '<p>Computers and Adobe Creative Suite</p>', '4 hours per week', 'After class on mondays and by appointment', '', '');
+INSERT INTO `class_details` VALUES(6, 14, '<p>There are lots of materials required for this class.</p>', '<p>In class demonstrations, as well as research and development work.</p>', '<p>Computers and Adobe Creative Suite</p>', '4 hours per week', 'After class on monday''s and by appointment', '<p>Here are some additional requirements for the course. Blah blah blah.</p>', '<p>The focus of this course is on interface design elements and design patterns commonly found in web interfaces</p>');
 
 -- --------------------------------------------------------
 
@@ -233,7 +235,7 @@ CREATE TABLE `competencies` (
   `type` tinyint(1) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=147 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=174 ;
 
 --
 -- Dumping data for table `competencies`
@@ -248,11 +250,6 @@ INSERT INTO `competencies` VALUES(83, 10, 0, 'Understand how server-parsed langu
 INSERT INTO `competencies` VALUES(84, 10, 0, 'Apply basic PHP to create a functional server-parsed program', 0, 7);
 INSERT INTO `competencies` VALUES(85, 10, 0, 'Understand the basics of web-database links', 0, 8);
 INSERT INTO `competencies` VALUES(86, 10, 0, 'Understand the use of CGI and PHP in e-commerce systems', 0, 9);
-INSERT INTO `competencies` VALUES(91, 1, 0, 'Combine principles of design and interactivity to develop user-centered interface concepts.', 0, 1);
-INSERT INTO `competencies` VALUES(92, 1, 0, 'Use digital type as an expressive and informational tool of communication. ', 0, 2);
-INSERT INTO `competencies` VALUES(93, 1, 0, 'Use color as an expressive and informational tool of communication.', 0, 3);
-INSERT INTO `competencies` VALUES(94, 1, 0, 'Understand the role of timing in an interactive experience.', 0, 4);
-INSERT INTO `competencies` VALUES(95, 1, 0, 'Understand and apply principles of grid structures to layout navigational systems.', 0, 5);
 INSERT INTO `competencies` VALUES(107, 11, 0, 'a competency', 0, 1);
 INSERT INTO `competencies` VALUES(108, 11, 0, 'another competency', 0, 2);
 INSERT INTO `competencies` VALUES(109, 11, 0, 'more cheese', 0, 3);
@@ -268,6 +265,13 @@ INSERT INTO `competencies` VALUES(143, 5, 0, 'Support instructional needs effect
 INSERT INTO `competencies` VALUES(144, 5, 0, 'Design and produce an interactive instructional project.', 0, 6);
 INSERT INTO `competencies` VALUES(145, 0, 11, 'Students must learn how to do xyx', 1, 1);
 INSERT INTO `competencies` VALUES(146, 0, 11, 'Also, students must learn how to do ABC', 1, 2);
+INSERT INTO `competencies` VALUES(167, 1, 0, 'Combine principles of design and interactivity to develop user-centered interface concepts.', 0, 1);
+INSERT INTO `competencies` VALUES(168, 1, 0, 'Use digital type as an expressive and informational tool of communication. ', 0, 2);
+INSERT INTO `competencies` VALUES(169, 1, 0, 'Use color as an expressive and informational tool of communication.', 0, 3);
+INSERT INTO `competencies` VALUES(170, 1, 0, 'Understand the role of timing in an interactive experience.', 0, 4);
+INSERT INTO `competencies` VALUES(171, 1, 0, 'Understand and apply principles of grid structures to layout navigational systems.', 0, 5);
+INSERT INTO `competencies` VALUES(172, 0, 14, 'Here is an additional competency', 1, 1);
+INSERT INTO `competencies` VALUES(173, 0, 14, 'One more additional competency for this course', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -409,7 +413,7 @@ CREATE TABLE `gradingpolicies` (
   `policy` varchar(255) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=96 ;
 
 --
 -- Dumping data for table `gradingpolicies`
@@ -448,6 +452,8 @@ INSERT INTO `gradingpolicies` VALUES(90, 15, NULL, 0, 'All work must be received
 INSERT INTO `gradingpolicies` VALUES(91, 15, NULL, 0, 'Late work receives a grade of zero.', 5);
 INSERT INTO `gradingpolicies` VALUES(92, 15, NULL, 0, 'On-time projects may be redone with instructor approval.', 6);
 INSERT INTO `gradingpolicies` VALUES(93, 15, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
+INSERT INTO `gradingpolicies` VALUES(94, 0, 14, 1, 'An Additional Grading Policy', 1);
+INSERT INTO `gradingpolicies` VALUES(95, 0, 14, 1, 'One More Grading Policy', 2);
 
 -- --------------------------------------------------------
 
@@ -461,16 +467,16 @@ CREATE TABLE `prereqs` (
   `prereq` varchar(200) NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `prereqs`
 --
 
 INSERT INTO `prereqs` VALUES(6, 10, 'MM2233 Intermediate Web-based Programming', 1);
-INSERT INTO `prereqs` VALUES(8, 1, 'Permission of Academic Director/Advisor ', 1);
 INSERT INTO `prereqs` VALUES(13, 11, 'none', 1);
 INSERT INTO `prereqs` VALUES(14, 5, 'MM3311 Interaction Design for Entertainment', 1);
+INSERT INTO `prereqs` VALUES(18, 1, 'Permission of Academic Director/Advisor', 1);
 
 -- --------------------------------------------------------
 
@@ -535,14 +541,17 @@ CREATE TABLE `syll_process` (
   `date_time` datetime NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `syll_process`
 --
 
 INSERT INTO `syll_process` VALUES(3, 11, 1, 6, 2, '2012-06-10 22:10:42', 'That is great');
-INSERT INTO `syll_process` VALUES(4, 13, 1, 6, 1, '2012-06-11 21:10:14', 'I think this one is good to go. Great course for students.');
+INSERT INTO `syll_process` VALUES(4, 13, 1, 6, 0, '2012-06-15 13:18:32', 'asdas');
+INSERT INTO `syll_process` VALUES(5, 14, 1, 6, 1, '2012-06-13 09:46:04', 'This looks great!');
+INSERT INTO `syll_process` VALUES(6, 12, 1, 6, 1, '2012-06-15 13:17:27', 'This looks like a really good class');
+INSERT INTO `syll_process` VALUES(7, 10, 1, 6, 1, '2012-06-16 21:46:39', 'here you go');
 
 -- --------------------------------------------------------
 
