@@ -1701,11 +1701,11 @@ WHERE
 			fwrite($handle, output_page_close($classid));
 			
 			fclose($handle);
-			echo "file successfully written";
+			echo "<div class='feedback success'>Syllabus file successfully create!</div>";
 		}
 		else
 		{
-			echo "there was an error writing the file";
+			echo "<div class='feedback error'>There was an error writing the syllabus file :-(</div>";
 		}
 	}
 }
