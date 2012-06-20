@@ -46,8 +46,8 @@
 		{
 ?>
 
-<?php add_course(); ?>
-<?php edit_course(); ?>
+
+
 
 <div id="page" class="container">
 

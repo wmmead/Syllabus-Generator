@@ -1424,7 +1424,7 @@ function output_status_bar($classid)
 	
 	if($type == 0)
 	{
-		$query = "select status from syll_process where class_id='$classid'";
+		$query = "select status from classes where id='$classid'";
 		$results = mysql_query($query);
 		$numrows = mysql_num_rows($results);
 		if($numrows == 1)

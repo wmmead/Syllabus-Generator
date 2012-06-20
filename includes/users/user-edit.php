@@ -31,7 +31,7 @@
        
         <label for="info">Tell us something about what you do...</label> 
         <textarea cols="54" rows="10" name="info"><?php echo p_item('info'); ?></textarea>
-        <input type="submit" name="editprofile" value="Edit Profile" />
+        <input type="submit" name="editprofile" value="Save Profile" />
     </div>
     </form>
 </div>
