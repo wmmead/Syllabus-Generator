@@ -1375,12 +1375,51 @@ $query = "select message from syll_process where class_id = '$classid'";
 function output_status_bar($classid)
 {
 	$type = $_SESSION['type'];
+	$thisuser = $_SESSION['id'];
 	
 	if($type > 0)
 	{
-		echo "<div id='updatebar'>\n";
-		echo "<a href='index.php?syllrespond=$classid' class='button link-btn'>Respond to Request</a>";
-		echo "</div>";
+		$query = "select status from classes where id = '$classid'";
+		$result = mysql_query($query);
+		$row = mysql_fetch_row($result);
+		
+		if($row[0] == 2)
+		{
+			$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum FROM classes, users, terms, courses 
+			WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
+		
+			$result = mysql_query($query);
+			$numrows = mysql_num_rows($result);
+			if($numrows == 1)
+			{
+				$row = mysql_fetch_row($result);
+				list($classid, $lname, $term, $year, $coursenum) = $row;
+				
+				$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
+				$year = substr($year, -2);
+				
+				$term = $termcodes[$term];
+				
+				$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '.php';
+			}
+			echo "<div id='updatebar'>\n";
+			echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
+			echo "</div>";
+
+		}
+		elseif($row[0] == 1)
+		{
+			$query = "select user_id, director_id from syll_process where class_id = '$classid'";
+			$results = mysql_query($query);
+			$row = mysql_fetch_row($results);
+			list($userid, $directorid) = $row;
+			if($userid == $directorid || $directorid == $thisuser)
+			{
+				echo "<div id='updatebar'>\n";
+				echo "<a href='index.php?syllrespond=$classid' class='button link-btn'>Respond to Request</a>";
+				echo "</div>";
+			}
+		}
 	}
 	
 	if($type == 0)
