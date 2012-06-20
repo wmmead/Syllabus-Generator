@@ -13,8 +13,8 @@
 <head>
 <meta charset="utf-8">
 
-<meta name="description" content="">
-<meta name="author" content="">
+<meta name="description" content="Art Institute Syllabus Generator">
+<meta name="author" content="William Mead">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <title>Syllabus Generator Users Page</title>

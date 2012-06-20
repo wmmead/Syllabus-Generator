@@ -1,7 +1,6 @@
 <?php require_once('includes/session.php'); ?>
 <?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
-<?php require_once('includes/functions-courses.php'); ?>
 <?php require_once('includes/authcheck.php'); ?>
 
 <!DOCTYPE html>
@@ -13,8 +12,8 @@
 <head>
 <meta charset="utf-8">
 
-<meta name="description" content="">
-<meta name="author" content="">
+<meta name="description" content="Art Institute Syllabus Generator">
+<meta name="author" content="William Mead">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <title>AI Syllabus Generator Course Page</title>
