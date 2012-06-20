@@ -2,7 +2,7 @@
 //General email function
 function email_user($to, $subject, $message, $from)
 {
-	$headers = 'From the Syllabus Generator System' . "\r\n" . 'Reply-To: ' . $from . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+	$headers = 'From: ' . $from . "\r\n" . 'Reply-To: ' . $from . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 	mail($to, $subject, $message, $headers);
 }
 

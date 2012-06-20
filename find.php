@@ -1,7 +1,7 @@
 <?php require_once('includes/session.php'); ?>
 <?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
-<?php require_once('includes/functions-users.php'); ?>
+<?php require_once('includes/functions-courses.php'); ?>
 <?php require_once('includes/authcheck.php'); ?>
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
 <meta name="author" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>Syllabus Generator Users Page</title>
+<title>AI Syllabus Generator Course Page</title>
 
 <link rel="stylesheet" href="stylesheets/base.css" type="text/css">
 <link rel="stylesheet" href="stylesheets/skeleton.css" type="text/css">
@@ -27,8 +27,9 @@
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/script-course.js"></script>
 </head>
 
 <body>
@@ -46,22 +47,21 @@
 		{
 ?>
 
+<?php add_course(); ?>
+<?php edit_course(); ?>
+
 <div id="page" class="container">
 
-<?php create_account(); ?>
-<?php edit_profile(); ?>
-<?php admin_edit_profile(); ?>
-
 	<div class="three columns frame nav">
-		<?php include('includes/navigation.php'); ?>
+	<?php include('includes/navigation.php'); ?>
     </div>
-    <?php display_new_user_form(); ?>
-    <?php show_profile(); ?>
-    <?php display_profile_edit_form(); ?>
-    <?php display_user_edit_table(); ?>
-    <?php display_all_user_list(); ?>
+
+	<div class="twelve columns" style="text-align:center">
     
-    
+	<p>This feature is not quite ready, but here is a picture of a bunny with a pancake on it's head.</p>
+	<img src="http://farm1.staticflickr.com/97/252849242_373d779ccd.jpg" alt="bunny" style="display:block; margin:20px auto 200px auto;">
+	</div>
+
 </div>
 
 </body>

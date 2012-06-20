@@ -21,7 +21,7 @@ body {
 	background:url(../images/bg.jpg) repeat;
 	font-family:Arial, Helvetica, sans-serif;
 	color:#333;
-	padding: 30px 0;
+	padding: 60px 0;
 }
 
 #logo {
@@ -36,7 +36,6 @@ body {
 	background-color:rgba(255,255,255,0.5);
 	border:2px solid #ccc;
 	border-radius:5px;
-	overflow:hidden;
 	padding-top: 10px;
 	
 	-webkit-box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
@@ -68,6 +67,7 @@ body {
 
 .nav {
 	background: #fff;
+	padding-top: 0;
 }
 
 #materials {
@@ -211,6 +211,310 @@ input#totalpercent {
 	margin-bottom: 5px;
 }
 
+/********* Navigation Styles *********/
+
+.navigation h2 {
+	color:#666;
+	font-size:120%;
+	margin-bottom:10px;
+}
+
+.navigation ul li a {
+	display:block;
+	font-size:100%;
+	padding-bottom:5px;
+}
+
+.navigation ul {
+	padding-bottom: 10px;
+}
+
+/****** Feedback Box Styles ********/
+.feedback {
+	position:absolute;
+	text-align:left;
+	font-size:75%;
+	top:-50px;
+	left:0px;
+	width:300px;
+	line-height: normal;
+	padding:5px;
+	border: 2px solid #666;
+	border-radius:5px;
+	background:rgba(50,50,50,0.2);
+}
+
+.error {
+	color:#C00;
+}
+
+.success {
+	color:#060;
+}
+
+.alignright {
+	float:right;
+}
+
+
+/********* Basic Typography Styles ***********/
+
+p {
+	margin-bottom:1em;
+}
+
+h2 {
+	font-size:150%;
+	margin-bottom:.5em;
+	font-weight:bold;
+}
+
+h3 {
+	font-size:130%;
+	font-weight:bold;
+	margin-bottom:1em;
+}
+
+h4 {
+	font-size:130%;
+	font-weight:bold;
+	margin-bottom:.5em;
+}
+
+strong {
+	font-weight:bold;
+}
+
+a img {
+	border:none;
+}
+
+a.button {
+	color: #444;
+}
+
+a.button:hover {
+	text-decoration: none;
+}
+
+th {
+	font-weight:bold;
+}
+
+.middlecol ul {
+	list-style-type:disc;
+	margin: 0 0 20px 20px;
+}
+.middlecol li, 
+.rightcol li {
+	margin-bottom:.5em;
+}
+
+.fold {
+	color:#0593c8;
+	font-weight:bold;
+	background:url(../images/sidearrow.png) left 5px no-repeat;
+	padding-left:23px;
+}
+
+.fold:hover {
+	color:#ed1c24;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+.example {
+	color:#666666;
+	font-size:95%;
+	font-style:italic;
+}
+
+.alert {
+	color:#FF0000;
+}
+
+/*********** Course Page Styles ************/
+.coursepage .middlecol {
+	width:370px;
+}
+
+.coursepage .middlecol textarea {
+	margin-bottom:20px;
+}
+
+.coursepage .middlecol div {
+	width:325px;
+	text-align:right;
+	margin-bottom:20px;
+}
+
+.coursepage .middlecol div h3 {
+	text-align:left;
+}
+
+.coursepage .middlecol div input {
+	width:220px;
+}
+
+.coursepage .rightcol {
+	width:310px;
+}
+
+/**
+.clonedInput input { 
+	width:270px;
+}
+**/
+
+/*********** User Page Styles *************/
+
+/** user list **/
+
+.users .rightcol .user p {
+	margin-bottom:3px;
+}
+
+.user {
+	margin-bottom:10px;
+	overflow:hidden;
+}
+
+.user p {
+	max-width:120px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.user div {
+	padding-top:3px;
+}
+
+.thumb {
+	float:left;
+	padding:3px;
+	border: 1px solid #ccc;
+	border-radius:5px;
+	margin-right:3px;
+}
+
+/** Manage users table **/
+.usertable {
+	width:100%;
+}
+.usertable td, .usertable th {
+	padding: 5px 10px 5px 5px;
+	text-align: left;
+	font-size: 85%;
+	
+	max-width:150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.usertable tr:hover {
+	background:#d0e1f3;
+}
+
+.even {
+	background:#EBEBEB;
+	background:rgba(50,50,50,0.2);
+}
+
+.adminuseredit {
+	padding:15px 15px 0 15px;
+	margin-bottom:15px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	width:630px;
+	overflow:hidden;
+}
+
+.formsection {
+	float:left;
+	width:210px;
+	margin-bottom:10px;
+}
+
+/** New Account Form **/
+div.formcontainer {
+	width: 250px;
+	text-align:right;
+	float:left;
+}
+
+.formcontainer input, .formcontainer select {
+	width: 170px;
+}
+
+
+/** user profile **/
+
+.photo {
+	float:left;
+	padding:5px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	margin-right: 10px;
+}
+
+.profileinfo {
+	width: 300px;
+	float:left;
+}
+
+.profileinfo p, .profileinfo h3 {
+	margin-bottom:.5em;
+}
+
+/*********** Admin Page Styles *************/
+
+#adminnav {
+	float:left;
+	width:180px;
+	background:#fff;
+	margin-right:20px;
+}
+
+#admincontent {
+	float:left;
+	width:600px;
+}
+
+#addtermform {
+	width:250px;
+	float:left;
+}
+
+#termlist {
+	width: 125px;
+	float:left;
+	margin-right:20px;
+}
+
+.policyfield {
+	width:100%;
+}
+
+.fullwidth {
+	width: 400px;
+}
+
+.fieldcontainer input {
+	width: 300px;
+}
+
+.clonedSection {
+	margin-bottom:20px;
+}
+
+.randomstyle {
+	color:green;
+}
+
 
 
 
@@ -236,20 +540,3 @@ input#totalpercent {
 	@media only screen and (max-width: 479px) {}
 
 
-/* #Font-Face
-================================================== */
-/* 	This is the proper syntax for an @font-face file
-		Just create a "fonts" folder at the root,
-		copy your FontName into code below and remove
-		comment brackets */
-
-/*	@font-face {
-	    font-family: 'FontName';
-	    src: url('../fonts/FontName.eot');
-	    src: url('../fonts/FontName.eot?iefix') format('eot'),
-	         url('../fonts/FontName.woff') format('woff'),
-	         url('../fonts/FontName.ttf') format('truetype'),
-	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
-	    font-weight: normal;
-	    font-style: normal; }
-*/

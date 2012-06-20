@@ -1211,6 +1211,7 @@ function submit_syllabus_for_review($classid)
 			$director = $_POST['director'];
 			$userid = $_SESSION['id'];
 			$message = mysql_prep($_POST['message']);
+			$server= THE_SERVER;
 			
 			$query = "SELECT COUNT(class_id) FROM syll_process WHERE class_id = '$classid'";
 			$results = mysql_query($query);
@@ -1229,6 +1230,45 @@ function submit_syllabus_for_review($classid)
 				mysql_query($query);
 			}
 			
+			$query = "select fname, email from users where id = '$director'";
+			$result = mysql_query($query);
+			$row = mysql_fetch_row($result);
+			list($dirfname, $diremail) = $row;
+			
+			$query = "SELECT
+			courses.coursenum,
+			courses.name,
+			terms.term,
+			terms.year,
+			users.fname,
+			users.lname,
+			users.email
+		FROM
+			classes,
+			courses,
+			terms,
+			users
+		WHERE
+			classes.course_id = courses.id AND
+			classes.user_id = users.id AND
+			classes.term_id = terms.id AND
+			classes.id = '$classid'";
+			
+			$results = mysql_query($query);
+			$row = mysql_fetch_row($results);
+			list($coursenum, $coursename, $term, $year, $fname, $lname, $email) = $row;
+			
+			$termcodes = array('', 'Winter', 'Spring', 'Summer', 'Fall');
+					
+			$term = $termcodes[$term];
+			$subject = "Syllabus Generator - $fname $lname submitted a syllabus for review";
+			
+$emailmessage = "Hello $dirfname,
+
+$fname $lname has submitted a syllabus for $coursenum $coursename scheduled for $term $year. Please log into the syllabus system and review it.
+$server";
+				
+				email_user($diremail, $subject, $emailmessage, $email);
 		}
 		else
 		{
@@ -1260,24 +1300,9 @@ function display_syllabus_process_message()
 	
 	if($type == 1)
 	{
-		$query = "SELECT
-		syll_process.class_id,
-		courses.coursenum,
-		courses.name,
-		users.fname,
-		users.lname
-	FROM
-		syll_process,
-		classes,
-		courses,
-		users
-	WHERE
-		syll_process.class_id = classes.id AND
-		syll_process.user_id = users.id AND
-		classes.course_id = courses.id AND
-		syll_process.status = 1 AND 
-		syll_process.director_id = '$userid' 
-	order by date_time";
+		$query = "SELECT syll_process.class_id, courses.coursenum, courses.name, users.fname, users.lname FROM
+		syll_process, classes, courses, users WHERE syll_process.class_id = classes.id AND syll_process.user_id = users.id AND
+		classes.course_id = courses.id AND syll_process.status = 1 AND syll_process.director_id = '$userid' order by date_time DESC";
 	
 	$results = mysql_query($query);
 	$numrows = mysql_num_rows($results);
@@ -1370,8 +1395,25 @@ function output_status_bar($classid)
 			
 			if($status == '2')
 			{
+				$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum FROM classes, users, terms, courses 
+				WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
+			
+				$result = mysql_query($query);
+				$numrows = mysql_num_rows($result);
+				if($numrows == 1)
+				{
+					$row = mysql_fetch_row($result);
+					list($classid, $lname, $term, $year, $coursenum) = $row;
+					
+					$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
+					$year = substr($year, -2);
+					
+					$term = $termcodes[$term];
+					
+					$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '.php';
+				}
 				echo "<div id='updatebar'>\n";
-				echo "<a href='#' class='button link-btn'>Generate Syllabus File</a>";
+				echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
 				echo "</div>";
 			}
 			
@@ -1388,11 +1430,44 @@ function process_syllabus_review()
 		$message = mysql_prep($_POST['message']);
 		if($response == "approve")
 		{
-			//$query = "update syll_process set status='2', date_time=NOW(), message='$message' where class_id='$classid'";
-			//mysql_query($query);
-			//$query = "update classes set status='2' where id='$classid'";
-			//mysql_query($query);
-			write_file($classid);	
+			$query = "update syll_process set status='2', date_time=NOW(), message='$message' where class_id='$classid'";
+			mysql_query($query);
+			$query = "update classes set status='2' where id='$classid'";
+			mysql_query($query);
+			write_file($classid);
+			
+			$query = "SELECT users.email, users.lname, users.fname FROM syll_process, users WHERE syll_process.user_id = users.id AND
+			syll_process.class_id = '$classid'";
+			$results = mysql_query($query);
+			$numrows = mysql_num_rows($results);
+			if($numrows == 1)
+			{
+				$row = mysql_fetch_row($results);
+				list($useremail, $userlname, $userfname) = $row;
+				$server= THE_SERVER;
+				$subject = "Syllabus Generator: Your syllabus has been approved!";
+				
+				$query ="SELECT users.fname, users.lname, users.email, courses.coursenum, courses.name,
+				terms.term, terms.year FROM syll_process, users, classes, courses, terms WHERE syll_process.class_id = classes.id AND
+				syll_process.director_id = users.id AND classes.course_id = courses.id AND classes.term_id = terms.id AND
+				syll_process.class_id = '$classid'";
+				
+				$results = mysql_query($query);
+				$numrows = mysql_num_rows($results);
+				if($numrows == 1)
+				{
+					$row = mysql_fetch_row($results);
+					list($fname, $lname, $email, $coursenum, $coursename, $term, $year) = $row;
+					$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
+					$year = substr($year, -2);
+					
+					$term = $termcodes[$term];
+$emailmessage = "$fname $lname has approved your syllabus for $coursenum $coursename.
+please go to the " .$server. "/repository/" . $coursenum . '_' . $userlname . '_' . $term . $year . '_id' . $classid . '.php' ." and download it.";
+				
+					email_user($useremail, $subject, $emailmessage, $email);
+				}
+			}	
 		}
 		else
 		{
@@ -1400,7 +1475,56 @@ function process_syllabus_review()
 			mysql_query($query);
 			$query = "update classes set status='0' where id='$classid'";
 			mysql_query($query);
+			
+			$query = "SELECT users.email FROM syll_process, users WHERE syll_process.user_id = users.id AND
+			syll_process.class_id = '$classid'";
+			$results = mysql_query($query);
+			$numrows = mysql_num_rows($results);
+			if($numrows == 1)
+			{
+				$row = mysql_fetch_row($results);
+				$useremail = $row[0];
+				$server= THE_SERVER;
+				$subject = "Syllabus Generator: Please Revise Your Syllabus";
+				
+				$query ="SELECT syll_process.message, users.fname, users.lname, users.email, courses.coursenum, courses.name,
+				terms.term, terms.year FROM syll_process, users, classes, courses, terms WHERE syll_process.class_id = classes.id AND
+				syll_process.director_id = users.id AND classes.course_id = courses.id AND classes.term_id = terms.id AND
+				syll_process.class_id = '$classid'";
+				
+				$results = mysql_query($query);
+				$numrows = mysql_num_rows($results);
+				if($numrows == 1)
+				{
+					$row = mysql_fetch_row($results);
+					list($dbmessage, $fname, $lname, $email, $coursenum, $coursename, $term, $year) = $row;
+					$termcodes = array('', 'Winter', 'Spring', 'Summer', 'Fall');
+					
+					$term = $termcodes[$term];
+$emailmessage = "$fname $lname has requested that you revise the syllabus for $coursenum $coursename for $term $year. Here is the message: \"$dbmessage\"
+please go to $server and revise it.";
+				
+				email_user($useremail, $subject, $emailmessage, $email);
+				
+				}
+			}
 		}
+	}
+}
+
+function output_approval_radio_button($classid)
+{
+	$query = "SELECT terms.locked FROM classes, terms WHERE classes.term_id = terms.id AND classes.id = '$classid'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	$locked = $row[0];
+	if($locked == 1)
+	{
+		echo "<label><input type=\"radio\" name=\"response\" value=\"approve\" checked> Approve the syllabus</label>";
+	}
+	else
+	{
+		echo "<label style=\"opacity:0.5\"><input type=\"radio\" name=\"response\" value=\"approve\" disabled> Approval feature disabled until the term is locked by the system administrator</label>";
 	}
 }
 
@@ -1432,35 +1556,16 @@ function pull_data_from_array($data, $item, $itemlength)
 function output_instructor_messages($userid)
 {
 	$terms = array('', 'Winter', 'Spring', 'Summer', 'Fall');
-	$query = "SELECT
-	syll_process.class_id,
-	syll_process.status,
-	courses.coursenum,
-	courses.name,
-	users.fname,
-	users.lname,
-	users.email,
-	terms.term,
-	terms.year
-FROM
-	syll_process,
-	classes,
-	courses,
-	users,
-	terms
-WHERE
-	syll_process.class_id = classes.id AND
-	syll_process.director_id = users.id AND
-	classes.course_id = courses.id AND
-	classes.term_id = terms.id AND
-	syll_process.user_id = $userid AND
-	syll_process.status != 1 order by syll_process.date_time";
+	$query = "SELECT syll_process.class_id, syll_process.status, syll_process.message, courses.coursenum, courses.name, users.fname, users.lname, users.email,
+	terms.term, terms.year FROM syll_process, classes, courses, users, terms WHERE syll_process.class_id = classes.id AND 
+	syll_process.director_id = users.id AND classes.course_id = courses.id AND classes.term_id = terms.id AND syll_process.user_id = $userid AND
+	syll_process.status != 1 order by syll_process.date_time DESC";
 	
 	$results = mysql_query($query);
 	
 	while($rows = mysql_fetch_row($results))
 	{
-		list($classid, $status, $coursenum, $coursename, $fname, $lname, $email, $termnum, $year) = $rows;
+		list($classid, $status, $message, $coursenum, $coursename, $fname, $lname, $email, $termnum, $year) = $rows;
 		
 		if($status == '0')
 		{
@@ -1468,17 +1573,38 @@ WHERE
 			echo "<p>$fname $lname has requested that you revise the syllabus for $coursenum $coursename for $terms[$termnum] $year.</p>\n";
 			echo "<p>please <a href='index.php?sylledit=$classid'>revise the syllabus</a> and resubmit it.";
 			echo "</div>";
+			
 		}
 		if($status == '2')
 		{
 			echo "<div class='frame'>";
 			echo "<p>Congratulations $fname $lname has approved the syllabus for $coursenum $coursename for $terms[$termnum] $year.</p>\n";
-			echo "<p>Please <a href='index.php?sylledit=$classid'>view the syllabus</a> and generate the file to upload to the class site</p>";
-			echo "<p>You can <a href='#'>delete this message</a>.</p>";
+			echo "<p>Please <a href='index.php?sylledit=$classid'>view the syllabus</a> and get the file to upload to the class site.</p>";
+			echo "<p>You can <a href='index.php?del=$classid'>delete this message</a>.</p>";
 			echo "</div>";
 		}
 	}
-	
+}
+
+function delete_instructor_message()
+{
+	if(isset($_GET['del']))
+	{
+		$classid = $_GET['del'];
+		$query = "select status from syll_process where class_id = '$classid'";
+		$results = mysql_query($query);
+		$numrows = mysql_num_rows($results);
+		if($numrows == 1)
+		{
+			$row = mysql_fetch_row($results);
+			$status = $row[0];
+			if($status == 2)
+			{
+				$query = "delete from syll_process where class_id = '$classid'";
+				mysql_query($query);
+			}
+		}
+	}
 }
 
 /************* Writing the Actual Syllabus PHP file *********************/
@@ -1591,7 +1717,7 @@ WHERE
 		$termnames = array("", "Winter", "Spring", "Summer", "Fall");
 		$term = $termnames[$term];
 		
-		$startdate = date("j/n/Y", strtotime($startdate));
+		$startdate = date("n/j/Y", strtotime($startdate));
 		
 		$classid = escape_quotes($classid);
 		$type = escape_quotes($type);
@@ -1759,9 +1885,10 @@ function output_coursedescript($classid)
 		}
 		else
 		{
+			$focus=substr_replace($focus, '<strong>Course Focus:</strong><br />', 3, 0);
 			$data = '$html = \'<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 			$data .= '<p><strong>Course Description:</strong><br />' . $description . '</p>' . "\n";
-			$data .= '<p><strong>Course focus:</strong></p>' . $focus . '\';' . "\n\n";
+			$data .= $focus . '\';' . "\n\n";
 			$data .= '$docx->replaceTemplateVariableByHTML(\'COURSEDESCRIPTION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 			return $data;
 		}
@@ -1771,6 +1898,7 @@ function output_coursedescript($classid)
 function output_grading_policies($classid)
 {
 	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$data .= '<p><strong>School Wide Grading Policies</strong></p>' . "\n";
 	$data .= '<ul>' . "\n";
 	
 	$query = "SELECT gradingpolicies.policy FROM classes, terms, gradingpolicies WHERE 
@@ -1790,7 +1918,7 @@ function output_grading_policies($classid)
 	$numrows = mysql_num_rows($results);
 	if($numrows > 0)
 	{
-		$data .= '</ul>' . "\n". '<p><strong>Additional Grading Policies</strong></p>' . "\n" . '<ul>' . "\n";
+		$data .= '</ul>' . "\n". '<p><strong>Additional Grading Policies:</strong></p>' . "\n" . '<ul>' . "\n";
 		while($rows = mysql_fetch_row($results))
 		{
 			list($policy) = $rows;
@@ -1879,7 +2007,7 @@ function output_all_competencies($classid)
 	$numrows = mysql_num_rows($results);
 	if($numrows > 0)
 	{
-		$data .=  "\n" . '<p></strong>Additional Competencies</strong><br />' . "\n";
+		$data .=  "\n" . '<p><strong>Additional Competencies:</strong></p>' . "\n";
 		$data .= '<ul>' . "\n";
 		while($row = mysql_fetch_row($results))
 		{
@@ -1888,7 +2016,7 @@ function output_all_competencies($classid)
 			$data .= '<li>' . $competency . '</li>' . "\n";
 		}
 		
-		$data .= '</ul></p> \';' . "\n\n";
+		$data .= '</ul> \';' . "\n\n";
 	}
 	else
 	{
@@ -1988,7 +2116,7 @@ function output_class_evaluation($classid)
 	$numrows = mysql_num_rows($results);
 	if($numrows > 0)
 	{
-		$data .= '<p><strong>Process for Evaluation</strong></p>' . "\n";
+		$data .= '<p><strong>Process for Evaluation:</strong></p>' . "\n";
 		$data .= '<table>' . "\n";
 		while($row = mysql_fetch_row($results))
 		{

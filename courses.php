@@ -23,8 +23,6 @@
 <link rel="stylesheet" href="stylesheets/skeleton.css" type="text/css">
 <link rel="stylesheet" href="stylesheets/layout.css" type="text/css">
 
-<link href="styles.css" rel="stylesheet" type="text/css" />
-
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->

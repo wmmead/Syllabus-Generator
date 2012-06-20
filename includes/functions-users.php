@@ -42,7 +42,7 @@ function create_account()
 					$type = 0;
 				}
 				
-				$password = 'cheese'; //generatePassword(8,4); //for testing it is set to cheese.
+				$password = generatePassword(8,4);
 				
 				$query = "select fname from users where login = '$login'";
 				$result = mysql_query($query);

@@ -4,63 +4,57 @@ require_once('../../phpdocx_pro/classes/CreateDocx.inc');
 $docx = new CreateDocx();
 
 $docx->addTemplate('../templates/template1.docx');
-$docx->addTemplateVariable('COURSENUM', 'MM2201');
-$docx->addTemplateVariable('COURSETITLE', 'Interface Design');
-$docx->addTemplateVariable('SESSION', 'Spring 2012');
+$docx->addTemplateVariable('COURSENUM', 'MM3312');
+$docx->addTemplateVariable('COURSETITLE', 'Computer-based Traning');
+$docx->addTemplateVariable('SESSION', 'Fall 2011');
 $docx->addTemplateVariable('INSTRUCTOR', 'William Mead');
 $docx->addTemplateVariable('EMAIL', 'wmead@aii.edu');
 $docx->addTemplateVariable('PHONE', '530-219-8998');
-$docx->addTemplateVariable('AVAILABILITY', 'After class on monday\'s and by appointment');
+$docx->addTemplateVariable('AVAILABILITY', 'whenever');
 $docx->addTemplateVariable('WEEKS', '11 Weeks');
 $docx->addTemplateVariable('HOURS', '44 Hours');
 $docx->addTemplateVariable('LECTURE', '22 Hours');
 $docx->addTemplateVariable('LAB', '22 Hours');
 $docx->addTemplateVariable('CREDITS', '3 Credits');
-$docx->addTemplateVariable('REVISED', '2/4/2012');
-$docx->addTemplateVariable('CLASSTIME', 'Mondays from 1:00 pm to 5:00 pm');
-$docx->addTemplateVariable('PREREQS', 'Permission of Academic Director/Advisor');
+$docx->addTemplateVariable('REVISED', '3/10/2011');
+$docx->addTemplateVariable('CLASSTIME', 'Tuesdays from 8:00 am to 12:00 pm');
+$docx->addTemplateVariable('PREREQS', 'MM3311 Interaction Design for Entertainment');
 $html = '<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Course Description:</strong><br />This course is an exploration of the synthesis of visual design and principles of human interactivity. This course examines the conceptual and practical design of interfaces.</p>
-<p><strong>Course Focus:</strong><br />The focus of this course is on interface design elements and design patterns commonly found in web interfaces</p>';
+<p><strong>Course Description:</strong><br />This course provides an exploration of authoring techniques for interactive training and education. Students gain experience in the process of design, development, and evaluation of effective computer-based training systems.</p>';
 
 $docx->replaceTemplateVariableByHTML('COURSEDESCRIPTION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <ul>
-<li>Combine principles of design and interactivity to develop user-centered interface concepts.</li>
-<li>Use digital type as an expressive and informational tool of communication. </li>
-<li>Use color as an expressive and informational tool of communication.</li>
-<li>Understand the role of timing in an interactive experience.</li>
-<li>Understand and apply principles of grid structures to layout navigational systems.</li>
+<li>Understand and identify a variety of methods of computer-based training (CBT).</li>
+<li>Analyze audience and instructional needs for effective CBT design.</li>
+<li>Apply the basic principles of instructional design to the organization of content.</li>
+<li>Develop a concept for an instructional project.</li>
+<li>Support instructional needs effectively with multimedia elements including sound, video, and animation.</li>
+<li>Design and produce an interactive instructional project.</li>
 </ul>
 
-
-<p><strong>Additional Competencies:</strong></p>
-<ul>
-<li>Here is an additional competency</li>
-<li>One more additional competency for this course</li>
-</ul> ';
+';
 
 $docx->replaceTemplateVariableByHTML('COMPETENCIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Required Text:</strong> Designing Interfaces by Jennifer Tidwell, Wiley, ©2010, ISBN: 978-324433455</p>
-<p><strong>Recommended Text:</strong> Design of Everyday Things by Don Norman, Penguin, ©1985, ISBN: 978-555433433</p>
+<p><strong>Required Text:</strong> sdfd by sdfsds, fsdfs, ©sfsd, ISBN: 1234</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('BOOKS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Method of Instruction:</strong> In class demonstrations, as well as research and development work.</p>
-<p><strong>Materials and Supplies:</strong> There are lots of materials required for this class.</p>
-<p><strong>Estimated Homework Hours:</strong> 4 hours per week</p>
-<p><strong>Technology Required:</strong> Computers and Adobe Creative Suite</p>
+<p><strong>Method of Instruction:</strong> sdfsdfsdsd</p>
+<p><strong>Materials and Supplies:</strong> none</p>
+<p><strong>Estimated Homework Hours:</strong> 4 hours</p>
+<p><strong>Technology Required:</strong> fsdsdfsdf</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('DETAILS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Additional Course Requirements:</strong><br />Here are some additional requirements for the course. Blah blah blah.</p>
+
 ';
 
 $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -68,11 +62,9 @@ $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' =
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Process for Evaluation:</strong></p>
 <table>
-<tr><td>In class work</td><td>20%</td></tr>
-<tr><td>Quizes</td><td>15%</td></tr>
-<tr><td>Homework</td><td>30%</td></tr>
-<tr><td>Mid-Term Project</td><td>15%</td></tr>
-<tr><td>Final Project</td><td>20%</td></tr>
+<tr><td>tests</td><td>20%</td></tr>
+<tr><td>quizes</td><td>30%</td></tr>
+<tr><td>homework</td><td>50%</td></tr>
 <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
 </table> ';
 
@@ -88,11 +80,6 @@ $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <li>Late work receives a grade of zero.</li>
 <li>On-time projects may be redone with instructor approval.</li>
 <li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
-</ul>
-<p><strong>Additional Grading Policies:</strong></p>
-<ul>
-<li>An Additional Grading Policy</li>
-<li>One More Grading Policy</li>
 </ul> ';
 
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -149,45 +136,23 @@ $docx->replaceTemplateVariableByHTML('SECTION2', 'block', $html , array('isFile'
 
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <table width="100%">
-<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Apr 2nd, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Apr 9th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Apr 16th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Apr 23rd, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Apr 30th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>6<br />May 7th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>7<br />May 14th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>8<br />May 21st, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>9<br />May 28th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Jun 4th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Jun 11th, 2012</p></td><td width="75%"><p><strong>Lab:</strong>&nbsp;We will do some stuff in .</p>
-<p><strong>Lecture:</strong>&nbsp;We will talk about some stuff in class.</p>
-<p><strong>Homework:</strong>&nbsp;Do stuff for homework</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Oct 4th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Oct 11th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Oct 18th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Oct 25th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Nov 1st, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Nov 8th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Nov 15th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Nov 22nd, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Nov 29th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Dec 6th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Dec 13th, 2011</p></td><td width="75%"><p>sdfasdfa</p></td></tr>
 </table> ';
 
 $docx->replaceTemplateVariableByHTML('ACTIVITIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $paramsPage = array( 'titlePage' => 1, 'orient' => 'normal', 'top' => 800, 'bottom' => 800, 'right' => 800, 'left' => 800);
 
-$docx->createDocxAndDownload('MM2201_Mead_SP12_id14', $paramsPage);
+$docx->createDocxAndDownload('MM3312_Mead_FA11_id12', $paramsPage);
 
 ?>

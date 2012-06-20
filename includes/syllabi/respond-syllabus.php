@@ -10,7 +10,7 @@
      	<p>Please select your response below and submit the form.</p>
         
         <p>
-        <label><input type="radio" name="response" value="approve" checked> Approve the syllabus</label>
+        <?php output_approval_radio_button($classid); ?>
         <label><input type="radio" name="response" value="revise"> Revision requested</label>
         </p>
         
