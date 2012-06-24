@@ -47,10 +47,11 @@
 		{
 ?>
 
-<?php add_course(); ?>
-<?php edit_course(); ?>
 
 <div id="page" class="container">
+
+<?php add_course(); ?>
+<?php edit_course(); ?>
 
 	<div class="three columns frame nav">
 	<?php include('includes/navigation.php'); ?>
@@ -78,7 +79,9 @@
     
     <div class="three columns">
     	<h2 class="mainheader">List of Courses</h2>
-        <p><?php display_course_list(); ?></p>
+    	<div class="courselist">
+        <p><?php collapsed_course_list(); ?></p>
+    	</div>
     </div>
 
 </div>

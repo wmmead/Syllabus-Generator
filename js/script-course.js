@@ -34,5 +34,27 @@ $(document).ready(function(){
 		if (newNum == 50)
 			$('#addPrereq').attr('disabled','disabled');
 	});
+	
+	$(".hide").hide();
+	
+	$(".fold").click(function(){
+		
+		$('.fold').css('background-image', 'url(images/sidearrow.png)');
+		$(this).css('background-image', 'url(images/downarrow.png)');
+		
+		var currentUL = $(this).next('ul');
+		$('.hide').not(currentUL).hide();
+		
+		currentUL.slideToggle('slow', function(){
+			
+		if($(this).is(':hidden'))
+			{
+				currentUL.prev('h4').css('background-image', 'url(images/sidearrow.png)');
+			}	
+		
+		});
+			
+	});
+
 
 });

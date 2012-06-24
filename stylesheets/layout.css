@@ -360,11 +360,21 @@ th {
 	width:310px;
 }
 
-/**
-.clonedInput input { 
-	width:270px;
+.courselist {
+	font-size: 80%;
 }
-**/
+
+.courselist h4{
+	max-width:160px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.courselist ul li {
+	line-height: 1.2em;
+}
 
 /*********** User Page Styles *************/
 

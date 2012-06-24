@@ -186,6 +186,7 @@ function edit_prereqs()
 	}	
 }
 
+/******* Deprecated Function
 function display_course_list()
 {
 	$query = "select id, coursenum, name from courses order by coursenum";
@@ -197,6 +198,48 @@ function display_course_list()
 		print "<li><a href='courses.php?courseid=$id'>$courseno $name</a></li>";
 	}
 	print "</ul>";
+}
+************/
+
+function collapsed_course_list()
+{
+	$query = "select id, name from depts order by name";
+	$results = mysql_query($query);
+	$num_of_rows = mysql_num_rows($results);
+	if($num_of_rows > 0)
+	{
+		while($row = mysql_fetch_row($results))
+		{
+			list($id, $name) = $row;
+			echo "<h4 class='fold'>$name</h4>";
+			display_course_name_links($id);
+		}
+	}
+}
+
+function display_course_name_links($deptid)
+{
+	$query = "select id, coursenum, name from courses where dept = '$deptid' order by coursenum";
+	$result = mysql_query($query);
+	$numrows = mysql_num_rows($result);
+	
+	if($numrows > 0)
+	{
+		print "<ul class='hide'>";
+		while($row = mysql_fetch_row($result))
+		{
+			list($id, $courseno, $name) = $row;
+			print "<li><a href='courses.php?courseid=$id'>$courseno $name</a></li>";
+		}
+		print "</ul>";
+	}
+	else
+	{
+		print "<ul class='hide'>";
+		print "<li>No Classes Entered</li>";
+		print "</ul>";
+	}
+	
 }
 
 ?>
