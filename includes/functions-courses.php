@@ -55,8 +55,37 @@ function add_competencies($data, $id)
 			if(!empty($value))
 			{
 				$value = clean_up_ms(mysql_prep($value));
-				$query = "insert into competencies values('', '$id', '', '$value', '0', '$counter')";
-				mysql_query($query);
+				
+				$this_comp_level = $_POST['level'.$counter];
+				if($this_comp_level == 0)
+				{
+					$next_comp_level = $counter + 1;
+					$next_comp = "level".$next_comp_level;
+					if(isset($_POST[$next_comp]))
+					{
+						$thelevel = $_POST[$next_comp];
+						if($thelevel == 2)
+						{
+							$query = "insert into competencies values('', '$id', '', '$value', '0', '1', '$counter')";
+							mysql_query($query);
+						}
+						else
+						{
+							$query = "insert into competencies values('', '$id', '', '$value', '0', '0', '$counter')";
+							mysql_query($query);
+						}
+					}
+					else
+					{
+						$query = "insert into competencies values('', '$id', '', '$value', '0', '0', '$counter')";
+						mysql_query($query);
+					}
+				}
+				else
+				{
+					$query = "insert into competencies values('', '$id', '', '$value', '0', '2', '$counter')";
+					mysql_query($query);
+				}
 				$counter++;
 			}
 		}
@@ -135,23 +164,40 @@ function edit_competencies()
 	if(isset($_GET['editcourse']))
 	{
 		$courseid = $_GET['editcourse'];
-		$query ="select competency, ordr from competencies where course_id='$courseid' and type='0' order by ordr";
+		$query ="select competency, level, ordr from competencies where course_id='$courseid' and type='0' order by ordr";
 		$result = mysql_query($query);
 		$numrows = mysql_num_rows($result);
 		if($numrows == 0)
 		{
 			print "<p id='input1' class='clonedInput'>\n";
-			print "Competency: <input id='comp1' name='comp1' type='text' />\n";
+			print "<label for='comp1'>Competency</label> <input id='comp1' name='comp1' type='text' />\n";
+			print "<a href='#' id='indent1' class='indentbtn'>Indent</a>\n";
+			print "<input type='hidden' id='level1' name='level1' value='0'>\n";
 			print "</p>";
 		}
 		else
 		{
 			while($row = mysql_fetch_row($result))
 			{
-				list($competency, $order)=$row;
-				print "<p id='input$order' class='clonedInput'>\n";
-				print "<label for='comp1'>Competency</label>  <input id='comp$order' name='comp$order' type='text' value='$competency' />\n";
-				print "</p>\n";
+				list($competency, $level, $order)=$row;
+				if($level == 2)
+				{
+					
+					print "<p id='input$order' class='clonedInput'>\n";
+					print "<label for='comp1'>Competency</label> <input id='comp$order' name='comp$order' type='text' class='txtfieldind' value='$competency' />\n";
+					print "<a href='#' id='indent$order' class='exdentbtn'>Indent</a>\n";
+					print "<input type='hidden' id='level$order' name='level$order' value='2'>\n";
+					print "</p>";
+				}
+				else
+				{
+					print "<p id='input$order' class='clonedInput'>\n";
+					print "<label for='comp1'>Competency</label> <input id='comp$order' name='comp$order' type='text' class='txtfield' value='$competency' />\n";
+					print "<a href='#' id='indent$order' class='indentbtn'>Indent</a>\n";
+					print "<input type='hidden' id='level$order' name='level$order' value='0'>\n";
+					print "</p>";
+				}
+				
 			}
 		}
 		print "<p><input type='button' id='addComp' value='add another competency' /></p>\n";

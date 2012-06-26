@@ -334,7 +334,7 @@ th {
 }
 
 /*********** Course Page Styles ************/
-.coursepage .middlecol {
+/***.coursepage .middlecol {
 	width:370px;
 }
 
@@ -358,7 +358,7 @@ th {
 
 .coursepage .rightcol {
 	width:310px;
-}
+}*****/
 
 .courselist {
 	font-size: 80%;
@@ -375,6 +375,35 @@ th {
 .courselist ul li {
 	line-height: 1.2em;
 }
+
+.indentbtn {
+	text-indent: -5000px;
+	width:25px;
+	height: 25px;
+	background: url(../images/left-right-arrow.png) 25px 0px;
+	display: block;
+	float: left;
+}
+.exdentbtn {
+	text-indent: -5000px;
+	width:25px;
+	height: 25px;
+	background: url(../images/left-right-arrow.png) 0px 0px;
+	display: block;
+	float: left;
+}
+
+input.txtfield {
+	float: left;
+	clear: left;
+}
+input.txtfieldind {
+	float: left;
+	clear: left;
+	width: 80%;
+	margin-left: 50px;
+}
+
 
 /*********** User Page Styles *************/
 

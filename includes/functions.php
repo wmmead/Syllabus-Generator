@@ -243,18 +243,36 @@ function course_item($item, $id)
 
 function output_core_competencies($id)
 {
-	$query = "select competency from competencies where course_id='$id' and type='0' order by ordr";
+	$query = "select competency, level from competencies where course_id='$id' and type='0' order by ordr";
 	$result = mysql_query($query);
 	
 	$num_rows = mysql_num_rows($result);
 	if($num_rows > 0)
 	{
+		$subliststart = 1;
 		print "<ul class='disc'>";
 		
 		while($row = mysql_fetch_row($result))
 		{
-			list($competency) = $row;
-			print "<li>$competency</li>";
+			list($competency, $level) = $row;
+			if($level == 0)
+			{
+				if($subliststart != 1){ print "</ul></li>\n"; }
+				print "<li>$competency</li>";
+			}
+			
+			if($level == 1)
+			{
+				if($subliststart != 1){ print "</ul></li>\n"; }
+				print "<li><strong>$competency</strong>\n <ul class='disc'>";
+				$subliststart = 1;
+			}
+			if($level == 2)
+			{
+				print "<li>$competency</li>";
+				$subliststart++;
+			}
+			
 		}
 		
 		print "</ul>";

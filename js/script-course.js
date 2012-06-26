@@ -1,4 +1,23 @@
 $(document).ready(function(){
+
+	$("body").delegate(".clonedInput a", "click", function(){
+		var thisButton = $(this);
+		thisButton.toggleClass("indentbtn exdentbtn");
+		thisButton.prev('input').toggleClass("txtfield txtfieldind");
+		 
+		var hiddenVal = thisButton.next('input').attr('value');
+		
+		if(hiddenVal == 0)
+		{
+			thisButton.next('input').attr('value', '2');	
+		}
+		else
+		{
+			thisButton.next('input').attr('value', '0');
+		}
+		return false;
+	});
+
 	
 	$('#addComp').click(function() {
 		var num     = $('.clonedInput').length; // how many "duplicatable" input fields we currently have
@@ -9,7 +28,9 @@ $(document).ready(function(){
 
 		// manipulate the name/id values of the input inside the new elements
 		newElem.children('label').attr('for', 'comp' + newNum);
-		newElem.children('input').attr('id', 'comp' + newNum).attr('name', 'comp' + newNum).attr('value', '');
+		newElem.children('input[type="text"]').attr('id', 'comp' + newNum).attr('name', 'comp' + newNum).attr('value', '');
+		newElem.children('a').attr('id', 'indent' + newNum);
+		newElem.children('input[type="hidden"]').attr('id', 'level' + newNum).attr('name', 'level' + newNum);
 
 		// insert the new element after the final "duplicatable" input field
 		$('#input' + num).after(newElem);

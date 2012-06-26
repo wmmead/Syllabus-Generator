@@ -2020,17 +2020,35 @@ function output_all_competencies($classid)
 {
 	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$data .= '<ul>' . "\n";
-	$query = "SELECT competencies.competency FROM classes, competencies WHERE
+	$query = "SELECT competencies.competency, competencies.level FROM classes, competencies WHERE
 	classes.course_id = competencies.course_id AND classes.id = '$classid' order by ordr";
 	$results = mysql_query($query);
 	$numrows = mysql_num_rows($results);
 	if($numrows > 0)
 	{
+		$subliststart = 1;
 		while($row = mysql_fetch_row($results))
 		{
-			list($competency) = $row;
+			list($competency, $level) = $row;
 			$competency = escape_quotes($competency);
-			$data .= '<li>' . $competency . '</li>' . "\n";
+			
+			if($level == 0)
+			{
+				if($subliststart != 1){ $data .= '</ul>' . "\n" . '</li>' . "\n"; }
+				$data .= '<li>' . $competency . '</li>' . "\n";
+			}
+			elseif($level == 1)
+			{
+				if($subliststart != 1){ $data .= '</ul>' . "\n" . '</li>' . "\n"; }
+				$data .= '<li><strong>' . $competency . '</strong>' . "\n" . '<ul>' . "\n";
+				$subliststart = 1;
+			}
+			else
+			{
+				$data .= '<li>' . $competency . '</li>' . "\n";
+				$subliststart++;
+			}
+			
 		}
 		
 		$data .= '</ul>' . "\n\n";
