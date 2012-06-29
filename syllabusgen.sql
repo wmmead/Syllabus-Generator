@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 25, 2012 at 10:54 PM
+-- Generation Time: Jun 29, 2012 at 08:55 AM
 -- Server version: 5.5.9
 -- PHP Version: 5.3.6
 
@@ -32,7 +32,7 @@ CREATE TABLE `activities` (
   `activity` text,
   PRIMARY KEY (`id`),
   KEY `class_id` (`class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=221 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=232 ;
 
 --
 -- Dumping data for table `activities`
@@ -225,6 +225,17 @@ INSERT INTO `activities` VALUES(217, 25, 8, '');
 INSERT INTO `activities` VALUES(218, 25, 9, '');
 INSERT INTO `activities` VALUES(219, 25, 10, '');
 INSERT INTO `activities` VALUES(220, 25, 11, '');
+INSERT INTO `activities` VALUES(221, 26, 1, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(222, 26, 2, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(223, 26, 3, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(224, 26, 4, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(225, 26, 5, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(226, 26, 6, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(227, 26, 7, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(228, 26, 8, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(229, 26, 9, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(230, 26, 10, '<p>sdadfasdfsd</p>');
+INSERT INTO `activities` VALUES(231, 26, 11, '<p>sdadfasdfsd</p>');
 
 -- --------------------------------------------------------
 
@@ -275,7 +286,7 @@ CREATE TABLE `classes` (
   KEY `user_id` (`user_id`),
   KEY `term_id` (`term_id`),
   KEY `course_id` (`course_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `classes`
@@ -292,6 +303,7 @@ INSERT INTO `classes` VALUES(22, 21, 21, 16, 0, 0);
 INSERT INTO `classes` VALUES(23, 11, 21, 16, 0, 0);
 INSERT INTO `classes` VALUES(24, 24, 21, 16, 0, 0);
 INSERT INTO `classes` VALUES(25, 31, 25, 16, 0, 0);
+INSERT INTO `classes` VALUES(26, 1, 1, 16, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -308,7 +320,7 @@ CREATE TABLE `class_days_times` (
   `ordr` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `class_id` (`class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `class_days_times`
@@ -324,6 +336,7 @@ INSERT INTO `class_days_times` VALUES(14, 23, 'Wednesday', '1:00 pm', '5:00 pm',
 INSERT INTO `class_days_times` VALUES(15, 21, 'Tuesday', '5:30 pm', '9:30 pm', 1);
 INSERT INTO `class_days_times` VALUES(16, 22, 'Wednesday', '8:00 am', '12:00 pm', 1);
 INSERT INTO `class_days_times` VALUES(17, 24, 'Thursday', '8:00 am', '12:00 pm', 1);
+INSERT INTO `class_days_times` VALUES(18, 26, 'Monday', '8:00 am', '12:00 pm', 1);
 
 -- --------------------------------------------------------
 
@@ -343,7 +356,7 @@ CREATE TABLE `class_details` (
   `focus` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `class_id` (`class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `class_details`
@@ -359,6 +372,7 @@ INSERT INTO `class_details` VALUES(13, 23, '<p>USB Flash drive, sketching materi
 INSERT INTO `class_details` VALUES(14, 21, '<p>USB Flash drive, sketching materials, access to a computer, and scanner or digital camera.</p>', '<p>This class will be taught with lectures, discussion of the reading, quizzes, online research, and digital production using computers.</p>', '<p>Adobe Dreamweaver and Photoshop provided by the school in the personal computer lab.&nbsp; Access to the Internet and eCompanion.&nbsp; The school should provide these</p>', '4 hours per week', 'By appointment', '', '');
 INSERT INTO `class_details` VALUES(15, 22, '<p>USB Flash drive, sketching materials, access to a computer, and scanner or digital camera.</p>', '<p>This class will be taught with lectures, discussion of the reading, quizzes, online research, and digital production using computers.</p>', '<p>Adobe Dreamweaver and Photoshop provided by the school in the personal computer lab.&nbsp; Access to the Internet and eCompanion.&nbsp; The school should provide these.</p>', '4 hours per week', 'By appointment', '', '');
 INSERT INTO `class_details` VALUES(16, 24, '<p>USB Flash drive, sketching materials, access to a computer, and scanner or digital camera.</p>', '<p>This class will be taught with lectures, discussion of the reading, quizzes, online research, and digital production using computers.</p>', '<p>Adobe Dreamweaver and Photoshop provided by the school in the personal computer lab.&nbsp; Access to the Internet and eCompanion.&nbsp; The school should provide these.</p>', '4 hours per week', 'By appointment', '', '');
+INSERT INTO `class_details` VALUES(17, 26, '<p>some stuff</p>', '<p>some stuff</p>', '<p>some stuff</p>', '4 hours per week', 'all the time', '', '');
 
 -- --------------------------------------------------------
 
@@ -778,7 +792,7 @@ CREATE TABLE `evalscales` (
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `class_id` (`class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=73 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
 
 --
 -- Dumping data for table `evalscales`
@@ -806,6 +820,7 @@ INSERT INTO `evalscales` VALUES(69, 21, 'Attendance and Participation', 10, 1);
 INSERT INTO `evalscales` VALUES(70, 21, 'Assignments and Exercises', 50, 2);
 INSERT INTO `evalscales` VALUES(71, 21, 'Midterm Project', 15, 3);
 INSERT INTO `evalscales` VALUES(72, 21, 'Final Project', 25, 4);
+INSERT INTO `evalscales` VALUES(73, 26, 'everything', 100, 1);
 
 -- --------------------------------------------------------
 
@@ -818,12 +833,12 @@ CREATE TABLE `gradingpolicies` (
   `term_id` int(11) NOT NULL,
   `class_id` int(11) DEFAULT NULL,
   `type` tinyint(1) NOT NULL,
-  `policy` varchar(255) NOT NULL,
+  `policy` text NOT NULL,
   `ordr` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `term_id` (`term_id`),
   KEY `class_id` (`class_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=115 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=116 ;
 
 --
 -- Dumping data for table `gradingpolicies`
@@ -838,16 +853,8 @@ INSERT INTO `gradingpolicies` VALUES(101, 16, NULL, 0, 'On-time projects may be 
 INSERT INTO `gradingpolicies` VALUES(102, 16, NULL, 0, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.', 7);
 INSERT INTO `gradingpolicies` VALUES(103, 0, 20, 1, 'Pass // No Pass (S=Satisfactory, NS=Not Satisfactory), as based on attendance, participation and engagement in the course and its weekly tasks and activities.', 1);
 INSERT INTO `gradingpolicies` VALUES(104, 0, 23, 1, 'Deadlines are very serious in the industry. Each assignment must be received by the set deadline, typically one week after it is introduced. If you donâ€™t keep up with the assignments, it will become harder to comprehend later course material. Late work ', 1);
-INSERT INTO `gradingpolicies` VALUES(105, 0, 23, 1, 'On-time projects may be redone with instructor approval.', 2);
-INSERT INTO `gradingpolicies` VALUES(106, 0, 23, 1, 'MyAiCampus.com is required for submitting assignments. It is the studentâ€™s responsibility to report any difficulties with or confusion about the system at the time they occurâ€”and before the deadline for the assignment. Deadlines for all assignmentsâ€”', 3);
-INSERT INTO `gradingpolicies` VALUES(107, 0, 23, 1, 'Work turned into the wrong Dropbox basket for a given assignment will not be graded.', 4);
-INSERT INTO `gradingpolicies` VALUES(108, 0, 23, 1, 'â€¢	ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11. Not midnight; the end of the class session.', 5);
 INSERT INTO `gradingpolicies` VALUES(109, 0, 21, 1, 'Deadlines are very serious in the industry. Each assignment must be received by the set deadline, typically one week after it is introduced. If you donâ€™t keep up with the assignments, it will become harder to comprehend later course material.', 1);
-INSERT INTO `gradingpolicies` VALUES(110, 0, 21, 1, 'On-time projects may be redone with instructor approval.', 2);
-INSERT INTO `gradingpolicies` VALUES(111, 0, 21, 1, 'MyAiCampus.com is required for submitting assignments. It is the studentâ€™s responsibility to report any difficulties with or confusion about the system at the time they occurâ€”and before the deadline for the assignment.', 3);
-INSERT INTO `gradingpolicies` VALUES(112, 0, 21, 1, 'Late work will not be accepted.', 4);
-INSERT INTO `gradingpolicies` VALUES(113, 0, 21, 1, 'Work turned into the wrong Dropbox basket for a given assignment will not be graded.', 5);
-INSERT INTO `gradingpolicies` VALUES(114, 0, 21, 1, 'ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11. Not midnight; the end of the class session.', 6);
+INSERT INTO `gradingpolicies` VALUES(115, 0, 26, 1, '<ul>\r\n<li><strong>Email Etiquette:</strong> The industry standard for sending files over email is to send very small files (2 MB or less) or to use an online service for sharing large files (e.g., yousendit.com; box.com; or sharefile.com)&mdash;you upload the file and email the download link to your email recipients. If you need to &ldquo;send&rdquo; a file to the instructor your file must be in PDF format and the total size must not exceed 2 MB. If your file is larger use a file sharing service and send the link OR upload file to myaicampus docsharing (set visibility to instructor only if you wish) let the instructor know where the file is along with the file name.</li>\r\n<li>Grading will be done on a point system. Points for individual activities will be announced.</li>\r\n<li><strong>Use of Images:</strong> In addition to the plagiarism and cheating policies below, and given that this class is partially meant to help you develop your image-making skills, use of stock images is NOT allowed on final projects. All images must be of your own creation. Any student caught using images not created by student on any final project will automatically fail the course.</li>\r\n<li><strong>Late Work:</strong> <strong>No Late work&mdash;</strong>Late work or missed work receives a grade of zero.&nbsp; Late work due to extenuating circumstances may be accepted, BUT the student must make arrangements with instructor <em>prior</em> to the due date. Regardless of circumstances, penalties will be assessed unless student shows valid paperwork justifying absence.</li>\r\n<li><strong>Weekly Homework Assignments: </strong>As indicated above, late homework is NOT accepted and will be given zero points. If during class the student is working on any portion of the homework that is due that day, homework will not be accepted thus losing all possible points. Additionally, student will also lose all participation points. (1) Unless otherwise indicated DIGITAL HOMEWORK must be turned in to the corresponding week&rsquo;s dropbox through myaicampus and is due at the beginning of class on the due date. No digital homework will be accepted over email. Any digital work submitted to an incorrect dropbox, not properly uploaded, or having file corruption will NOT earn any points. After uploading homework, I suggest you test it by downloading and opening all files to make sure they work correctly. Improperly labeled files will lose most points; (2) unless otherwise indicated, HARDCOPY HOMEWORK must be turned in an envelope (9x12 or 10x13) with student&rsquo;s name and class number on the upper right-hand corner, and is due at the end of class.</li>\r\n<li><strong>Final Project Critiques:</strong> If you arrive late to a final project critique within the first 30 minutes of class, your project will lose <strong>half a letter grade</strong>. If you arrive any time after the first 30 minutes, your project will lose <strong>one letter grade</strong>. No final projects will be accepted after the end of the class in which they are due. Out of respect to your fellow design classmates, if you arrive past the first 10 minutes of class you forfeit the right to have your project critiqued by your peers. Unless otherwise indicated, final printed work must be turned in a portfolio tote with your name on the flap (if you can&rsquo;t afford one talk to instructor).</li>\r\n<li><strong>Resubmitting final projects for re-grading&mdash;</strong>On-time projects may be redone to improve grade. Obtain instructor approval.</li>\r\n<li>Absolutely no work will be accepted after the final class meets week 11.</li>\r\n<li><strong>In-class Assignments </strong>Unless you have made prior arrangements with the instructor you cannot make-up missed in-class work. Even though you can&rsquo;t make up lost points, I encourage you to do any work you miss for the sake of your own learning. Please know that I am always available to give you feedback.</li>\r\n<li><strong>Participation </strong>reflects the expectation that each student attends class; is on time; contributes positively to the classroom-learning environment by being attentive, by asking questions, by participating during critiques, and by working on the given assignment. This is what is meant by &ldquo;Class time will be spent in a productive manner.&rdquo; Points given for participation or in-class work will NOT be available to students who are not present. NOTE: you will lose all participation points for that day if you are working on anything other than what you are supposed to be working on during class (i.e., working on late homework, doing work for another class, reading your email, texting, or browsing the internet when it is not part of an assignment).</li>\r\n<li><strong>Storing class work: </strong>Students are to take proper measures to protect their work (digital or analog) when storing and transporting it.&nbsp; ANALOG WORK: Put class supplies, work in progress, and finished projects in secure places. DIGITAL WORK: When dealing with digital files, save early and save often. Use reliable storage media to transport and backup your files. Backup files daily (at home/in the lab). The on-campus Student Server is not a secure storage place. Nor are the lab computers, which self-erase on re-start.Stolen, damaged, or lost work (including that due to corrupt files or defective hard drives) will NOT be excused. For work requested electronically, please test all files on a Mac before handing them in. Platform incompatibility issues will not be excused either.</li>\r\n</ul>', 1);
 
 -- --------------------------------------------------------
 
@@ -944,7 +951,7 @@ CREATE TABLE `syll_process` (
   KEY `class_id` (`class_id`),
   KEY `user_id` (`user_id`),
   KEY `director_id` (`director_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `syll_process`
@@ -953,6 +960,7 @@ CREATE TABLE `syll_process` (
 INSERT INTO `syll_process` VALUES(9, 20, 16, 16, 2, '2012-06-20 16:50:09', '');
 INSERT INTO `syll_process` VALUES(10, 23, 21, 1, 0, '2012-06-21 05:33:40', 'You should probably list your specific office hour, as well as put by appointment.\r\n\r\nAlso, since it is back in draft mode, you can fix the additional policy that got cut off. I guess I was thinking these would be shorter. I can make it a bigger field. Don''t enter any bullets on these, they get added when the syllabus is generated. There is an extra one in the last policy.');
 INSERT INTO `syll_process` VALUES(11, 21, 21, 1, 2, '2012-06-21 05:27:45', 'Looks good Dawn.');
+INSERT INTO `syll_process` VALUES(13, 26, 1, 1, 1, '2012-06-28 13:58:01', '');
 
 -- --------------------------------------------------------
 
