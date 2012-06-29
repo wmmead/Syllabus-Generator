@@ -135,13 +135,12 @@ function output_additional_policies($classid)
 	if($numrows > 0)
 	{
 		echo "<p><strong>Additional Grading Policies for the Course</strong></p>\n";
-		echo "<ul class='disc'>\n";
+		
 		while($rows = mysql_fetch_row($results))
 		{
 			list($policy) = $rows;
-			echo "<li>$policy</li>\n";
+			echo "$policy";
 		}
-		echo "</ul>\n";
 	}
 }
 

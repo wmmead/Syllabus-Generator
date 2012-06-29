@@ -101,8 +101,8 @@
     <div class="frame">
     <h4 class="fold">Additional Grading Policies (optional)</h4>
         <div class="hide">
-        <p><span class="example">Use this section to add additional grading policies that go beyond the ones required for all courses.</span></p>
-        <?php edit_addtn_grade_policies($classid, "1"); ?>
+        <p><span class="example">Use this section to add additional grading policies that go beyond the ones required for all courses.</span><br />
+        <textarea name="policy" class="tinymice" id="policy" cols=55 rows="10"><?php echo addtn_grade_policies($classid, "1"); ?></textarea></p>
         </div>
     </div>
     

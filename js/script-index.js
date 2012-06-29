@@ -69,23 +69,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('#addPolicy').click(function() {
-		var num     = $('.clonedPolicy').length;
-		var newNum  = new Number(num + 1);
-
-		var newElem = $('#policyinput' + num).clone().attr('id', 'policyinput' + newNum);
-
-		newElem.children('label').attr('for', 'policy' + newNum);
-		newElem.children('input').attr('id', 'policy' + newNum).attr('name', 'policy' + newNum).attr('value', '');
-
-		$('#policyinput' + num).after(newElem);
-
-		
-		if (newNum == 10)
-		{
-			$('#addPolicy').attr('disabled','disabled');
-		}
-	});
 	
 	$('#addEval').click(function() {
 		var num     = $('.clonedeval').length;

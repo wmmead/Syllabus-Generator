@@ -274,7 +274,7 @@ function output_core_competencies($id)
 			}
 			
 		}
-		
+		if($subliststart != 1){ print "</ul></li>\n"; }
 		print "</ul>";
 	}
 	else
