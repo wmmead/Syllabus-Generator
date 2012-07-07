@@ -36,7 +36,7 @@ function add_syllabus()
 			$courseid = $_POST['course'];
 			$classtype = $_POST['classtype'];
 			
-			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0')";
+			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0')";
 			//print $query;
 			mysql_query($query);
 			
@@ -784,7 +784,7 @@ function process_addtl_comp()
 				if($competency != '')
 				{
 					$query = "insert into competencies values('', '0', '$classid', '$competency', 
-					'1', '$ordr')";
+					'1', '0', '$ordr')";
 					mysql_query($query);
 					$ordr++;
 				}
@@ -825,7 +825,7 @@ function process_addtl_comp()
 				if($competency != '')
 				{
 					$query = "insert into competencies values('', '0', '$classid', '$competency', 
-					'1', '$ordr')";
+					'1', '0', '$ordr')";
 					mysql_query($query);
 					$ordr++;
 				}
@@ -882,8 +882,9 @@ function process_activities()
 
 function process_form($classid)
 {
-	if(isset($_POST['update']))
+	if(isset($_POST['hwhrs']))
 	{
+		print"cheese";
 		process_class_times('1');
 		if(isset($_POST['day2'])) { process_class_times('2'); }
 		process_class_details();
@@ -1100,7 +1101,6 @@ function add_submit_button($classid)
 {
 	if(check_syllabus_details($classid) && check_eval_status($classid) && check_books($classid, "no") && check_meetings($classid, "no"))
 	{
-		//echo "<input type='button' id='approval' class='submitbttn fancybox' href='#inline1' value='Send to Director for Approval' />";
 		echo "<a class='button link-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
 	}
 }
@@ -1407,7 +1407,10 @@ function process_syllabus_review()
 		{
 			$query = "update syll_process set status='2', date_time=NOW(), message='$message' where class_id='$classid'";
 			mysql_query($query);
-			$query = "update classes set status='2' where id='$classid'";
+			
+			$approver = $_SESSION['id'];
+			
+			$query = "update classes set status='2', approvedby='$approver' where id='$classid'";
 			mysql_query($query);
 			write_file($classid);
 			

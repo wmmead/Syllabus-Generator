@@ -4,37 +4,33 @@ require_once('../../phpdocx_pro/classes/CreateDocx.inc');
 $docx = new CreateDocx();
 
 $docx->addTemplate('../templates/template1.docx');
-$docx->addTemplateVariable('COURSENUM', 'MM3323');
-$docx->addTemplateVariable('COURSETITLE', 'Advanced Web Based Programming');
+$docx->addTemplateVariable('COURSENUM', 'MM1130');
+$docx->addTemplateVariable('COURSETITLE', 'Fundamentals Of Animation');
 $docx->addTemplateVariable('SESSION', 'Summer 2012');
-$docx->addTemplateVariable('INSTRUCTOR', 'William Mead');
-$docx->addTemplateVariable('EMAIL', 'wmead@aii.edu');
-$docx->addTemplateVariable('PHONE', '530-219-8998');
-$docx->addTemplateVariable('AVAILABILITY', 'On Fridays from 4 pm to 5 pm and by appointment');
+$docx->addTemplateVariable('INSTRUCTOR', 'Rob Huddleston');
+$docx->addTemplateVariable('EMAIL', 'rhuddleston@aii.edu');
+$docx->addTemplateVariable('PHONE', '916-743-3020');
+$docx->addTemplateVariable('AVAILABILITY', 'Mondays 12-1, Tuesdays 12-1 and by appointment');
 $docx->addTemplateVariable('WEEKS', '11 Weeks');
 $docx->addTemplateVariable('HOURS', '44 Hours');
 $docx->addTemplateVariable('LECTURE', '22 Hours');
 $docx->addTemplateVariable('LAB', '22 Hours');
 $docx->addTemplateVariable('CREDITS', '3 Credits');
 $docx->addTemplateVariable('REVISED', '7/9/2012');
-$docx->addTemplateVariable('CLASSTIME', 'Fridays from 5:30 pm to 9:30 pm');
-$docx->addTemplateVariable('PREREQS', 'MM2233 Intermediate Web-based Programming');
+$docx->addTemplateVariable('CLASSTIME', 'Mondays from 8:00 am to 12:00 pm');
+$docx->addTemplateVariable('PREREQS', 'FS122 Image Manipulation');
 $html = '<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Course Description:</strong><br />This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.</p>';
+<p><strong>Course Description:</strong><br />This course is an introduction to 2-D digital animation concepts and techniques. Students create animation using basic principles of design for time-based media.</p>';
 
 $docx->replaceTemplateVariableByHTML('COURSEDESCRIPTION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <ul>
-<li>Understand the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand the basics of server, as opposed to workstation design and software</li>
-<li>Understand common web server software (e.g., Apache, IIS) configuration the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand how CGI (Common Gateway Interface) links web forms to back-end programs</li>
-<li>Apply basic Perl to create a functional CGI script </li>
-<li>Understand how server-parsed languages allow access to server variables and resources</li>
-<li>Apply basic PHP to create a functional server-parsed program</li>
-<li>Understand the basics of web-database links</li>
-<li>Understand the use of CGI and PHP in e-commerce systems</li>
+<li>Understand and appreciate digital animation in the continuum of traditional animation and time-based media concepts and practices.</li>
+<li>Demonstrate an understanding of basic techniques of character and narrative development as applied to traditional and digital animation.</li>
+<li>Demonstrate skills in preparation of digital animation for a variety of output formats.</li>
+<li>Create storyboards that effectively document narrative and/or concept development.</li>
+<li>Apply visual and time-based design principles to the creation of digital animation.</li>
 </ul>
 
 ';
@@ -42,16 +38,15 @@ $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 $docx->replaceTemplateVariableByHTML('COMPETENCIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Recommended Text:</strong> Murach by Joel Murach, Mike Murach & Associates, ©2010, ISBN: 978-1890774561</p>
-';
+<p><strong>Required Texts:</strong> None</p>';
 
 $docx->replaceTemplateVariableByHTML('BOOKS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Method of Instruction:</strong> Lecture and Lab</p>
-<p><strong>Materials and Supplies:</strong> Digital storage device, notepad and pen</p>
+<p><strong>Method of Instruction:</strong> Lecture and lab</p>
+<p><strong>Materials and Supplies:</strong> None</p>
 <p><strong>Estimated Homework Hours:</strong> 4 hours per week</p>
-<p><strong>Technology Required:</strong> Computer lab, Adobe Creative Suite, XAMPP or similar, Internet Access</p>
+<p><strong>Technology Required:</strong> PC or Mac with Adobe Creative Suite</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('DETAILS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -65,10 +60,10 @@ $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' =
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Process for Evaluation:</strong></p>
 <table>
+<tr><td>Attendance and participation</td><td>10%</td></tr>
 <tr><td>Assignments and Exercises</td><td>50%</td></tr>
-<tr><td>Mid-Term Project</td><td>15%</td></tr>
+<tr><td>Mid-term Project</td><td>15%</td></tr>
 <tr><td>Final Project</td><td>25%</td></tr>
-<tr><td>Participation</td><td>10%</td></tr>
 <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
 </table> ';
 
@@ -85,6 +80,9 @@ $html = '<style> p, ul, { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <li>On-time projects may be redone with instructor approval.</li>
 <li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
 </ul>
+<p><strong>Additional Grading Policies:</strong></p>
+';
+
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
@@ -139,43 +137,40 @@ $docx->replaceTemplateVariableByHTML('SECTION2', 'block', $html , array('isFile'
 
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <table width="100%">
-<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 13th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Understanding server side scripting</p>
-<p class="p1"><strong>Lab:</strong> Basic Language fundamentals, part 1, Include function</p>
-<p class="p1"><strong>Homework: </strong>Dice game project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 20th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Loops, Arrays and Conditionals</p>
-<p class="p1"><strong>Lab:</strong> Basic language fundamentals, part 2</p>
-<p class="p1"><strong>Homework: </strong>Dice game expanded</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 27th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Forms, User Input and Regular Expressions</p>
-<p class="p1"><strong>Lab:</strong> Building forms and passing data to the server</p>
-<p class="p1"><strong>Homework: </strong>Output user data assignment</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 3rd, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Introduction to Databases and Storing Information</p>
-<p class="p1"><strong>Lab:</strong> Connecting to MySQL and adding records.</p>
-<p class="p1"><strong>Homework: </strong>Build your member table.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 10th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> The power of CRUD and the importance of Security</p>
-<p class="p1"><strong>Lab: </strong>Adding functionality to our member table</p>
-<p class="p1"><strong>Homework:</strong> Implement CRUD in member table</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 17th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Session Variables, Authentication and Encryption</p>
-<p class="p1"><strong>Lab:</strong> Further expanding the Member Database Application</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 24th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> PHP, images and the GD2 library</p>
-<p class="p1"><strong>Lab:</strong> Upload images with PHP, resize and create thumbnails.</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 31st, 2012</p></td><td width="75%"><p>NO CLASS - Labor Day!</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 7th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Pagination and creating view options</p>
-<p class="p1"><strong>Lab: </strong>Adding pagination to the member database</p>
-<p class="p1"><strong>Homework: </strong>Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 14th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Using PHP to write to files</p>
-<p class="p1"><strong>Lab:</strong> Create a log file for Member Database Project</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 21st, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Final Project Presentations</p>
-<p class="p1"><strong>Lab: </strong>Final project assessments</p>
-<p class="p1"><strong>Homework:</strong> none</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 9th, 2012</p></td><td width="75%"><p>Lecture: History of animation and introduction to various animation techniques</p>
+<p>Lab: Discuss character and story as it relates to animation</p>
+<p>Homework:&nbsp; Analyze animated shorts</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 16th, 2012</p></td><td width="75%"><p>Lecture: Introduction to Adobe Flash</p>
+<p>Lab: Create a basic tweened animation in Flash</p>
+<p>Homework: Finish Flash animation</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 23rd, 2012</p></td><td width="75%"><p>Lecture: Frame-by-frame animation; Stop-motion; Rotoscoping</p>
+<p>Lab: Create a frame-by-frame animation</p>
+<p>Homework: Finish animation</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Jul 30th, 2012</p></td><td width="75%"><p>Lecture: Inverse kinematics and understanding how humans and animals move</p>
+<p>Lab: Animating characters</p>
+<p>Homework:&nbsp; Finish animation</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 6th, 2012</p></td><td width="75%"><p>Mid-term project</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 13th, 2012</p></td><td width="75%"><p>Week 6: Introduction to After Effects</p>
+<p>Lab: Animating titles</p>
+<p>Homework: Complete title sequence</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 20th, 2012</p></td><td width="75%"><p>Week 7:&nbsp; Introduction to 3D Animation</p>
+<p>Lab: Work with 3D in After Effects</p>
+<p>Homework: Finish 3D sequence</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 27th, 2012</p></td><td width="75%"><p>Week 8: Final Project Overview</p>
+<p>Lab: Understand requirements for final project</p>
+<p>Homework: Develop story board for final</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 3rd, 2012</p></td><td width="75%"><p>Holiday - no class</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 10th, 2012</p></td><td width="75%"><p>Week 9:&nbsp; Introduction to Adobe Edge and animating for the Web without Flash</p>
+<p>Lab: Introducing HTML/JavaScript animation</p>
+<p>Homework: Complete Edge-based animation</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 17th, 2012</p></td><td width="75%"><p>Week 11:&nbsp; Final project presentation</p>
+<p>Lab: Present final projects to class</p></td></tr>
 </table> ';
 
 $docx->replaceTemplateVariableByHTML('ACTIVITIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $paramsPage = array( 'titlePage' => 1, 'orient' => 'normal', 'top' => 800, 'bottom' => 800, 'right' => 800, 'left' => 800);
 
-$docx->createDocxAndDownload('MM3323_Mead_SU12_id16', $paramsPage);
+$docx->createDocxAndDownload('MM1130_Huddleston_SU12_id34', $paramsPage);
 
 ?>

@@ -4,54 +4,56 @@ require_once('../../phpdocx_pro/classes/CreateDocx.inc');
 $docx = new CreateDocx();
 
 $docx->addTemplate('../templates/template1.docx');
-$docx->addTemplateVariable('COURSENUM', 'MM3323');
-$docx->addTemplateVariable('COURSETITLE', 'Advanced Web Based Programming');
+$docx->addTemplateVariable('COURSENUM', 'GD3384');
+$docx->addTemplateVariable('COURSETITLE', 'Advanced Design');
 $docx->addTemplateVariable('SESSION', 'Summer 2012');
-$docx->addTemplateVariable('INSTRUCTOR', 'William Mead');
-$docx->addTemplateVariable('EMAIL', 'wmead@aii.edu');
-$docx->addTemplateVariable('PHONE', '530-219-8998');
-$docx->addTemplateVariable('AVAILABILITY', 'On Fridays from 4 pm to 5 pm and by appointment');
+$docx->addTemplateVariable('INSTRUCTOR', 'Steve Holler');
+$docx->addTemplateVariable('EMAIL', 'rholler@aii.edu');
+$docx->addTemplateVariable('PHONE', '916-202-3200');
+$docx->addTemplateVariable('AVAILABILITY', 'Thursday from 10 p.m. to 12 p.m. and by appointment');
 $docx->addTemplateVariable('WEEKS', '11 Weeks');
 $docx->addTemplateVariable('HOURS', '44 Hours');
 $docx->addTemplateVariable('LECTURE', '22 Hours');
 $docx->addTemplateVariable('LAB', '22 Hours');
 $docx->addTemplateVariable('CREDITS', '3 Credits');
 $docx->addTemplateVariable('REVISED', '7/9/2012');
-$docx->addTemplateVariable('CLASSTIME', 'Fridays from 5:30 pm to 9:30 pm');
-$docx->addTemplateVariable('PREREQS', 'MM2233 Intermediate Web-based Programming');
+$docx->addTemplateVariable('CLASSTIME', 'Wednesdays from 8:00 am to 12:00 pm');
+$docx->addTemplateVariable('PREREQS', 'GD2262 Message Making');
 $html = '<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Course Description:</strong><br />This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.</p>';
+<p><strong>Course Description:</strong><br />This course further defines the role of the graphic designer in advertising and photography.  Students are introduced to
+informational and administrative approaches to the development of advertising campaign strategies.  Media and marketing realities are applied.</p>
+<p><strong>Course Focus:</strong><br />This course focuses on advanced concepts in designing visual communication for a unique culture and target audience.&nbsp; The student will be requested to research and document supportive information that will aid in the creative development of communication design solutions.&nbsp; Assignment solutions will be directed toward specific messages targeted to a unique culture and audience.&nbsp; This course will introduce the concept and opportunity of international design consulting.</p>';
 
 $docx->replaceTemplateVariableByHTML('COURSEDESCRIPTION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <ul>
-<li>Understand the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand the basics of server, as opposed to workstation design and software</li>
-<li>Understand common web server software (e.g., Apache, IIS) configuration the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand how CGI (Common Gateway Interface) links web forms to back-end programs</li>
-<li>Apply basic Perl to create a functional CGI script </li>
-<li>Understand how server-parsed languages allow access to server variables and resources</li>
-<li>Apply basic PHP to create a functional server-parsed program</li>
-<li>Understand the basics of web-database links</li>
-<li>Understand the use of CGI and PHP in e-commerce systems</li>
+<li>Develop an advanced sensitivity to the combination of image, typography and layout. </li>
+<li>Demonstrate advanced graphic design skills: sequence, advertising, visual and verbal narrative as it interrelates through time and space, storytelling, narrative structures, rhythm, audience, and point of view.</li>
+<li>Develop and demonstrate the graphic creative process through extensive thumbnails and comps before creating completed portfolio pieces.</li>
+<li>Demonstrate by presentation their clarity in problem (assignment) recognition, solution and presentation.</li>
+<li>Develop and demonstrate the ability to research and define the design challenges in a given problem/assignment.</li>
+<li>Develop an understanding of a marketing brief and copywriting skills.</li>
 </ul>
 
-';
+
+<p><strong>Additional Competencies:</strong></p>
+<ul>
+<li>Develop an understanding of targeted communication solutions that are effected by the audience and cultural specifics.</li>
+</ul> ';
 
 $docx->replaceTemplateVariableByHTML('COMPETENCIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Recommended Text:</strong> Murach by Joel Murach, Mike Murach & Associates, ©2010, ISBN: 978-1890774561</p>
-';
+<p><strong>Required Texts:</strong> None</p>';
 
 $docx->replaceTemplateVariableByHTML('BOOKS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Method of Instruction:</strong> Lecture and Lab</p>
-<p><strong>Materials and Supplies:</strong> Digital storage device, notepad and pen</p>
+<p><strong>Materials and Supplies:</strong> High quality graphic design materials and tools; concept development materials for sketching and evaluating preliminary ideas; High quality print papers and related exhibit fabrication materials.</p>
 <p><strong>Estimated Homework Hours:</strong> 4 hours per week</p>
-<p><strong>Technology Required:</strong> Computer lab, Adobe Creative Suite, XAMPP or similar, Internet Access</p>
+<p><strong>Technology Required:</strong> Computer lab with Adobe CS software; High quality print availability.</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('DETAILS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -65,10 +67,11 @@ $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' =
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Process for Evaluation:</strong></p>
 <table>
-<tr><td>Assignments and Exercises</td><td>50%</td></tr>
-<tr><td>Mid-Term Project</td><td>15%</td></tr>
-<tr><td>Final Project</td><td>25%</td></tr>
-<tr><td>Participation</td><td>10%</td></tr>
+<tr><td>Class Participation</td><td>10%</td></tr>
+<tr><td>Core Assignment Research and Documentation</td><td>10%</td></tr>
+<tr><td>Creative Concept Development</td><td>30%</td></tr>
+<tr><td>Creative Design Development</td><td>30%</td></tr>
+<tr><td>Assignment Execution and Presentation</td><td>20%</td></tr>
 <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
 </table> ';
 
@@ -85,6 +88,9 @@ $html = '<style> p, ul, { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <li>On-time projects may be redone with instructor approval.</li>
 <li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
 </ul>
+<p><strong>Additional Grading Policies:</strong></p>
+';
+
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
@@ -139,43 +145,43 @@ $docx->replaceTemplateVariableByHTML('SECTION2', 'block', $html , array('isFile'
 
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <table width="100%">
-<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 13th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Understanding server side scripting</p>
-<p class="p1"><strong>Lab:</strong> Basic Language fundamentals, part 1, Include function</p>
-<p class="p1"><strong>Homework: </strong>Dice game project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 20th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Loops, Arrays and Conditionals</p>
-<p class="p1"><strong>Lab:</strong> Basic language fundamentals, part 2</p>
-<p class="p1"><strong>Homework: </strong>Dice game expanded</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 27th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Forms, User Input and Regular Expressions</p>
-<p class="p1"><strong>Lab:</strong> Building forms and passing data to the server</p>
-<p class="p1"><strong>Homework: </strong>Output user data assignment</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 3rd, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Introduction to Databases and Storing Information</p>
-<p class="p1"><strong>Lab:</strong> Connecting to MySQL and adding records.</p>
-<p class="p1"><strong>Homework: </strong>Build your member table.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 10th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> The power of CRUD and the importance of Security</p>
-<p class="p1"><strong>Lab: </strong>Adding functionality to our member table</p>
-<p class="p1"><strong>Homework:</strong> Implement CRUD in member table</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 17th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Session Variables, Authentication and Encryption</p>
-<p class="p1"><strong>Lab:</strong> Further expanding the Member Database Application</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 24th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> PHP, images and the GD2 library</p>
-<p class="p1"><strong>Lab:</strong> Upload images with PHP, resize and create thumbnails.</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 31st, 2012</p></td><td width="75%"><p>NO CLASS - Labor Day!</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 7th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Pagination and creating view options</p>
-<p class="p1"><strong>Lab: </strong>Adding pagination to the member database</p>
-<p class="p1"><strong>Homework: </strong>Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 14th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Using PHP to write to files</p>
-<p class="p1"><strong>Lab:</strong> Create a log file for Member Database Project</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 21st, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Final Project Presentations</p>
-<p class="p1"><strong>Lab: </strong>Final project assessments</p>
-<p class="p1"><strong>Homework:</strong> none</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 11th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Introduction to course objectives and methodology;&nbsp; Discussion of international design consulting and related challenges;&nbsp; Discussion of the target culture and audience.</p>
+<p><strong>Lab:</strong>&nbsp; Assignment #1:&nbsp; Research development.</p>
+<p><strong>Homework:</strong>&nbsp; Complete research assignment #1.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 18th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Evaluate the research process and the selection of meaningful data.</p>
+<p><strong>Lab:&nbsp;</strong> Each student will present the findings of their research assignment #1;&nbsp; Introduction of Assignment #2:&nbsp; Exterior Identification Signing, phase 1.</p>
+<p><strong>Homework:&nbsp;</strong> Completion of Assignment #2, phase 1.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 25th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Discussion of exterior signing fabrication;&nbsp; Critique of Assignment #2, phase 1.</p>
+<p><strong>Lab:&nbsp;</strong> Continuation of Assignment #2, phase 2.</p>
+<p><strong>Homework:</strong> Completion of Assignment #2, phase 2.&nbsp;</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 1st, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Discussion of Product Marketing / Corporate Capabilities introduced to targeted audience and culture;&nbsp; Introduce Assignment #3, phase 1.</p>
+<p><strong>Lab:</strong>&nbsp; Creative concept development for Assignment #3, phase 1.</p>
+<p><strong>Homework:</strong>&nbsp; Complete Assignment #3, phase 1.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 8th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Critique and discussion of exhibits representing Assignment #3, phase 1;&nbsp; Introduce Assignment #3, phase 2.</p>
+<p><strong>Lab:&nbsp;</strong> Creative concept development for Assignment #3, phase 2.</p>
+<p><strong>Homework:&nbsp;</strong> Complete Assignment #3, phase 2.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 15th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Critique and discussion of exhibits representing Assignment #3, phase 2;&nbsp; Introduce Assignment #3, phase 3.</p>
+<p><strong>Lab:</strong>&nbsp; Creative concept development for Assignment #3, phase 3.</p>
+<p><strong>Homework:</strong>&nbsp; Complete Assignment #3, phase 3.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 22nd, 2012</p></td><td width="75%"><p><strong>Lecture:&nbsp;</strong> Critique and discussion of exhibits representing Assignment #3, phase 3;&nbsp; Introduce Assignment #3, final refinement;&nbsp; Introduce Assignment #4.</p>
+<p><strong>Lab:&nbsp;</strong> Final refinement for Assignment #3.</p>
+<p><strong>Homework:&nbsp;</strong> Completion of Assignment #4.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 29th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Critique and discussion of exhibits representing Assignment #4;&nbsp; Introduction of Assignment #5, phase 1.</p>
+<p><strong>Lab:</strong>&nbsp; Creative development of Assignment #5, phase 1.</p>
+<p><strong>Homework:&nbsp;</strong> Completion of Assignment #5, phase 1.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 5th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Critique and discussion of exhibits representing Assignment #5, phase 1;&nbsp; Introduction of Assignment #5, phase 2.</p>
+<p><strong>Lab:</strong>&nbsp; Creative development of Assignment #5, phase 2.</p>
+<p><strong>Homework:</strong>&nbsp; Completion of Assignment #5, phase 2.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 12th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Critique and discussion exhibit representing Assignment #5, phase 2;&nbsp; Discussion of final exam and final presentation of exhibits representing Assignments #2 through #5.</p>
+<p><strong>Lab:&nbsp;</strong> Final exhibit refinements</p>
+<p><strong>Homework:</strong>&nbsp; Prepare for final exam and exhibit presentation.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 19th, 2012</p></td><td width="75%"><p>Final exam and design presentation.</p></td></tr>
 </table> ';
 
 $docx->replaceTemplateVariableByHTML('ACTIVITIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $paramsPage = array( 'titlePage' => 1, 'orient' => 'normal', 'top' => 800, 'bottom' => 800, 'right' => 800, 'left' => 800);
 
-$docx->createDocxAndDownload('MM3323_Mead_SU12_id16', $paramsPage);
+$docx->createDocxAndDownload('GD3384_Holler_SU12_id51', $paramsPage);
 
 ?>

@@ -4,54 +4,61 @@ require_once('../../phpdocx_pro/classes/CreateDocx.inc');
 $docx = new CreateDocx();
 
 $docx->addTemplate('../templates/template1.docx');
-$docx->addTemplateVariable('COURSENUM', 'MM3323');
-$docx->addTemplateVariable('COURSETITLE', 'Advanced Web Based Programming');
+$docx->addTemplateVariable('COURSENUM', 'GD2252');
+$docx->addTemplateVariable('COURSETITLE', 'Corporate Communications');
 $docx->addTemplateVariable('SESSION', 'Summer 2012');
-$docx->addTemplateVariable('INSTRUCTOR', 'William Mead');
-$docx->addTemplateVariable('EMAIL', 'wmead@aii.edu');
-$docx->addTemplateVariable('PHONE', '530-219-8998');
-$docx->addTemplateVariable('AVAILABILITY', 'On Fridays from 4 pm to 5 pm and by appointment');
+$docx->addTemplateVariable('INSTRUCTOR', 'Steve Holler');
+$docx->addTemplateVariable('EMAIL', 'rholler@aii.edu');
+$docx->addTemplateVariable('PHONE', '916-202-3200');
+$docx->addTemplateVariable('AVAILABILITY', 'Thursday from 10 p.m. to 12 p.m. and by appointment');
 $docx->addTemplateVariable('WEEKS', '11 Weeks');
 $docx->addTemplateVariable('HOURS', '44 Hours');
 $docx->addTemplateVariable('LECTURE', '22 Hours');
 $docx->addTemplateVariable('LAB', '22 Hours');
 $docx->addTemplateVariable('CREDITS', '3 Credits');
 $docx->addTemplateVariable('REVISED', '7/9/2012');
-$docx->addTemplateVariable('CLASSTIME', 'Fridays from 5:30 pm to 9:30 pm');
-$docx->addTemplateVariable('PREREQS', 'MM2233 Intermediate Web-based Programming');
+$docx->addTemplateVariable('CLASSTIME', 'Thursdays from 1:00 pm to 5:00 pm');
+$docx->addTemplateVariable('PREREQS', 'GD2242 Illustrative Concept Design');
 $html = '<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Course Description:</strong><br />This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.</p>';
+<p><strong>Course Description:</strong><br />This advanced design course will deal primarily with the development of internal corporate imaging. Building on the theories of design, the course will further examine logo design and internal application of the corporate image.</p>
+<p><strong>Course Focus:</strong><br />Based on the understanding of the client requirements the student will be challenged to produce a series of corporate specific design solutions.&nbsp; There will be a series of assignments to encourage the student to experience a broad range of corporate communication opportunities.</p>';
 
 $docx->replaceTemplateVariableByHTML('COURSEDESCRIPTION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <ul>
-<li>Understand the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand the basics of server, as opposed to workstation design and software</li>
-<li>Understand common web server software (e.g., Apache, IIS) configuration the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand how CGI (Common Gateway Interface) links web forms to back-end programs</li>
-<li>Apply basic Perl to create a functional CGI script </li>
-<li>Understand how server-parsed languages allow access to server variables and resources</li>
-<li>Apply basic PHP to create a functional server-parsed program</li>
-<li>Understand the basics of web-database links</li>
-<li>Understand the use of CGI and PHP in e-commerce systems</li>
+<li>Identify communication needs of client and audience.</li>
+<li>Display consideration of physical requirements in relation to space and audience and cost in designing.</li>
+<li>Develop a psychology of proper cognitive responses to images.</li>
+<li>Develop an understanding of Semiotics.</li>
+<li>Examine standardization of mark/logo application in various settings (2D, 3D, Virtual, Web, etc.).</li>
+<li>Render design mark on multiple applications representative of a company/product need.</li>
+<li>Relate history and psychology of corporate identity to given projects.</li>
+<li>Historical overview of Corporate/Brand Identity from Hieroglyphics through Iconography. Family crests through early 20th century Branding.</li>
+<li>Discuss co-branding issues and examples.</li>
+<li>Discuss co-branding issues and examples.</li>
+<li>Review branding terminology.</li>
+<li>Develop a basic understanding of importance of product placement, branded environments, scripted spaces, globalization issues, subversive branding, co-branding, and adaptive branding.</li>
 </ul>
 
-';
+
+<p><strong>Additional Competencies:</strong></p>
+<ul>
+<li>Develop the ability to research and document critical client information that will aid in the successful execution of graphic design solutions.</li>
+</ul> ';
 
 $docx->replaceTemplateVariableByHTML('COMPETENCIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Recommended Text:</strong> Murach by Joel Murach, Mike Murach & Associates, ©2010, ISBN: 978-1890774561</p>
-';
+<p><strong>Required Texts:</strong> None</p>';
 
 $docx->replaceTemplateVariableByHTML('BOOKS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Method of Instruction:</strong> Lecture and Lab</p>
-<p><strong>Materials and Supplies:</strong> Digital storage device, notepad and pen</p>
+<p><strong>Materials and Supplies:</strong> Graphic design materials including layout pad, drawing materials and comprehensive fabrication supplies.&nbsp; Materials as requested by instructor.</p>
 <p><strong>Estimated Homework Hours:</strong> 4 hours per week</p>
-<p><strong>Technology Required:</strong> Computer lab, Adobe Creative Suite, XAMPP or similar, Internet Access</p>
+<p><strong>Technology Required:</strong> Computer lab; Adobe CS software; Ability to aquire excellent quality prints.</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('DETAILS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -65,10 +72,10 @@ $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' =
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Process for Evaluation:</strong></p>
 <table>
-<tr><td>Assignments and Exercises</td><td>50%</td></tr>
-<tr><td>Mid-Term Project</td><td>15%</td></tr>
-<tr><td>Final Project</td><td>25%</td></tr>
-<tr><td>Participation</td><td>10%</td></tr>
+<tr><td>Class Participation</td><td>10%</td></tr>
+<tr><td>Assignment Concept Development</td><td>30%</td></tr>
+<tr><td>Assignment Creative Development</td><td>30%</td></tr>
+<tr><td>Assignment Craftsmanship</td><td>30%</td></tr>
 <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
 </table> ';
 
@@ -85,6 +92,9 @@ $html = '<style> p, ul, { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <li>On-time projects may be redone with instructor approval.</li>
 <li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
 </ul>
+<p><strong>Additional Grading Policies:</strong></p>
+<p>Each assignment will be evaluated and graded on a weekly basis.&nbsp; The final quarterly grade will be based on the average of the total assignment grades, plus additional evaluation points.</p>';
+
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
@@ -139,43 +149,44 @@ $docx->replaceTemplateVariableByHTML('SECTION2', 'block', $html , array('isFile'
 
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <table width="100%">
-<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 13th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Understanding server side scripting</p>
-<p class="p1"><strong>Lab:</strong> Basic Language fundamentals, part 1, Include function</p>
-<p class="p1"><strong>Homework: </strong>Dice game project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 20th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Loops, Arrays and Conditionals</p>
-<p class="p1"><strong>Lab:</strong> Basic language fundamentals, part 2</p>
-<p class="p1"><strong>Homework: </strong>Dice game expanded</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 27th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Forms, User Input and Regular Expressions</p>
-<p class="p1"><strong>Lab:</strong> Building forms and passing data to the server</p>
-<p class="p1"><strong>Homework: </strong>Output user data assignment</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 3rd, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Introduction to Databases and Storing Information</p>
-<p class="p1"><strong>Lab:</strong> Connecting to MySQL and adding records.</p>
-<p class="p1"><strong>Homework: </strong>Build your member table.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 10th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> The power of CRUD and the importance of Security</p>
-<p class="p1"><strong>Lab: </strong>Adding functionality to our member table</p>
-<p class="p1"><strong>Homework:</strong> Implement CRUD in member table</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 17th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Session Variables, Authentication and Encryption</p>
-<p class="p1"><strong>Lab:</strong> Further expanding the Member Database Application</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 24th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> PHP, images and the GD2 library</p>
-<p class="p1"><strong>Lab:</strong> Upload images with PHP, resize and create thumbnails.</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 31st, 2012</p></td><td width="75%"><p>NO CLASS - Labor Day!</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 7th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Pagination and creating view options</p>
-<p class="p1"><strong>Lab: </strong>Adding pagination to the member database</p>
-<p class="p1"><strong>Homework: </strong>Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 14th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Using PHP to write to files</p>
-<p class="p1"><strong>Lab:</strong> Create a log file for Member Database Project</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 21st, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Final Project Presentations</p>
-<p class="p1"><strong>Lab: </strong>Final project assessments</p>
-<p class="p1"><strong>Homework:</strong> none</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 12th, 2012</p></td><td width="75%"><p><strong>Lecture:&nbsp;</strong> Introduce the concept of Corporate Communications and the career possibilities in related fields; Discuss the organizational structure of a corporate design center and the role of the graphic designer as a member of the communications team.</p>
+<p><strong>Lab:</strong>&nbsp; Assignment research and documentation phase.</p>
+<p><strong>Homework:&nbsp;</strong> Complete assignment.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 19th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; The role of brand design in an integrated corporate communications program;&nbsp; display of "best in category" exhibits.</p>
+<p><strong>Lab:&nbsp;</strong> Assignment #1 development:&nbsp; Corporate Press Folder</p>
+<p><strong>Homework:</strong> Completion of assignment #1.</p>
+<p>&nbsp;</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 26th, 2012</p></td><td width="75%"><p><strong>Lecture:&nbsp;</strong> Discussion of the history of corporate communications:&nbsp; best practices examples displayed and discussed.</p>
+<p><strong>Lab:&nbsp;</strong> Assignment #1 critique;&nbsp; Introduction of assignment #2: Employee Communication</p>
+<p><strong>Homework:</strong>&nbsp; Completion of assignment #2</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 2nd, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Discussion of the qualities and abilities required to be successful as a corporate graphic designer.</p>
+<p><strong>Lab:</strong>&nbsp; Assignment #2 critique;&nbsp; Introduction of assignment #3:&nbsp; Product Marketing Literature, Phase 1.</p>
+<p><strong>Homework:</strong> Completion of assignment #3, phase 1.&nbsp;</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 9th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Discussion of corporate product marketing and the designer\'s role.</p>
+<p><strong>Lab:</strong>&nbsp; Assignment #3, phase 1 critique;&nbsp; Introduction of assignment #3, phase 2.</p>
+<p><strong>Homework:&nbsp;</strong> Completion of assignment #3, phase 2.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 16th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Class critique and review of Assignment #3, phases 1 &amp; 2;&nbsp; Introduction of the "Trade Show" environment and fabrication methods.</p>
+<p><strong>Lab:&nbsp;</strong> Assignment #4:&nbsp; Corporate Trade Show, phase 1 development.</p>
+<p><strong>Homework:</strong> Completion of Assignment #4, phase 1.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 23rd, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Discussion of corporate trade show best practices.</p>
+<p><strong>Lab:</strong>&nbsp; Assignment #4, phase 2 development.</p>
+<p><strong>Homework:&nbsp;</strong> Completion of Assignment #4, phase 2.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 30th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Final discussion and critique of Assignment #4, phases 1 &amp; 2.</p>
+<p><strong>Lab:</strong>&nbsp; Assignment #5:&nbsp; Corporate Event Marketing.</p>
+<p><strong>Homework:&nbsp;</strong> Completion of Assignment #5.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 6th, 2012</p></td><td width="75%"><p><strong>Lecture:&nbsp;</strong> Final discussion and critique of Assignment #5.</p>
+<p><strong>Lab:&nbsp;</strong> Assignment #6:&nbsp; Corporate Annual Report Cover</p>
+<p><strong>Homework:&nbsp;</strong> Completion of Assignment #6.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 13th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong>&nbsp; Content Review for Final Exam;&nbsp; Outline for final design presentation.</p>
+<p><strong>Lab:&nbsp;</strong> Final discussion and critique of assignment #6.</p>
+<p><strong>Homework:</strong>&nbsp; Study for final exam and prepare the final design presentation.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 20th, 2012</p></td><td width="75%"><p>Final exam and design presentation.</p></td></tr>
 </table> ';
 
 $docx->replaceTemplateVariableByHTML('ACTIVITIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $paramsPage = array( 'titlePage' => 1, 'orient' => 'normal', 'top' => 800, 'bottom' => 800, 'right' => 800, 'left' => 800);
 
-$docx->createDocxAndDownload('MM3323_Mead_SU12_id16', $paramsPage);
+$docx->createDocxAndDownload('GD2252_Holler_SU12_id50', $paramsPage);
 
 ?>

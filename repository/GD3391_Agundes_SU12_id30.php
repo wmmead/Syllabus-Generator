@@ -4,37 +4,34 @@ require_once('../../phpdocx_pro/classes/CreateDocx.inc');
 $docx = new CreateDocx();
 
 $docx->addTemplate('../templates/template1.docx');
-$docx->addTemplateVariable('COURSENUM', 'MM3323');
-$docx->addTemplateVariable('COURSETITLE', 'Advanced Web Based Programming');
+$docx->addTemplateVariable('COURSENUM', 'GD3391');
+$docx->addTemplateVariable('COURSETITLE', 'Graphic Design History');
 $docx->addTemplateVariable('SESSION', 'Summer 2012');
-$docx->addTemplateVariable('INSTRUCTOR', 'William Mead');
-$docx->addTemplateVariable('EMAIL', 'wmead@aii.edu');
-$docx->addTemplateVariable('PHONE', '530-219-8998');
-$docx->addTemplateVariable('AVAILABILITY', 'On Fridays from 4 pm to 5 pm and by appointment');
+$docx->addTemplateVariable('INSTRUCTOR', 'Holly Agundes');
+$docx->addTemplateVariable('EMAIL', 'hagundes@aii.edu');
+$docx->addTemplateVariable('PHONE', '916-230-1362');
+$docx->addTemplateVariable('AVAILABILITY', 'Mondays from 11 am - 12 pm or by appointment');
 $docx->addTemplateVariable('WEEKS', '11 Weeks');
 $docx->addTemplateVariable('HOURS', '44 Hours');
 $docx->addTemplateVariable('LECTURE', '22 Hours');
 $docx->addTemplateVariable('LAB', '22 Hours');
 $docx->addTemplateVariable('CREDITS', '3 Credits');
 $docx->addTemplateVariable('REVISED', '7/9/2012');
-$docx->addTemplateVariable('CLASSTIME', 'Fridays from 5:30 pm to 9:30 pm');
-$docx->addTemplateVariable('PREREQS', 'MM2233 Intermediate Web-based Programming');
+$docx->addTemplateVariable('CLASSTIME', 'Tuesdays from 8:00 am to 12:00 pm');
+$docx->addTemplateVariable('PREREQS', 'None ');
 $html = '<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Course Description:</strong><br />This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.</p>';
+<p><strong>Course Description:</strong><br />This course will examine the influences of social trends, historical events, technological developments and the fine arts on contemporary graphic design, illustration, typographic design, architectural design, photography and fashionable trends in general. Through lectures, supplied visual examples, independent research and design assessments, the student will gain insight into a variety of major design influences. The student will learn how to research and utilize a wide variety of design styles.</p>';
 
 $docx->replaceTemplateVariableByHTML('COURSEDESCRIPTION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <ul>
-<li>Understand the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand the basics of server, as opposed to workstation design and software</li>
-<li>Understand common web server software (e.g., Apache, IIS) configuration the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand how CGI (Common Gateway Interface) links web forms to back-end programs</li>
-<li>Apply basic Perl to create a functional CGI script </li>
-<li>Understand how server-parsed languages allow access to server variables and resources</li>
-<li>Apply basic PHP to create a functional server-parsed program</li>
-<li>Understand the basics of web-database links</li>
-<li>Understand the use of CGI and PHP in e-commerce systems</li>
+<li>Acquire an in depth knowledge of the major movements in design and architecture, and be able to identify all major styles and trends.</li>
+<li>Identify the main visual characteristics of a variety of graphic areas in history, including type faces, logos, logotype, borders, and other embellishment devices, and apply these to assignment solutions.</li>
+<li>Gain an understanding of appreciation and be able to recognize outstanding designers.</li>
+<li>Recognize and describe the areas of significant historic interest to the graphic design field in western and other cultures (i.e., Arts and Crafts, Nouveau, Deco, Modernism, Russian Constructivism, etc.).</li>
+<li>Recognize the influence of social and political trends on design; to comprehend the relationship between design and technology.</li>
+<li>Learn to think, research, and present like a designer.</li>
 </ul>
 
 ';
@@ -42,22 +39,22 @@ $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 $docx->replaceTemplateVariableByHTML('COMPETENCIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Recommended Text:</strong> Murach by Joel Murach, Mike Murach & Associates, ©2010, ISBN: 978-1890774561</p>
+<p><strong>Required Text:</strong> Meggs by Phillip B. Meggs, John Wiley & Sons, ©5th Edition, ISBN: 9781118292662</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('BOOKS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Method of Instruction:</strong> Lecture and Lab</p>
-<p><strong>Materials and Supplies:</strong> Digital storage device, notepad and pen</p>
-<p><strong>Estimated Homework Hours:</strong> 4 hours per week</p>
-<p><strong>Technology Required:</strong> Computer lab, Adobe Creative Suite, XAMPP or similar, Internet Access</p>
+<p><strong>Method of Instruction:</strong> <span style="font-size: 11pt; font-family: Garamond;"><span style="font-size: 11pt; font-family: Garamond;">Discussions, Lab, Readings, and Research.<span>&nbsp; </span></span> </span></p>
+<p><strong>Materials and Supplies:</strong> <span style="font-size: 11pt; font-family: Garamond;">Storage disk, presentation supplies, color prints, notebook, sketchbook,pens/pencils<ins cite="mailto:Holly%20Hadley" datetime="2010-07-14T10:03"></ins></span></p>
+<p><strong>Estimated Homework Hours:</strong> 6 hours per week</p>
+<p><strong>Technology Required:</strong> <span style="font-size: 11pt; font-family: Garamond;">Computer, design software, office software, PowerPoint, camera, printers, scanner</span></p>
 ';
 
 $docx->replaceTemplateVariableByHTML('DETAILS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-
+<p><strong>Additional Course Requirements:</strong><br /><span style="font-size: 10pt; font-family: Garamond;">As you are preparing for your career in design, I ask you to treat your attendance and coursework deadlines as if you were accountable to a workplace. Therefore, if you are going to be absent or late, email me at hagundes@aii.edu or call me at 916-230-1362 to account for your attendance.</span><em><span style="font-size: 10pt; font-family: Garamond;"> (When sending email, please put "GD3391-B1" in the subject line to ensure I see and reply promptly to your email.)</span></em><em></em><span style="font-size: 10pt; font-family: Garamond;"><strong>I will not accept your weekly assignment unless I hear from you <span style="text-decoration: underline;">and</span> receive your work prior to the end of the class period.</strong> </span></p>
 ';
 
 $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -65,10 +62,10 @@ $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' =
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Process for Evaluation:</strong></p>
 <table>
-<tr><td>Assignments and Exercises</td><td>50%</td></tr>
-<tr><td>Mid-Term Project</td><td>15%</td></tr>
-<tr><td>Final Project</td><td>25%</td></tr>
 <tr><td>Participation</td><td>10%</td></tr>
+<tr><td>In-Class Challenges and Videos</td><td>20%</td></tr>
+<tr><td>Weekly Assignment</td><td>50%</td></tr>
+<tr><td>Final Project</td><td>20%</td></tr>
 <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
 </table> ';
 
@@ -85,6 +82,9 @@ $html = '<style> p, ul, { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <li>On-time projects may be redone with instructor approval.</li>
 <li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
 </ul>
+<p><strong>Additional Grading Policies:</strong></p>
+';
+
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
@@ -139,43 +139,44 @@ $docx->replaceTemplateVariableByHTML('SECTION2', 'block', $html , array('isFile'
 
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <table width="100%">
-<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 13th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Understanding server side scripting</p>
-<p class="p1"><strong>Lab:</strong> Basic Language fundamentals, part 1, Include function</p>
-<p class="p1"><strong>Homework: </strong>Dice game project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 20th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Loops, Arrays and Conditionals</p>
-<p class="p1"><strong>Lab:</strong> Basic language fundamentals, part 2</p>
-<p class="p1"><strong>Homework: </strong>Dice game expanded</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 27th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Forms, User Input and Regular Expressions</p>
-<p class="p1"><strong>Lab:</strong> Building forms and passing data to the server</p>
-<p class="p1"><strong>Homework: </strong>Output user data assignment</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 3rd, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Introduction to Databases and Storing Information</p>
-<p class="p1"><strong>Lab:</strong> Connecting to MySQL and adding records.</p>
-<p class="p1"><strong>Homework: </strong>Build your member table.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 10th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> The power of CRUD and the importance of Security</p>
-<p class="p1"><strong>Lab: </strong>Adding functionality to our member table</p>
-<p class="p1"><strong>Homework:</strong> Implement CRUD in member table</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 17th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Session Variables, Authentication and Encryption</p>
-<p class="p1"><strong>Lab:</strong> Further expanding the Member Database Application</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 24th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> PHP, images and the GD2 library</p>
-<p class="p1"><strong>Lab:</strong> Upload images with PHP, resize and create thumbnails.</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 31st, 2012</p></td><td width="75%"><p>NO CLASS - Labor Day!</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 7th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Pagination and creating view options</p>
-<p class="p1"><strong>Lab: </strong>Adding pagination to the member database</p>
-<p class="p1"><strong>Homework: </strong>Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 14th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Using PHP to write to files</p>
-<p class="p1"><strong>Lab:</strong> Create a log file for Member Database Project</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 21st, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Final Project Presentations</p>
-<p class="p1"><strong>Lab: </strong>Final project assessments</p>
-<p class="p1"><strong>Homework:</strong> none</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 10th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Course Overview.&nbsp; Why study Graphic Design History? | From the invention of writing to the illuminated manuscripts. <strong></strong></p>
+<p><strong>Lab: </strong>Design Session + Research Session + Discussion<strong></strong></p>
+<p><strong>Homework: </strong>Read Chapters 1-4 (Pages 1-63) | Assignment 1 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 17th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>The Birth of Typography and Printing<strong></strong></p>
+<p><strong>Lab: </strong>Design Session | Quiz + Assignment 1 Discussion | Research<strong></strong></p>
+<p><strong>Homework: </strong>Read Chapters 5-8 (Pages 64-139) | Assignment 2 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 24th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>The Industrial Revolution<strong></strong></p>
+<p><strong>Lab: </strong>Design Session | Quiz + Assignment 2 Discussion | Research<strong></strong></p>
+<p><strong>Homework:</strong> Read Chapters 9-12 (Pages 140-251) | Assignment 3 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Jul 31st, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>1<sup>st</sup> World War, Sachplakat &nbsp;+ The "Isms"<strong></strong></p>
+<p><strong>Lab: </strong>Design Session | Quiz + Assignment 3 Discussion | Research<strong></strong></p>
+<p><strong>Homework:</strong> Read Chapters 13-14 (Pages 252-297) | Assignment 4 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 7th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Constructivism, De Stijl, and the Bauhaus<strong></strong></p>
+<p><strong>Lab: </strong>Sketching Session | Quiz + Assignment 4 Discussion | Research<strong></strong></p>
+<p><strong>Homework:</strong> Read Chapters 15-16 (Pages 298-349) | Assignment 5 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 14th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Commercial Modernism <strong></strong></p>
+<p><strong>Lab: </strong>Sketching Session | Quiz + Assignment 5 Discussion | Research<strong></strong></p>
+<p><strong>Homework:</strong> Read Chapter 17 (Pages 350-371) | Assignment 6 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 21st, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>International Typographic Style<strong></strong></p>
+<p><strong>Lab: </strong>Sketching Session | Quiz + Assignment 6 Discussion | Research <strong></strong></p>
+<p><strong>Homework:</strong> Read Chapter 18 (Pages 372-389) | Assignment 7 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 28th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>New York School + Corporate Identity and Visual Systems<strong></strong></p>
+<p><strong>Lab: </strong>Sketching Session | Quiz + Assignment 6 Discussion | Research <strong></strong></p>
+<p><strong>Homework:</strong> Read Chapters 19-20 (Pages 390-435) | Assignment 8 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 4th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Postmodernism<strong></strong></p>
+<p><strong>Lab: </strong>Sketching Session | Quiz + Assignment 7 &amp; 8 Discussion | Research <strong></strong></p>
+<p><strong>Homework:</strong> Read Chapters 21-22 (Pages 436-481) | Assignment 9 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 11th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Contemporary Graphic Design <strong></strong></p>
+<p><strong>Lab: </strong>Sketching Session | Quiz + Assignment 9 Discussion | Research<strong></strong></p>
+<p><strong>Homework:</strong> Read Chapter 23-24 (Pages 482-571) | Assignment 10 | Quiz Study</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 18th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>FINAL PROJECT PRESENTATIONS | Final Exam<strong></strong></p>
+<p><strong>Lab: </strong>Final Class Review and Discussion of self-reflections.<strong></strong></p></td></tr>
 </table> ';
 
 $docx->replaceTemplateVariableByHTML('ACTIVITIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $paramsPage = array( 'titlePage' => 1, 'orient' => 'normal', 'top' => 800, 'bottom' => 800, 'right' => 800, 'left' => 800);
 
-$docx->createDocxAndDownload('MM3323_Mead_SU12_id16', $paramsPage);
+$docx->createDocxAndDownload('GD3391_Agundes_SU12_id30', $paramsPage);
 
 ?>

@@ -4,37 +4,38 @@ require_once('../../phpdocx_pro/classes/CreateDocx.inc');
 $docx = new CreateDocx();
 
 $docx->addTemplate('../templates/template1.docx');
-$docx->addTemplateVariable('COURSENUM', 'MM3323');
-$docx->addTemplateVariable('COURSETITLE', 'Advanced Web Based Programming');
+$docx->addTemplateVariable('COURSENUM', 'GD3371');
+$docx->addTemplateVariable('COURSETITLE', 'Project Study');
 $docx->addTemplateVariable('SESSION', 'Summer 2012');
-$docx->addTemplateVariable('INSTRUCTOR', 'William Mead');
-$docx->addTemplateVariable('EMAIL', 'wmead@aii.edu');
-$docx->addTemplateVariable('PHONE', '530-219-8998');
-$docx->addTemplateVariable('AVAILABILITY', 'On Fridays from 4 pm to 5 pm and by appointment');
+$docx->addTemplateVariable('INSTRUCTOR', 'Steve Holler');
+$docx->addTemplateVariable('EMAIL', 'rholler@aii.edu');
+$docx->addTemplateVariable('PHONE', '916-202-3200');
+$docx->addTemplateVariable('AVAILABILITY', 'Thursday from 10 p.m. to 12 p.m. and by appointment');
 $docx->addTemplateVariable('WEEKS', '11 Weeks');
 $docx->addTemplateVariable('HOURS', '44 Hours');
 $docx->addTemplateVariable('LECTURE', '22 Hours');
 $docx->addTemplateVariable('LAB', '22 Hours');
 $docx->addTemplateVariable('CREDITS', '3 Credits');
 $docx->addTemplateVariable('REVISED', '7/9/2012');
-$docx->addTemplateVariable('CLASSTIME', 'Fridays from 5:30 pm to 9:30 pm');
-$docx->addTemplateVariable('PREREQS', 'MM2233 Intermediate Web-based Programming');
+$docx->addTemplateVariable('CLASSTIME', 'Mondays from 8:00 am to 12:00 pm');
+$docx->addTemplateVariable('PREREQS', 'GD2264 Digital Message Making');
 $html = '<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Course Description:</strong><br />This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.</p>';
+<p><strong>Course Description:</strong><br />Through observation and documenting their own work, students focus on projects of their own within an area of interest with the approval of the Academic Director. In this course, students will work with non-profit organizations.</p>
+<p><strong>Course Focus:</strong><br />This course will focus on communication design projects that are related to the process of free-lance assignments.&nbsp; Day to day business realities will be studied and discussed.&nbsp; Selected business topics will be highlighted and documented.</p>';
 
 $docx->replaceTemplateVariableByHTML('COURSEDESCRIPTION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <ul>
-<li>Understand the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand the basics of server, as opposed to workstation design and software</li>
-<li>Understand common web server software (e.g., Apache, IIS) configuration the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand how CGI (Common Gateway Interface) links web forms to back-end programs</li>
-<li>Apply basic Perl to create a functional CGI script </li>
-<li>Understand how server-parsed languages allow access to server variables and resources</li>
-<li>Apply basic PHP to create a functional server-parsed program</li>
-<li>Understand the basics of web-database links</li>
-<li>Understand the use of CGI and PHP in e-commerce systems</li>
+<li>Assess your own current skills and design tasks accordingly.</li>
+<li>Work independently from proposal to final execution.</li>
+<li>Develop an understanding of integrating their personal vision with the design problem.</li>
+<li>Develop an understanding of time management and conceptual thinking.</li>
+<li>Demonstrate the ability to self-direct, time manage, analyze and present your project goals and progress.</li>
+<li>Confront and remedy design problems.</li>
+<li>Identify, analyze, and prioritize problems.</li>
+<li>Apply logical design valuation.</li>
+<li>Use of the correct computer programs is required for all project applications.</li>
 </ul>
 
 ';
@@ -42,16 +43,15 @@ $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 $docx->replaceTemplateVariableByHTML('COMPETENCIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Recommended Text:</strong> Murach by Joel Murach, Mike Murach & Associates, ©2010, ISBN: 978-1890774561</p>
-';
+<p><strong>Required Texts:</strong> None</p>';
 
 $docx->replaceTemplateVariableByHTML('BOOKS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Method of Instruction:</strong> Lecture and Lab</p>
-<p><strong>Materials and Supplies:</strong> Digital storage device, notepad and pen</p>
+<p><strong>Materials and Supplies:</strong> Storage disk (Flash Drive), presentation supplies, quality color prints, layout pads, pens and markers.</p>
 <p><strong>Estimated Homework Hours:</strong> 4 hours per week</p>
-<p><strong>Technology Required:</strong> Computer lab, Adobe Creative Suite, XAMPP or similar, Internet Access</p>
+<p><strong>Technology Required:</strong> Computer lab; Adobe CS software; Quality print production.</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('DETAILS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -65,10 +65,10 @@ $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' =
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Process for Evaluation:</strong></p>
 <table>
-<tr><td>Assignments and Exercises</td><td>50%</td></tr>
-<tr><td>Mid-Term Project</td><td>15%</td></tr>
-<tr><td>Final Project</td><td>25%</td></tr>
-<tr><td>Participation</td><td>10%</td></tr>
+<tr><td>Class Participation</td><td>10%</td></tr>
+<tr><td>Assignment Concept Development</td><td>35%</td></tr>
+<tr><td>Assignment Creative Development</td><td>35%</td></tr>
+<tr><td>Exhibit Production Craftsmanship</td><td>20%</td></tr>
 <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
 </table> ';
 
@@ -85,6 +85,9 @@ $html = '<style> p, ul, { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <li>On-time projects may be redone with instructor approval.</li>
 <li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
 </ul>
+<p><strong>Additional Grading Policies:</strong></p>
+';
+
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
@@ -139,43 +142,42 @@ $docx->replaceTemplateVariableByHTML('SECTION2', 'block', $html , array('isFile'
 
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <table width="100%">
-<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 13th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Understanding server side scripting</p>
-<p class="p1"><strong>Lab:</strong> Basic Language fundamentals, part 1, Include function</p>
-<p class="p1"><strong>Homework: </strong>Dice game project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 20th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Loops, Arrays and Conditionals</p>
-<p class="p1"><strong>Lab:</strong> Basic language fundamentals, part 2</p>
-<p class="p1"><strong>Homework: </strong>Dice game expanded</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 27th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Forms, User Input and Regular Expressions</p>
-<p class="p1"><strong>Lab:</strong> Building forms and passing data to the server</p>
-<p class="p1"><strong>Homework: </strong>Output user data assignment</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 3rd, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Introduction to Databases and Storing Information</p>
-<p class="p1"><strong>Lab:</strong> Connecting to MySQL and adding records.</p>
-<p class="p1"><strong>Homework: </strong>Build your member table.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 10th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> The power of CRUD and the importance of Security</p>
-<p class="p1"><strong>Lab: </strong>Adding functionality to our member table</p>
-<p class="p1"><strong>Homework:</strong> Implement CRUD in member table</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 17th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Session Variables, Authentication and Encryption</p>
-<p class="p1"><strong>Lab:</strong> Further expanding the Member Database Application</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 24th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> PHP, images and the GD2 library</p>
-<p class="p1"><strong>Lab:</strong> Upload images with PHP, resize and create thumbnails.</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 31st, 2012</p></td><td width="75%"><p>NO CLASS - Labor Day!</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 7th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Pagination and creating view options</p>
-<p class="p1"><strong>Lab: </strong>Adding pagination to the member database</p>
-<p class="p1"><strong>Homework: </strong>Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 14th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Using PHP to write to files</p>
-<p class="p1"><strong>Lab:</strong> Create a log file for Member Database Project</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 21st, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Final Project Presentations</p>
-<p class="p1"><strong>Lab: </strong>Final project assessments</p>
-<p class="p1"><strong>Homework:</strong> none</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 9th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Introduction to the class, introduction of design methodology for process book; required elements.</p>
+<p><strong>Lab: </strong>Project selection. Start page layout design of process book.</p>
+<p><strong>Homework: </strong>Start research: work on creative brief.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 16th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Creative brief, target audience, competition/branding</p>
+<p><strong>Lab: </strong>Work on introduction creative brief, competition/branding, and target audience pages for process book</p>
+<p><strong>Homework: </strong>finalize</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 23rd, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Critique of previous pages. Logo design process:Company\'s logo and product\'s logo.</p>
+<p><strong>Lab: </strong>Work on thumbnails and comps for both assignments.</p>
+<p><strong>Homework: </strong>Finalize thumbnails and comps.</p>
+<p><strong>&nbsp;</strong></p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Jul 30th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Critique: company and product\'s logo comps.</p>
+<p><strong>Lab: </strong>Refine logos</p>
+<p><strong>Homework: </strong>Finalize logos</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 6th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Critique: Final logos. Front panel: add logos, violators, commercial icons, backgrounds, textures and materials. Branding design.</p>
+<p><strong>Lab: </strong>Refine final logos. Work on violators and commercial icons if needed. Start working on background textures and materials for design. Add ideas into process book.</p>
+<p><strong>Homework: </strong>Continue working on Lab assignment</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 13th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Critique Branding and front panel components.</p>
+<p><strong>Lab: </strong>Refine front panel design and branding ideas.</p>
+<p><strong>Homework: </strong>Work on branding.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 20th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Side panels and back panel. Mandatories. Die. Both products for the same line should be included.</p>
+<p><strong>Lab: </strong>Work on side panels and back panel. Add main design and mandatories on&nbsp; die. Both products for the same line should be included. Review before class is over. Make final 3-d package.</p>
+<p><strong>Homework: </strong>Make final 3-D package and bring to critique.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 27th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Critique of final 3-D package design. Revisions of process book; required elements.</p>
+<p><strong>Lab: </strong>Work on process book, final corrections of 3-D package design and prepare for photo of package design.</p>
+<p><strong>Homework: </strong>Work on final process book. Photograph Design.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 3rd, 2012</p></td><td width="75%"><p><strong>Class Will Not Be Held.</strong></p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 10th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Review of product/photography, photo retouching, work on final stages of process book, work on 2-D design presentation board.</p>
+<p><strong>Lab: </strong>Photo retouching, revisions.</p>
+<p><strong>Homework: </strong>work on final process book.</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 17th, 2012</p></td><td width="75%"><p>Final Exam and Presentation.</p></td></tr>
 </table> ';
 
 $docx->replaceTemplateVariableByHTML('ACTIVITIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $paramsPage = array( 'titlePage' => 1, 'orient' => 'normal', 'top' => 800, 'bottom' => 800, 'right' => 800, 'left' => 800);
 
-$docx->createDocxAndDownload('MM3323_Mead_SU12_id16', $paramsPage);
+$docx->createDocxAndDownload('GD3371_Holler_SU12_id52', $paramsPage);
 
 ?>

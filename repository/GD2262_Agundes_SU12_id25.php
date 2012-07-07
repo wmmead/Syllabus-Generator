@@ -4,37 +4,33 @@ require_once('../../phpdocx_pro/classes/CreateDocx.inc');
 $docx = new CreateDocx();
 
 $docx->addTemplate('../templates/template1.docx');
-$docx->addTemplateVariable('COURSENUM', 'MM3323');
-$docx->addTemplateVariable('COURSETITLE', 'Advanced Web Based Programming');
+$docx->addTemplateVariable('COURSENUM', 'GD2262');
+$docx->addTemplateVariable('COURSETITLE', 'Message Making');
 $docx->addTemplateVariable('SESSION', 'Summer 2012');
-$docx->addTemplateVariable('INSTRUCTOR', 'William Mead');
-$docx->addTemplateVariable('EMAIL', 'wmead@aii.edu');
-$docx->addTemplateVariable('PHONE', '530-219-8998');
-$docx->addTemplateVariable('AVAILABILITY', 'On Fridays from 4 pm to 5 pm and by appointment');
+$docx->addTemplateVariable('INSTRUCTOR', 'Holly Agundes');
+$docx->addTemplateVariable('EMAIL', 'hagundes@aii.edu');
+$docx->addTemplateVariable('PHONE', '916-230-1362');
+$docx->addTemplateVariable('AVAILABILITY', 'Mondays from 11 am - 12 pm or by appointment');
 $docx->addTemplateVariable('WEEKS', '11 Weeks');
 $docx->addTemplateVariable('HOURS', '44 Hours');
 $docx->addTemplateVariable('LECTURE', '22 Hours');
 $docx->addTemplateVariable('LAB', '22 Hours');
 $docx->addTemplateVariable('CREDITS', '3 Credits');
 $docx->addTemplateVariable('REVISED', '7/9/2012');
-$docx->addTemplateVariable('CLASSTIME', 'Fridays from 5:30 pm to 9:30 pm');
-$docx->addTemplateVariable('PREREQS', 'MM2233 Intermediate Web-based Programming');
+$docx->addTemplateVariable('CLASSTIME', 'Fridays from 8:00 am to 12:00 pm');
+$docx->addTemplateVariable('PREREQS', 'GD2241 Concept Design');
 $html = '<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Course Description:</strong><br />This course is an exploration of scripting and programming languages used to develop advanced "server-side" Web applications. Students learn how to create programs capable of storing and retrieving data from servers supporting advanced interactivity.</p>';
+<p><strong>Course Description:</strong><br />This course focuses on how messages can be constructed through images using subject matter, context juxtaposition, editing, scale, color, and composition. Materials and technologies are explored.</p>';
 
 $docx->replaceTemplateVariableByHTML('COURSEDESCRIPTION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <ul>
-<li>Understand the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand the basics of server, as opposed to workstation design and software</li>
-<li>Understand common web server software (e.g., Apache, IIS) configuration the differences between client-side, server-side, and server-parsed languages </li>
-<li>Understand how CGI (Common Gateway Interface) links web forms to back-end programs</li>
-<li>Apply basic Perl to create a functional CGI script </li>
-<li>Understand how server-parsed languages allow access to server variables and resources</li>
-<li>Apply basic PHP to create a functional server-parsed program</li>
-<li>Understand the basics of web-database links</li>
-<li>Understand the use of CGI and PHP in e-commerce systems</li>
+<li>Develop a basic understanding of semiotics with the denotation/connotation of images as they exist separately or together. </li>
+<li>Apply the design process to specific goal-focused problem solving.</li>
+<li>Explore nontraditional design options.</li>
+<li>Develop a basic understanding of how messages can be constructed through images, using subject matter, context, juxtaposition, editing, scale, and color to determine the degree of communication.</li>
+<li>Analyze and define creative challenges in message making.</li>
 </ul>
 
 ';
@@ -42,22 +38,23 @@ $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 $docx->replaceTemplateVariableByHTML('COMPETENCIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Recommended Text:</strong> Murach by Joel Murach, Mike Murach & Associates, ©2010, ISBN: 978-1890774561</p>
+<p><strong>Required Text:</strong> Type and Image: The Language of Graphic Design by Phillip B. Meggs, John Wiley & Sons, ©1992, ISBN: 442-25846-1</p>
 ';
 
 $docx->replaceTemplateVariableByHTML('BOOKS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-<p><strong>Method of Instruction:</strong> Lecture and Lab</p>
-<p><strong>Materials and Supplies:</strong> Digital storage device, notepad and pen</p>
+<p><strong>Method of Instruction:</strong> <span style="font-size: 10pt; font-family: Garamond; color: black;">Lab, Lecture, Applied Projects</span></p>
+<p><strong>Materials and Supplies:</strong> Sketchpad, pencils/markers, flash drive.</p>
 <p><strong>Estimated Homework Hours:</strong> 4 hours per week</p>
-<p><strong>Technology Required:</strong> Computer lab, Adobe Creative Suite, XAMPP or similar, Internet Access</p>
+<p><strong>Technology Required:</strong> <span style="font-size: 10pt; font-family: Garamond;">Access to you eCompanion class, which can be done on campus. Access to Internet, Adobe Creative Suite.</span></p>
 ';
 
 $docx->replaceTemplateVariableByHTML('DETAILS', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
-
+<p><strong>Additional Course Requirements:</strong><br /><em></em><span style="font-size: 10pt; font-family: Garamond;">As you are preparing for your career in design, I ask you to treat your attendance and coursework deadlines as if you were accountable to a workplace. Therefore, if you are going to be absent or late, email me at hagundes@aii.edu or call me at 916-230-1362 to account for your attendance.</span><em><span style="font-size: 10pt; font-family: Garamond;"> (When sending email, please put "GD2262-C1" in the subject line to ensure I see and reply promptly to your email.)</span></em></p>
+<p><em></em><span style="font-size: 10pt; font-family: Garamond;"><strong>I will not accept your weekly assignment unless I hear from you <span style="text-decoration: underline;">and</span> receive your work prior to the end of the class period.</strong> <br /></span></p>
 ';
 
 $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
@@ -65,10 +62,9 @@ $docx->replaceTemplateVariableByHTML('ADDREQ', 'block', $html , array('isFile' =
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>Process for Evaluation:</strong></p>
 <table>
-<tr><td>Assignments and Exercises</td><td>50%</td></tr>
-<tr><td>Mid-Term Project</td><td>15%</td></tr>
-<tr><td>Final Project</td><td>25%</td></tr>
 <tr><td>Participation</td><td>10%</td></tr>
+<tr><td>Assignments and Exercises</td><td>65%</td></tr>
+<tr><td>Final Project</td><td>25%</td></tr>
 <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
 </table> ';
 
@@ -85,6 +81,9 @@ $html = '<style> p, ul, { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <li>On-time projects may be redone with instructor approval.</li>
 <li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
 </ul>
+<p><strong>Additional Grading Policies:</strong></p>
+';
+
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
@@ -139,43 +138,52 @@ $docx->replaceTemplateVariableByHTML('SECTION2', 'block', $html , array('isFile'
 
 $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <table width="100%">
-<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 13th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Understanding server side scripting</p>
-<p class="p1"><strong>Lab:</strong> Basic Language fundamentals, part 1, Include function</p>
-<p class="p1"><strong>Homework: </strong>Dice game project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 20th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Loops, Arrays and Conditionals</p>
-<p class="p1"><strong>Lab:</strong> Basic language fundamentals, part 2</p>
-<p class="p1"><strong>Homework: </strong>Dice game expanded</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 27th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Forms, User Input and Regular Expressions</p>
-<p class="p1"><strong>Lab:</strong> Building forms and passing data to the server</p>
-<p class="p1"><strong>Homework: </strong>Output user data assignment</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 3rd, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Introduction to Databases and Storing Information</p>
-<p class="p1"><strong>Lab:</strong> Connecting to MySQL and adding records.</p>
-<p class="p1"><strong>Homework: </strong>Build your member table.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 10th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> The power of CRUD and the importance of Security</p>
-<p class="p1"><strong>Lab: </strong>Adding functionality to our member table</p>
-<p class="p1"><strong>Homework:</strong> Implement CRUD in member table</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 17th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Session Variables, Authentication and Encryption</p>
-<p class="p1"><strong>Lab:</strong> Further expanding the Member Database Application</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 24th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> PHP, images and the GD2 library</p>
-<p class="p1"><strong>Lab:</strong> Upload images with PHP, resize and create thumbnails.</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 31st, 2012</p></td><td width="75%"><p>NO CLASS - Labor Day!</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 7th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Pagination and creating view options</p>
-<p class="p1"><strong>Lab: </strong>Adding pagination to the member database</p>
-<p class="p1"><strong>Homework: </strong>Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 14th, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Using PHP to write to files</p>
-<p class="p1"><strong>Lab:</strong> Create a log file for Member Database Project</p>
-<p class="p1"><strong>Homework:</strong> Work on Member Database Project.</p></td></tr>
-<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 21st, 2012</p></td><td width="75%"><p class="p1"><strong>Lecture:</strong> Final Project Presentations</p>
-<p class="p1"><strong>Lab: </strong>Final project assessments</p>
-<p class="p1"><strong>Homework:</strong> none</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>1<br />Jul 13th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Introduction to class, goals and expectations. Graphic Signals: Introduction to Semiotics</p>
+<p><strong>Lab: </strong>Signs: icon, index and symbol, Contrasting Definitions</p>
+<p><strong><em>Homework</em></strong>: Creative Brief + Visual Audit<em></em></p>
+<p><strong>Read: </strong>1-18 Type and Image</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>2<br />Jul 20th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Images and Meaning&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p><strong>Lab:</strong> Language as a model for visual communication/Simile, metaphor, personification, pun</p>
+<p><strong><em>Homework:</em></strong><em> </em>Images and Meaning</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<strong>&nbsp;&nbsp;</strong><strong>Read: </strong>19-40 Type and Image</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>3<br />Jul 27th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Language, Typography, and Meaning, Midterm Project Assigned&nbsp;&nbsp;</p>
+<p><strong>Lab:</strong> Connotation Exercise</p>
+<p><strong><em>Homework:</em></strong><em> </em>Connotation Cube, Language, Typography &amp; Meaning</p>
+<p><strong></strong><strong><em>Re</em></strong><strong>Read: </strong>19-40 Type and Image</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>4<br />Aug 3rd, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Typography and Meaning&nbsp;</p>
+<p><strong>Lab:</strong>&nbsp; Connotation and resonance in type</p>
+<p><strong><em>Homework: </em></strong>Graphic Space and Meaning</p>
+<p>&nbsp;<strong>Read: </strong>41-44, 56-61, 120-126 Type and Image</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>5<br />Aug 10th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Combining Type and Image, Midterm Critique</p>
+<p><strong>Lab:</strong> Juxtaposition, synergy</p>
+<p><strong><em>Homework:</em></strong><em> </em>Midterm Assignment &ndash; Message Analysis</p>
+<p><strong>Read: </strong>45-55, 62-68 Type and Image</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>6<br />Aug 17th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Graphic Space and Meaning</p>
+<p><strong>Lab: </strong>Composition and structures</p>
+<p><strong><em>Homework</em></strong><em>: </em>Graphic Space and Meaning (Continued)</p>
+<p><strong>Read: </strong>69-90 Type and Image</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>7<br />Aug 24th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Continued</p>
+<p><strong>Lab:</strong> Composition and structures</p>
+<p><strong><em>Homework:</em></strong><em>&nbsp; </em>Graphic Resonance</p>
+<p><strong>Read Chapter 10 -11:</strong> pages 192-236</p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>8<br />Aug 31st, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Design Elements and Meaning</p>
+<p><strong>Lab: </strong>Repetition, scale, motion, tension</p>
+<p><strong><em>Homework:</em></strong><em> </em>Enhancing the Message<em></em></p>
+<p><em></em><strong>Read: </strong>92-116 Type and Image<em></em></p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>9<br />Sep 7th, 2012</p></td><td width="75%"><p><strong>Lecture: </strong>Resonance in Meaning<em></em></p>
+<p><strong>Lab:</strong> Open lab</p>
+<p><strong><em>Homework:</em></strong><em> </em>Graphic Resonance, Part 2<em></em></p>
+<p><strong>Read:</strong> 92-152 Type and Image<em></em></p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>10<br />Sep 14th, 2012</p></td><td width="75%"><p><strong>Lecture:</strong> Resonance in Image</p>
+<p><strong>Lab:</strong> Final Project<strong><em></em></strong></p>
+<p><strong><em>Homework:</em></strong><em> </em>Final Project<em></em></p></td></tr>
+<tr><td width="25%"><p><strong>Meeting #</strong>11<br />Sep 21st, 2012</p></td><td width="75%"><p><strong><span style="font-size: 11pt; font-family: Garamond; color: black;">Lecture: </span></strong><span style="font-size: 11pt; font-family: Garamond; color: black;">Overview, Final Project Presentations</span></p></td></tr>
 </table> ';
 
 $docx->replaceTemplateVariableByHTML('ACTIVITIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
 $paramsPage = array( 'titlePage' => 1, 'orient' => 'normal', 'top' => 800, 'bottom' => 800, 'right' => 800, 'left' => 800);
 
-$docx->createDocxAndDownload('MM3323_Mead_SU12_id16', $paramsPage);
+$docx->createDocxAndDownload('GD2262_Agundes_SU12_id25', $paramsPage);
 
 ?>

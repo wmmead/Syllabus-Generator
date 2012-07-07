@@ -71,7 +71,7 @@ $html = '<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </
 
 $docx->replaceTemplateVariableByHTML('EVALUATION', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
-$html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
+$html = '<style> p, ul, { font-family:"Arial Narrow"; font-size:10pt; } </style>
 <p><strong>School Wide Grading Policies</strong></p>
 <ul>
 <li>Class time will be spent in a productive manner.</li>
@@ -84,13 +84,12 @@ $html = '<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>
 </ul>
 <p><strong>Additional Grading Policies:</strong></p>
 <ul>
-<li>Deadlines are very serious in the industry. Each assignment must be received by the set deadline, typically one week after it is introduced. If you don’t keep up with the assignments, it will become harder to comprehend later course material.</li>
+<li>Late work will not be accepted. Deadlines are very serious in the industry. Each assignment must be received by the set deadline, typically one week after it is introduced. If you don\'t keep up with the assignments, it will become harder to comprehend later course material.</li>
 <li>On-time projects may be redone with instructor approval.</li>
-<li>MyAiCampus.com is required for submitting assignments. It is the student’s responsibility to report any difficulties with or confusion about the system at the time they occur—and before the deadline for the assignment.</li>
-<li>Late work will not be accepted.</li>
+<li>The use of MyAiCampus.com is required for submitting assignments. It is the student\'s responsibility to report any difficulties with or confusion about the system at the time they occur&mdash;and before the deadline for the assignment. Deadlines for all assignments&mdash;whether turned in during class or via MyAiCampus.com&mdash;are not flexible. Problems with MyAiCampus.com are not a valid excuse for late work.</li>
 <li>Work turned into the wrong Dropbox basket for a given assignment will not be graded.</li>
-<li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11. Not midnight; the end of the class session.</li>
-</ul> ';
+<li>ABSOLUTELY NO WORK WILL BE ACCEPTED AFTER THE FINAL CLASS MEETS WEEK 11.</li>
+</ul>';
 
 $docx->replaceTemplateVariableByHTML('GRADINGPOLICIES', 'block', $html , array('isFile' => false, 'parseDivsAsPs' => false, 'downloadImages' => false));
 
