@@ -136,6 +136,55 @@ function syll_info($item, $classid)
 	return $the_item;
 }
 
+function display_approved_syllabi()
+{
+	$userid = $_SESSION['id'];
+	$termnames = array("", "Winter", "Spring", "Summer", "Fall");
+	
+	$query = "select id, year, term from terms order by year desc, term desc";
+	$results = mysql_query($query);
+	while($row = mysql_fetch_row($results))
+	{
+		list($termid, $year, $termnum) = $row;
+		print "<div class='frame'>";
+		print "<h3><a href='index.php?showapproved=$termid'>Syllabi you approved for $termnames[$termnum] $year</a></h3>\n";
+		get_approved_syllabi($termid, $userid);
+		print "</div>";
+	}
+	
+}
+
+function get_approved_syllabi($termid, $userid)
+{
+	if(isset($_GET['showapproved']) && $_SESSION['type'] > 0)
+	{
+		$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum, courses.name 
+		FROM classes, users, terms, courses 
+		WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND 
+		classes.term_id = '$termid' AND classes.status = '2' AND classes.approvedby ='$userid' ORDER BY users.lname, courses.coursenum";
+		
+		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
+		
+		$result = mysql_query($query);
+		$num_rows = mysql_num_rows($result);
+		if($num_rows > 0)
+		{
+			print "<table class='approvedsyllabi'>";
+			while($row = mysql_fetch_row($result))
+			{
+				list($classid, $lname, $term, $year, $coursenum, $coursename) = $row;
+				
+				$year = substr($year, -2);
+				$file = "repository/" . $coursenum . '_' . $lname . '_' . $termcodes[$term] . $year . '_id' . $classid . '.php';
+				
+				print "<tr><td>$lname</td><td>$coursenum $coursename</td><td><a href='$file' title='download word file'><img src='images/page_word.png' alt='word file download icon' /></a><td><td><a href='index.php?sylledit=$classid' title='view syllabus online'><img src='images/page_world.png' alt='view syllabus online icon' /></a></td></tr>\n";
+			}
+			print "</table>";
+		}
+		else {print "<p>You have not approved any syllabi for this term.</p>";}
+	}
+}
+
 function edit_addtl_competencies($id, $type)
 {
 	$query ="select competency, ordr from competencies where class_id='$id' and type='$type' order by ordr";

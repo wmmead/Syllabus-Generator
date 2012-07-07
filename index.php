@@ -91,6 +91,16 @@
 		{
 			print "<h2 class='mainheader'>Your Syllabi</h2>";
 			display_user_terms();
+			
+			if($_SESSION['type'] == 1)
+			{
+				display_approved_syllabi();
+			}
+			
+			if($_SESSION['type'] == 2)
+			{
+				
+			}
 		}
 		?>
     

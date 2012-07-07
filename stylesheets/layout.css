@@ -334,32 +334,6 @@ th {
 }
 
 /*********** Course Page Styles ************/
-/***.coursepage .middlecol {
-	width:370px;
-}
-
-.coursepage .middlecol textarea {
-	margin-bottom:20px;
-}
-
-.coursepage .middlecol div {
-	width:325px;
-	text-align:right;
-	margin-bottom:20px;
-}
-
-.coursepage .middlecol div h3 {
-	text-align:left;
-}
-
-.coursepage .middlecol div input {
-	width:220px;
-}
-
-.coursepage .rightcol {
-	width:310px;
-}*****/
-
 .courselist {
 	font-size: 80%;
 }
@@ -554,7 +528,20 @@ div.formcontainer {
 	color:green;
 }
 
+/********** syllabus table display styles ********/
 
+table.approvedsyllabi {
+	width: 100%;
+}
+
+table.approvedsyllabi td {
+	padding: 5px;
+	font-size: 85%;
+}
+
+table.approvedsyllabi tr:nth-child(even) {
+	background:#e2e2e2;
+}
 
 
 /* #Page Styles
