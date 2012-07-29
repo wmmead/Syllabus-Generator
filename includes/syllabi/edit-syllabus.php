@@ -39,6 +39,9 @@
     
     <?php edit_meeting_times($classid); ?>
     
+    <label for="sectnum">Section Number <span class="example">i.e. A2 Would be Monday at 1 pm</span></label>
+    <input type="text" name="sectnum" id="sectnum" value="<?php echo $data['sectnum']; ?>" /> 
+    
     <label for="hwhrs">Estimated Homework Hours <span class="example">i.e. 4 hours per week</span></label>
     <input type="text" name="hwhrs" id="hwhrs" value="<?php echo $data['hwhrs']; ?>" /> 
     

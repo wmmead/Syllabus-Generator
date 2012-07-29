@@ -18,6 +18,7 @@
 	<p><strong>Course:</strong> <?php echo syll_info("coursenum", $classid); ?> <?php echo syll_info("course", $classid); ?><br />
     <strong>Instructor:</strong> <?php echo syll_info("fname", $classid); ?> <?php echo syll_info("lname", $classid); ?><br />
     <strong>Term / Year:</strong> <?php echo syll_info("term", $classid); ?> <?php echo syll_info("year", $classid); ?><br />
+    <strong>Section:</strong> <?php output_section_number($classid);?><br />
     <strong>Status:</strong> <span class="<?php echo syll_info("status", $classid); ?>"><?php echo syll_info("status", $classid); ?></span></p>
     
     <h4>Course Details</h4>

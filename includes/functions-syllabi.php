@@ -581,6 +581,7 @@ function process_class_times($num)
 function process_class_details()
 {
 	$classid = $_POST['classid'];
+	$sectnum = mysql_prep($_POST['sectnum']);
 	$hwhrs = mysql_prep($_POST['hwhrs']);
 	$officehrs = mysql_prep($_POST['officehrs']);
 	$materials = mysql_prep($_POST['materials']);
@@ -601,12 +602,12 @@ function process_class_details()
 	$numrows = mysql_num_rows($results);
 	if($numrows == 0)
 	{
-		$query = "insert into class_details values('', '$classid', 
+		$query = "insert into class_details values('', '$classid', '$sectnum',  
 		'$materials', '$methods', '$tech', '$hwhrs', '$officehrs', '$additional', '$focus')";
 	}
 	elseif($numrows == 1)
 	{
-		$query = "update class_details set materials='$materials', methods='$methods', 
+		$query = "update class_details set sectnum='$sectnum', materials='$materials', methods='$methods', 
 		tech='$tech', hwhrs='$hwhrs', officehrs='$officehrs', add_req='$additional', 
 		focus='$focus' where class_id='$classid'";
 	}
@@ -615,7 +616,7 @@ function process_class_details()
 		$del_query = "DELETE FROM class_details WHERE class_id='$classid'";
 		mysql_query($del_query);
 		
-		$query = "insert into class_details values('', '$classid', 
+		$query = "insert into class_details values('', '$classid', '$sectnum',  
 		'$materials', '$methods', '$tech', '$hwhrs', '$officehrs', '$additional', '$focus')";
 	}
 	
@@ -933,7 +934,6 @@ function process_form($classid)
 {
 	if(isset($_POST['hwhrs']))
 	{
-		print"cheese";
 		process_class_times('1');
 		if(isset($_POST['day2'])) { process_class_times('2'); }
 		process_class_details();
@@ -969,8 +969,8 @@ function get_class_details($classid)
 	if($numrows == 1)
 	{
 		$row = mysql_fetch_row($results);
-		list($id, $classid, $materials, $methods, $tech, $hwhrs, $officehrs, $addreq, $focus) = $row;
-		$data = array('materials'=>$materials, 'methods'=>$methods, 'tech'=>$tech, 
+		list($id, $classid, $sectnum, $materials, $methods, $tech, $hwhrs, $officehrs, $addreq, $focus) = $row;
+		$data = array('sectnum'=>$sectnum, 'materials'=>$materials, 'methods'=>$methods, 'tech'=>$tech, 
 		'hwhrs'=>$hwhrs, 'officehrs'=>$officehrs, 'addreq'=>$addreq, 'focus'=>$focus);
 		
 		return $data;
@@ -1004,14 +1004,14 @@ function check_syllabus_details($classid)
 		list($classday, $starttime, $endtime)=$row;
 		if($classday != '0' && $starttime != '0' && $endtime != '0')
 		{
-			$query = "select materials, methods, tech, hwhrs, officehrs from class_details where class_id='$classid'";
+			$query = "select sectnum, materials, methods, tech, hwhrs, officehrs from class_details where class_id='$classid'";
 			$results = mysql_query($query);
 			$row = mysql_fetch_row($results);
 			$numrows = mysql_num_rows($results);
 			if($numrows > 0)
 			{
-				list($materials, $methods, $tech, $hwhrs, $officehrs)=$row;
-				if($materials != '' && $methods != '' && $tech != '' && $hwhrs != '' && $officehrs != '')
+				list($sectnum, $materials, $methods, $tech, $hwhrs, $officehrs)=$row;
+				if($sectnum != '' && $materials != '' && $methods != '' && $tech != '' && $hwhrs != '' && $officehrs != '')
 				{
 					//print "$materials, $methods, $tech, $hwhrs, $officehrs";
 					return TRUE;
@@ -1385,7 +1385,20 @@ function output_status_bar($classid)
 				
 				$term = $termcodes[$term];
 				
-				$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '.php';
+				$sectquery = "select sectnum from class_details where class_id='$classid'";
+				$sectresult = mysql_query($sectquery);
+				$sectnumrow = mysql_num_rows($sectresult);
+				if($sectnumrow == 1)
+				{
+					$row = mysql_fetch_row($sectresult);
+					$sectnum = $row[0];
+				}
+				else
+				{
+					$sectnum = "none";
+				}
+				
+				$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
 			}
 			echo "<div id='updatebar'>\n";
 			echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
@@ -1434,7 +1447,20 @@ function output_status_bar($classid)
 					
 					$term = $termcodes[$term];
 					
-					$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '.php';
+					$sectquery = "select sectnum from class_details where class_id='$classid'";
+					$sectresult = mysql_query($sectquery);
+					$sectnumrow = mysql_num_rows($sectresult);
+					if($sectnumrow == 1)
+					{
+						$row = mysql_fetch_row($sectresult);
+						$sectnum = $row[0];
+					}
+					else
+					{
+						$sectnum = "none";
+					}
+					
+					$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
 				}
 				echo "<div id='updatebar'>\n";
 				echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
@@ -1667,11 +1693,25 @@ WHERE
 		
 		$term = $termcodes[$term];
 		
-		$file = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '.php';
+		$sectquery = "select sectnum from class_details where class_id='$classid'";
+		$sectresult = mysql_query($sectquery);
+		$sectnumrow = mysql_num_rows($sectresult);
+		if($sectnumrow == 1)
+		{
+			$row = mysql_fetch_row($sectresult);
+			$sectnum = $row[0];
+		}
+		else
+		{
+			$sectnum = "none";
+		}
+
+		
+		$file = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
 
 		if($handle = fopen($file, 'w'))
 		{
-			$content = '<?php' . "\n" . 'require_once(\'../../phpdocx_pro/classes/CreateDocx.inc\');' . "\n\n" . '$docx = new CreateDocx();' . "\n\n" . '$docx->addTemplate(\'../templates/template1.docx\');' . "\n";
+			$content = '<?php' . "\n" . 'require_once(\'../../phpdocx_pro/classes/CreateDocx.inc\');' . "\n\n" . '$docx = new CreateDocx();' . "\n\n" . '$docx->addTemplate(\'../templates/template2.docx\');' . "\n";
 			
 			fwrite($handle, $content);
 			
@@ -1704,6 +1744,7 @@ function output_basic_content($classid)
 	classes.id,
 	classes.type,
 	class_details.officehrs,
+	class_details.sectnum,
 	courses.coursenum,
 	courses.name,
 	courses.totalhrs,
@@ -1735,7 +1776,7 @@ WHERE
 	if($numrows == 1)
 	{
 		$row = mysql_fetch_row($result);
-		list($classid, $type, $officehrs, $coursenum, $coursename, $coursehrs, $lecturehrs, $labhrs, 
+		list($classid, $type, $officehrs, $sectnum, $coursenum, $coursename, $coursehrs, $lecturehrs, $labhrs, 
 		$credit, $fname, $lname, $phone, $email, $term, $year, $startdate) = $row;
 		
 		$course_length = array("11 Weeks", "5.5 Weeks");
@@ -1749,6 +1790,7 @@ WHERE
 		$classid = escape_quotes($classid);
 		$type = escape_quotes($type);
 		$officehrs = escape_quotes($officehrs);
+		$sectnum = escape_quotes($sectnum);
 		$coursenum = escape_quotes($coursenum);
 		$coursename = escape_quotes($coursename);
 		$coursehrs = escape_quotes($coursehrs);
@@ -1769,6 +1811,7 @@ WHERE
 		$data .= '$docx->addTemplateVariable(\'EMAIL\', \''. $email . '\');' . "\n";
 		$data .= '$docx->addTemplateVariable(\'PHONE\', \''. $phone . '\');' . "\n";
 		$data .= '$docx->addTemplateVariable(\'AVAILABILITY\', \''. $officehrs . '\');' . "\n";
+		$data .= '$docx->addTemplateVariable(\'SECTNUM\', \''. $sectnum . '\');' . "\n";
 		$data .= '$docx->addTemplateVariable(\'WEEKS\', \''. $type . '\');' . "\n";
 		$data .= '$docx->addTemplateVariable(\'HOURS\', \''. $coursehrs . ' Hours\');' . "\n";
 		$data .= '$docx->addTemplateVariable(\'LECTURE\', \''. $lecturehrs . ' Hours\');' . "\n";
@@ -1846,9 +1889,22 @@ WHERE
 		
 		$term = $termcodes[$term];
 		
+		$sectquery = "select sectnum from class_details where class_id='$classid'";
+		$sectresult = mysql_query($sectquery);
+		$sectnumrow = mysql_num_rows($sectresult);
+		if($sectnumrow == 1)
+		{
+			$row = mysql_fetch_row($sectresult);
+			$sectnum = $row[0];
+		}
+		else
+		{
+			$sectnum = "none";
+		}
+		
 		$data = '$paramsPage = array( \'titlePage\' => 1, \'orient\' => \'normal\', \'top\' => 800, \'bottom\' => 800, \'right\' => 800, \'left\' => 800);' . "\n\n";
 
-		$data .= '$docx->createDocxAndDownload(\'' . $coursenum . '_' . $lname . '_' . $term . $year . '_id' . $classid . '\', $paramsPage);';
+		$data .= '$docx->createDocxAndDownload(\'' . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '\', $paramsPage);';
 		
 		$data .= "\n\n" . '?>';
 		return $data;

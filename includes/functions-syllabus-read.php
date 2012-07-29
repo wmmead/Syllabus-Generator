@@ -17,6 +17,18 @@ function output_class_times($classid)
 	}
 }
 
+function output_section_number($classid)
+{
+	$query = "select sectnum from class_details where class_id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		echo $row[0];
+	}
+}
+
 function output_class_details($classid)
 {
 	$query = "select materials, methods, tech, hwhrs, officehrs from class_details where class_id = '$classid'";
