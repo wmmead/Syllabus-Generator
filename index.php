@@ -60,6 +60,7 @@
     <!-- page functions here -->
         <?php add_syllabus(); ?>
         <?php process_syllabus_review(); ?>
+        <?php submit_draft_request(); ?>
         <?php delete_instructor_message(); ?>
     
     <?php
@@ -81,6 +82,10 @@
 		{
 			include_message_form($_GET['syllreview']);
 			include('includes/syllabi/review-syllabus.php');
+		}
+		elseif(isset($_GET['reqdraft']))
+		{
+			include("includes/syllabi/request-draft.php");
 		}
 		elseif(isset($_GET['syllrespond']))
 		{

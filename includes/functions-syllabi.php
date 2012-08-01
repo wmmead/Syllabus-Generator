@@ -175,7 +175,21 @@ function get_approved_syllabi($termid, $userid)
 				list($classid, $lname, $term, $year, $coursenum, $coursename) = $row;
 				
 				$year = substr($year, -2);
-				$file = "repository/" . $coursenum . '_' . $lname . '_' . $termcodes[$term] . $year . '_id' . $classid . '.php';
+				
+				$sectquery = "select sectnum from class_details where class_id='$classid'";
+				$sectresult = mysql_query($sectquery);
+				$sectnumrow = mysql_num_rows($sectresult);
+				if($sectnumrow == 1)
+				{
+					$row = mysql_fetch_row($sectresult);
+					$sectnum = $row[0];
+				}
+				else
+				{
+					$sectnum = "none";
+				}
+				
+				$file = "repository/" . $coursenum . '_' . $lname . '_' . $termcodes[$term] . $year . '_' . $sectnum  .  '_id' . $classid . '.php';
 				
 				print "<tr><td>$lname</td><td>$coursenum $coursename</td><td><a href='$file' title='download word file'><img src='images/page_word.png' alt='word file download icon' /></a><td><td><a href='index.php?sylledit=$classid' title='view syllabus online'><img src='images/page_world.png' alt='view syllabus online icon' /></a></td></tr>\n";
 			}
@@ -593,8 +607,8 @@ function process_class_details()
 	$hwhrslength = strlen($hwhrs);
 	$officehrslength = strlen($officehrs);
 	
-	if($hwhrslength > 254){ $hwhrs = cut_long_strings($hwhrs, 254);}
-	if($officehrs > 254){ $officehrs = cut_long_strings($officehrs, 254);}
+	if($hwhrslength > 510){ $hwhrs = cut_long_strings($hwhrs, 510);}
+	if($officehrs > 510){ $officehrs = cut_long_strings($officehrs, 510);}
 	
 	
 	$query = "select id from class_details where class_id = '$classid'";
@@ -1168,6 +1182,21 @@ function check_syllabus_completion($classid)
 
 /****************** Syllabus Submission ******************/
 
+function get_syllabus_approved_by($classid)
+{
+	$query = "SELECT classes.approvedby, users.fname, users.lname FROM classes, users WHERE 
+	classes.approvedby = users.id AND classes.id = '$classid'";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows == 1)
+	{
+		$row = mysql_fetch_row($results);
+		list($id, $fname, $lname) = $row;
+		$data = array('id'=>$id, 'fname'=>$fname, 'lname'=>$lname);
+		return $data;
+	}
+}
+
 function output_directors()
 {
 	$query = "select id, fname, lname from users where type='1' order by lname";
@@ -1220,24 +1249,9 @@ function submit_syllabus_for_review($classid)
 			$row = mysql_fetch_row($result);
 			list($dirfname, $diremail) = $row;
 			
-			$query = "SELECT
-			courses.coursenum,
-			courses.name,
-			terms.term,
-			terms.year,
-			users.fname,
-			users.lname,
-			users.email
-		FROM
-			classes,
-			courses,
-			terms,
-			users
-		WHERE
-			classes.course_id = courses.id AND
-			classes.user_id = users.id AND
-			classes.term_id = terms.id AND
-			classes.id = '$classid'";
+			$query = "SELECT courses.coursenum, courses.name, terms.term, terms.year, users.fname, users.lname, users.email 
+			FROM classes, courses, terms, users WHERE classes.course_id = courses.id AND classes.user_id = users.id AND 
+			classes.term_id = terms.id AND classes.id = '$classid'";
 			
 			$results = mysql_query($query);
 			$row = mysql_fetch_row($results);
@@ -1402,6 +1416,7 @@ function output_status_bar($classid)
 			}
 			echo "<div id='updatebar'>\n";
 			echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
+			echo "<a href='index.php?reqdraft=$classid' class='button link-btn'>Request Draft Status</a>";
 			echo "</div>";
 
 		}
@@ -1464,6 +1479,7 @@ function output_status_bar($classid)
 				}
 				echo "<div id='updatebar'>\n";
 				echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
+				echo "<a href='index.php?reqdraft=$classid' class='button link-btn'>Request Draft Status</a>";
 				echo "</div>";
 			}
 			
@@ -1514,9 +1530,22 @@ function process_syllabus_review()
 					$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
 					$year = substr($year, -2);
 					
+					$sectquery = "select sectnum from class_details where class_id='$classid'";
+					$sectresult = mysql_query($sectquery);
+					$sectnumrow = mysql_num_rows($sectresult);
+					if($sectnumrow == 1)
+					{
+						$row = mysql_fetch_row($sectresult);
+						$sectnum = $row[0];
+					}
+					else
+					{
+						$sectnum = "none";
+					}
+					
 					$term = $termcodes[$term];
 $emailmessage = "$fname $lname has approved your syllabus for $coursenum $coursename.
-please go to the " .$server. "/repository/" . $coursenum . '_' . $userlname . '_' . $term . $year . '_id' . $classid . '.php' ." and download it.";
+please go to the " .$server. "/repository/" . $coursenum . '_' . $userlname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php' ." and download it.";
 				
 					email_user($useremail, $subject, $emailmessage, $email);
 				}
@@ -1579,6 +1608,92 @@ function output_approval_radio_button($classid)
 	{
 		echo "<label style=\"opacity:0.5\"><input type=\"radio\" name=\"response\" value=\"approve\" disabled> Approval feature disabled until the term is locked by the system administrator</label>";
 	}
+}
+
+/****************** Request Draft Functions *******************/
+
+function check_syllabus_owner($classid)
+{
+	$query = "select user_id, status from classes where id = '$classid'";
+	$results = mysql_query($query);
+	$row = mysql_fetch_row($results);
+	$userid = $row[0];
+	$status = $row[1];
+	$thisuser = $_SESSION['id'];
+	if($thisuser == $userid && $status == 2)
+	{
+		return true;
+	}
+	else { return false; }
+}
+
+function submit_draft_request()
+{
+	if(isset($_POST['submitreq']))
+	{
+		$director = $_POST['director'];
+		$classid = $_POST['classid'];
+		$message = mysql_prep($_POST['message']);
+		
+		$query = "select id from syll_process where class_id = '$classid'";
+		$results = mysql_query($query);
+		$numrows = mysql_num_rows($results);
+		if($numrows == 1)
+		{
+			$query = "update syll_process set status ='1', date_time = NOW(), message = '$message' where class_id = '$classid'";
+			mysql_query($query);
+			
+			$query = "update classes set status='1', approvedby='0' where id='$classid'";
+			mysql_query($query);
+			
+			send_draft_request_email($classid, $director);
+		}
+		elseif($numrows == 0)
+		{
+			$userid = $_SESSION['id'];
+			$query = "insert into syll_process values('', '$classid', '$userid', '$director', '1', NOW(), '$message')";
+			mysql_query($query);
+			
+			$query = "update classes set status='1', approvedby='0' where id='$classid'";
+			mysql_query($query);
+			
+			send_draft_request_email($classid, $director);
+		}
+		else
+		{
+			print "<div class='feedback error'>There was an error submitting the draft request. :-(</div>";
+		}
+	}
+}
+
+function send_draft_request_email($classid, $director)
+{
+	$server = THE_SERVER;
+	
+	$query = "select fname, email from users where id = '$director'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	list($dirfname, $diremail) = $row;
+	
+	$query = "SELECT courses.coursenum, courses.name, terms.term, terms.year, users.fname, users.lname, users.email 
+	FROM classes, courses, terms, users WHERE classes.course_id = courses.id AND classes.user_id = users.id AND 
+	classes.term_id = terms.id AND classes.id = '$classid'";
+	
+	$results = mysql_query($query);
+	$row = mysql_fetch_row($results);
+	list($coursenum, $coursename, $term, $year, $fname, $lname, $email) = $row;
+	
+	$termcodes = array('', 'Winter', 'Spring', 'Summer', 'Fall');
+			
+	$term = $termcodes[$term];
+	$subject = "Syllabus Generator - $fname $lname requesting draft status";
+				
+	$emailmessage = "Hello $dirfname,
+	
+	$fname $lname requests that you return the syllabus for $coursenum $coursename scheduled for $term $year be returned to draft status. Please log into the syllabus system and approve or deny the request.
+	$server";
+				
+	email_user($diremail, $subject, $emailmessage, $email);
 }
 
 /****************** Helper functions *********************/
@@ -1729,7 +1844,7 @@ WHERE
 			fwrite($handle, output_page_close($classid));
 			
 			fclose($handle);
-			echo "<div class='feedback success'>Syllabus file successfully create!</div>";
+			echo "<div class='feedback success'>Syllabus file successfully created!</div>";
 		}
 		else
 		{

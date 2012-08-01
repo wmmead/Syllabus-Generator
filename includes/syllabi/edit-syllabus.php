@@ -37,6 +37,8 @@
 	<h4 class="fold">Syllabus Details</h4>
     <div class="hide">
     
+    <p><strong>Note:</strong> your phone number and email address will be included as methods of contact on this syllabus. Your phone is currently set to <strong><?php echo profile_item('phone', $_SESSION['id']) ?></strong> and your email is <strong><?php echo profile_item('email', $_SESSION['id']) ?></strong>. To change these, please <a href='users.php?profileedit=<?php echo $_SESSION['id']; ?>'>edit your profile</a>.</p>
+    
     <?php edit_meeting_times($classid); ?>
     
     <label for="sectnum">Section Number <span class="example">i.e. A2 Would be Monday at 1 pm</span></label>
