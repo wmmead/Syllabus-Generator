@@ -25,4 +25,4 @@
         <li><a href="/users.php?profileid=<?php print $id; ?>">View Your Profile</a></li>
     	<li><a href="/users.php?profileedit=<?php print $id; ?>">Edit Your Profile</a></li>
     </ul>
-    <a class="button" style="width:130px;text-align:center;" href="index.php?logoff=yes">Logout</a>
+    <a class="button" style="width:130px;text-align:center;" href="/index.php?logoff=yes">Logout</a>

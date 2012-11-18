@@ -62,6 +62,108 @@ function add_syllabus()
 	}
 }
 
+function copy_syllabus()
+{
+	if(isset($_POST['copysyll']))
+	{
+		if(!empty($_POST['term']))
+		{
+			$userid = $_POST['userid'];
+			$termid = $_POST['term'];
+			$copyclass = $_POST['copyclass'];
+			$classtype = $_POST['classtype'];
+			
+			$query = "select course_id from classes where id = '$copyclass'";
+			$result = mysql_query($query);
+			$row = mysql_fetch_row($result);
+			$courseid = $row[0];
+			
+			// Creat the new class
+			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0')";
+			mysql_query($query);
+			
+			$classid = mysql_insert_id();
+						
+			//copying class details
+			$query = "select materials, methods, tech, hwhrs, add_req, focus from class_details where class_id = '$copyclass'";
+			$results = mysql_query($query);
+			$row = mysql_fetch_row($results);
+			list($materials, $methods, $tech, $hwhrs, $add_req, $focus) = $row;
+			
+			$query = "insert into class_details values('', '$classid', '', '$materials', '$methods', '$tech', '$hwhrs', '', '$add_req', '$focus' )";
+			mysql_query($query);
+			
+			//copying evaluation policies
+			$query = "select descrip, percent, ordr from evalscales where class_id = '$copyclass'";
+			$results = mysql_query($query);
+			while($row = mysql_fetch_row($results))
+			{
+				list($descrip, $percent, $ordr) = $row;
+				$query = "insert into evalscales values('', '$classid', '$descrip', '$percent', '$ordr')";
+				mysql_query($query);
+			}
+			
+			//copying books (if any)
+			$query = "select title, author, publisher, pubdate, isbn, link, booktype, ordr from books where class_id = '$copyclass'";
+			$results = mysql_query($query);
+			$numrows = mysql_num_rows($results);
+			if($numrows > 0)
+			{
+				while($row = mysql_fetch_row($results))
+				{
+					list($title, $author, $publisher, $pubdate, $isbn, $link, $booktype, $ordr) = $row;
+					$query = "insert into evalscales values('', '$classid' '$title', '$author', 
+					'$publisher', '$pubdate', '$isbn', '$link', '$booktype', '$ordr')";
+					mysql_query($query);
+				}
+			}
+			
+			//Copying additional competencies (if any)
+			$query = "select competency, level, ordr from competencies where class_id = '$copyclass'";
+			$results = mysql_query($query);
+			$numrows = mysql_num_rows($results);
+			if($numrows > 0)
+			{
+				while($row = mysql_fetch_row($results))
+				{
+					list($competency, $level, $ordr) = $row;
+					$query = "insert into competencies values('', '0', '$classid', '$competency', '1', '$level', '$ordr')";
+					mysql_query($query);
+				}
+			}
+			
+			//Copying additional policies (if any)
+			$query = "select policy, ordr from gradingpolicies where class_id = '$copyclass' and type='1'";
+			$results = mysql_query($query);
+			$numrows = mysql_num_rows($results);
+			if($numrows > 0)
+			{
+				while($row = mysql_fetch_row($results))
+				{
+					list($policy, $ordr) = $row;
+					$query = "insert into gradingpolicies values('', '0', '$classid', '1', '$policy',  '$ordr')";
+					mysql_query($query);
+				}
+			}
+			
+			//Copying activities
+			$query = "select meeting, activity from activities where class_id = '$copyclass'";
+			$results = mysql_query($query);
+			$numrows = mysql_num_rows($results);
+			while($row = mysql_fetch_row($results))
+			{
+				list($meeting, $activity) = $row;
+				$query = "insert into activities values('', '$classid', '$meeting',  '$activity')";
+				mysql_query($query);
+			}
+			
+			print "<div class='feedback success'>Syllabus syllabus successfully copied.</div>";
+		}
+		else { print "<div class='feedback error'>ERROR: Class not copied. Did you select a term?</div>"; }
+	}
+}
+
+
 function display_user_terms()
 {
 	$userid = $_SESSION['id'];
@@ -102,12 +204,22 @@ function display_user_terms()
 				$counter++;
 			}
 			
-			print "<p><a href='index.php?sylledit=$id'>$coursenum $coursename</a> <span class='status-$statusnum'>[$status[$statusnum]]</span></p>\n";
+			print "<p><a href='index.php?sylledit=$id'>$coursenum $coursename</a> <span class='status-$statusnum'>[$status[$statusnum]]</span> ";
+			copy_link($id, $statusnum);
+			print "</p>\n";
 			
 			$section_init = $section;
 		}
 		print "</div>\n";
 		print "</div>\n";
+	}
+}
+
+function copy_link($id, $statusnum)
+{
+	if($statusnum == 2)
+	{
+		print "<a href='index.php?syllcopy=$id' class='small-link'>[copy]</a>";
 	}
 }
 
@@ -1199,7 +1311,7 @@ function get_syllabus_approved_by($classid)
 
 function output_directors()
 {
-	$query = "select id, fname, lname from users where type='1' order by lname";
+	$query = "select id, fname, lname from users where type='1' and status='1' order by lname";
 	$results = mysql_query($query);
 	$numrows = mysql_num_rows($results);
 	if($numrows > 0)

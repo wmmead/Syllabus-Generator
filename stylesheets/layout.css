@@ -203,6 +203,10 @@ input#totalpercent {
 	color:#34a406;
 }
 
+.small-link {
+	font-size: 80%;
+}
+
 .Draft, .Review, .Approved {
 	font-size: 100%;
 }

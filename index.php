@@ -62,6 +62,7 @@
         <?php process_syllabus_review(); ?>
         <?php submit_draft_request(); ?>
         <?php delete_instructor_message(); ?>
+        <?php copy_syllabus(); ?>
     
     <?php
         if(isset($_GET['addsyll']))
@@ -73,6 +74,10 @@
 			submit_syllabus_for_review($_GET['sylledit']);
 			include_message_form($_GET['sylledit']);
 			display_edit_or_review($_GET['sylledit']);
+		}
+		elseif(isset($_GET['syllcopy']))
+		{
+			include('includes/syllabi/copy-syllabus.php');
 		}
 		elseif(isset($_GET['syllsubmit']))
 		{
