@@ -63,6 +63,7 @@
         <?php submit_draft_request(); ?>
         <?php delete_instructor_message(); ?>
         <?php copy_syllabus(); ?>
+        <?php delete_syllabus_draft(); ?>
     
     <?php
         if(isset($_GET['addsyll']))
@@ -78,6 +79,10 @@
 		elseif(isset($_GET['syllcopy']))
 		{
 			include('includes/syllabi/copy-syllabus.php');
+		}
+		elseif(isset($_GET['sylldelete']))
+		{
+			include('includes/syllabi/delete-syllabus-draft.php');
 		}
 		elseif(isset($_GET['syllsubmit']))
 		{
@@ -102,14 +107,9 @@
 			print "<h2 class='mainheader'>Your Syllabi</h2>";
 			display_user_terms();
 			
-			if($_SESSION['type'] == 1)
+			if($_SESSION['type'] > 0)
 			{
 				display_approved_syllabi();
-			}
-			
-			if($_SESSION['type'] == 2)
-			{
-				
 			}
 		}
 		?>

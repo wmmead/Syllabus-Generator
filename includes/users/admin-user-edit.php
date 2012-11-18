@@ -37,13 +37,13 @@ $id = $_GET['useredit'];
         <?php if($_SESSION['type'] == 2) { ?>
         <label for="type">Access Level:</label> 
         <select name="type" id="type">
-        	<option value="0" <?php if(p_item('type') == 0) { echo "selected = 'selected'"; } ?>>Instructor</option>
+        		<option value="0" <?php if(p_item('type') == 0) { echo "selected = 'selected'"; } ?>>Instructor</option>
             <option value="1" <?php if(p_item('type') == 1) { echo "selected = 'selected'"; } ?>>Director</option>
             <option value="2" <?php if(p_item('type') == 2) { echo "selected = 'selected'"; } ?>>Administrator</option>
         </select>
         <?php } 
 		
-		else { ?> <input type="hidden" name="type" value="<?php p_item('type'); ?>" /> <?php } ?>
+		else { ?> <input type="hidden" name="type" value="<?php echo p_item('type'); ?>" /> <?php } ?>
         
         </div>
         

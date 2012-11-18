@@ -219,7 +219,61 @@ function copy_link($id, $statusnum)
 {
 	if($statusnum == 2)
 	{
-		print "<a href='index.php?syllcopy=$id' class='small-link'>[copy]</a>";
+		print "<a href='index.php?syllcopy=$id' class='ligsymbol' title='copy this syllabus'>&#xe038;</a>";
+	}
+	elseif($statusnum == 0)
+	{
+		print " <a href='index.php?sylldelete=$id' class='ligsymbol' title='delete this draft'>&#xe12c;</a>";
+	}
+}
+
+function delete_check($id)
+{
+	$this_user = $_SESSION['id'];
+	$classid = $id;
+	
+	$query = "select user_id, status from classes where id='$classid'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	$draft_owner = $row[0];
+	$status = $row[1];
+	
+	if($this_user == $draft_owner && $status == '0') { return TRUE; }
+	else { return FALSE; }
+}
+
+function delete_syllabus_draft()
+{
+	if(isset($_POST['deletesylldraft']))
+	{
+		$classid = $_POST['classid'];
+		
+		$query = "delete from classes where id = '$classid'";
+		mysql_query($query);
+		
+		$query = "delete from books where class_id ='$classid'";
+		mysql_query($query);
+		
+		$query = "delete from class_days_times where class_id ='$classid'";
+		mysql_query($query);
+		
+		$query = "delete from class_details where class_id ='$classid'";
+		mysql_query($query);
+		
+		$query = "delete from competencies where class_id ='$classid'";
+		mysql_query($query);
+		
+		$query = "delete from evalscales where class_id ='$classid'";
+		mysql_query($query);
+		
+		$query = "delete from gradingpolicies where class_id ='$classid'";
+		mysql_query($query);
+		
+		$query = "delete from syll_process where class_id ='$classid'";
+		mysql_query($query);
+		
+		$query = "delete from activities where class_id ='$classid'";
+		mysql_query($query);
 	}
 }
 
@@ -259,8 +313,21 @@ function display_approved_syllabi()
 	{
 		list($termid, $year, $termnum) = $row;
 		print "<div class='frame'>";
-		print "<h3><a href='index.php?showapproved=$termid'>Syllabi you approved for $termnames[$termnum] $year</a></h3>\n";
-		get_approved_syllabi($termid, $userid);
+		
+		if($_SESSION['type'] == 1) //for directors
+		{
+			print "<h3><a href='index.php?showapproved=$termid'>Syllabi you approved for $termnames[$termnum] $year</a></h3>\n";
+		}
+		elseif($_SESSION['type'] == 2) //for site administrators
+		{
+			print "<h3><a href='index.php?showapproved=$termid'>All approved syllabi for $termnames[$termnum] $year</a></h3>\n";
+		}
+		
+		if($termid == $_GET['showapproved'])
+		{
+			get_approved_syllabi($termid, $userid);
+		}
+		
 		print "</div>";
 	}
 	
@@ -270,10 +337,22 @@ function get_approved_syllabi($termid, $userid)
 {
 	if(isset($_GET['showapproved']) && $_SESSION['type'] > 0)
 	{
-		$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum, courses.name 
-		FROM classes, users, terms, courses 
-		WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND 
-		classes.term_id = '$termid' AND classes.status = '2' AND classes.approvedby ='$userid' ORDER BY users.lname, courses.coursenum";
+		if($_SESSION['type'] == 1)
+		{
+			$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum, courses.name 
+			FROM classes, users, terms, courses 
+			WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND 
+			classes.term_id = '$termid' AND classes.status = '2' AND classes.approvedby ='$userid' ORDER BY users.lname, courses.coursenum";
+		}
+		
+		elseif($_SESSION['type'] == 2)
+		{
+			$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum, courses.name 
+			FROM classes, users, terms, courses 
+			WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND 
+			classes.term_id = '$termid' AND classes.status = '2' ORDER BY users.lname, courses.coursenum";
+		}
+		
 		
 		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
 		
