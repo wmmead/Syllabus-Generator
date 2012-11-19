@@ -347,6 +347,14 @@ function authenticateperson($login, $password, $key)
 	}
 }
 
+function output_login_error()
+{
+	if( $_SESSION['auth09328'] == "Incorrect Login" )
+	{
+		echo "<p class='loginerror'>Incorrect Username / Password</p>";
+	}
+}
+
 function check_user_level()
 {
 	$level = $_SESSION['type'];

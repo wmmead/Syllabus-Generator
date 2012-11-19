@@ -29,6 +29,7 @@
 	<![endif]-->
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="js/tiny_mce/jquery.tinymce.js"></script>
 <script type="text/javascript" src="js/jquery.calculation.min.js"></script>
 <script type="text/javascript" src="js/script-index.js"></script>
@@ -43,6 +44,7 @@
 		if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
 		{
 			include('includes/users/loginform.php');
+			output_login_error();
 			print "</div></body></html>";
 		}
 		

@@ -130,5 +130,25 @@ $(document).ready(function(){
 			$('#addBook').attr('disabled','disabled');
 		}
 	});
+	
+	// Shakes the login box if there is an error logging in
+	if( $('.loginerror').length >0 )
+	{
+		setTimeout('shakebox()', 500);
+	}
 
 });
+
+// the shake function for the loginbox
+function shakebox()
+{
+	$('#loginform').animate({ left: '100' }, 80, function(){
+		$('#loginform').animate({ left: '-100' }, 80, function(){
+			$('#loginform').animate({ left: '70' }, 80, function(){
+				$('#loginform').animate({ left: '-70' }, 80, function(){
+					$('#loginform').animate({ left: '0' }, 1000, 'easeOutElastic');
+				});
+			});
+		});
+	});
+}
