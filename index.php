@@ -45,6 +45,8 @@
 		{
 			include('includes/users/loginform.php');
 			output_login_error();
+			process_lost_password_request();
+			login_error_password_retrieval_form();
 			print "</div></body></html>";
 		}
 		

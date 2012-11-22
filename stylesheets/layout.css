@@ -59,10 +59,34 @@ body {
 	box-shadow: 0px 0px 10px 5px rgba(65, 85, 118, .5);
 }
 
-.loginerror {
+#forgotpassworform {
+	text-align: left;
+	width: 340px;
+	margin: 50px auto;
+	position: relative;
+}
+
+#thefield {
+	width: 100%;
+}
+
+#passwordchicken {
+	position: absolute;
+	left:220px;
+	top: -25px;
+}
+
+.loginerror, .reset-fail {
 	width:340px;
 	margin: auto;
 	color: red;
+	text-align: center;
+}
+
+.reset-success {
+	width:340px;
+	margin: auto;
+	color: green;
 	text-align: center;
 }
 

@@ -330,6 +330,11 @@ function set_codes()
 
 function authenticateperson($login, $password, $key)
 {
+	if(!isset($_SESSION['login_counter']))
+	{
+		$_SESSION['login_counter'] = 0;
+	}
+	
 	$val = set_codes();
 	$query = "select * from users where login='$login' and password = encode('$password', '$key')";
 	$result = mysql_query($query);
@@ -344,15 +349,87 @@ function authenticateperson($login, $password, $key)
 	else
 	{
 		$_SESSION['auth09328'] = "Incorrect Login";
+		$_SESSION['login_counter']++;
 	}
 }
 
 function output_login_error()
 {
-	if( $_SESSION['auth09328'] == "Incorrect Login" )
+	if(isset($_SESSION['auth09328']))
 	{
-		echo "<p class='loginerror'>Incorrect Username / Password</p>";
+		if( $_SESSION['auth09328'] == "Incorrect Login" )
+		{
+			if(!isset($_POST['retrive-pass']))
+			{
+				echo "<p class='loginerror'>Incorrect Username / Password</p>";
+			}
+		}	
 	}
+}
+
+function login_error_password_retrieval_form()
+{
+	if(isset($_SESSION['login_counter']))
+	{
+		$login_counter = $_SESSION['login_counter'];
+		
+		if($login_counter > 1)
+		{
+			include('users/password-retrival.php');
+		}
+	}
+
+}
+
+function process_lost_password_request()
+{
+	if(isset($_POST['retrive-pass']))
+	{
+		$key = KEY;
+		$data = mysql_prep($_POST['thefield']);
+		
+		$query = "select login, decode(password, '$key') from users where email = '$data'";
+		$result = mysql_query($query);
+		$num_rows = mysql_num_rows($result);
+		if($num_rows == 1)
+		{
+			$row = mysql_fetch_row($result);
+			$login = $row[0];
+			$password = $row[1];
+			$email = $data;
+			email_lost_credentials($email, $login, $password);
+			print "<p class='reset-success'>Cluck, cluck, password sent. Check your email.</p>";
+		}
+		else
+		{
+			$query = "select email, decode(password, '$key') from users where login = '$data'";
+			$result = mysql_query($query);
+			$num_rows = mysql_num_rows($result);
+			if($num_rows == 1)
+			{
+				$row = mysql_fetch_row($result);
+				$email = $row[0];
+				$password = $row[1];
+				$login = $data;
+				email_lost_credentials($email, $login, $password);
+				print "<p class='reset-success'>Cluck, cluck, password sent. Check your email.</p>";
+			}
+			else
+			{
+				print "<p class='reset-fail'>Bok bok, I did not recognize your chicken scatches.</p>";
+			}
+		}
+	}
+}
+
+function email_lost_credentials($email, $login, $password)
+{
+	$from = "syllabusgenerator@aiwired.com";
+	$to = $email;
+	$subject = "Syllabus Generator Info";
+	$message = "Hi, your login for the syllabus generator system is $login and your password is $password.\r\n\r\n You should be able to log into the syllabus generator now. If you want to set your password to something you will remember, edit your profile once you have logged in.";
+	
+	email_user($to, $subject, $message, $from);
 }
 
 function check_user_level()
