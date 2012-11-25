@@ -323,9 +323,12 @@ function display_approved_syllabi()
 			print "<h3><a href='index.php?showapproved=$termid'>All approved syllabi for $termnames[$termnum] $year</a></h3>\n";
 		}
 		
-		if($termid == $_GET['showapproved'])
+		if(isset($_GET['showapproved']))
 		{
-			get_approved_syllabi($termid, $userid);
+			if($termid == $_GET['showapproved'])
+			{
+				get_approved_syllabi($termid, $userid);
+			}
 		}
 		
 		print "</div>";
