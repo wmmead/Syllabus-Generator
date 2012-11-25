@@ -60,15 +60,20 @@
 <?php add_term(); lock_term(); edit_term(); ?>
 
 <div id="page" class="container">
+	<?php  update_departments(); add_departments(); delete_departments(); ?>
 	<div class="three columns frame nav">
 	<?php include('includes/navigation.php'); ?>
     </div>
     
     <div class="nine columns">
+    <?php if(isset($_GET['departments'])) {?>
+    	<h2 class="mainheader">Manage Departments</h2>
+    <?php } else { ?>
     	<h2 class="mainheader">Manage Terms</h2>
+    	<?php } ?>
         
         <!-- page functions here -->
-        <?php update_grade_policies(); update_sections(); ?>
+        <?php update_grade_policies(); update_sections();?>
         
         <?php
         if(isset($_GET['addterm']) && $_SESSION['type'] == 2)
@@ -82,6 +87,10 @@
 		elseif(isset($_GET['termsections']) && $_SESSION['type'] == 2)
 		{
 			include('includes/admin/term-sections.php');
+		}
+		elseif(isset($_GET['departments']) && $_SESSION['type'] == 2)
+		{
+			include('includes/admin/departments.php');
 		}
 		else
 		{

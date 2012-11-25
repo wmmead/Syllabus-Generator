@@ -501,5 +501,155 @@ function add_sections($data, $id)
 	}
 }
 
+function generate_department_list()
+{
+	$query = "select id, name, abbrv from depts order by name";
+	$result = mysql_query($query);
+	
+	$dept_query = "SELECT dept, COUNT(*) FROM courses GROUP BY dept";
+	$dept_result = mysql_query($dept_query);
+	$dept_count = array();
+	
+	while($dept_row = mysql_fetch_row($dept_result))
+	{
+		list($dept_id, $count) = $dept_row;
+		$dept_count["$dept_id"] = "$count";
+	}
+	
+	//print_r($dept_count);
+	
+	$counter = 0;
+	
+	print "<table class='usertable'>\n";
+	print "<tr><th>Department Name</th><th>Abbrv</th><th># of Courses</th><th>Edit</th><th>Delete</th></tr>\n";
+	
+	while($row = mysql_fetch_row($result))
+	{
+		list($id, $dept, $abbrv) = $row;
+		if($counter %2 == 0)
+		{
+			print "<tr class='even'>\n";
+		}
+		else
+		{
+			print "<tr class='odd'>\n";
+		}
+		
+		if(array_key_exists("$id", $dept_count))
+		{
+			$count = $dept_count["$id"];
+		}
+		else
+		{
+			$count = '0';
+		}
+		
+		
+		print "<td>$dept</td><td>$abbrv</td><td>$count</td><td><a href='admin.php?departments=yes&deptedit=$id' class='ligsymbol'>&#xe041;</a></td><td>";
+		print output_delete_link($count, $id);
+		print "</td>\n</tr>\n";
+		
+		$counter++;
+		
+	}
+	
+	print "</table>\n";
+	
+}
+
+function output_delete_link($count, $id)
+{
+	if($count != '0')
+	{
+		$output = "<span class='ligsymbol' style='opacity:0.5;' title='can not delete'>&#xe12c;</span>";
+	}
+	else
+	{
+		$output = "<a href='admin.php?departments=yes&deletedept=$id' class='ligsymbol' title='delete this department'>&#xe12c;</a>";
+	}
+	return $output;
+}
+
+function dept_item($item, $id)
+{
+	$key = KEY;
+	$query = "select * from depts where id = '$id'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+		
+	$field_names = array("id", "dept", "abbrv");
+	$dept_info = array_combine($field_names, $row);
+	$the_item = $dept_info[$item];
+	return $the_item;
+}
+
+function update_departments()
+{
+	if(isset($_POST['updatedept']))
+	{
+		$id = mysql_prep($_POST['id']);
+		$dept = mysql_prep($_POST['dept']);
+		$abbrv = mysql_prep($_POST['abbrv']);
+		if(!empty($dept) && !empty($abbrv))
+		{
+			$query = "select * from depts where name='$dept' and abbrv='$abbrv' and id!='$id'";
+			$result = mysql_query($query);
+			$numrows = mysql_num_rows($result);
+			if($numrows == 0)
+			{
+				$query = "update depts set name = '$dept', abbrv = '$abbrv' where id = '$id'";
+				mysql_query($query);
+				print "<p class='success feedback'>Department successfully updated!</p>";
+			}
+			else { print "<p class='error feedback'>ERROR - Not saved. Duplicate record.</p>"; }
+		}
+		else { print "<p class='error feedback'>ERROR - you left a field blank</p>"; }
+	}
+}
+
+function add_departments()
+{
+	if(isset($_POST['adddept']))
+	{
+		$dept = mysql_prep($_POST['dept']);
+		$abbrv = mysql_prep($_POST['abbrv']);
+		if(!empty($dept) && !empty($abbrv))
+		{
+			$query = "select * from depts where name='$dept' and abbrv='$abbrv'";
+			$result = mysql_query($query);
+			$numrows = mysql_num_rows($result);
+			if($numrows == 0)
+			{
+				$query = "insert into depts values('', '$dept', '$abbrv')";
+				mysql_query($query);
+				print "<p class='success feedback'>Department successfully added!</p>";
+			}
+			else { print "<p class='error feedback'>ERROR - Not saved. Duplicate record.</p>"; }
+		}
+		else { print "<p class='error feedback'>ERROR - you left a field blank</p>"; }
+	}
+}
+
+function delete_departments()
+{
+	if(isset($_GET['deletedept']) && $_SESSION['type'] == 2)
+	{
+		$id = $_GET['deletedept'];
+		
+		$query = "select * from courses where dept='$id'";
+		$result = mysql_query($query);
+		$numrows = mysql_num_rows($result);
+		if($numrows == 0)
+		{
+			$query = "delete from depts where id='$id'";
+			mysql_query($query);
+			print "<p class='success feedback'>Department successfully deleted!</p>";
+		}
+		else { print "<p class='error feedback'>ERROR - Can't delete departments with classes</p>"; }
+	}
+}
+
+
+
 
 ?>

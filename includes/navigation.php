@@ -7,7 +7,8 @@
     <h3 class="remove-bottom">Administration</h3>
 	<ul>
     	<?php if(check_user_level() == 2 ) { ?>
-        <li><a href="/admin.php">Manage Terms</a></li> <?php } ?>
+        <li><a href="/admin.php">Manage Terms</a></li>
+        <li><a href="/admin.php?departments=yes">Manage Departments</a></li> <?php } ?>
         <li><a href="/courses.php">Manage Courses</a></li>
         <li><a href="/users.php?adminedit=yes">Manage Users</a></li>
         <li><a href="/users.php?newuser=yes">Create An Account</a></li>
