@@ -56,10 +56,52 @@ function add_syllabus()
 				mysql_query($query);
 			}
 			
-			print "<div class='feedback success'>Syllabus record successfully created.</div>";
+			//adding this to be sure the activites records were created...
+			
+			$query="select * from activities where class_id='$lastid'";
+			$result = mysql_query($query);
+			$num_rows = mysql_num_rows($result);
+			
+			if($num_rows == $meetings)
+			{
+				print "<div class='feedback success'>Syllabus record successfully created.</div>";
+			}
+			else
+			{
+				for($i=0; $i<$meetings; $i++)
+				{
+					$counter = $i+1;
+					$query = "select * from activities where class_id='$lastid' and meeting='$counter'";
+					$result = mysql_query($query);
+					$num_rows = mysql_num_rows($result);
+					if($num_rows != 1)
+					{
+						$query = "insert into activities values('', '$lastid', '$counter', '' )";
+						mysql_query($query);
+					}
+				}
+				email_error($lastid);
+			}
 		}
 		else { print "<div class='feedback error'>ERROR: Term, Course, and Class type fields are required.</div>"; }
 	}
+}
+
+function email_error($classid)
+{
+	$userid = $_SESSION['id'];
+	$query = "select fname, lname from users where id='$userid'";
+	$results = mysql_query($query);
+	$row = mysql_fetch_row($results);
+	$fname = $row[0];
+	$lname = $row[1];
+	
+	$to = "bill@meaddesign.net";
+	$subject = "Activity creation error from syllabus generator";
+	$message = "Email triggered by incorrect creation of activity records in the syllabus generator. User id: $userid. User Name: $fname $lname. Class id: $classid. Please check it out and see if the patch worked.";
+	$from = "admin@aiwired.com";
+	
+	email_user($to, $subject, $message, $from);
 }
 
 function copy_syllabus()
