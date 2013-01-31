@@ -71,7 +71,7 @@ function add_syllabus()
 				for($i=0; $i<$meetings; $i++)
 				{
 					$counter = $i+1;
-					$query = "select * from activities where class_id='$lastid' and meeting='$counter'";
+					$query = "select id from activities where class_id='$lastid' and meeting='$counter'";
 					$result = mysql_query($query);
 					$num_rows = mysql_num_rows($result);
 					if($num_rows != 1)
@@ -195,6 +195,7 @@ function copy_syllabus()
 			while($row = mysql_fetch_row($results))
 			{
 				list($meeting, $activity) = $row;
+				$activity = mysql_real_escape_string($activity);
 				$query = "insert into activities values('', '$classid', '$meeting',  '$activity')";
 				mysql_query($query);
 			}
@@ -623,6 +624,7 @@ function term_start_date($classid)
 	else { return NULL; }
 }
 
+/******** This function incorrect and deprecated 
 function mid_term_start_date($classid)
 {
 	$query ="select terms.startdate from terms left join classes on terms.id = classes.term_id where classes.id = '$classid' ";
@@ -638,6 +640,8 @@ function mid_term_start_date($classid)
 	}
 	else { return NULL; }
 }
+
+**************/
 
 function class_date($classid, $termstart, $week, $day="")
 {
@@ -2076,7 +2080,19 @@ WHERE
 			fwrite($handle, output_class_evaluation($classid));
 			fwrite($handle, output_grading_policies($classid));
 			fwrite($handle, output_global_content($classid));
-			fwrite($handle, output_all_activities($classid));
+			
+			$query = "select type from classes where id='$classid'";
+			$result = mysql_query($query);
+			$row = mysql_fetch_row($result);
+			$classtype = $row[0];
+			
+			switch ($classtype)
+			{
+				case "0": fwrite($handle, output_full_quarter_activities($classid));  break;
+				case "1": fwrite($handle, output_mid_quarter_activities($classid));  break;
+				default: fwrite($handle, output_full_quarter_activities($classid));
+			}
+			
 			fwrite($handle, output_page_close($classid));
 			
 			fclose($handle);
@@ -2579,7 +2595,7 @@ function output_class_evaluation($classid)
 	}
 }
 
-function output_all_activities($classid)
+function output_full_quarter_activities($classid)
 {
 	$termstart = term_start_date($classid);
 	$day = return_day($classid);
@@ -2602,9 +2618,49 @@ function output_all_activities($classid)
 		$data .= '$docx->replaceTemplateVariableByHTML(\'ACTIVITIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 		
 		return $data;
-
 	}
+}
 
+function output_mid_quarter_activities($classid)
+{
+	$termstart = term_start_date($classid);
+	$startweek = 6;
+	$arrayselect = 1;
+	$counter = 1;
+	
+	$day = return_day($classid);
+	$data = '$html = \'<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
+	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		$data .= '<table width="100%">' . "\n";
+		while($row = mysql_fetch_row($results))
+		{
+			list($meeting, $activity) = $row;
+			$activity = escape_quotes($activity);
+			$classdate = return_class_date($classid, $termstart, $startweek, $day[$arrayselect]);
+			
+			$counter++;
+						
+			if($counter %2 == 0)
+			{
+				$startweek++;
+				$arrayselect = 0;
+			}
+			else
+			{
+				$arrayselect = 1;
+			}
+			
+			$data .= '<tr><td width="25%"><p><strong>Meeting #</strong>' . $meeting . '<br />' . $classdate . '</p></td><td width="75%">' . $activity . '</td></tr>' . "\n";		
+		}
+		$data .= '</table> \';' . "\n\n";
+		$data .= '$docx->replaceTemplateVariableByHTML(\'ACTIVITIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		
+		return $data;
+	}
 }
 
 

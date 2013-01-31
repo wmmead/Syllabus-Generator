@@ -158,6 +158,21 @@ function output_additional_policies($classid)
 
 function output_activities($classid)
 {
+	$query = "select type from classes where id='$classid'";
+	$result = mysql_query($query);
+	$row = mysql_fetch_row($result);
+	$classtype = $row[0];
+	
+	switch ($classtype)
+	{
+		case "0": output_full_quarter_class($classid);  break;
+		case "1": output_mid_quarter_class($classid);  break;
+		default: output_full_quarter_class($classid);
+	}
+}
+
+function output_full_quarter_class($classid)
+{
 	$termstart = term_start_date($classid);
 	$day = return_day($classid);
 	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
@@ -181,6 +196,54 @@ function output_activities($classid)
 			echo "</div>";
 		}
 	}
+
 }
+
+function output_mid_quarter_class($classid)
+{
+	$termstart = term_start_date($classid);
+	$startweek = 6;
+	$arrayselect = 1;
+	$counter = 1;
+	
+	$day = return_day($classid);
+	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
+	$results = mysql_query($query);
+	$numrows = mysql_num_rows($results);
+	if($numrows > 0)
+	{
+		echo "<h4>Weekly Activities</h4>\n";
+		while($rows = mysql_fetch_row($results))
+		{
+			
+			
+			list($meeting, $activity) = $rows;
+			echo "<div class='frame'>";
+			echo "<p><strong>Meeting &#35;";
+			echo $meeting. ' ';
+			class_date($classid, $termstart, $startweek, $day[$arrayselect]);
+			echo " <span class='alert'>";
+			print_holiday($classid, $termstart, $startweek, $day[$arrayselect]);
+			echo "</span>";
+			echo "</strong></p>\n";
+			echo "$activity\n";
+			echo "</div>";
+			
+			$counter++;
+						
+			if($counter %2 == 0)
+			{
+				$startweek++;
+				$arrayselect = 0;
+			}
+			else
+			{
+				$arrayselect = 1;
+			}
+		}
+	}
+}
+
+
 
 ?>
