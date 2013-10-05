@@ -426,7 +426,7 @@ function get_approved_syllabi($termid, $userid)
 					$sectnum = "none";
 				}
 				
-				$file = "repository/" . $coursenum . '_' . $lname . '_' . $termcodes[$term] . $year . '_' . $sectnum  .  '_id' . $classid . '.php';
+				$file = FULL_ADDRESS . "repository/" . $coursenum . '_' . $lname . '_' . $termcodes[$term] . $year . '_' . $sectnum  .  '_id' . $classid . '.php';
 				
 				print "<tr><td>$lname</td><td>$coursenum $coursename</td><td><a href='$file' title='download word file'><img src='images/page_word.png' alt='word file download icon' /></a><td><td><a href='index.php?sylledit=$classid' title='view syllabus online'><img src='images/page_world.png' alt='view syllabus online icon' /></a></td></tr>\n";
 			}
@@ -1652,7 +1652,7 @@ function output_status_bar($classid)
 					$sectnum = "none";
 				}
 				
-				$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
+				$link = FULL_ADDRESS . "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
 			}
 			echo "<div id='updatebar'>\n";
 			echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
@@ -1715,7 +1715,7 @@ function output_status_bar($classid)
 						$sectnum = "none";
 					}
 					
-					$link = "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
+					$link = FULL_ADDRESS . "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
 				}
 				echo "<div id='updatebar'>\n";
 				echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";

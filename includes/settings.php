@@ -10,6 +10,7 @@ define ("KEY", "CMJ0TfoU");
 
 //Server address:
 define("THE_SERVER", "http://localhost/syllabusgen");
+define("FULL_ADDRESS", "http://localhost/syllabusgen/"); //remove subdomain for PHPDocX
 
 //regular expressions
 define ("RE_PHONE", "/(([01][\.\- +]\(\d{3}\)[\.\- +]?)|([01][\.\- +]\d{3}[\.\- +])|(\(\d{3}\) ?)|(\d{3}[- \.]))?\d{3}[- \.]\d{4}/");
