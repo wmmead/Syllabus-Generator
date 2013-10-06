@@ -9,7 +9,7 @@
 <p><strong>Course Description:</strong><br /> 
 <?php echo course_item("desc", $id); ?></p>
 
-<h3>Course Competencies</h3>
+<h3>Learning Objectives</h3>
 <?php output_core_competencies($id); ?>
 
 <h3>Course Prerequistes</h3>

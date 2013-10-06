@@ -34,14 +34,14 @@
     </div>
     
     <div class="frame">
-        <h3>Course Competencies</h3>
+        <h3>Course Learning Objectives</h3>
         <p id="input1" class="clonedInput">
-        <label for="comp1">Competency</label> <input id="comp1" name="comp1" type="text" class="txtfield" />
+        <label for="comp1">Learning Objective</label> <input id="comp1" name="comp1" type="text" class="txtfield" />
         <a href="#" id="indent1" class="indentbtn">Indent</a>
         <input type="hidden" id="level1" name="level1" value="0">
         </p>
         
-        <input type="button" id="addComp" value="add another competency" />
+        <input type="button" id="addComp" value="add another learning objective" />
     </div>
     
     <div class="frame">

@@ -444,7 +444,7 @@ function edit_addtl_competencies($id, $type)
 	if($numrows == 0)
 	{
 		print "<p id='input1' class='clonedInput'>\n";
-		print "<label for='comp1'>Competency</label>\n";
+		print "<label for='comp1'>Learning Objective</label>\n";
 		print "<input id='comp1' name='comp1' type='text' />\n";
 		print "</p>";
 	}
@@ -454,12 +454,12 @@ function edit_addtl_competencies($id, $type)
 		{
 			list($competency, $order)=$row;
 			print "<p id='input$order' class='clonedInput'>\n";
-			print "<label for='comp$order'>Competency</label>\n";
+			print "<label for='comp$order'>Learning Objective</label>\n";
 			print "<input id='comp$order' name='comp$order' type='text' value='$competency' />\n";
 			print "</p>\n";
 		}
 	}
-	print "<p><input type='button' id='addComp' value='add another competency' /></p>\n";
+	print "<p><input type='button' id='addComp' value='add another learning objective' /></p>\n";
 }
 
 function addtn_grade_policies($id, $type)

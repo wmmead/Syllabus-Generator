@@ -124,9 +124,9 @@ else { $section = "xx"; }
     </div>
     
     <div class="frame">
-    <h4 class="fold">Additional Competetencies (optional)</h4>
+    <h4 class="fold">Additional Learning Ojectives (optional)</h4>
         <div class="hide">
-        <p><span class="example">Use this section to add competencies that go beyond the ones required for the course.</span></p>
+        <p><span class="example">Use this section to add learning objectives that go beyond the ones required for the course.</span></p>
         <?php edit_addtl_competencies($classid, "1"); ?>
         </div>
     </div>

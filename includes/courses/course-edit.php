@@ -39,7 +39,7 @@
             </div>
             
             <div class="frame">
-       		<h3>Course Competencies</h3>
+       		<h3>Course Learning Objectives</h3>
             <?php edit_competencies(); ?>
             </div>
             

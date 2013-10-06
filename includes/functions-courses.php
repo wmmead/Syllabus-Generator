@@ -170,7 +170,7 @@ function edit_competencies()
 		if($numrows == 0)
 		{
 			print "<p id='input1' class='clonedInput'>\n";
-			print "<label for='comp1'>Competency</label> <input id='comp1' name='comp1' type='text' />\n";
+			print "<label for='comp1'>Learning Objective</label> <input id='comp1' name='comp1' type='text' />\n";
 			print "<a href='#' id='indent1' class='indentbtn'>Indent</a>\n";
 			print "<input type='hidden' id='level1' name='level1' value='0'>\n";
 			print "</p>";
@@ -184,7 +184,7 @@ function edit_competencies()
 				{
 					
 					print "<p id='input$order' class='clonedInput'>\n";
-					print "<label for='comp1'>Competency</label> <input id='comp$order' name='comp$order' type='text' class='txtfieldind' value='$competency' />\n";
+					print "<label for='comp1'>Learning Objective</label> <input id='comp$order' name='comp$order' type='text' class='txtfieldind' value='$competency' />\n";
 					print "<a href='#' id='indent$order' class='exdentbtn'>Indent</a>\n";
 					print "<input type='hidden' id='level$order' name='level$order' value='2'>\n";
 					print "</p>";
@@ -192,7 +192,7 @@ function edit_competencies()
 				else
 				{
 					print "<p id='input$order' class='clonedInput'>\n";
-					print "<label for='comp1'>Competency</label> <input id='comp$order' name='comp$order' type='text' class='txtfield' value='$competency' />\n";
+					print "<label for='comp1'>Learning Objective</label> <input id='comp$order' name='comp$order' type='text' class='txtfield' value='$competency' />\n";
 					print "<a href='#' id='indent$order' class='indentbtn'>Indent</a>\n";
 					print "<input type='hidden' id='level$order' name='level$order' value='0'>\n";
 					print "</p>";
@@ -200,7 +200,7 @@ function edit_competencies()
 				
 			}
 		}
-		print "<p><input type='button' id='addComp' value='add another competency' /></p>\n";
+		print "<p><input type='button' id='addComp' value='add another learning objective' /></p>\n";
 	}	
 }
 
