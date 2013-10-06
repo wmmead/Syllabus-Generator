@@ -213,22 +213,25 @@ function display_user_terms()
 	$counter = 1;
 	$section_init = 10000000;
 	$termnames = array("", "Winter", "Spring", "Summer", "Fall");
+	$termcodes = array("", "WI", "SP", "SU", "FA");
 	$status = array("Draft", "Review", "Approved");
+	$status_icon = array("D", "R", "A");
 	
-	$query = "select classes.id, terms.year, terms.term, courses.name, courses.coursenum, classes.status 
-				from classes left join terms on classes.term_id = terms.id 
-				left join courses on classes.course_id = courses.id where user_id = '$userid'
-				order by terms.year desc, terms.term desc, courses.coursenum asc";
+	$query = "SELECT classes.id, class_details.sectnum, users.lname, terms.year, terms.term, courses.name, courses.coursenum, classes.status FROM classes LEFT JOIN users ON classes.user_id = users.id LEFT JOIN class_details ON classes.id = class_details.class_id LEFT JOIN terms ON classes.term_id = terms.id LEFT JOIN courses ON classes.course_id = courses.id WHERE user_id = '$userid' ORDER BY terms.year DESC , terms.term DESC , courses.coursenum ASC";
+	
+	
 
 	$result = mysql_query($query);
 	$numrows = mysql_num_rows($result);
+	
 	if($numrows > 0)
 	{	
 		while($row = mysql_fetch_row($result))
 		{
-			list($id, $year, $term, $coursename, $coursenum, $statusnum) = $row;
+			list($id, $sectnum, $lname, $year, $term, $coursename, $coursenum, $statusnum) = $row;
 			
 			$section = $year.$term;
+			$shortyear = substr($year, -2);
 			
 			if($section < $section_init && $section_init != 10000000)
 			{
@@ -247,9 +250,29 @@ function display_user_terms()
 				$counter++;
 			}
 			
-			print "<p><a href='index.php?sylledit=$id'>$coursenum $coursename</a> <span class='status-$statusnum'>[$status[$statusnum]]</span> ";
+			if($statusnum == 2)
+			{
+				$file = FULL_ADDRESS . "repository/" . $coursenum . '_' . $lname . '_' . $termcodes[$term] . $shortyear . '_' . $sectnum  .  '_id' . $id . '.php';	
+			}
+			
+			print "<div class='syll-row'>";
+			print "<div class='syll-icons'>";
+			
+			
+			if($statusnum == 2)
+			{
+				print "<div class='front-icon'><a href='$file' title='download word file'><img src='images/page_word.png' alt='word file download icon' /></a></div>";
+			}
+			
+			
 			copy_link($id, $statusnum);
-			print "</p>\n";
+			print "<div class='status-$statusnum' title='status: $status[$statusnum]'>";
+						
+			print "$status_icon[$statusnum]</div>
+				    </div>
+				  <div class='syll-link'><a href='index.php?sylledit=$id'>$coursenum $coursename</a>  ";
+			
+			print "</div></div>\n";
 			
 			$section_init = $section;
 		}
@@ -262,11 +285,11 @@ function copy_link($id, $statusnum)
 {
 	if($statusnum == 2)
 	{
-		print "<a href='index.php?syllcopy=$id' class='ligsymbol' title='copy this syllabus'>&#xe038;</a>";
+		print "<div class='front-icon'><a href='index.php?syllcopy=$id' class='ligsymbol' title='copy this syllabus'>&#xe038;</a></div>";
 	}
 	elseif($statusnum == 0)
 	{
-		print " <a href='index.php?sylldelete=$id' class='ligsymbol' title='delete this draft'>&#xe12c;</a>";
+		print "<div class='front-icon'><a href='index.php?sylldelete=$id' class='ligsymbol' title='delete this draft'>&#xe12c;</a></div>";
 	}
 }
 
@@ -2278,12 +2301,14 @@ WHERE
 		$row = mysql_fetch_row($result);
 		list($classid, $classtype, $lname, $term, $year, $coursenum) = $row;
 		
+		//Not using this mq feature, cause it will mess up downloading old mq syllabi...
 		if($classtype =="1")
 		{
 			$mq = "MQ_";
 		}
 		
 		else { $mq = ""; }
+		//...end unused code
 		
 		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
 		$year = substr($year, -2);
@@ -2305,7 +2330,7 @@ WHERE
 		
 		$data = '$paramsPage = array( \'titlePage\' => 1, \'orient\' => \'normal\', \'top\' => 800, \'bottom\' => 800, \'right\' => 800, \'left\' => 800);' . "\n\n";
 
-		$data .= '$docx->createDocxAndDownload(\'' . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $mq . $sectnum . '_id' . $classid . '\', $paramsPage);';
+		$data .= '$docx->createDocxAndDownload(\'' . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '\', $paramsPage);';
 		
 		$data .= "\n\n" . '?>';
 		return $data;
