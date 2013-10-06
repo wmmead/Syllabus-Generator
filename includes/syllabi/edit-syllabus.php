@@ -2,6 +2,13 @@
 
 <?php process_form($classid); ?>
 <?php $data = get_class_details($classid); ?>
+<?php 
+if( $data['sectnum'] != "")
+{
+	$section = $data['sectnum'];
+}
+else { $section = "xx"; }
+?>
 
 <div class="frame">
 	
@@ -21,7 +28,7 @@
         <strong>Credits:</strong> <?php echo course_item("credit", $courseid); ?> Credits</p>
         <p><strong>Course Description:</strong><br /> 
         <?php echo course_item("desc", $courseid); ?></p>
-        <p><strong>Course Competencies</strong></p>
+        <p><strong>Learning Objectives</strong></p>
         <?php output_core_competencies($courseid); ?>
         
         <p><strong>Course Prerequisites</strong></p>
@@ -37,12 +44,33 @@
 	<h4 class="fold">Syllabus Details</h4>
     <div class="hide">
     
-    <p><strong>Note:</strong> your phone number and email address will be included as methods of contact on this syllabus. Your phone is currently set to <strong><?php echo profile_item('phone', $_SESSION['id']) ?></strong> and your email is <strong><?php echo profile_item('email', $_SESSION['id']) ?></strong>. To change these, please <a href='users.php?profileedit=<?php echo $_SESSION['id']; ?>'>edit your profile</a>.</p>
-    
     <?php edit_meeting_times($classid); ?>
     
-    <label for="sectnum">Section Number <span class="example">i.e. A2 Would be Monday at 1 pm</span></label>
-    <input type="text" name="sectnum" id="sectnum" value="<?php echo $data['sectnum']; ?>" /> 
+    <label for="sectday">Section Number</label> 
+    <p class="example">i.e. A2 Would be Monday at 1 pm. Mid-Quarter classes add first day section only.</p>
+    
+    <div id="sectcontrols">
+    <select name="sectday" id="sectday">
+    	<option value="">----</option>
+    	<option value="A" <?php parse_class_sectday($section, "A") ?>>A (Monday)</option>
+        <option value="B" <?php parse_class_sectday($section, "B") ?>>B (Tuesday)</option>
+        <option value="C" <?php parse_class_sectday($section, "C") ?>>C (Wednesday)</option>
+        <option value="D" <?php parse_class_sectday($section, "D") ?>>D (Thursday)</option>
+        <option value="E" <?php parse_class_sectday($section, "E") ?>>E (Friday)</option>
+        <option value="F" <?php parse_class_sectday($section, "F") ?>>F (Saturday)</option>
+        <option value="F" <?php parse_class_sectday($section, "G") ?>>G (Sunday)</option>
+    </select>
+    
+    <select name="secttime" id="secttime">
+    	<option value="">----</option>
+    	<option value="1" <?php parse_class_secttime($section, "1") ?>>1 (8:00 am)</option>
+        <option value="2" <?php parse_class_secttime($section, "2") ?>>2 (1:00 pm)</option>
+        <option value="3" <?php parse_class_secttime($section, "3") ?>>3 (5:30 pm)</option>
+        <option value="4" <?php parse_class_secttime($section, "4") ?>>4</option>
+        <option value="5" <?php parse_class_secttime($section, "5") ?>>5</option>
+        <option value="6" <?php parse_class_secttime($section, "6") ?>>6</option>
+    </select> 
+    </div>
     
     <label for="hwhrs">Estimated Homework Hours <span class="example">i.e. 4 hours per week</span></label>
     <input type="text" name="hwhrs" id="hwhrs" value="<?php echo $data['hwhrs']; ?>" /> 

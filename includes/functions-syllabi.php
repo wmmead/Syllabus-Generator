@@ -835,7 +835,8 @@ function process_class_times($num)
 function process_class_details()
 {
 	$classid = $_POST['classid'];
-	$sectnum = mysql_prep($_POST['sectnum']);
+	$sectday = mysql_prep($_POST['sectday']);
+	$secttime = mysql_prep($_POST['secttime']);
 	$hwhrs = mysql_prep($_POST['hwhrs']);
 	$officehrs = mysql_prep($_POST['officehrs']);
 	$materials = mysql_prep($_POST['materials']);
@@ -843,6 +844,15 @@ function process_class_details()
 	$tech = mysql_prep($_POST['tech']);
 	$focus = mysql_prep($_POST['focus']);
 	$additional = mysql_prep($_POST['additional']);
+	
+	if($sectday !="" && $secttime !="")
+	{
+		$sectnum = $sectday . $secttime;
+	}
+	else
+	{
+		$sectnum ="";
+	}
 	
 	$hwhrslength = strlen($hwhrs);
 	$officehrslength = strlen($officehrs);
@@ -1230,6 +1240,22 @@ function get_class_details($classid)
 		return $data;
 	}
 	else { return NULL; }
+}
+
+function parse_class_sectday($data, $match)
+{
+	if($data[0] == $match)
+	{
+		echo "selected";	
+	}
+}
+
+function parse_class_secttime($data, $match)
+{
+	if($data[1] == $match)
+	{
+		echo "selected";	
+	}
 }
 
 function display_activities($classid)
@@ -2229,6 +2255,7 @@ function output_page_close($classid)
 {
 	$query = "SELECT
 	classes.id,
+	classes.type,
 	users.lname,
 	terms.term,
 	terms.year,
@@ -2249,7 +2276,14 @@ WHERE
 	if($numrows == 1)
 	{
 		$row = mysql_fetch_row($result);
-		list($classid, $lname, $term, $year, $coursenum) = $row;
+		list($classid, $classtype, $lname, $term, $year, $coursenum) = $row;
+		
+		if($classtype =="1")
+		{
+			$mq = "MQ_";
+		}
+		
+		else { $mq = ""; }
 		
 		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
 		$year = substr($year, -2);
@@ -2271,7 +2305,7 @@ WHERE
 		
 		$data = '$paramsPage = array( \'titlePage\' => 1, \'orient\' => \'normal\', \'top\' => 800, \'bottom\' => 800, \'right\' => 800, \'left\' => 800);' . "\n\n";
 
-		$data .= '$docx->createDocxAndDownload(\'' . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '\', $paramsPage);';
+		$data .= '$docx->createDocxAndDownload(\'' . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $mq . $sectnum . '_id' . $classid . '\', $paramsPage);';
 		
 		$data .= "\n\n" . '?>';
 		return $data;

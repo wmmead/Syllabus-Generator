@@ -111,6 +111,18 @@ body {
 	width:190px;
 }
 
+/*********** Syllabus Edit Styles ************/
+
+#sectcontrols {
+	overflow:hidden;
+}
+
+#sectcontrols select {
+	width: 120px;
+	float:left;
+	margin-right:15px;
+}
+
 
 /******** Third Column Styles *******/
 .miniprofile {
