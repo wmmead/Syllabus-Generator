@@ -496,6 +496,10 @@ input.txtfieldind {
 	margin-left: 50px;
 }
 
+#radiobuttonset label, #radiobuttonset input {
+	display:inline;
+}
+
 
 /*********** User Page Styles *************/
 

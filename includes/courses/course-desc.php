@@ -1,6 +1,18 @@
 <?php $id = $_GET['courseid']; ?>
 
 <h2 class="mainheader">View Course</h2>
+
+<?php $active = course_item("active", $id); ?>
+
+<?php 
+
+if($active == 0)
+{
+	echo "<p class='example'>This course is currently inactive. To make it active, please edit the course</p>";
+}
+
+?>
+
 <h3><?php echo course_item("number", $id);?> <?php echo course_item("name", $id); ?></h3>
 <p><strong>Total Hours:</strong> <?php echo course_item("totalhrs", $id); ?> Hours</p>
 <p><strong>Lecture Hours:</strong> <?php echo course_item("lecthrs", $id); ?> Hours</p>

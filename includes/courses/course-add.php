@@ -53,6 +53,17 @@
         <input type="button" id="addPrereq" value="add another prerequisite" />
     </div>
     
+    <div class="frame">
+        <h3>Course Activation</h3>
+        <p>Is This Course Active?</p>
+        <p class="example">If you select yes, the course will appear in lists</p>
+        <p id="radiobuttonset"><label for="active-yes">Yes</label>
+        <input id="active-yes" name="active" type="radio" value="1" checked="checked" />
+        <label for="active-no">No</label>
+        <input id="active-no" name="active" type="radio" value="0" />
+        </p>
+    </div>
+    
     <p><input type="submit" name="addcourse" value="add course" /></p>
     
 </form>

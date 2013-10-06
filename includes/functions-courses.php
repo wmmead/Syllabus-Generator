@@ -28,8 +28,10 @@ function add_course()
 				$credits = mysql_prep(trim($_POST['credits']));
 				$coursedesc = clean_up_ms(trim(mysql_prep($_POST['coursedesc'])));
 				$dept = mysql_prep($_POST['depts']);
+				$active = mysql_prep($_POST['active']);
 				
-				$query = "insert into courses values('', '$courseno', '$coursename', '$coursedesc', '$totalhrs', '$lecthrs', '$labhrs', '$credits', '$dept')";
+				$query = "insert into courses values('', '$courseno', '$coursename', '$coursedesc', '$totalhrs', '$lecthrs', '$labhrs', '$credits', '$dept', '$active')";
+				
 				mysql_query($query);
 				$lastid = mysql_insert_id();
 				add_competencies($_POST, $lastid);
@@ -138,8 +140,9 @@ function edit_course()
 				$credits = mysql_prep($_POST['credits']);
 				$coursedesc = clean_up_ms(mysql_prep($_POST['coursedesc']));
 				$dept = mysql_prep($_POST['depts']);
+				$active = mysql_prep($_POST['active']);
 				
-				$query = "update courses set coursenum = '$courseno', name = '$coursename', description = '$coursedesc', totalhrs = '$totalhrs', lecthrs = '$lecthrs', labhrs = '$labhrs', credit = '$credits', dept = '$dept' where id='$id'";
+				$query = "update courses set coursenum = '$courseno', name = '$coursename', description = '$coursedesc', totalhrs = '$totalhrs', lecthrs = '$lecthrs', labhrs = '$labhrs', credit = '$credits', dept = '$dept', active = '$active' where id='$id'";
 				mysql_query($query);
 				
 				$del_query = "DELETE FROM competencies WHERE course_id='$id' AND type='0'";
@@ -265,7 +268,7 @@ function collapsed_course_list()
 
 function display_course_name_links($deptid)
 {
-	$query = "select id, coursenum, name from courses where dept = '$deptid' order by coursenum";
+	$query = "select id, coursenum, name, active from courses where dept = '$deptid' order by active DESC, coursenum ASC";
 	$result = mysql_query($query);
 	$numrows = mysql_num_rows($result);
 	
@@ -274,8 +277,15 @@ function display_course_name_links($deptid)
 		print "<ul class='hide'>";
 		while($row = mysql_fetch_row($result))
 		{
-			list($id, $courseno, $name) = $row;
-			print "<li><a href='courses.php?courseid=$id'>$courseno $name</a></li>";
+			list($id, $courseno, $name, $active) = $row;
+			if($active == 1)
+			{
+				print "<li><a href='courses.php?courseid=$id'>$courseno $name</a></li>";
+			}
+			else
+			{
+				print "<li><a href='courses.php?courseid=$id' style='color:#666'>$courseno $name</a></li>";
+			}
 		}
 		print "</ul>";
 	}

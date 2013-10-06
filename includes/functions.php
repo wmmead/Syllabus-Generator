@@ -235,7 +235,7 @@ function course_item($item, $id)
 	$result = mysql_query($query);
 	$row = mysql_fetch_row($result);
 	
-	$field_names = array("id", "number", "name", "desc", "totalhrs", "lecthrs", "labhrs", "credit", "dept");
+	$field_names = array("id", "number", "name", "desc", "totalhrs", "lecthrs", "labhrs", "credit", "dept", "active");
 	$course_info = array_combine($field_names, $row);
 	$the_item = $course_info[$item];
 	return $the_item;	
