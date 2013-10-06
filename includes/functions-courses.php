@@ -14,19 +14,19 @@ function add_course()
 		is_numeric($_POST['credits']) && 
 		!empty($_POST['coursedesc']) && $_POST['depts'] != 0)
 		{
-			$courseno = strtoupper(mysql_prep($_POST['courseno']));
+			$courseno = strtoupper(trim(mysql_prep($_POST['courseno'])));
 			$query = "select * from courses where coursenum = '$courseno'";
 			$result = mysql_query($query);
 			$num_of_rows = mysql_num_rows($result);
 			
 			if($num_of_rows == 0)
 			{
-				$coursename = ucwords(strtolower(mysql_prep($_POST['coursename'])));
-				$totalhrs = mysql_prep($_POST['totalhrs']);
-				$lecthrs = mysql_prep($_POST['lecthrs']);
-				$labhrs = mysql_prep($_POST['labhrs']);
-				$credits = mysql_prep($_POST['credits']);
-				$coursedesc = clean_up_ms(mysql_prep($_POST['coursedesc']));
+				$coursename = ucwords(strtolower(trim(mysql_prep($_POST['coursename']))));
+				$totalhrs = mysql_prep(trim($_POST['totalhrs']));
+				$lecthrs = mysql_prep(trim($_POST['lecthrs']));
+				$labhrs = mysql_prep(trim($_POST['labhrs']));
+				$credits = mysql_prep(trim($_POST['credits']));
+				$coursedesc = clean_up_ms(trim(mysql_prep($_POST['coursedesc'])));
 				$dept = mysql_prep($_POST['depts']);
 				
 				$query = "insert into courses values('', '$courseno', '$coursename', '$coursedesc', '$totalhrs', '$lecthrs', '$labhrs', '$credits', '$dept')";
