@@ -709,6 +709,13 @@ table.approvedsyllabi tr:nth-child(even) {
 }
 
 
+/*************** Find Page Styles ****************/
+
+#course, #instructor {
+	width:100%;
+}
+
+
 /* #Page Styles
 ================================================== */
 
