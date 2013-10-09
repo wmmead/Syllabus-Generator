@@ -512,6 +512,9 @@ input.txtfieldind {
 .user {
 	margin-bottom:10px;
 	overflow:hidden;
+	float:left;
+	width:30%;
+	margin-right:15px;
 }
 
 .user p {
@@ -543,7 +546,7 @@ input.txtfieldind {
 	text-align: left;
 	font-size: 85%;
 	
-	max-width:150px;
+	max-width:100px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;

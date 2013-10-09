@@ -1,5 +1,5 @@
 <div class="nine columns">
-	<h2 class="mainheader">User Profile</h2>
+	<h2 class="mainheader">Individual Profile</h2>
     <img src="resized/<?php echo p_item('photo'); ?>" class="photo" alt="<?php echo p_item('fname'); ?> <?php echo p_item('lname'); ?>" />
     <div class="profileinfo">
     <h3><?php echo p_item('fname'); ?> <?php echo p_item('lname'); ?>'s Profile</h3>

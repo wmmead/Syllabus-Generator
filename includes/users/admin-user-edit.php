@@ -1,6 +1,6 @@
 <div class="twelve columns frame" style="margin: 0;">
 
-<h2 class="mainheader">Manage All Users</h2>
+<h2 class="mainheader">Manage All People</h2>
 
 <?php
 

@@ -1,4 +1,4 @@
-<div class="three columns userlist">
-<h2 class="mainheader">All Users</h2>
+<div class="twelve columns">
+<h2 class="mainheader">All Our People</h2>
 <?php display_users(); ?>
 </div>
