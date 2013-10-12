@@ -1,7 +1,6 @@
 <?php require_once('includes/session.php'); ?>
 <?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
-<?php require_once('includes/functions-syllabi.php'); ?>
 <?php require_once('includes/functions-find.php'); ?>
 <?php require_once('includes/authcheck.php'); ?>
 
@@ -60,11 +59,11 @@
 	<div class="twelve columns">
     
     <h2 class="mainheader">Find a Syllabus</h2>
-    <p>Use this page to find a syllabus for a class that has been taught here at AI Sacramento before. You can download the whole syllabi, view the instructors' portions of syllabi and even copy syllabi to use as a starting point for your own classes.</p>
+    <p>Use this page to find a syllabus for a class that has been taught here at AI Sacramento before. You can download the whole syllabi, view the instructors' portions of syllabi and even copy syllabi to use as a starting point for your own class. (Note: You can only copy a syllabus into a course with the same name.)</p>
     
     <p><strong>Select from either or both lists to find the syllabi you are looking for...</strong></p>
     
-    </div>
+    
     
     <form method="post" action="find.php">
     
@@ -88,26 +87,16 @@
     
     </div>
     
-    <div class="twelve columns">
+    
     
     	<input type="submit" name="findsyll" id="findsyll" value="Find the Syllabi">
     
-    </div>
     
     </form>
-    
-    <div class="twelve columns">
-    
-    	<?php get_found_syllabi(); ?>
+        
+        <?php process_find_form(); ?>
         
     </div>
-    
-    
-    
-	<!--<p>This feature is not quite ready, but here is a picture of a bunny with a pancake on it's head.</p>
-	<img src="http://farm1.staticflickr.com/97/252849242_373d779ccd.jpg" alt="bunny" style="display:block; margin:20px auto 200px auto;">-->
-	
-
 </div>
 
 </body>

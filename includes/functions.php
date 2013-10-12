@@ -204,6 +204,33 @@ function time_select_list($selected = '')
 	}
 }
 
+function output_instructor_select_list()
+{
+	
+	$query = "select id, fname, lname from users order by lname";
+	$result = mysql_query($query);
+	
+	while ($row = mysql_fetch_row($result))
+	{
+		list($id, $fname, $lname) = $row;
+		print "<option value='$id'>$lname, $fname</option>\n";
+	}
+}
+
+function output_course_select_list()
+{
+	// This select list will not include inactive courses
+	
+	$query = "select courses.id, coursenum, courses.name, abbrv from courses left join depts on courses.dept = depts.id where courses.active = '1' order by abbrv asc, courses.name asc";
+	$result = mysql_query($query);
+	
+	while ($row = mysql_fetch_row($result))
+	{
+		list($id, $coursenum, $name, $abbrv) = $row;
+		print "<option value='$id'>$abbrv $name $coursenum</option>\n";
+	}
+}
+
 //profile-items
 function profile_item($item, $id)
 {

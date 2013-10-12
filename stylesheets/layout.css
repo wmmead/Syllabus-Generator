@@ -668,6 +668,19 @@ table.approvedsyllabi tr:nth-child(even) {
 	background:#e2e2e2;
 }
 
+.find-results tr td {
+	padding-right: 15px;
+}
+
+.inactive {
+	cursor:pointer;
+	opacity:0.5;
+}
+
+.inactive:hover {
+	color:#666;
+}
+
 /**************** Ligature Symbol Font Styles ****************/
 
 @font-face {
