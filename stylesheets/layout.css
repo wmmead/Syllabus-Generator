@@ -728,6 +728,10 @@ table.approvedsyllabi tr:nth-child(even) {
 	width:100%;
 }
 
+.testing {
+	font-size:100%;
+}
+
 
 /* #Page Styles
 ================================================== */
