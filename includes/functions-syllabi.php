@@ -2454,7 +2454,7 @@ function output_global_content($classid)
 			{
 				$data .= '<p><strong>' . $title . '</strong></p>' . $content . '\';' . "\n";
 				$data .= '$docx->replaceTemplateVariableByHTML(\'SECTION1\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
-				$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin:0; } </style>' . "\n";
+				$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin-bottom:16px; } </style>' . "\n";
 			}
 			else
 			{
