@@ -95,7 +95,7 @@ else { $section = "xx"; }
         <div class="hide">
         <p><span class="desclabel">Description</span> Percent</p>
         <?php edit_eval_process($classid) ?>
-        <p class="rightjustify"><label>Total Percent <input type="text" name="totalpercent" id="totalpercent" readonly="readonly" /></label></p>
+        <p class="rightjustify"><label>Total Percent <input type="text" name="totalpercent" id="totalpercent" readonly /></label></p>
         </div>
     </div>
     
@@ -124,7 +124,7 @@ else { $section = "xx"; }
     </div>
     
     <div class="frame">
-    <h4 class="fold">Additional Learning Ojectives (optional)</h4>
+    <h4 class="fold">Additional Learning Objectives (optional)</h4>
         <div class="hide">
         <p><span class="example">Use this section to add learning objectives that go beyond the ones required for the course.</span></p>
         <?php edit_addtl_competencies($classid, "1"); ?>
