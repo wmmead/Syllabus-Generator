@@ -1800,6 +1800,7 @@ function process_syllabus_review()
 				$row = mysql_fetch_row($results);
 				list($useremail, $userlname, $userfname) = $row;
 				$server= THE_SERVER;
+				$full_address= FULL_ADDRESS;
 				$subject = "Syllabus Generator: Your syllabus has been approved!";
 				
 				$query ="SELECT users.fname, users.lname, users.email, courses.coursenum, courses.name,
@@ -1831,7 +1832,7 @@ function process_syllabus_review()
 					
 					$term = $termcodes[$term];
 $emailmessage = "$fname $lname has approved your syllabus for $coursenum $coursename.
-please go to the " .$server. "/repository/" . $coursenum . '_' . $userlname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php' ." and download it.";
+please go to the " .$full_address. "/repository/" . $coursenum . '_' . $userlname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php' ." and download it.";
 				
 					email_user($useremail, $subject, $emailmessage, $email);
 				}
