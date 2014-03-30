@@ -562,6 +562,11 @@ function edit_books($id)
 	{
 		while($row = mysql_fetch_row($result))
 		{
+			foreach($row as &$item)
+			{
+				//this finds single ' marks in each item of each row and replaces them with the html entity
+				$item = str_replace( "'", "&rsquo;", $item );
+			}
 			list($bookid, $classid, $title, $author, $publisher, $date, $isbn, $link, $type, $order) = $row;
 			print "<p id=book$order class='clonedbook frame'>\n";
 			print "<label>Type of book</label>\n";
@@ -1001,10 +1006,12 @@ function process_books()
 				$link = mysql_prep($_POST["link".$counter]);
 				$type = $_POST["booktype".$counter];
 				
+				
 				if($title != '')
 				{
 					$query = "insert into books values('', '$classid', '$title', '$author', '$publisher', 
 					'$date', '$isbn', '$link', '$type', '$ordr')";
+					//print $query;
 					mysql_query($query);
 					$ordr++;
 				}
@@ -1031,7 +1038,7 @@ function process_books()
 				{
 					$query = "update books set title='$title', author='$author', publisher='$publisher', pubdate='$date', 
 					isbn='$isbn', link='$link', booktype='$type' where class_id='$classid' and ordr='$ordr'";
-					//print $query;
+					print $query;
 					mysql_query($query);
 					$ordr++;
 				}
@@ -2454,7 +2461,7 @@ function output_global_content($classid)
 			{
 				$data .= '<p><strong>' . $title . '</strong></p>' . $content . '\';' . "\n";
 				$data .= '$docx->replaceTemplateVariableByHTML(\'SECTION1\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
-				$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin-bottom:16px; } </style>' . "\n";
+				$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin:0; } </style>' . "\n";
 			}
 			else
 			{
