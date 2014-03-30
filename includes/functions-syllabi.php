@@ -1038,7 +1038,7 @@ function process_books()
 				{
 					$query = "update books set title='$title', author='$author', publisher='$publisher', pubdate='$date', 
 					isbn='$isbn', link='$link', booktype='$type' where class_id='$classid' and ordr='$ordr'";
-					print $query;
+					//print $query;
 					mysql_query($query);
 					$ordr++;
 				}
