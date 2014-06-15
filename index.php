@@ -1,8 +1,8 @@
-<?php require_once('includes/session.php'); ?>
-<?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
 <?php require_once('includes/functions-syllabi.php'); ?>
-<?php require_once('includes/authcheck.php'); ?>
+<?php session_handler(); ?>
+<?php $link = db_connect(); ?>
+<?php auth_check($link); ?>
 
 
 <!DOCTYPE html>
@@ -41,11 +41,12 @@
 <div id="logo"><a href="index.php"><img src="images/logo.png" alt="AI Syllabus Generator" /></a></div>
 
 <?php
+		$val = set_codes();
 		if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
 		{
 			include('includes/users/loginform.php');
 			output_login_error();
-			process_lost_password_request();
+			process_lost_password_request($link);
 			login_error_password_retrieval_form();
 			print "</div></body></html>";
 		}
@@ -62,12 +63,12 @@
     <div class="nine columns">
     
     <!-- page functions here -->
-        <?php add_syllabus(); ?>
-        <?php process_syllabus_review(); ?>
-        <?php submit_draft_request(); ?>
-        <?php delete_instructor_message(); ?>
-        <?php copy_syllabus(); ?>
-        <?php delete_syllabus_draft(); ?>
+        <?php add_syllabus($link); ?>
+        <?php process_syllabus_review($link); ?>
+        <?php submit_draft_request($link); ?>
+        <?php delete_instructor_message($link); ?>
+        <?php copy_syllabus($link); ?>
+        <?php delete_syllabus_draft($link); ?>
     
     <?php
         if(isset($_GET['addsyll']))
@@ -76,9 +77,9 @@
 		}
 		elseif(isset($_GET['sylledit']))
 		{
-			submit_syllabus_for_review($_GET['sylledit']);
-			include_message_form($_GET['sylledit']);
-			display_edit_or_review($_GET['sylledit']);
+			submit_syllabus_for_review($link, $_GET['sylledit']);
+			include_message_form($link, $_GET['sylledit']);
+			display_edit_or_review($link, $_GET['sylledit']);
 		}
 		elseif(isset($_GET['syllcopy']))
 		{
@@ -94,7 +95,7 @@
 		}
 		elseif(isset($_GET['syllreview']))
 		{
-			include_message_form($_GET['syllreview']);
+			include_message_form($link, $_GET['syllreview']);
 			include('includes/syllabi/review-syllabus.php');
 		}
 		elseif(isset($_GET['reqdraft']))
@@ -109,11 +110,11 @@
 		else
 		{
 			print "<h2 class='mainheader'>Your Syllabi</h2>";
-			display_user_terms();
+			display_user_terms($link);
 			
 			if($_SESSION['type'] > 0)
 			{
-				display_approved_syllabi();
+				display_approved_syllabi($link);
 			}
 		}
 		?>
@@ -125,18 +126,18 @@
     <?php $id = $_SESSION['id']; ?>
     
 	    <div class="clearfix">
-	    <img src="thumbs/<?php echo profile_item('photo', $id); ?>" class="thumb" />
+	    <img src="thumbs/<?php echo profile_item($link, 'photo', $id); ?>" class="thumb" />
 	        <div class="miniprofile">
-	        <p><strong><?php echo profile_item('fname', $id); ?> <?php echo profile_item('lname', $id); ?></strong><br>
-	        <?php echo profile_item('phone', $id); ?><br>
-	        <?php echo profile_item('email', $id); ?><br>
+	        <p><strong><?php echo profile_item($link, 'fname', $id); ?> <?php echo profile_item($link, 'lname', $id); ?></strong><br>
+	        <?php echo profile_item($link, 'phone', $id); ?><br>
+	        <?php echo profile_item($link, 'email', $id); ?><br>
 	        <a href="users.php?profileedit=<?php print $id; ?>">Edit your profile</a></p>
 	        </div>
 	    </div>
         
         <h2 class="mainheader">Messages</h2>
         <div id="messages">
-        	<?php display_syllabus_process_message(); ?>
+        	<?php display_syllabus_process_message($link); ?>
         </div>
     </div><!-- end three columns right side -->
     
@@ -147,4 +148,4 @@
 
 <?php } ?>
 
-<?php require_once('includes/footer.php'); ?>
+<?php db_disconnect($link); ?>

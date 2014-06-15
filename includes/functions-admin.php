@@ -16,24 +16,24 @@ function display_add_term_form()
 	}	
 }
 
-function add_term()
+function add_term($link)
 {
 	if(isset($_POST['addterm']) && $_SESSION['type'] == 2)
 	{
-		$term = mysql_prep($_POST['term']);
-		$year = mysql_prep($_POST['year']);
-		$day_start = mysql_prep($_POST['day-start']);
-		$month_start = mysql_prep($_POST['month-start']);
-		$year_start = mysql_prep($_POST['year-start']);
-		$day_end = mysql_prep($_POST['day-end']);
-		$month_end = mysql_prep($_POST['month-end']);
-		$year_end = mysql_prep($_POST['year-end']);
+		$term = mysql_prep($link, $_POST['term']);
+		$year = mysql_prep($link, $_POST['year']);
+		$day_start = mysql_prep($link, $_POST['day-start']);
+		$month_start = mysql_prep($link, $_POST['month-start']);
+		$year_start = mysql_prep($link, $_POST['year-start']);
+		$day_end = mysql_prep($link, $_POST['day-end']);
+		$month_end = mysql_prep($link, $_POST['month-end']);
+		$year_end = mysql_prep($link, $_POST['year-end']);
 		
 		if($term != '0')
 		{
 			$query = "select * from terms where term = '$term' and year = '$year'";
-			$result = mysql_query($query);
-			$rows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$rows = mysqli_num_rows($result);
 			
 			if($rows ==0)
 			{
@@ -41,11 +41,11 @@ function add_term()
 				$end_date = $year_end . "-" . $month_end . "-" . $day_end;
 				
 				$query = "insert into terms values('', '$term', '$year', '$start_date', '$end_date', '0')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				
-				$lastid = mysql_insert_id();
+				$lastid = mysqli_insert_id($link);
 				
-				add_holidays($_POST, $lastid, $year);
+				add_holidays($link, $_POST, $lastid, $year);
 				
 				print "<div class='feedback success'>Term has been created.</div>";
 			}
@@ -55,31 +55,31 @@ function add_term()
 	}
 }
 
-function edit_term()
+function edit_term($link)
 {
 	if(isset($_POST['editterm']) && $_SESSION['type'] == 2)
 	{
 		$id = $_POST['id'];
-		$term = mysql_prep($_POST['term']);
-		$year = mysql_prep($_POST['year']);
-		$day_start = mysql_prep($_POST['day-start']);
-		$month_start = mysql_prep($_POST['month-start']);
-		$year_start = mysql_prep($_POST['year-start']);
-		$day_end = mysql_prep($_POST['day-end']);
-		$month_end = mysql_prep($_POST['month-end']);
-		$year_end = mysql_prep($_POST['year-end']);
+		$term = mysql_prep($link, $_POST['term']);
+		$year = mysql_prep($link, $_POST['year']);
+		$day_start = mysql_prep($link, $_POST['day-start']);
+		$month_start = mysql_prep($link, $_POST['month-start']);
+		$year_start = mysql_prep($link, $_POST['year-start']);
+		$day_end = mysql_prep($link, $_POST['day-end']);
+		$month_end = mysql_prep($link, $_POST['month-end']);
+		$year_end = mysql_prep($link, $_POST['year-end']);
 		
 		$query_lock_test = "select locked from terms where id = '$id'";
-		$result_lock = mysql_query($query_lock_test);
-		$row = mysql_fetch_row($result_lock);
+		$result_lock = mysqli_query($link, $query_lock_test);
+		$row = mysqli_fetch_row($result_lock);
 		
 		if($row[0] == 0)
 		{
 			if($term != '0')
 			{
 				$query = "select * from terms where term = '$term' and year = '$year' and id != '$id'";
-				$result = mysql_query($query);
-				$rows = mysql_num_rows($result);
+				$result = mysqli_query($link, $query);
+				$rows = mysqli_num_rows($result);
 				
 				if($rows ==0)
 				{
@@ -87,11 +87,11 @@ function edit_term()
 					$end_date = $year_end . "-" . $month_end . "-" . $day_end;
 					
 					$query = "update terms set term='$term', year='$year', startdate='$start_date', enddate='$end_date' where id='$id'";
-					mysql_query($query);
+					mysqli_query($link, $query);
 					
 					$del_query = "DELETE FROM dates WHERE term_id='$id'";
-					mysql_query($del_query);
-					add_holidays($_POST, $id, $year);
+					mysqli_query($link, $del_query);
+					add_holidays($link, $_POST, $id, $year);
 					
 					print "<div class='feedback success'>Term has been edited.</div>";
 				}
@@ -103,13 +103,13 @@ function edit_term()
 	}
 }
 	
-function display_terms()
+function display_terms($link)
 {
 	$counter = 1;
 	$termnames = array('', 'Winter', 'Spring', 'Summer', 'Fall');
 	$query = "select id, term, year, date_format(startdate, '%M %e, %Y'), date_format(enddate, '%M %e, %Y'), locked from terms order by year DESC, term DESC";
-	$result = mysql_query($query);
-	while($row = mysql_fetch_row($result))
+	$result = mysqli_query($link, $query);
+	while($row = mysqli_fetch_row($result))
 	{
 		list($id, $term, $year, $startdate, $enddate, $locked) = $row;
 		if($counter < 3) { $class = "open"; }
@@ -122,12 +122,12 @@ function display_terms()
 		print "<strong>End Date:</strong> $enddate</p>";
 		
 		$datequery = "select date_format(date, '%M %e, %Y'), day, name from dates where term_id = '$id' order by ordr";
-		$dateresult = mysql_query($datequery);
-		$numrows = mysql_num_rows($dateresult);
+		$dateresult = mysqli_query($link, $datequery);
+		$numrows = mysqli_num_rows($dateresult);
 		if($numrows > 0)
 		{
 			print "<p><strong>Holidays:</strong><br />";
-			while($row = mysql_fetch_row($dateresult))
+			while($row = mysqli_fetch_row($dateresult))
 			{
 				list($date, $day, $name) = $row;
 				print "$name, $day, $date<br />\n";
@@ -149,23 +149,23 @@ function display_terms()
 	}
 }
 
-function lock_term()
+function lock_term($link)
 {
 	if(isset($_POST['lockterm']))
 	{
 		$id = $_POST['id'];
 		$query = "update terms set locked = '1' where id = '$id'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		print "<p class='feedback success'>Term successfully locked.</p>";
 	}
 }
 
-function list_terms()
+function list_terms($link)
 {
 	$termnames = array("", "Winter", "Spring", "Summer", "Fall");
 	$query = "select id, term, year from terms order by year, term";
-	$result = mysql_query($query);
-	while($row = mysql_fetch_row($result))
+	$result = mysqli_query($link, $query);
+	while($row = mysqli_fetch_row($result))
 	{
 		list($id, $term, $year) = $row;
 		{
@@ -174,12 +174,12 @@ function list_terms()
 	}
 }
 
-function display_term_info($id, $item)
+function display_term_info($link, $id, $item)
 {
 	$termnames = array("", "Winter", "Spring", "Summer", "Fall");
 	$query = "select term, year, startdate, enddate from terms where id='$id'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	
 	$start_month = intval(substr($row[2], 5, 2));
 	$start_day = intval(substr($row[2], 8, 2));
@@ -197,15 +197,15 @@ function display_term_info($id, $item)
 
 /************** Holiday Functions **************/
 
-function output_holidays($id)
+function output_holidays($link, $id)
 {
 	$query = "select day, date_format(date, '%M %e, %Y') from dates where term_id = '$id' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		print "<ul>";
-		while($row=mysql_fetch_row($results))
+		while($row=mysqli_fetch_row($results))
 		{
 			list($day, $date) = $row;
 			print "<li>$day, $date</li>";
@@ -214,7 +214,7 @@ function output_holidays($id)
 	}
 }
 
-function add_holidays($data, $id, $year)
+function add_holidays($link, $data, $id, $year)
 {
 	$counter = 1;
 	foreach($data as $key => $value)
@@ -227,13 +227,13 @@ function add_holidays($data, $id, $year)
 				$weekday = $_POST['wkday'.$counter];
 				$day = $_POST['daymo'.$counter];
 				$month = $_POST['month'.$counter];
-				$name = mysql_prep($_POST['descp'.$counter]);
+				$name = mysql_prep($link, $_POST['descp'.$counter]);
 				//print "$weekday $day $month";
 				if($weekday != "0" && $day != "0" && $month != "0")
 				{
 					$date = $year . "-" . $month . "-" . $day;
 					$query = "insert into dates values('', '$id', '$date', '$weekday', '$name', '$counter')";
-					mysql_query($query);
+					mysqli_query($link, $query);
 					$counter++;
 				}
 				
@@ -243,21 +243,21 @@ function add_holidays($data, $id, $year)
 }
 
 
-function edit_holidays()
+function edit_holidays($link)
 {
 	if(isset($_GET['termedit']))
 	{
 		$termid = $_GET['termedit'];
 		$query ="select date, day, name, ordr from dates where term_id='$termid' order by ordr";
-		$result = mysql_query($query);
-		$numrows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($result);
 		if($numrows == 0)
 		{
 			include('includes/admin/term-holiday.php');
 		}
 		else
 		{
-			while($row = mysql_fetch_row($result))
+			while($row = mysqli_fetch_row($result))
 			{
 				list($date, $weekday, $name, $order)=$row;
 				
@@ -274,7 +274,7 @@ function edit_holidays()
 
 /*********** Grade Policy Functions ************/
 
-function display_gradepolicy_editor($id)
+function display_gradepolicy_editor($link, $id)
 {
 	if(isset($_GET['gradepolicies']))
 	{
@@ -282,18 +282,18 @@ function display_gradepolicy_editor($id)
 	}
 }
 
-function edit_grade_policies($id)
+function edit_grade_policies($link, $id)
 {
 	
 	$termid = $id;
 	
 	$query = "select policy, ordr from gradingpolicies where term_id='$termid' and type='0' order by ordr";
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	
 	if($numrows > 0 )
 	{
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($policy, $order)=$row;
 			print "<p id='policyinput$order' class='clonedPolicy'>\n";
@@ -307,25 +307,25 @@ function edit_grade_policies($id)
 	{
 		$prevtermid = $termid - 1;
 		$query = "select policy, ordr from gradingpolicies where term_id='$prevtermid' and type='0' order by ordr";
-		$result = mysql_query($query);
-		$numrows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($result);
 		
 		if($numrows > 0)
 		{
-			while($row = mysql_fetch_row($result))
+			while($row = mysqli_fetch_row($result))
 			{
 				list($policy, $order) = $row;
 				$query ="insert into gradingpolicies values('', '$termid', NULL, '0', '$policy', '$order')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 			
 			$query = "select policy, ordr from gradingpolicies where term_id='$termid' and type='0' order by ordr";
-			$result = mysql_query($query);
-			$numrows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($result);
 			
 			if($numrows > 0 )
 			{
-				while($row = mysql_fetch_row($result))
+				while($row = mysqli_fetch_row($result))
 				{
 					list($policy, $order)=$row;
 					print "<p id='policyinput$order' class='clonedPolicy'>\n";
@@ -345,18 +345,18 @@ function edit_grade_policies($id)
 	}
 }
 
-function update_grade_policies()
+function update_grade_policies($link)
 {
 	if(isset($_POST['updatepolicies']))
 	{
 		$id = $_POST['id'];
 		$del_query = "DELETE FROM gradingpolicies WHERE term_id='$id' AND type='0'";
-		mysql_query($del_query);
-		add_policy($_POST, $id);
+		mysqli_query($link, $del_query);
+		add_policy($link, $_POST, $id);
 	}
 }
 
-function add_policy($data, $id)
+function add_policy($link, $data, $id)
 {
 	$counter = 1;
 	foreach($data as $key => $value)
@@ -366,10 +366,10 @@ function add_policy($data, $id)
 		{
 			if(!empty($value))
 			{
-				$value = clean_up_ms(mysql_prep($value));
+				$value = clean_up_ms(mysql_prep($link, $value));
 				$query = "insert into gradingpolicies values('', '$id', NULL, '0', '$value', '$counter')";
 				//print $query;
-				mysql_query($query);
+				mysqli_query($link, $query);
 				$counter++;
 			}
 		}
@@ -380,7 +380,7 @@ function add_policy($data, $id)
 
 /*********** Section Functions ************/
 
-function display_section_editor($id)
+function display_section_editor($link, $id)
 {
 	if(isset($_GET['sections']))
 	{
@@ -388,18 +388,18 @@ function display_section_editor($id)
 	}
 }
 
-function edit_section_policies($id)
+function edit_section_policies($link, $id)
 {
 	$termid = $id;
 	
 	$query = "select title, content, ordr from sections where term_id='$termid' order by ordr";
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	
 	if($numrows > 0 )
 	{
 		print "<div class='fieldcontainer'>\n";
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($title, $content, $order)=$row;
 			print "<div id='sectioninput$order' class='clonedSection'>\n";
@@ -416,25 +416,25 @@ function edit_section_policies($id)
 	{
 		$prevtermid = $termid - 1;
 		$query = "select title, content, ordr from sections where term_id='$prevtermid' order by ordr";
-		$result = mysql_query($query);
-		$numrows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($result);
 		
 		if($numrows > 0)
 		{
-			while($row = mysql_fetch_row($result))
+			while($row = mysqli_fetch_row($result))
 			{
 				list($title, $content, $order) = $row;
 				$query ="insert into sections values('', '$termid', '$title', '$content', '$order')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 			$query = "select title, content, ordr from sections where term_id='$termid' order by ordr";
-			$result = mysql_query($query);
-			$numrows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($result);
 			
 			if($numrows > 0 )
 			{
 				print "<div class='fieldcontainer'>\n";
-				while($row = mysql_fetch_row($result))
+				while($row = mysqli_fetch_row($result))
 				{
 					list($title, $content, $order)=$row;
 					print "<div id='sectioninput$order' class='clonedSection'>\n";
@@ -468,18 +468,18 @@ function edit_section_policies($id)
 	}
 }
 
-function update_sections()
+function update_sections($link)
 {
 	if(isset($_POST['updatesection']))
 	{
 		$id = $_POST['id'];
 		$del_query = "DELETE FROM sections WHERE term_id='$id'";
-		mysql_query($del_query);
-		add_sections($_POST, $id);
+		mysqli_query($link, $del_query);
+		add_sections($link, $_POST, $id);
 	}
 }
 
-function add_sections($data, $id)
+function add_sections($link, $data, $id)
 {
 	$counter = 1;
 	foreach($data as $key => $value)
@@ -487,13 +487,13 @@ function add_sections($data, $id)
 		$test = substr($key, 0, 5);
 		if($test == 'title')
 		{
-			$title = clean_up_ms(mysql_prep($_POST['title'.$counter]));
-			$content = mysql_prep($_POST['content'.$counter]);
+			$title = clean_up_ms(mysql_prep($link, $_POST['title'.$counter]));
+			$content = mysql_prep($link, $_POST['content'.$counter]);
 			if(!empty($title) && !empty($content))
 			{
 				$query = "insert into sections values('', '$id', '$title', '$content', '$counter')";
 				//print $query;
-				mysql_query($query);
+				mysqli_query($link, $query);
 				$counter++;
 			}
 		}
@@ -501,16 +501,16 @@ function add_sections($data, $id)
 	}
 }
 
-function generate_department_list()
+function generate_department_list($link)
 {
 	$query = "select id, name, abbrv from depts order by name";
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	
 	$dept_query = "SELECT dept, COUNT(*) FROM courses GROUP BY dept";
-	$dept_result = mysql_query($dept_query);
+	$dept_result = mysqli_query($link, $dept_query);
 	$dept_count = array();
 	
-	while($dept_row = mysql_fetch_row($dept_result))
+	while($dept_row = mysqli_fetch_row($dept_result))
 	{
 		list($dept_id, $count) = $dept_row;
 		$dept_count["$dept_id"] = "$count";
@@ -523,7 +523,7 @@ function generate_department_list()
 	print "<table class='usertable'>\n";
 	print "<tr><th>Department Name</th><th>Abbrv</th><th># of Courses</th><th>Edit</th><th>Delete</th></tr>\n";
 	
-	while($row = mysql_fetch_row($result))
+	while($row = mysqli_fetch_row($result))
 	{
 		list($id, $dept, $abbrv) = $row;
 		if($counter %2 == 0)
@@ -570,12 +570,12 @@ function output_delete_link($count, $id)
 	return $output;
 }
 
-function dept_item($item, $id)
+function dept_item($link, $item, $id)
 {
 	$key = KEY;
 	$query = "select * from depts where id = '$id'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 		
 	$field_names = array("id", "dept", "abbrv");
 	$dept_info = array_combine($field_names, $row);
@@ -583,22 +583,22 @@ function dept_item($item, $id)
 	return $the_item;
 }
 
-function update_departments()
+function update_departments($link)
 {
 	if(isset($_POST['updatedept']))
 	{
-		$id = mysql_prep($_POST['id']);
-		$dept = mysql_prep($_POST['dept']);
-		$abbrv = mysql_prep($_POST['abbrv']);
+		$id = mysql_prep($link, $_POST['id']);
+		$dept = mysql_prep($link, $_POST['dept']);
+		$abbrv = mysql_prep($link, $_POST['abbrv']);
 		if(!empty($dept) && !empty($abbrv))
 		{
 			$query = "select * from depts where name='$dept' and abbrv='$abbrv' and id!='$id'";
-			$result = mysql_query($query);
-			$numrows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($result);
 			if($numrows == 0)
 			{
 				$query = "update depts set name = '$dept', abbrv = '$abbrv' where id = '$id'";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				print "<p class='success feedback'>Department successfully updated!</p>";
 			}
 			else { print "<p class='error feedback'>ERROR - Not saved. Duplicate record.</p>"; }
@@ -607,21 +607,21 @@ function update_departments()
 	}
 }
 
-function add_departments()
+function add_departments($link)
 {
 	if(isset($_POST['adddept']))
 	{
-		$dept = mysql_prep($_POST['dept']);
-		$abbrv = mysql_prep($_POST['abbrv']);
+		$dept = mysql_prep($link, $_POST['dept']);
+		$abbrv = mysql_prep($link, $_POST['abbrv']);
 		if(!empty($dept) && !empty($abbrv))
 		{
 			$query = "select * from depts where name='$dept' and abbrv='$abbrv'";
-			$result = mysql_query($query);
-			$numrows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($result);
 			if($numrows == 0)
 			{
 				$query = "insert into depts values('', '$dept', '$abbrv')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				print "<p class='success feedback'>Department successfully added!</p>";
 			}
 			else { print "<p class='error feedback'>ERROR - Not saved. Duplicate record.</p>"; }
@@ -630,19 +630,19 @@ function add_departments()
 	}
 }
 
-function delete_departments()
+function delete_departments($link)
 {
 	if(isset($_GET['deletedept']) && $_SESSION['type'] == 2)
 	{
 		$id = $_GET['deletedept'];
 		
 		$query = "select * from courses where dept='$id'";
-		$result = mysql_query($query);
-		$numrows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($result);
 		if($numrows == 0)
 		{
 			$query = "delete from depts where id='$id'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			print "<p class='success feedback'>Department successfully deleted!</p>";
 		}
 		else { print "<p class='error feedback'>ERROR - Can't delete departments with classes</p>"; }

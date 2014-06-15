@@ -1,7 +1,7 @@
 <div class="frame" id="termlist">
 	<h3>All Terms</h3>
     <ul>
-    	<?php list_terms(); ?>
+    	<?php list_terms($link); ?>
     </ul>
 </div>
 

@@ -12,11 +12,11 @@ $id = $_GET['deptedit'];
     <form method="post" action="admin.php?departments=yes">
     	<input type="hidden" name="id" value="<?php echo $id ?>" />
         <div class="formsection">
-    	<label for="dept">Department Name:</label> <input type="text" id="dept" name="dept" value="<?php echo dept_item('dept', $id); ?>" />
+    	<label for="dept">Department Name:</label> <input type="text" id="dept" name="dept" value="<?php echo dept_item($link, 'dept', $id); ?>" />
         </div>
         
         <div class="formsection">
-        <label for="abbrv">Department Abreviation:</label> <input type="text" id="abbrv" name="abbrv" value="<?php echo dept_item('abbrv', $id); ?>" />
+        <label for="abbrv">Department Abreviation:</label> <input type="text" id="abbrv" name="abbrv" value="<?php echo dept_item($link, 'abbrv', $id); ?>" />
         </div>
         
         <div class="formsection">
@@ -55,6 +55,6 @@ if(isset($_GET['deptadd']) && $_SESSION['type'] == 2)
 <?php if(!isset($_GET['deptadd'])) { ?>
 <p><a href="admin.php?departments=yes&deptadd=yes">Add a Department</a></p>
 <?php } ?>
-<?php generate_department_list(); ?>
+<?php generate_department_list($link); ?>
 
 </div>

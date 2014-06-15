@@ -1,4 +1,4 @@
-<?php $data = get_class_times($classid, 1); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
+<?php $data = get_class_times($link, $classid, 1); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
 
 <div class="timeblock">
 <label for="day">Day the Class Meets</label>

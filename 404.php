@@ -1,8 +1,8 @@
-<?php require_once('includes/session.php'); ?>
-<?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
 <?php require_once('includes/functions-syllabi.php'); ?>
-<?php require_once('includes/authcheck.php'); ?>
+<?php session_handler(); ?>
+<?php $link = db_connect(); ?>
+<?php auth_check($link); ?>
 
 
 <!DOCTYPE html>
@@ -70,4 +70,4 @@
 
 <?php } ?>
 
-<?php require_once('includes/footer.php'); ?>
+<?php db_disconnect($link); ?>

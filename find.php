@@ -1,8 +1,8 @@
-<?php require_once('includes/session.php'); ?>
-<?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
 <?php require_once('includes/functions-find.php'); ?>
-<?php require_once('includes/authcheck.php'); ?>
+<?php session_handler(); ?>
+<?php $link = db_connect(); ?>
+<?php auth_check($link); ?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
@@ -37,6 +37,7 @@
 <div id="logo"><a href="index.php"><img src="images/logo.png" alt="AI Syllabus Generator" /></a></div>
 
 <?php
+		$val = set_codes();
 		if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
 		{
 			include('includes/users/loginform.php');
@@ -72,7 +73,7 @@
     
     	<select name="course" id="course">
         	<option value="">-----</option>
-        	<?php output_course_select_list(); ?>
+        	<?php output_course_select_list($link); ?>
         </select>
     
     </div>
@@ -82,7 +83,7 @@
     
     	<select name="instructor" id="instructor">
         	<option value="">-----</option>
-        	<?php output_instructor_select_list(); ?>
+        	<?php output_instructor_select_list($link); ?>
         </select>
     
     </div>
@@ -94,7 +95,7 @@
     
     </form>
         
-        <?php process_find_form(); ?>
+        <?php process_find_form($link); ?>
         
     </div>
 </div>
@@ -104,4 +105,4 @@
 
 <?php } ?>
 
-<?php require_once('includes/footer.php'); ?>
+<?php db_disconnect($link); ?>

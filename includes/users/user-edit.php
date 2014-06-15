@@ -6,31 +6,31 @@
     <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
     <input type="hidden" name="id" value="<?php echo $id; ?>" />
     
-    <img src="resized/<?php echo p_item('photo'); ?>" class="photo" alt="<?php echo p_item('fname'); ?> <?php echo p_item('lname'); ?>" />
+    <img src="resized/<?php echo p_item($link, 'photo'); ?>" class="photo" alt="<?php echo p_item($link, 'fname'); ?> <?php echo p_item($link, 'lname'); ?>" />
     
     <div style="float:left;">
         <label for="photo">New Photo:</label>
         <input type="file" name="photo" id="photo" />
         
         <label for="fname">First Name:</label>
-        <input type="text" name="fname" id="fname" value="<?php echo p_item('fname'); ?>" />
+        <input type="text" name="fname" id="fname" value="<?php echo p_item($link, 'fname'); ?>" />
         
         <label for="lname">Last Name:</label>
-        <input type="text" name="lname" id="lname" value="<?php echo p_item('lname'); ?>" />
+        <input type="text" name="lname" id="lname" value="<?php echo p_item($link, 'lname'); ?>" />
         
         <label for="login">Login:</label>
-        <input type="text" name="login" id="login" value="<?php echo p_item('login'); ?>" />
+        <input type="text" name="login" id="login" value="<?php echo p_item($link, 'login'); ?>" />
         
         <label for="password">Password:</label>
-        <input type="password" name="password" id="password" value="<?php echo p_item('password'); ?>" />
+        <input type="password" name="password" id="password" value="<?php echo p_item($link, 'password'); ?>" />
         
         <label for="phone">Phone:</label>
-        <input type="text" name="phone" id="phone" value="<?php echo p_item('phone'); ?>" />
+        <input type="text" name="phone" id="phone" value="<?php echo p_item($link, 'phone'); ?>" />
         
-        <label for="email">Email:</label> <input type="text" name="email" id="email" value="<?php echo p_item('email'); ?>" />
+        <label for="email">Email:</label> <input type="text" name="email" id="email" value="<?php echo p_item($link, 'email'); ?>" />
        
         <label for="info">Tell us something about what you do...</label> 
-        <textarea cols="54" rows="10" name="info"><?php echo p_item('info'); ?></textarea>
+        <textarea cols="54" rows="10" name="info"><?php echo p_item($link, 'info'); ?></textarea>
         <input type="submit" name="editprofile" value="Save Profile" />
     </div>
     </form>

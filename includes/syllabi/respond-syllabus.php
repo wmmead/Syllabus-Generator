@@ -3,14 +3,14 @@
 <?php if ($_SESSION['type'] > 0) { ?>
 
 <div class="frame">
-	<h2><?php echo syll_info("coursenum", $classid); ?> <?php echo syll_info("course", $classid); ?>, <?php echo syll_info("term", $classid); ?> <?php echo syll_info("year", $classid); ?></h2>
+	<h2><?php echo syll_info($link, "coursenum", $classid); ?> <?php echo syll_info($link, "course", $classid); ?>, <?php echo syll_info($link, "term", $classid); ?> <?php echo syll_info($link, "year", $classid); ?></h2>
 	<form id="respondsyll" action="index.php" method="post">
     	<p>Respond to the instructor by either approving the syllabus as is, or requesting changes. Requesting changes puts the syllabus back into draft status and the instructor can continue to work on it and resubmit it to you for approval again.</p>
         
      	<p>Please select your response below and submit the form.</p>
         
         <p>
-        <?php output_approval_radio_button($classid); ?>
+        <?php output_approval_radio_button($link, $classid); ?>
         <label><input type="radio" name="response" value="revise"> Revision requested</label>
         </p>
         

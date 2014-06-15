@@ -1,13 +1,13 @@
 <?php $classid = $_GET['reqdraft']; ?>
 
-<?php if (check_syllabus_owner($classid)) { ?>
+<?php if (check_syllabus_owner($link, $classid)) { ?>
 
 <div class="frame">
-	<h2><?php echo syll_info("coursenum", $classid); ?> <?php echo syll_info("course", $classid); ?>, <?php echo syll_info("term", $classid); ?> <?php echo syll_info("year", $classid); ?></h2>
+	<h2><?php echo syll_info($link, "coursenum", $classid); ?> <?php echo syll_info($link, "course", $classid); ?>, <?php echo syll_info($link, "term", $classid); ?> <?php echo syll_info($link, "year", $classid); ?></h2>
 	<form id="reqdraft" action="index.php?sylledit=<?php echo $classid; ?>" method="post">
     	<p>If you need to edit a syllabus after it has been approved, please request draft status for the syllabus. Once the request has been approved you will be able to edit the syllabus and then submit it for approval again.</p>
         
-        <?php $director_info = get_syllabus_approved_by($classid); ?>
+        <?php $director_info = get_syllabus_approved_by($link, $classid); ?>
         
         <p>Your request will be sent to <?php echo $director_info['fname'];?> <?php echo $director_info['lname']; ?></p>
         

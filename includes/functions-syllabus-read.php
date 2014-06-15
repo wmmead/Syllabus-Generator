@@ -2,13 +2,13 @@
 
 // --- These functions are used to display all the content of an individual syllabus
 
-function output_class_times($classid)
+function output_class_times($link, $classid)
 {
 	$query = "select classday, starttime, endtime from class_days_times where class_id = '$classid' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	
-	while($rows = mysql_fetch_row($results))
+	while($rows = mysqli_fetch_row($results))
 	{
 		list($classday, $starttime, $endtime) = $rows;
 		
@@ -17,23 +17,23 @@ function output_class_times($classid)
 	}
 }
 
-function output_section_number($classid)
+function output_section_number($link, $classid)
 {
 	$query = "select sectnum from class_details where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		echo $row[0];
 	}
 }
 
-function output_class_details($classid)
+function output_class_details($link, $classid)
 {
 	$query = "select materials, methods, tech, hwhrs, officehrs from class_details where class_id = '$classid'";
-	$results = mysql_query($query);
-	while($rows = mysql_fetch_row($results))
+	$results = mysqli_query($link, $query);
+	while($rows = mysqli_fetch_row($results))
 	{
 		list($materials, $methods, $tech, $hwhrs, $officehrs) = $rows;
 		
@@ -48,17 +48,17 @@ function output_class_details($classid)
 	}
 }
 
-function output_evaluation_details($classid)
+function output_evaluation_details($link, $classid)
 {
 	$query = "select descrip, percent from evalscales where class_id = '$classid' order by ordr";
-	$results = mysql_query($query);
+	$results = mysqli_query($link, $query);
 	
 	$total = 0;
 	
 	echo "<table class='display-table'>\n";
 	echo "<tr><th>Description</th><th>Percent</th></tr>\n";
 	
-	while($rows = mysql_fetch_row($results))
+	while($rows = mysqli_fetch_row($results))
 	{
 		list($descrip, $percent) = $rows;
 		
@@ -73,16 +73,16 @@ function output_evaluation_details($classid)
 	echo "</table>";
 }
 
-function ouput_book_details($classid)
+function ouput_book_details($link, $classid)
 {
 	$query = "select title, author, publisher, pubdate, isbn, link, booktype from books where class_id = '$classid' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	$booktypes = array('', 'Required Reading', 'Recommended Reading', 'Suggested Reading');
 	
 	if($numrows > 0)
 	{
-		while($rows = mysql_fetch_row($results))
+		while($rows = mysqli_fetch_row($results))
 		{
 			list($title, $author, $publisher, $pubdate, $isbn, $link, $booktype) = $rows;
 			
@@ -99,12 +99,12 @@ function ouput_book_details($classid)
 	else { echo "<p>No books listed</p>"; }
 }
 
-function ouput_optional_course_details($classid)
+function ouput_optional_course_details($link, $classid)
 {
 	$query = "select add_req, focus from class_details where class_id = '$classid'";
-	$results = mysql_query($query);
+	$results = mysqli_query($link, $query);
 	
-	while($rows = mysql_fetch_row($results))
+	while($rows = mysqli_fetch_row($results))
 	{
 		list($add_req, $focus) = $rows;
 		
@@ -121,16 +121,16 @@ function ouput_optional_course_details($classid)
 	}
 }
 
-function output_additional_competencies($classid)
+function output_additional_competencies($link, $classid)
 {
 	$query = "select competency from competencies where class_id = '$classid' and type = '1' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		echo "<p><strong>Additional Competencies for the Course</strong></p>\n";
 		echo "<ul class='disc'>\n";
-		while($rows = mysql_fetch_row($results))
+		while($rows = mysqli_fetch_row($results))
 		{
 			list($competency) = $rows;
 			echo "<li>$competency</li>\n";
@@ -139,16 +139,16 @@ function output_additional_competencies($classid)
 	}
 }
 
-function output_additional_policies($classid)
+function output_additional_policies($link, $classid)
 {
 	$query = "select policy from gradingpolicies where class_id = '$classid' and type = '1' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		echo "<p><strong>Additional Grading Policies for the Course</strong></p>\n";
 		
-		while($rows = mysql_fetch_row($results))
+		while($rows = mysqli_fetch_row($results))
 		{
 			list($policy) = $rows;
 			echo "$policy";
@@ -156,32 +156,32 @@ function output_additional_policies($classid)
 	}
 }
 
-function output_activities($classid)
+function output_activities($link, $classid)
 {
 	$query = "select type from classes where id='$classid'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	$classtype = $row[0];
 	
 	switch ($classtype)
 	{
-		case "0": output_full_quarter_class($classid);  break;
-		case "1": output_mid_quarter_class($classid);  break;
-		default: output_full_quarter_class($classid);
+		case "0": output_full_quarter_class($link, $classid);  break;
+		case "1": output_mid_quarter_class($link, $classid);  break;
+		default: output_full_quarter_class($link, $classid);
 	}
 }
 
-function output_full_quarter_class($classid)
+function output_full_quarter_class($link, $classid)
 {
-	$termstart = term_start_date($classid);
-	$day = return_day($classid);
+	$termstart = term_start_date($link, $classid);
+	$day = return_day($link, $classid);
 	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		echo "<h4>Weekly Activities</h4>\n";
-		while($rows = mysql_fetch_row($results))
+		while($rows = mysqli_fetch_row($results))
 		{
 			list($meeting, $activity) = $rows;
 			echo "<div class='frame'>";
@@ -189,7 +189,7 @@ function output_full_quarter_class($classid)
 			echo $meeting. ' ';
 			class_date($classid, $termstart, $meeting, $day);
 			echo " <span class='alert'>";
-			print_holiday($classid, $termstart, $meeting, $day);
+			print_holiday($link, $classid, $termstart, $meeting, $day);
 			echo "</span>";
 			echo "</strong></p>\n";
 			echo "$activity\n";
@@ -199,21 +199,21 @@ function output_full_quarter_class($classid)
 
 }
 
-function output_mid_quarter_class($classid)
+function output_mid_quarter_class($link, $classid)
 {
-	$termstart = term_start_date($classid);
+	$termstart = term_start_date($link, $classid);
 	$startweek = 6;
 	$arrayselect = 1;
 	$counter = 1;
 	
-	$day = return_day($classid);
+	$day = return_day($link, $classid);
 	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		echo "<h4>Weekly Activities</h4>\n";
-		while($rows = mysql_fetch_row($results))
+		while($rows = mysqli_fetch_row($results))
 		{
 			
 			
@@ -223,7 +223,7 @@ function output_mid_quarter_class($classid)
 			echo $meeting. ' ';
 			class_date($classid, $termstart, $startweek, $day[$arrayselect]);
 			echo " <span class='alert'>";
-			print_holiday($classid, $termstart, $startweek, $day[$arrayselect]);
+			print_holiday($link, $classid, $termstart, $startweek, $day[$arrayselect]);
 			echo "</span>";
 			echo "</strong></p>\n";
 			echo "$activity\n";

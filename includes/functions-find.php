@@ -1,6 +1,6 @@
 <?php
 
-function process_find_form()
+function process_find_form($link)
 {
 	if( isset( $_POST['findsyll']) )
 	{
@@ -22,7 +22,7 @@ AND classes.status =  '2'
 ORDER BY terms.year DESC, terms.term DESC";
 
 			$flag = "both";
-			display_found_syllabi($query, $flag);
+			display_found_syllabi($link, $query, $flag);
 
 		}
 		elseif( !empty($course) )
@@ -39,7 +39,7 @@ AND classes.status =  '2'
 ORDER BY terms.year DESC, terms.term DESC, users.lname";
 
 			$flag = "course";
-			display_found_syllabi($query, $flag);
+			display_found_syllabi($link, $query, $flag);
 		}
 		
 		elseif( !empty($instructor) )
@@ -56,7 +56,7 @@ AND classes.status =  '2'
 ORDER BY terms.year DESC, terms.term DESC, courses.coursenum";
 
 			$flag = "instructor";
-			display_found_syllabi($query, $flag);
+			display_found_syllabi($link, $query, $flag);
 
 		}
 		else
@@ -78,21 +78,21 @@ function output_find_list_copy_icon($classid, $active)
 	}
 }
 
-function display_found_syllabi($query, $flag)
+function display_found_syllabi($link, $query, $flag)
 {
 	$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
 	$termnames = array('', 'Winter', 'Spring', 'Summer', 'Fall');
 	$temp_term_year = "temp";
 	$counter = 1;
 		
-		$result = mysql_query($query);
-		$num_rows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$num_rows = mysqli_num_rows($result);
 		if($num_rows > 0)
 		{
 			print "<div>\n <h3>Here are the results of your search...</h3>\n</div>\n";
 			print "<div class='frame'>\n";
 			
-			while($row = mysql_fetch_row($result))
+			while($row = mysqli_fetch_row($result))
 			{
 				list($classid, $sectnum, $userid, $lname, $term, $year, $courseid, $coursenum, $coursename, $active) = $row;
 				

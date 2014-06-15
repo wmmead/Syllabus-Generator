@@ -1,24 +1,83 @@
 <?php
+
+/************** REQUIRED FILES *****************/
+
+require("settings.php");
+
+
 //General email function
+
+function session_handler()
+{
+	session_start();
+	if (isset($_GET['logoff']))
+	{
+		session_destroy();
+		session_start();
+	}
+}
+
+/*********** DATABASE CONNECTION FUNCTIONS *****************/
+
+//connect to DB
+function db_connect()
+{
+	$link = new mysqli(DB_HOST, DB_USER, DB_PWORD, DB_NAME);
+	if ($link->connect_errno)
+	{
+		echo "Failed to connect to MySQL: (" . $link->connect_errno . ") " . $link->connect_error;
+	}
+	
+	return $link;
+}
+
+//disconnect from DB
+function db_disconnect($link)
+{
+	if (isset($link))
+	{
+		mysqli_close($link);
+	}
+}
+
+//check to see if user will authenticate
+function auth_check($link)
+{
+	$val = set_codes();
+	if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
+	{
+		if(isset($_POST['login']))
+		{
+			$login = mysql_prep($link, $_POST['login']);
+			$password = mysql_prep($link, $_POST['password']);
+			authenticateperson($link, $login, $password, KEY);
+		}
+	}
+}
+
+
+
 function email_user($to, $subject, $message, $from)
 {
 	$headers = 'From: ' . $from . "\r\n" . 'Reply-To: ' . $from . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 	mail($to, $subject, $message, $headers);
 }
 
+
+
 //Department Select List
-function output_dept_list($selected='')
+function output_dept_list($link, $selected='')
 {
 	$query = "select id, name from depts order by name asc";
-	$result = mysql_query($query);
-	output_select_list_options($query, $result, $selected);
+	$result = mysqli_query($link, $query);
+	output_select_list_options($link, $query, $result, $selected);
 }
 
 //Generate Select List
 
-function output_select_list_options($query, $result, $selected='')
+function output_select_list_options($link, $query, $result, $selected='')
 {
-	while ($list_items = mysql_fetch_row($result))
+	while ($list_items = mysqli_fetch_row($result))
 	{
 		list($value, $name) = $list_items;
 		if($value == $selected)
@@ -204,27 +263,27 @@ function time_select_list($selected = '')
 	}
 }
 
-function output_instructor_select_list()
+function output_instructor_select_list($link)
 {
 	
 	$query = "select id, fname, lname from users order by lname";
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	
-	while ($row = mysql_fetch_row($result))
+	while ($row = mysqli_fetch_row($result))
 	{
 		list($id, $fname, $lname) = $row;
 		print "<option value='$id'>$lname, $fname</option>\n";
 	}
 }
 
-function output_course_select_list()
+function output_course_select_list($link)
 {
 	// This select list will not include inactive courses
 	
 	$query = "select courses.id, coursenum, courses.name, abbrv from courses left join depts on courses.dept = depts.id where courses.active = '1' order by abbrv asc, courses.name asc";
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	
-	while ($row = mysql_fetch_row($result))
+	while ($row = mysqli_fetch_row($result))
 	{
 		list($id, $coursenum, $name, $abbrv) = $row;
 		print "<option value='$id'>$abbrv $name $coursenum</option>\n";
@@ -232,12 +291,12 @@ function output_course_select_list()
 }
 
 //profile-items
-function profile_item($item, $id)
+function profile_item($link, $item, $id)
 {
 	$key = KEY;
 	$query = "select id, fname, lname, phone, email, photo, info, type, status, login, decode(password, '$key') from users where id = '$id'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	
 	if($row[5] == '')
 	{
@@ -256,11 +315,11 @@ function profile_item($item, $id)
 }
 
 //Course details
-function course_item($item, $id)
+function course_item($link, $item, $id)
 {
 	$query = "select * from courses where id = '$id'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	
 	$field_names = array("id", "number", "name", "desc", "totalhrs", "lecthrs", "labhrs", "credit", "dept", "active");
 	$course_info = array_combine($field_names, $row);
@@ -268,18 +327,18 @@ function course_item($item, $id)
 	return $the_item;	
 }
 
-function output_core_competencies($id)
+function output_core_competencies($link, $id)
 {
 	$query = "select competency, level from competencies where course_id='$id' and type='0' order by ordr";
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	
-	$num_rows = mysql_num_rows($result);
+	$num_rows = mysqli_num_rows($result);
 	if($num_rows > 0)
 	{
 		$subliststart = 1;
 		print "<ul class='disc'>";
 		
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($competency, $level) = $row;
 			if($level == 0)
@@ -312,17 +371,17 @@ function output_core_competencies($id)
 	}
 }
 
-function output_prerequisites($id)
+function output_prerequisites($link, $id)
 {	
 	$query = "select prereq from prereqs where course_id='$id' order by ordr";
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	
-	$num_rows = mysql_num_rows($result);
+	$num_rows = mysqli_num_rows($result);
 	if($num_rows > 0)
 	{
 		print "<ul class='disc'>";
 		
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($prereq) = $row;
 			print "<li>$prereq</li>";
@@ -355,7 +414,8 @@ function set_codes()
 	}
 }
 
-function authenticateperson($login, $password, $key)
+// Authenticates users
+function authenticateperson($link, $login, $password, $key)
 {
 	if(!isset($_SESSION['login_counter']))
 	{
@@ -364,10 +424,10 @@ function authenticateperson($login, $password, $key)
 	
 	$val = set_codes();
 	$query = "select * from users where login='$login' and password = encode('$password', '$key')";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	
-	if(mysql_num_rows($result) > 0)
+	if(mysqli_num_rows($result) > 0)
 	{
 		$_SESSION['auth09328'] = $val;
 		$_SESSION['id'] = $row[0];
@@ -408,19 +468,19 @@ function login_error_password_retrieval_form()
 
 }
 
-function process_lost_password_request()
+function process_lost_password_request($link)
 {
 	if(isset($_POST['retrive-pass']))
 	{
 		$key = KEY;
-		$data = mysql_prep($_POST['thefield']);
+		$data = mysql_prep($link, $_POST['thefield']);
 		
 		$query = "select login, decode(password, '$key') from users where email = '$data'";
-		$result = mysql_query($query);
-		$num_rows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$num_rows = mysqli_num_rows($result);
 		if($num_rows == 1)
 		{
-			$row = mysql_fetch_row($result);
+			$row = mysqli_fetch_row($result);
 			$login = $row[0];
 			$password = $row[1];
 			$email = $data;
@@ -430,11 +490,11 @@ function process_lost_password_request()
 		else
 		{
 			$query = "select email, decode(password, '$key') from users where login = '$data'";
-			$result = mysql_query($query);
-			$num_rows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$num_rows = mysqli_num_rows($result);
 			if($num_rows == 1)
 			{
-				$row = mysql_fetch_row($result);
+				$row = mysqli_fetch_row($result);
 				$email = $row[0];
 				$password = $row[1];
 				$login = $data;
@@ -466,11 +526,11 @@ function check_user_level()
 }
 
 
-function mysql_prep($value) 
+function mysql_prep($link, $value) 
 {
 	$magic_quotes_active = get_magic_quotes_gpc();
 	if($magic_quotes_active) { $value = stripslashes($value); }
-	$value= mysql_real_escape_string($value);
+	$value= mysqli_real_escape_string($link, $value);
 	return $value;
 }
 

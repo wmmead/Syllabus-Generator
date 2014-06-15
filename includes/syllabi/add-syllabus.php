@@ -5,14 +5,14 @@
 	<label for="term">Term</label>
 	<select name="term" id="term">
     	<option value="">---</option>
-    	<?php output_term_list(); ?>
+    	<?php output_term_list($link); ?>
     </select>
     
     
     <label for="course">Course</label>
 	<select name="course" id="course">
     	<option value="">---</option>
-    	<?php output_course_select_list(); ?>
+    	<?php output_course_select_list($link); ?>
     </select>
     
     <h3>Class Type</h3>

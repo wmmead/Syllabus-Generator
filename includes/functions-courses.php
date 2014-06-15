@@ -2,7 +2,7 @@
 
 // courses functions
 
-function add_course()
+function add_course($link)
 {
 	if(isset($_POST['addcourse']))
 	{
@@ -14,28 +14,28 @@ function add_course()
 		is_numeric($_POST['credits']) && 
 		!empty($_POST['coursedesc']) && $_POST['depts'] != 0)
 		{
-			$courseno = strtoupper(trim(mysql_prep($_POST['courseno'])));
+			$courseno = strtoupper(trim(mysql_prep($link, $_POST['courseno'])));
 			$query = "select * from courses where coursenum = '$courseno'";
-			$result = mysql_query($query);
-			$num_of_rows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$num_of_rows = mysqli_num_rows($result);
 			
 			if($num_of_rows == 0)
 			{
-				$coursename = ucwords(strtolower(trim(mysql_prep($_POST['coursename']))));
-				$totalhrs = mysql_prep(trim($_POST['totalhrs']));
-				$lecthrs = mysql_prep(trim($_POST['lecthrs']));
-				$labhrs = mysql_prep(trim($_POST['labhrs']));
-				$credits = mysql_prep(trim($_POST['credits']));
-				$coursedesc = clean_up_ms(trim(mysql_prep($_POST['coursedesc'])));
-				$dept = mysql_prep($_POST['depts']);
-				$active = mysql_prep($_POST['active']);
+				$coursename = ucwords(strtolower(trim(mysql_prep($link, $_POST['coursename']))));
+				$totalhrs = mysql_prep($link, trim($_POST['totalhrs']));
+				$lecthrs = mysql_prep($link, trim($_POST['lecthrs']));
+				$labhrs = mysql_prep($link, trim($_POST['labhrs']));
+				$credits = mysql_prep($link, trim($_POST['credits']));
+				$coursedesc = clean_up_ms(trim(mysql_prep($link, $_POST['coursedesc'])));
+				$dept = mysql_prep($link, $_POST['depts']);
+				$active = mysql_prep($link, $_POST['active']);
 				
 				$query = "insert into courses values('', '$courseno', '$coursename', '$coursedesc', '$totalhrs', '$lecthrs', '$labhrs', '$credits', '$dept', '$active')";
 				
-				mysql_query($query);
-				$lastid = mysql_insert_id();
-				add_competencies($_POST, $lastid);
-				add_prerequisites($_POST, $lastid);
+				mysqli_query($link, $query);
+				$lastid = mysqli_insert_id($link);
+				add_competencies($link, $_POST, $lastid);
+				add_prerequisites($link, $_POST, $lastid);
 				
 				print "<div class='feedback success'>record added</div>";
 			}
@@ -46,7 +46,7 @@ function add_course()
 	}
 }
 
-function add_competencies($data, $id)
+function add_competencies($link, $data, $id)
 {
 	$counter = 1;
 	foreach($data as $key => $value)
@@ -56,7 +56,7 @@ function add_competencies($data, $id)
 		{
 			if(!empty($value))
 			{
-				$value = clean_up_ms(mysql_prep($value));
+				$value = clean_up_ms(mysql_prep($link, $value));
 				
 				$this_comp_level = $_POST['level'.$counter];
 				if($this_comp_level == 0)
@@ -69,24 +69,24 @@ function add_competencies($data, $id)
 						if($thelevel == 2)
 						{
 							$query = "insert into competencies values('', '$id', '', '$value', '0', '1', '$counter')";
-							mysql_query($query);
+							mysqli_query($link, $query);
 						}
 						else
 						{
 							$query = "insert into competencies values('', '$id', '', '$value', '0', '0', '$counter')";
-							mysql_query($query);
+							mysqli_query($link, $query);
 						}
 					}
 					else
 					{
 						$query = "insert into competencies values('', '$id', '', '$value', '0', '0', '$counter')";
-						mysql_query($query);
+						mysqli_query($link, $query);
 					}
 				}
 				else
 				{
 					$query = "insert into competencies values('', '$id', '', '$value', '0', '2', '$counter')";
-					mysql_query($query);
+					mysqli_query($link, $query);
 				}
 				$counter++;
 			}
@@ -94,7 +94,7 @@ function add_competencies($data, $id)
 	}
 }
 
-function add_prerequisites($data, $id)
+function add_prerequisites($link, $data, $id)
 {
 	$counter = 1;
 	foreach($data as $key => $value)
@@ -102,18 +102,19 @@ function add_prerequisites($data, $id)
 		$test = substr($key, 0, 6);
 		if($test == 'prereq')
 		{
+			
 			if(!empty($value))
 			{
-				$value = clean_up_ms(mysql_prep($value));
+				$value = clean_up_ms(mysql_prep($link, $value));
 				$query = "insert into prereqs values('', '$id', '$value', '$counter')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				$counter++;
 			}
 		}
 	}
 }
 
-function edit_course()
+function edit_course($link)
 {
 	if(isset($_POST['editcourse']))
 	{
@@ -126,32 +127,32 @@ function edit_course()
 		!empty($_POST['coursedesc']) && $_POST['depts'] != 0)
 		{
 			$id = $_POST['id'];
-			$courseno = strtoupper(mysql_prep($_POST['courseno']));
+			$courseno = strtoupper(mysql_prep($link, $_POST['courseno']));
 			$query = "select * from courses where coursenum = '$courseno' and id != '$id'";
-			$result = mysql_query($query);
-			$num_of_rows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$num_of_rows = mysqli_num_rows($result);
 			
 			if($num_of_rows == 0)
 			{
-				$coursename = ucwords(strtolower(mysql_prep($_POST['coursename'])));
-				$totalhrs = mysql_prep($_POST['totalhrs']);
-				$lecthrs = mysql_prep($_POST['lecthrs']);
-				$labhrs = mysql_prep($_POST['labhrs']);
-				$credits = mysql_prep($_POST['credits']);
-				$coursedesc = clean_up_ms(mysql_prep($_POST['coursedesc']));
-				$dept = mysql_prep($_POST['depts']);
-				$active = mysql_prep($_POST['active']);
+				$coursename = ucwords(strtolower(mysql_prep($link, $_POST['coursename'])));
+				$totalhrs = mysql_prep($link, $_POST['totalhrs']);
+				$lecthrs = mysql_prep($link, $_POST['lecthrs']);
+				$labhrs = mysql_prep($link, $_POST['labhrs']);
+				$credits = mysql_prep($link, $_POST['credits']);
+				$coursedesc = clean_up_ms(mysql_prep($link, $_POST['coursedesc']));
+				$dept = mysql_prep($link, $_POST['depts']);
+				$active = mysql_prep($link, $_POST['active']);
 				
 				$query = "update courses set coursenum = '$courseno', name = '$coursename', description = '$coursedesc', totalhrs = '$totalhrs', lecthrs = '$lecthrs', labhrs = '$labhrs', credit = '$credits', dept = '$dept', active = '$active' where id='$id'";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				
 				$del_query = "DELETE FROM competencies WHERE course_id='$id' AND type='0'";
-				mysql_query($del_query);
-				add_competencies($_POST, $id);
+				mysqli_query($link, $del_query);
+				add_competencies($link, $_POST, $id);
 				
 				$del_query = "DELETE FROM prereqs WHERE course_id='$id'";
-				mysql_query($del_query);
-				add_prerequisites($_POST, $id);			
+				mysqli_query($link, $del_query);
+				add_prerequisites($link, $_POST, $id);			
 				
 				print "<div class='feedback success'>record edited</div>";
 			}
@@ -162,14 +163,14 @@ function edit_course()
 	}
 }
 
-function edit_competencies()
+function edit_competencies($link)
 {
 	if(isset($_GET['editcourse']))
 	{
 		$courseid = $_GET['editcourse'];
 		$query ="select competency, level, ordr from competencies where course_id='$courseid' and type='0' order by ordr";
-		$result = mysql_query($query);
-		$numrows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($result);
 		if($numrows == 0)
 		{
 			print "<p id='input1' class='clonedInput'>\n";
@@ -180,7 +181,7 @@ function edit_competencies()
 		}
 		else
 		{
-			while($row = mysql_fetch_row($result))
+			while($row = mysqli_fetch_row($result))
 			{
 				list($competency, $level, $order)=$row;
 				if($level == 2)
@@ -207,14 +208,14 @@ function edit_competencies()
 	}	
 }
 
-function edit_prereqs()
+function edit_prereqs($link)
 {
 	if(isset($_GET['editcourse']))
 	{
 		$courseid = $_GET['editcourse'];
 		$query ="select prereq, ordr from prereqs where course_id='$courseid' order by ordr";
-		$result = mysql_query($query);
-		$numrows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($result);
 		if($numrows == 0)
 		{
 			print "<p id='prereq-input1' class='clonedPrereq'>\n";
@@ -223,7 +224,7 @@ function edit_prereqs()
 		}
 		else
 		{
-			while($row = mysql_fetch_row($result))
+			while($row = mysqli_fetch_row($result))
 			{
 				list($prereq, $order)=$row;
 				print "<p id='prereq-input$order' class='clonedPrereq'>\n";
@@ -250,32 +251,32 @@ function display_course_list()
 }
 ************/
 
-function collapsed_course_list()
+function collapsed_course_list($link)
 {
 	$query = "select id, name from depts order by name";
-	$results = mysql_query($query);
-	$num_of_rows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$num_of_rows = mysqli_num_rows($results);
 	if($num_of_rows > 0)
 	{
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($id, $name) = $row;
 			echo "<h4 class='fold'>$name</h4>";
-			display_course_name_links($id);
+			display_course_name_links($link, $id);
 		}
 	}
 }
 
-function display_course_name_links($deptid)
+function display_course_name_links($link, $deptid)
 {
 	$query = "select id, coursenum, name, active from courses where dept = '$deptid' order by active DESC, coursenum ASC";
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	
 	if($numrows > 0)
 	{
 		print "<ul class='hide'>";
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($id, $courseno, $name, $active) = $row;
 			if($active == 1)

@@ -1,7 +1,7 @@
 <?php $classid = $_GET['sylledit']; ?>
 
-<?php process_form($classid); ?>
-<?php $data = get_class_details($classid); ?>
+<?php process_form($link, $classid); ?>
+<?php $data = get_class_details($link, $classid); ?>
 <?php 
 if( $data['sectnum'] != "")
 {
@@ -13,26 +13,26 @@ else { $section = "xx"; }
 <div class="frame">
 	
     <h4>Course Information</h4>
-	<p><strong>Course:</strong> <?php echo syll_info("coursenum", $classid); ?> <?php echo syll_info("course", $classid); ?><br />
-    <strong>Instructor:</strong> <?php echo syll_info("fname", $classid); ?> <?php echo syll_info("lname", $classid); ?><br />
-    <strong>Term / Year:</strong> <?php echo syll_info("term", $classid); ?> <?php echo syll_info("year", $classid); ?><br />
-    <strong>Status:</strong> <span class="<?php echo syll_info("status", $classid); ?>"><?php echo syll_info("status", $classid); ?></span></p>
+	<p><strong>Course:</strong> <?php echo syll_info($link, "coursenum", $classid); ?> <?php echo syll_info($link, "course", $classid); ?><br />
+    <strong>Instructor:</strong> <?php echo syll_info($link, "fname", $classid); ?> <?php echo syll_info($link, "lname", $classid); ?><br />
+    <strong>Term / Year:</strong> <?php echo syll_info($link, "term", $classid); ?> <?php echo syll_info($link, "year", $classid); ?><br />
+    <strong>Status:</strong> <span class="<?php echo syll_info($link, "status", $classid); ?>"><?php echo syll_info($link, "status", $classid); ?></span></p>
     
     <h4 class="fold">Course Details</h4>
     
-    <?php $courseid = syll_info("courseid", $classid); ?>
+    <?php $courseid = syll_info($link, "courseid", $classid); ?>
     <div class="hide">
-    	<p><strong>Total Hours:</strong> <?php echo course_item("totalhrs", $courseid); ?> Hours<br />
-        <strong>Lecture Hours:</strong> <?php echo course_item("lecthrs", $courseid); ?> Hours<br />
-        <strong>Lab Hours:</strong> <?php echo course_item("labhrs", $courseid); ?> Hours<br />
-        <strong>Credits:</strong> <?php echo course_item("credit", $courseid); ?> Credits</p>
+    	<p><strong>Total Hours:</strong> <?php echo course_item($link, "totalhrs", $courseid); ?> Hours<br />
+        <strong>Lecture Hours:</strong> <?php echo course_item($link, "lecthrs", $courseid); ?> Hours<br />
+        <strong>Lab Hours:</strong> <?php echo course_item($link, "labhrs", $courseid); ?> Hours<br />
+        <strong>Credits:</strong> <?php echo course_item($link, "credit", $courseid); ?> Credits</p>
         <p><strong>Course Description:</strong><br /> 
-        <?php echo course_item("desc", $courseid); ?></p>
+        <?php echo course_item($link, "desc", $courseid); ?></p>
         <p><strong>Learning Objectives</strong></p>
-        <?php output_core_competencies($courseid); ?>
+        <?php output_core_competencies($link, $courseid); ?>
         
         <p><strong>Course Prerequisites</strong></p>
-        <?php output_prerequisites($courseid); ?>
+        <?php output_prerequisites($link, $courseid); ?>
     </div>
 
 </div>
@@ -40,11 +40,11 @@ else { $section = "xx"; }
 	<form method="post" action="index.php?sylledit=<?php echo $classid; ?>">
     <input type="hidden" name="classid" value="<?php echo $classid; ?>" />
 	<div class="frame">
-    <?php output_status(check_syllabus_details($classid)); ?>
+    <?php output_status(check_syllabus_details($link, $classid)); ?>
 	<h4 class="fold">Syllabus Details</h4>
     <div class="hide">
     
-    <?php edit_meeting_times($classid); ?>
+    <?php edit_meeting_times($link, $classid); ?>
     
     <label for="sectday">Section Number</label> 
     <p class="example">i.e. A2 Would be Monday at 1 pm. Mid-Quarter classes add first day section only.</p>
@@ -90,20 +90,20 @@ else { $section = "xx"; }
     </div><!-- end frame -->
     
     <div class="frame">
-    <?php output_status(check_eval_status($classid)); ?>
+    <?php output_status(check_eval_status($link, $classid)); ?>
     <h4 class="fold">Evaluation Process</h4>
         <div class="hide">
         <p><span class="desclabel">Description</span> Percent</p>
-        <?php edit_eval_process($classid) ?>
+        <?php edit_eval_process($link, $classid) ?>
         <p class="rightjustify"><label>Total Percent <input type="text" name="totalpercent" id="totalpercent" readonly /></label></p>
         </div>
     </div>
     
     <div class="frame">
-    <?php check_books($classid, "yes"); ?>
+    <?php check_books($link, $classid, "yes"); ?>
     <h4 class="fold">Books</h4>
         <div class="hide">
-        <?php edit_books($classid); ?>
+        <?php edit_books($link, $classid); ?>
         </div>
     </div>
     
@@ -127,7 +127,7 @@ else { $section = "xx"; }
     <h4 class="fold">Additional Learning Objectives (optional)</h4>
         <div class="hide">
         <p><span class="example">Use this section to add learning objectives that go beyond the ones required for the course.</span></p>
-        <?php edit_addtl_competencies($classid, "1"); ?>
+        <?php edit_addtl_competencies($link, $classid, "1"); ?>
         </div>
     </div>
     
@@ -135,16 +135,16 @@ else { $section = "xx"; }
     <h4 class="fold">Additional Grading Policies (optional)</h4>
         <div class="hide">
         <p><span class="example">Use this section to add additional grading policies that go beyond the ones required for all courses.</span><br />
-        <textarea name="policy" class="tinymice" id="policy" cols=55 rows="10"><?php echo addtn_grade_policies($classid, "1"); ?></textarea></p>
+        <textarea name="policy" class="tinymice" id="policy" cols=55 rows="10"><?php echo addtn_grade_policies($link, $classid, "1"); ?></textarea></p>
         </div>
     </div>
     
-    <?php display_activity_form($classid); ?>
+    <?php display_activity_form($link, $classid); ?>
     
     <div id="updatebar">
     
     	<input type="submit" name="update" id="update" class="submitbttn" value="Save your progress!" />
-        <?php add_submit_button($classid); ?>
+        <?php add_submit_button($link, $classid); ?>
     
     </div>
     

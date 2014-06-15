@@ -11,6 +11,6 @@
 
 <div class="frame">
 
-	<?php output_message($classid); ?>
+	<?php output_message($link, $classid); ?>
 
 </div>

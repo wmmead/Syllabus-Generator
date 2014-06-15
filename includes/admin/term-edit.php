@@ -1,11 +1,11 @@
 <?php 
 	$id = $_GET['termedit'];
-	$tn = display_term_info($id, 'termnumber');
-	$year = display_term_info($id, 'year');
-	$start_month = display_term_info($id, 'startmonth');
-	$start_day = display_term_info($id, 'startday');
-	$end_month = display_term_info($id, 'endmonth');
-	$end_day = display_term_info($id, 'endday');
+	$tn = display_term_info($link, $id, 'termnumber');
+	$year = display_term_info($link, $id, 'year');
+	$start_month = display_term_info($link, $id, 'startmonth');
+	$start_day = display_term_info($link, $id, 'startday');
+	$end_month = display_term_info($link, $id, 'endmonth');
+	$end_day = display_term_info($link, $id, 'endday');
 ?>
 
 <div class="frame">
@@ -61,7 +61,7 @@
         <div>
         <h2 class="mainheader">Edit Holidays</h2>
             
-            <?php edit_holidays(); ?>
+            <?php edit_holidays($link); ?>
             
         </div>
         

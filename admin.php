@@ -1,8 +1,8 @@
-<?php require_once('includes/session.php'); ?>
-<?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
 <?php require_once('includes/functions-admin.php'); ?>
-<?php require_once('includes/authcheck.php'); ?>
+<?php session_handler(); ?>
+<?php $link = db_connect(); ?>
+<?php auth_check($link); ?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
@@ -57,10 +57,10 @@
 		{
 ?>
 
-<?php add_term(); lock_term(); edit_term(); ?>
+<?php add_term($link); lock_term($link); edit_term($link); ?>
 
 <div id="page" class="container">
-	<?php  update_departments(); add_departments(); delete_departments(); ?>
+	<?php  update_departments($link); add_departments($link); delete_departments($link); ?>
 	<div class="three columns frame nav">
 	<?php include('includes/navigation.php'); ?>
     </div>
@@ -73,7 +73,7 @@
     	<?php } ?>
         
         <!-- page functions here -->
-        <?php update_grade_policies(); update_sections();?>
+        <?php update_grade_policies($link); update_sections($link);?>
         
         <?php
         if(isset($_GET['addterm']) && $_SESSION['type'] == 2)
@@ -95,7 +95,7 @@
 		else
 		{
 			print "<p><a href=\"admin.php?addterm=yes\">Add a Term</a></p>";
-			display_terms();
+			display_terms($link);
 		}
 		?>
     </div><!-- end nine columns middle -->
@@ -105,11 +105,11 @@
     <?php $id = $_SESSION['id']; ?>
     
     <div class="user">
-    <img src="thumbs/<?php echo profile_item('photo', $id); ?>" class="thumb" />
+    <img src="thumbs/<?php echo profile_item($link, 'photo', $id); ?>" class="thumb" />
         <div class="miniprofile">
-        <p><strong><?php echo profile_item('fname', $id); ?> <?php echo profile_item('lname', $id); ?></strong></p>
-        <p><?php echo profile_item('phone', $id); ?></p>
-        <p><?php echo profile_item('email', $id); ?></p>
+        <p><strong><?php echo profile_item($link, 'fname', $id); ?> <?php echo profile_item($link, 'lname', $id); ?></strong></p>
+        <p><?php echo profile_item($link, 'phone', $id); ?></p>
+        <p><?php echo profile_item($link, 'email', $id); ?></p>
         <p><a href="users.php?profileedit=<?php print $id; ?>">Edit your profile</a></p>
         </div>
     </div>
@@ -133,4 +133,4 @@
 
 
 
-<?php require_once('includes/footer.php'); ?>
+<?php db_disconnect($link); ?>

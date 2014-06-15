@@ -1,6 +1,6 @@
 <?php
 
-function display_new_user_form()
+function display_new_user_form($link)
 {
 	if(isset($_GET['newuser']) && $_SESSION['type'] > 0)
 	{
@@ -8,7 +8,7 @@ function display_new_user_form()
 	}
 }
 
-function create_account()
+function create_account($link)
 {
 	$key = KEY;
 	$server= THE_SERVER;
@@ -21,11 +21,11 @@ function create_account()
 		!empty($_POST['email']) && 
 		!empty($_POST['phone']))
 		{
-			$fname = mysql_prep($_POST['fname']);
-			$lname = mysql_prep($_POST['lname']);
-			$login = mysql_prep($_POST['login']);
-			$email = mysql_prep($_POST['email']);
-			$phone = mysql_prep($_POST['phone']);
+			$fname = mysql_prep($link, $_POST['fname']);
+			$lname = mysql_prep($link, $_POST['lname']);
+			$login = mysql_prep($link, $_POST['login']);
+			$email = mysql_prep($link, $_POST['email']);
+			$phone = mysql_prep($link, $_POST['phone']);
 			
 			if(preg_match(RE_NAME, $fname) && 
 			preg_match(RE_NAME, $lname) && 
@@ -45,19 +45,19 @@ function create_account()
 				$password = generatePassword(8,4);
 				
 				$query = "select fname from users where login = '$login'";
-				$result = mysql_query($query);
-				$numrows = mysql_num_rows($result);
+				$result = mysqli_query($link, $query);
+				$numrows = mysqli_num_rows($result);
 				if($numrows == 0)
 				{
 					$query = "insert into users values('', '$fname', '$lname', '$login', encode('$password', '$key'), '$type', '$phone', '$email', '1', '', '' )";
-					mysql_query($query);
+					mysqli_query($link, $query);
 					
 					if(isset($_SESSION['id']))
 					{
 						$id = $_SESSION['id'];
 						$query2 = "select fname, lname, email from users where id = '$id'";
-						$result = mysql_query($query2);
-						$row = mysql_fetch_row($result);
+						$result = mysqli_query($link, $query2);
+						$row = mysqli_fetch_row($result);
 						
 						$from = $row[2];
 						$to = $email;
@@ -79,7 +79,7 @@ function create_account()
 	}
 }
 
-function edit_profile()
+function edit_profile($link)
 {
 	if(isset($_POST['editprofile']))
 	{
@@ -92,14 +92,14 @@ function edit_profile()
 		{
 			
 			$key = KEY;
-			$id = mysql_prep($_POST['id']);
-			$fname = mysql_prep($_POST['fname']);
-			$lname = mysql_prep($_POST['lname']);
-			$login = mysql_prep($_POST['login']);
-			$password = mysql_prep($_POST['password']);
-			$email = mysql_prep($_POST['email']);
-			$phone = mysql_prep($_POST['phone']);
-			$info = mysql_prep($_POST['info']);
+			$id = mysql_prep($link, $_POST['id']);
+			$fname = mysql_prep($link, $_POST['fname']);
+			$lname = mysql_prep($link, $_POST['lname']);
+			$login = mysql_prep($link, $_POST['login']);
+			$password = mysql_prep($link, $_POST['password']);
+			$email = mysql_prep($link, $_POST['email']);
+			$phone = mysql_prep($link, $_POST['phone']);
+			$info = mysql_prep($link, $_POST['info']);
 			
 			if(preg_match(RE_NAME, $fname) && 
 			preg_match(RE_NAME, $lname) && 
@@ -109,20 +109,21 @@ function edit_profile()
 			preg_match(RE_PHONE, $phone))
 			{
 				$query = "select fname from users where login = '$login' and id != '$id'";
-				$result = mysql_query($query);
-				$numrows = mysql_num_rows($result);
+				$result = mysqli_query($link, $query);
+				$numrows = mysqli_num_rows($result);
 				if($numrows == 0)
 				{
 					$query ="update users set fname = '$fname', lname = '$lname', email = '$email', 
 					phone = '$phone', login = '$login', password = encode('$password', '$key'), 
 					info = '$info' where id = '$id'";
 					
-					mysql_query($query);
+					mysqli_query($link, $query);
 					
 					if($_FILES['photo']['name'] != '' && $_FILES['photo']['error'] == 0)
 					{
-						delete_old_photos($id);
-						add_photo_record($id);
+						//print "cheese";
+						delete_old_photos($link, $id);
+						add_photo_record($link, $id);
 					}
 					
 					print "<div class='feedback success'>Profile Edited</div>";
@@ -136,7 +137,7 @@ function edit_profile()
 }
 
 
-function admin_edit_profile()
+function admin_edit_profile($link)
 {
 	if(isset($_POST['updateuser']) || isset($_POST['updateuserpass']))
 	{
@@ -148,14 +149,14 @@ function admin_edit_profile()
 		{
 			$server= THE_SERVER;
 			$key = KEY;
-			$id = mysql_prep($_POST['id']);
-			$fname = mysql_prep($_POST['fname']);
-			$lname = mysql_prep($_POST['lname']);
-			$login = mysql_prep($_POST['login']);
-			$email = mysql_prep($_POST['email']);
-			$phone = mysql_prep($_POST['phone']);
-			$type = mysql_prep($_POST['type']);
-			$status = mysql_prep($_POST['status']);
+			$id = mysql_prep($link, $_POST['id']);
+			$fname = mysql_prep($link, $_POST['fname']);
+			$lname = mysql_prep($link, $_POST['lname']);
+			$login = mysql_prep($link, $_POST['login']);
+			$email = mysql_prep($link, $_POST['email']);
+			$phone = mysql_prep($link, $_POST['phone']);
+			$type = mysql_prep($link, $_POST['type']);
+			$status = mysql_prep($link, $_POST['status']);
 			
 			if(preg_match(RE_NAME, $fname) && 
 			preg_match(RE_NAME, $lname) && 
@@ -164,8 +165,8 @@ function admin_edit_profile()
 			preg_match(RE_PHONE, $phone))
 			{
 				$query = "select fname from users where login = '$login' and id != '$id'";
-				$result = mysql_query($query);
-				$numrows = mysql_num_rows($result);
+				$result = mysqli_query($link, $query);
+				$numrows = mysqli_num_rows($result);
 				if($numrows == 0)
 				{
 					$query ="update users set fname = '$fname', lname = '$lname', email = '$email', 
@@ -182,8 +183,8 @@ function admin_edit_profile()
 						
 						$id = $_SESSION['id'];
 						$query2 = "select fname, lname, email from users where id = '$id'";
-						$result = mysql_query($query2);
-						$row = mysql_fetch_row($result);
+						$result = mysqli_query($link, $query2);
+						$row = mysqli_fetch_row($result);
 						
 						$from = $row[2];
 						$to = $email;
@@ -193,7 +194,7 @@ function admin_edit_profile()
 						email_user($to, $subject, $message, $from);
 					}
 					
-					mysql_query($query);
+					mysqli_query($link, $query);
 					
 					print "<div class='feedback success'>Profile Edited</div>";
 				}
@@ -205,13 +206,13 @@ function admin_edit_profile()
 	}
 }
 
-function display_users()
+function display_users($link)
 {
 	
 	$query="select id, fname, lname, phone, email, photo, type, status from users where status = 1 order by lname";
-	$result= mysql_query($query);
+	$result= mysqli_query($link, $query);
 
-	while($row = mysql_fetch_row($result))
+	while($row = mysqli_fetch_row($result))
 	{
 		list ($id, $fname, $lname, $phone, $email, $photo, $type, $status) = $row;
 		print "<div class='user'>";
@@ -232,12 +233,12 @@ function display_users()
 	}
 }
 
-function show_profile()
+function show_profile($link)
 {
 	if(isset($_GET['profileid'])){ include('users/user-profile.php'); }	
 }
 
-function display_profile_edit_form()
+function display_profile_edit_form($link)
 {
 	if(isset($_GET['profileedit']) && $_GET['profileedit'] == $_SESSION['id'] )
 	{
@@ -245,22 +246,22 @@ function display_profile_edit_form()
 	}
 }
 
-function p_item($item)
+function p_item($link, $item)
 {
 	if(isset($_GET['profileid']))
 	{
 		$id = $_GET['profileid'];
-		 return profile_item($item, $id); 
+		 return profile_item($link, $item, $id); 
 	}
 	elseif(isset($_GET['profileedit']))
 	{
 		$id = $_GET['profileedit'];
-		return profile_item($item, $id);
+		return profile_item($link, $item, $id);
 	}
 	elseif(isset($_GET['useredit']))
 	{
 		$id = $_GET['useredit'];
-		return profile_item($item, $id);
+		return profile_item($link, $item, $id);
 	}
 	else
 	{
@@ -269,7 +270,7 @@ function p_item($item)
 	
 }
 
-function display_user_edit_table()
+function display_user_edit_table($link)
 {
 	if(isset($_GET['adminedit']))
 	{
@@ -280,7 +281,7 @@ function display_user_edit_table()
 	}
 }
 
-function display_all_user_list()
+function display_all_user_list($link)
 {
 	if(!isset($_GET['adminedit']))
 	{
@@ -288,10 +289,10 @@ function display_all_user_list()
 	}
 }
 
-function generate_admin_user_list()
+function generate_admin_user_list($link)
 {
 	$query = "select id, fname, lname, login, phone, email, type, status from users order by lname";
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	
 	$usertype = array("Instructor", "Director", "Administrator");
 	$userstatus = array("Inactive", "Active");
@@ -300,7 +301,7 @@ function generate_admin_user_list()
 	print "<table class='usertable'>\n";
 	print "<tr><th>First Name</th><th>Last Name</th><th>Login</th><th>Phone</th><th>Email</th><th>Type</th><th>Status</th><th></th></tr>\n";
 	
-	while($row = mysql_fetch_row($result))
+	while($row = mysqli_fetch_row($result))
 	{
 		list($id, $fname, $lname, $login, $phone, $email, $type, $status) = $row;
 		if($counter %2 == 0)
@@ -352,7 +353,7 @@ function generatePassword($length=9, $strength=0) {
 	return $password;
 }
 
-function add_photo_record($id)
+function add_photo_record($link, $id)
 {
 	if(!empty($_FILES['photo']))
 	{
@@ -390,7 +391,7 @@ function add_photo_record($id)
 			else
 			{
 				$query = "update users set photo = '$userfile_name' where id = '$id'";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				upload_user_picts($userfile, $userfile_name);
 				reduce_image_size($userfile_name, $userfile_type);
 				create_square_thumbnails($userfile_name, $userfile_type);
@@ -420,11 +421,11 @@ function upload_user_picts($userfile, $userfile_name)
 
 }
 
-function delete_old_photos($id)
+function delete_old_photos($link, $id)
 {
 	$query = "select photo from users where id = '$id'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	$photo = $row[0];
 	
 	if ($photo != '')
@@ -432,7 +433,7 @@ function delete_old_photos($id)
 		$original_photo = IMG_PATH.$photo;
 		$resized_photo = RESIZED_PATH.$photo;
 		$thumb_photo = THUMB_PATH.$photo;
-		
+				
 		unlink($original_photo);
 		unlink($resized_photo);
 		unlink($thumb_photo);

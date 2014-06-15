@@ -23,7 +23,7 @@
             
             <select name="depts">
                 <option value='0'>Choose a Department</option>
-                <?php output_dept_list(); ?>
+                <?php output_dept_list($link); ?>
             </select>
         </div>
     </div>

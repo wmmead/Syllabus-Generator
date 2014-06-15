@@ -1,8 +1,8 @@
-<?php require_once('includes/session.php'); ?>
-<?php require_once('includes/connection.php'); ?>
 <?php require_once('includes/functions.php'); ?>
 <?php require_once('includes/functions-users.php'); ?>
-<?php require_once('includes/authcheck.php'); ?>
+<?php session_handler(); ?>
+<?php $link = db_connect(); ?>
+<?php auth_check($link); ?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
@@ -36,6 +36,7 @@
 <div id="logo"><a href="index.php"><img src="images/logo.png" alt="AI Syllabus Generator" /></a></div>
 
 <?php
+		$val = set_codes();
 		if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
 		{
 			include('includes/users/loginform.php');
@@ -48,18 +49,18 @@
 
 <div id="page" class="container">
 
-<?php create_account(); ?>
-<?php edit_profile(); ?>
-<?php admin_edit_profile(); ?>
+<?php create_account($link); ?>
+<?php edit_profile($link); ?>
+<?php admin_edit_profile($link); ?>
 
 	<div class="three columns frame nav">
 		<?php include('includes/navigation.php'); ?>
     </div>
-    <?php display_new_user_form(); ?>
-    <?php show_profile(); ?>
-    <?php display_profile_edit_form(); ?>
-    <?php display_user_edit_table(); ?>
-    <?php display_all_user_list(); ?>
+    <?php display_new_user_form($link); ?>
+    <?php show_profile($link); ?>
+    <?php display_profile_edit_form($link); ?>
+    <?php display_user_edit_table($link); ?>
+    <?php display_all_user_list($link); ?>
     
     
 </div>
@@ -69,4 +70,4 @@
 
 <?php } ?>
 
-<?php require_once('includes/footer.php'); ?>
+<?php db_disconnect($link); ?>

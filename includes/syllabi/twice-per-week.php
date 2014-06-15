@@ -1,4 +1,4 @@
-<?php $data = get_class_times($classid, 1); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
+<?php $data = get_class_times($link, $classid, 1); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
 
 <div class="timeblock">
 <p><strong><label for="day1">1st Day the Class Meets</label></strong><br />
@@ -24,7 +24,7 @@
 </select>
 </div>
 
-<?php $data = get_class_times($classid, 2); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
+<?php $data = get_class_times($link, $classid, 2); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
 
 <div class="timeblock">
 <label for="day2">2nd Day the Class Meets</label>

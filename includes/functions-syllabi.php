@@ -1,12 +1,12 @@
 <?php
 
-function output_term_list()
+function output_term_list($link)
 {
 	$query = "select id, term, year from terms order by year desc, term desc limit 0, 4";
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	$termnames = array("", "Winter", "Spring", "Summer", "Fall");
 	
-	while ($row = mysql_fetch_row($result))
+	while ($row = mysqli_fetch_row($result))
 	{
 		list($id, $term, $year) = $row;
 		print "<option value='$id'>$termnames[$term] $year</option>\n";
@@ -15,22 +15,22 @@ function output_term_list()
 
 
 
-function add_syllabus()
+function add_syllabus($link)
 {
 	if(isset($_POST['addsyll']))
 	{
 		if(!empty($_POST['term']) && !empty($_POST['course']))
 		{
-			$userid = $_POST['userid'];
-			$termid = $_POST['term'];
-			$courseid = $_POST['course'];
-			$classtype = $_POST['classtype'];
+			$userid = mysql_prep($link, $_POST['userid']);
+			$termid = mysql_prep($link, $_POST['term']);
+			$courseid = mysql_prep($link, $_POST['course']);
+			$classtype = mysql_prep($link, $_POST['classtype']);
 			
 			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0')";
 			//print $query;
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
-			$lastid = mysql_insert_id();
+			$lastid = mysqli_insert_id($link);
 			
 			switch ($classtype)
 			{
@@ -43,14 +43,14 @@ function add_syllabus()
 			{
 				$counter = $i+1;
 				$query = "insert into activities values('', '$lastid', '$counter', '' )";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 			
 			//adding this to be sure the activites records were created...
 			
 			$query="select * from activities where class_id='$lastid'";
-			$result = mysql_query($query);
-			$num_rows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$num_rows = mysqli_num_rows($result);
 			
 			if($num_rows == $meetings)
 			{
@@ -62,27 +62,27 @@ function add_syllabus()
 				{
 					$counter = $i+1;
 					$query = "select id from activities where class_id='$lastid' and meeting='$counter'";
-					$result = mysql_query($query);
-					$num_rows = mysql_num_rows($result);
+					$result = mysqli_query($link, $query);
+					$num_rows = mysqli_num_rows($result);
 					if($num_rows != 1)
 					{
 						$query = "insert into activities values('', '$lastid', '$counter', '' )";
-						mysql_query($query);
+						mysqli_query($link, $query);
 					}
 				}
-				email_error($lastid);
+				email_error($link, $lastid);
 			}
 		}
 		else { print "<div class='feedback error'>ERROR: Term, Course, and Class type fields are required.</div>"; }
 	}
 }
 
-function email_error($classid)
+function email_error($link, $classid)
 {
 	$userid = $_SESSION['id'];
 	$query = "select fname, lname from users where id='$userid'";
-	$results = mysql_query($query);
-	$row = mysql_fetch_row($results);
+	$results = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($results);
 	$fname = $row[0];
 	$lname = $row[1];
 	
@@ -94,100 +94,101 @@ function email_error($classid)
 	email_user($to, $subject, $message, $from);
 }
 
-function copy_syllabus()
+function copy_syllabus($link)
 {
 	if(isset($_POST['copysyll']))
 	{
 		if(!empty($_POST['term']))
 		{
-			$userid = $_POST['userid'];
-			$termid = $_POST['term'];
-			$copyclass = $_POST['copyclass'];
-			$classtype = $_POST['classtype'];
+			$userid = mysql_prep($link, $_POST['userid']);
+			$termid = mysql_prep($link, $_POST['term']);
+			$copyclass = mysql_prep($link, $_POST['copyclass']);
+			$classtype = mysql_prep($link, $_POST['classtype']);
 			
 			$query = "select course_id from classes where id = '$copyclass'";
-			$result = mysql_query($query);
-			$row = mysql_fetch_row($result);
+			$result = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($result);
 			$courseid = $row[0];
 			
 			// Creat the new class
 			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0')";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
-			$classid = mysql_insert_id();
+			$classid = mysqli_insert_id($link);
 						
 			//copying class details
 			$query = "select materials, methods, tech, hwhrs, add_req, focus from class_details where class_id = '$copyclass'";
-			$results = mysql_query($query);
-			$row = mysql_fetch_row($results);
+			$results = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($results);
 			list($materials, $methods, $tech, $hwhrs, $add_req, $focus) = $row;
 			
 			$query = "insert into class_details values('', '$classid', '', '$materials', '$methods', '$tech', '$hwhrs', '', '$add_req', '$focus' )";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			//copying evaluation policies
 			$query = "select descrip, percent, ordr from evalscales where class_id = '$copyclass'";
-			$results = mysql_query($query);
-			while($row = mysql_fetch_row($results))
+			$results = mysqli_query($link, $query);
+			while($row = mysqli_fetch_row($results))
 			{
 				list($descrip, $percent, $ordr) = $row;
 				$query = "insert into evalscales values('', '$classid', '$descrip', '$percent', '$ordr')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 			
 			//copying books (if any)
 			$query = "select title, author, publisher, pubdate, isbn, link, booktype, ordr from books where class_id = '$copyclass'";
-			$results = mysql_query($query);
-			$numrows = mysql_num_rows($results);
+			$results = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($results);
 			if($numrows > 0)
 			{
-				while($row = mysql_fetch_row($results))
+				while($row = mysqli_fetch_row($results))
 				{
-					list($title, $author, $publisher, $pubdate, $isbn, $link, $booktype, $ordr) = $row;
-					$query = "insert into evalscales values('', '$classid' '$title', '$author', 
-					'$publisher', '$pubdate', '$isbn', '$link', '$booktype', '$ordr')";
-					mysql_query($query);
+					list($title, $author, $publisher, $pubdate, $isbn, $booklink, $booktype, $ordr) = $row;
+					$query = "insert into books values('', '$classid', '$title', '$author', 
+					'$publisher', '$pubdate', '$isbn', '$booklink', '$booktype', '$ordr')";
+					print $query;
+					mysqli_query($link, $query);
 				}
 			}
 			
 			//Copying additional competencies (if any)
 			$query = "select competency, level, ordr from competencies where class_id = '$copyclass'";
-			$results = mysql_query($query);
-			$numrows = mysql_num_rows($results);
+			$results = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($results);
 			if($numrows > 0)
 			{
-				while($row = mysql_fetch_row($results))
+				while($row = mysqli_fetch_row($results))
 				{
 					list($competency, $level, $ordr) = $row;
 					$query = "insert into competencies values('', '0', '$classid', '$competency', '1', '$level', '$ordr')";
-					mysql_query($query);
+					mysqli_query($link, $query);
 				}
 			}
 			
 			//Copying additional policies (if any)
 			$query = "select policy, ordr from gradingpolicies where class_id = '$copyclass' and type='1'";
-			$results = mysql_query($query);
-			$numrows = mysql_num_rows($results);
+			$results = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($results);
 			if($numrows > 0)
 			{
-				while($row = mysql_fetch_row($results))
+				while($row = mysqli_fetch_row($results))
 				{
 					list($policy, $ordr) = $row;
 					$query = "insert into gradingpolicies values('', '0', '$classid', '1', '$policy',  '$ordr')";
-					mysql_query($query);
+					mysqli_query($link, $query);
 				}
 			}
 			
 			//Copying activities
 			$query = "select meeting, activity from activities where class_id = '$copyclass'";
-			$results = mysql_query($query);
-			$numrows = mysql_num_rows($results);
-			while($row = mysql_fetch_row($results))
+			$results = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($results);
+			while($row = mysqli_fetch_row($results))
 			{
 				list($meeting, $activity) = $row;
-				$activity = mysql_real_escape_string($activity);
+				$activity = mysqli_real_escape_string($link, $activity);
 				$query = "insert into activities values('', '$classid', '$meeting',  '$activity')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 			
 			print "<div class='feedback success'>Syllabus syllabus successfully copied.</div>";
@@ -197,7 +198,7 @@ function copy_syllabus()
 }
 
 
-function display_user_terms()
+function display_user_terms($link)
 {
 	$userid = $_SESSION['id'];
 	$counter = 1;
@@ -211,12 +212,12 @@ function display_user_terms()
 	
 	
 
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	
 	if($numrows > 0)
 	{	
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($id, $sectnum, $lname, $year, $term, $coursename, $coursenum, $statusnum) = $row;
 			
@@ -283,14 +284,14 @@ function copy_link($id, $statusnum)
 	}
 }
 
-function delete_check($id)
+function delete_check($link, $id)
 {
 	$this_user = $_SESSION['id'];
 	$classid = $id;
 	
 	$query = "select user_id, status from classes where id='$classid'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	$draft_owner = $row[0];
 	$status = $row[1];
 	
@@ -298,42 +299,42 @@ function delete_check($id)
 	else { return FALSE; }
 }
 
-function delete_syllabus_draft()
+function delete_syllabus_draft($link)
 {
 	if(isset($_POST['deletesylldraft']))
 	{
 		$classid = $_POST['classid'];
 		
 		$query = "delete from classes where id = '$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from books where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from class_days_times where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from class_details where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from competencies where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from evalscales where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from gradingpolicies where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from syll_process where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 		
 		$query = "delete from activities where class_id ='$classid'";
-		mysql_query($query);
+		mysqli_query($link, $query);
 	}
 }
 
-function syll_info($item, $classid)
+function syll_info($link, $item, $classid)
 {
 	$query = "select users.fname, users.lname, users.phone, users.email,courses.id, courses.name, 
 	courses.coursenum, classes.status, terms.year, terms.term 
@@ -341,9 +342,9 @@ function syll_info($item, $classid)
 	left join courses on classes.course_id = courses.id left join users 
 	on classes.user_id = users.id where classes.id = '$classid'";
 	
-	$result = mysql_query($query);
+	$result = mysqli_query($link, $query);
 	
-	$row = mysql_fetch_row($result);
+	$row = mysqli_fetch_row($result);
 	list($fname, $lname, $phone, $email, $courseid, $coursename, $coursenum, $statusnum, $year, $termnum) = $row;
 	$termnames = array('', 'Winter', 'Spring', 'Summer', 'Fall');
 	$statusnames = array('Draft', 'Review', 'Approved', 'Published');
@@ -358,14 +359,14 @@ function syll_info($item, $classid)
 	return $the_item;
 }
 
-function display_approved_syllabi()
+function display_approved_syllabi($link)
 {
 	$userid = $_SESSION['id'];
 	$termnames = array("", "Winter", "Spring", "Summer", "Fall");
 	
 	$query = "select id, year, term from terms order by year desc, term desc";
-	$results = mysql_query($query);
-	while($row = mysql_fetch_row($results))
+	$results = mysqli_query($link, $query);
+	while($row = mysqli_fetch_row($results))
 	{
 		list($termid, $year, $termnum) = $row;
 		print "<div class='frame'>";
@@ -383,7 +384,7 @@ function display_approved_syllabi()
 		{
 			if($termid == $_GET['showapproved'])
 			{
-				get_approved_syllabi($termid, $userid);
+				get_approved_syllabi($link, $termid, $userid);
 			}
 		}
 		
@@ -392,7 +393,7 @@ function display_approved_syllabi()
 	
 }
 
-function get_approved_syllabi($termid, $userid)
+function get_approved_syllabi($link, $termid, $userid)
 {
 	if(isset($_GET['showapproved']) && $_SESSION['type'] > 0)
 	{
@@ -415,23 +416,23 @@ function get_approved_syllabi($termid, $userid)
 		
 		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
 		
-		$result = mysql_query($query);
-		$num_rows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$num_rows = mysqli_num_rows($result);
 		if($num_rows > 0)
 		{
 			print "<table class='approvedsyllabi'>";
-			while($row = mysql_fetch_row($result))
+			while($row = mysqli_fetch_row($result))
 			{
 				list($classid, $lname, $term, $year, $coursenum, $coursename) = $row;
 				
 				$year = substr($year, -2);
 				
 				$sectquery = "select sectnum from class_details where class_id='$classid'";
-				$sectresult = mysql_query($sectquery);
+				$sectresult = mysqli_query($sectquery);
 				$sectnumrow = mysql_num_rows($sectresult);
 				if($sectnumrow == 1)
 				{
-					$row = mysql_fetch_row($sectresult);
+					$row = mysqli_fetch_row($sectresult);
 					$sectnum = $row[0];
 				}
 				else
@@ -449,11 +450,11 @@ function get_approved_syllabi($termid, $userid)
 	}
 }
 
-function edit_addtl_competencies($id, $type)
+function edit_addtl_competencies($link, $id, $type)
 {
 	$query ="select competency, ordr from competencies where class_id='$id' and type='$type' order by ordr";
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	if($numrows == 0)
 	{
 		print "<p id='input1' class='clonedInput'>\n";
@@ -463,7 +464,7 @@ function edit_addtl_competencies($id, $type)
 	}
 	else
 	{
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($competency, $order)=$row;
 			print "<p id='input$order' class='clonedInput'>\n";
@@ -475,26 +476,26 @@ function edit_addtl_competencies($id, $type)
 	print "<p><input type='button' id='addComp' value='add another learning objective' /></p>\n";
 }
 
-function addtn_grade_policies($id, $type)
+function addtn_grade_policies($link, $id, $type)
 {	
 	$query = "select policy from gradingpolicies where class_id='$id' and type='$type'";
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	
 	if($numrows == 1 )
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysqli_fetch_row($result);
 		$policies = $row[0];
 		return $policies;
 	}
 	
 }
 
-function edit_meeting_times($classid)
+function edit_meeting_times($link, $classid)
 {
 	$query = "select type from classes where id = '$classid'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	$classtype = $row[0];
 	
 	switch($classtype)
@@ -506,11 +507,11 @@ function edit_meeting_times($classid)
 	
 }
 
-function display_activity_form($classid)
+function display_activity_form($link, $classid)
 {
 	$query = "select type from classes where id = '$classid'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	$classtype = $row[0];
 	
 	switch($classtype)
@@ -521,16 +522,16 @@ function display_activity_form($classid)
 	}
 }
 
-function edit_eval_process($id)
+function edit_eval_process($link, $id)
 {
 	$query = "select descrip, percent, ordr from evalscales where class_id='$id' order by ordr";
 	
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	
 	if($numrows > 0)
 	{
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			list($description, $percent, $order) = $row;
 			print "<p id='eval$order' class='clonedeval'>";
@@ -550,17 +551,17 @@ function edit_eval_process($id)
 	}
 }
 
-function edit_books($id)
+function edit_books($link, $id)
 {
 	$query = "select * from books where class_id = '$id' order by ordr";
 	
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	$booktypes = array('', 'Required', 'Recommended', 'Suggested');
 	
 	if($numrows > 0 )
 	{
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			foreach($row as &$item)
 			{
@@ -628,14 +629,14 @@ function edit_books($id)
 	print "<p><input type='button' id='addBook' value='add another book' /></p>\n";
 }
 
-function term_start_date($classid)
+function term_start_date($link, $classid)
 {
 	$query ="select terms.startdate from terms left join classes on terms.id = classes.term_id where classes.id = '$classid' ";
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysqli_fetch_row($result);
 		$startdate = $row[0];
 		return $startdate;
 	}
@@ -735,23 +736,23 @@ function return_class_date($classid, $termstart, $week, $day="")
 
 
 
-function return_day($classid)
+function return_day($link, $classid)
 {
 	$query="select classday from class_days_times where class_id = '$classid'";
 	//print $query;
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysqli_fetch_row($result);
 		$day = $row[0];
 		return $day;
 	}
 	elseif($numrows == 2)
 	{
 		$twodays = array();
-		while($row = mysql_fetch_row($result))
+		while($row = mysqli_fetch_row($result))
 		{
 			$day = $row[0];
 			array_push($twodays, $day);
@@ -793,18 +794,18 @@ function return_full_date($classid, $termstart, $week, $day)
 	}
 }
 
-function print_holiday($classid, $termstart, $week, $day="")
+function print_holiday($link, $classid, $termstart, $week, $day="")
 {	
 	if(!empty($day))
 	{
 		$date = return_full_date($classid, $termstart, $week, $day);
 		$query = "select name from dates where date = '$date'";
-		$result = mysql_query($query);
-		$numrows = mysql_num_rows($result);
+		$result = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($result);
 		
 		if($numrows > 0)
 		{
-			$row = mysql_fetch_row($result);
+			$row = mysqli_fetch_row($result);
 			$name = $row[0];
 			print "$name";
 		}
@@ -813,7 +814,7 @@ function print_holiday($classid, $termstart, $week, $day="")
 
 /***************** Process Syllabus Form functions *******************/
 
-function process_class_times($num)
+function process_class_times($link, $num)
 {
 	$classid = $_POST['classid'];
 	
@@ -826,42 +827,42 @@ function process_class_times($num)
 	
 	$query = "select classday, starttime, endtime from class_days_times where class_id = '$classid' and ordr = '$num'";
 	//print $query . "<br /><br />";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 0)
 	{
 		$query = "insert into class_days_times values('', '$classid', '$day', '$start', '$end', '$num')";
-		mysql_query($query);
+		mysqli_query($link, $query);
 	}
 	else
 	{
 		if($numrows == 1)
 		{
-			$row = mysql_fetch_row($results);
+			$row = mysqli_fetch_row($results);
 			list($storedday, $storedstart, $storedend) = $row;
 			
 			if($day != $storedday || $start != $storedstart || $end != $storedend)
 			{
 				$query = "update class_days_times set classday='$day', starttime='$start', 
 				endtime='$end' where class_id='$classid' and ordr='$num'";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 		}
 	}
 }
 
-function process_class_details()
+function process_class_details($link)
 {
 	$classid = $_POST['classid'];
-	$sectday = mysql_prep($_POST['sectday']);
-	$secttime = mysql_prep($_POST['secttime']);
-	$hwhrs = mysql_prep($_POST['hwhrs']);
-	$officehrs = mysql_prep($_POST['officehrs']);
-	$materials = mysql_prep($_POST['materials']);
-	$methods = mysql_prep($_POST['methods']);
-	$tech = mysql_prep($_POST['tech']);
-	$focus = mysql_prep($_POST['focus']);
-	$additional = mysql_prep($_POST['additional']);
+	$sectday = mysql_prep($link, $_POST['sectday']);
+	$secttime = mysql_prep($link, $_POST['secttime']);
+	$hwhrs = mysql_prep($link, $_POST['hwhrs']);
+	$officehrs = mysql_prep($link, $_POST['officehrs']);
+	$materials = mysql_prep($link, $_POST['materials']);
+	$methods = mysql_prep($link, $_POST['methods']);
+	$tech = mysql_prep($link, $_POST['tech']);
+	$focus = mysql_prep($link, $_POST['focus']);
+	$additional = mysql_prep($link, $_POST['additional']);
 	
 	if($sectday !="" && $secttime !="")
 	{
@@ -880,8 +881,8 @@ function process_class_details()
 	
 	
 	$query = "select id from class_details where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 0)
 	{
 		$query = "insert into class_details values('', '$classid', '$sectnum',  
@@ -896,16 +897,16 @@ function process_class_details()
 	else
 	{
 		$del_query = "DELETE FROM class_details WHERE class_id='$classid'";
-		mysql_query($del_query);
+		mysqli_query($link, $del_query);
 		
 		$query = "insert into class_details values('', '$classid', '$sectnum',  
 		'$materials', '$methods', '$tech', '$hwhrs', '$officehrs', '$additional', '$focus')";
 	}
 	
-	mysql_query($query);
+	mysqli_query($link, $query);
 }
 
-function process_eval()
+function process_eval($link)
 {
 	$data = pull_data_from_array($_POST, 'desc', 4);
 	$num_rows_with_content = $data[0];
@@ -914,8 +915,8 @@ function process_eval()
 	$classid = $_POST['classid'];
 	
 	$query = "select id from evalscales where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 0)
 	{
 		$counter = 1;
@@ -923,12 +924,12 @@ function process_eval()
 		
 		for($i=0; $i<$num_total_rows; $i++)
 		{
-			$description = mysql_prep($_POST["desc".$counter]);
-			$percent = mysql_prep($_POST["perc".$counter]);
+			$description = mysql_prep($link, $_POST["desc".$counter]);
+			$percent = mysql_prep($link, $_POST["perc".$counter]);
 			if($description != '')
 			{
 				$query = "insert into evalscales values('', '$classid', '$description', '$percent', '$ordr')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				$ordr++;
 			}
 			$counter++;
@@ -942,13 +943,13 @@ function process_eval()
 		
 		for($i=0; $i<$num_total_rows; $i++)
 		{
-			$description = mysql_prep($_POST["desc".$counter]);
-			$percent = mysql_prep($_POST["perc".$counter]);
+			$description = mysql_prep($link, $_POST["desc".$counter]);
+			$percent = mysql_prep($link, $_POST["perc".$counter]);
 			if($description != '')
 			{
 				$query = "update evalscales set descrip='$description', percent='$percent' 
 				where class_id='$classid' and ordr='$ordr'";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				$ordr++;
 			}
 			$counter++;
@@ -958,19 +959,19 @@ function process_eval()
 	else
 	{
 		$del_query = "DELETE FROM evalscales WHERE class_id='$classid'";
-		mysql_query($del_query);
+		mysqli_query($link, $del_query);
 		
 		$counter = 1;
 		$ordr = 1;
 		
 		for($i=0; $i<$num_total_rows; $i++)
 		{
-			$description = mysql_prep($_POST["desc".$counter]);
-			$percent = mysql_prep($_POST["perc".$counter]);
+			$description = mysql_prep($link, $_POST["desc".$counter]);
+			$percent = mysql_prep($link, $_POST["perc".$counter]);
 			if($description != '')
 			{
 				$query = "insert into evalscales values('', '$classid', '$description', '$percent', '$ordr')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 				$ordr++;
 			}
 			$counter++;
@@ -979,7 +980,7 @@ function process_eval()
 	
 }
 
-function process_books()
+function process_books($link)
 {
 	$data = pull_data_from_array($_POST, 'bookname', 8);
 	$num_rows_with_content = $data[0];
@@ -989,8 +990,8 @@ function process_books()
 	if($num_rows_with_content > 0)
 	{
 		$query = "select id from books where class_id = '$classid'";
-		$results = mysql_query($query);
-		$numrows = mysql_num_rows($results);
+		$results = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($results);
 		if($numrows == 0)
 		{
 			$counter = 1;
@@ -998,21 +999,21 @@ function process_books()
 			
 			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$title = mysql_prep($_POST["bookname".$counter]);
-				$author = mysql_prep($_POST["author".$counter]);
-				$publisher = mysql_prep($_POST["pub".$counter]);
-				$date = mysql_prep($_POST["date".$counter]);
-				$isbn = mysql_prep($_POST["isbn".$counter]);
-				$link = mysql_prep($_POST["link".$counter]);
+				$title = mysql_prep($link, $_POST["bookname".$counter]);
+				$author = mysql_prep($link, $_POST["author".$counter]);
+				$publisher = mysql_prep($link, $_POST["pub".$counter]);
+				$date = mysql_prep($link, $_POST["date".$counter]);
+				$isbn = mysql_prep($link, $_POST["isbn".$counter]);
+				$booklink = mysql_prep($link, $_POST["link".$counter]);
 				$type = $_POST["booktype".$counter];
 				
 				
 				if($title != '')
 				{
 					$query = "insert into books values('', '$classid', '$title', '$author', '$publisher', 
-					'$date', '$isbn', '$link', '$type', '$ordr')";
-					//print $query;
-					mysql_query($query);
+					'$date', '$isbn', '$booklink', '$type', '$ordr')";
+					
+					mysqli_query($link, $query);
 					$ordr++;
 				}
 				$counter++;
@@ -1026,20 +1027,20 @@ function process_books()
 			
 			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$title = mysql_prep($_POST["bookname".$counter]);
-				$author = mysql_prep($_POST["author".$counter]);
-				$publisher = mysql_prep($_POST["pub".$counter]);
-				$date = mysql_prep($_POST["date".$counter]);
-				$isbn = mysql_prep($_POST["isbn".$counter]);
-				$link = mysql_prep($_POST["link".$counter]);
+				$title = mysql_prep($link, $_POST["bookname".$counter]);
+				$author = mysql_prep($link, $_POST["author".$counter]);
+				$publisher = mysql_prep($link, $_POST["pub".$counter]);
+				$date = mysql_prep($link, $_POST["date".$counter]);
+				$isbn = mysql_prep($link, $_POST["isbn".$counter]);
+				$booklink = mysql_prep($link, $_POST["link".$counter]);
 				$type = $_POST["booktype".$counter];
 				
 				if($title != '')
 				{
 					$query = "update books set title='$title', author='$author', publisher='$publisher', pubdate='$date', 
-					isbn='$isbn', link='$link', booktype='$type' where class_id='$classid' and ordr='$ordr'";
+					isbn='$isbn', link='$booklink', booktype='$type' where class_id='$classid' and ordr='$ordr'";
 					//print $query;
-					mysql_query($query);
+					mysqli_query($link, $query);
 					$ordr++;
 				}
 				$counter++;
@@ -1050,26 +1051,26 @@ function process_books()
 		else
 		{
 			$del_query = "DELETE FROM books WHERE class_id='$classid'";
-			mysql_query($del_query);
+			mysqli_query($link, $del_query);
 			
 			$counter = 1;
 			$ordr = 1;
 			
 			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$title = mysql_prep($_POST["bookname".$counter]);
-				$author = mysql_prep($_POST["author".$counter]);
-				$publisher = mysql_prep($_POST["pub".$counter]);
-				$date = mysql_prep($_POST["date".$counter]);
-				$isbn = mysql_prep($_POST["isbn".$counter]);
-				$link = mysql_prep($_POST["link".$counter]);
+				$title = mysql_prep($link, $_POST["bookname".$counter]);
+				$author = mysql_prep($link, $_POST["author".$counter]);
+				$publisher = mysql_prep($link, $_POST["pub".$counter]);
+				$date = mysql_prep($link, $_POST["date".$counter]);
+				$isbn = mysql_prep($link, $_POST["isbn".$counter]);
+				$linkbook = mysql_prep($link, $_POST["link".$counter]);
 				$type = $_POST["booktype".$counter];
 				
 				if($title != '')
 				{
 					$query = "insert into books values('', '$classid', '$title', '$author', '$publisher', 
-					'$date', '$isbn', '$link', '$type', '$ordr')";
-					mysql_query($query);
+					'$date', '$isbn', '$booklink', '$type', '$ordr')";
+					mysqli_query($link, $query);
 					$ordr++;
 				}
 				$counter++;
@@ -1080,17 +1081,17 @@ function process_books()
 	else
 	{
 		$query = "select id from books where class_id = '$classid'";
-		$results = mysql_query($query);
-		$numrows = mysql_num_rows($results);
+		$results = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($results);
 		if($numrows > 0)
 		{
 			$del_query = "DELETE FROM books WHERE class_id='$classid'";
-			mysql_query($del_query);
+			mysqli_query($link, $del_query);
 		}
 	}
 }
 
-function process_addtl_comp()
+function process_addtl_comp($link)
 {
 	$data = pull_data_from_array($_POST, 'comp', 4);
 	$num_rows_with_content = $data[0];
@@ -1102,8 +1103,8 @@ function process_addtl_comp()
 	{
 		$query = "select count(id) from competencies where class_id='$classid' and type='1'";
 		
-		$results = mysql_query($query);
-		$count = mysql_fetch_row($results);
+		$results = mysqli_query($link, $query);
+		$count = mysqli_fetch_row($results);
 		$numrows = $count[0];
 		
 		if($numrows == 0)
@@ -1113,13 +1114,13 @@ function process_addtl_comp()
 			
 			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$competency = mysql_prep($_POST["comp".$counter]);
+				$competency = mysql_prep($link, $_POST["comp".$counter]);
 				
 				if($competency != '')
 				{
 					$query = "insert into competencies values('', '0', '$classid', '$competency', 
 					'1', '0', '$ordr')";
-					mysql_query($query);
+					mysqli_query($link, $query);
 					$ordr++;
 				}
 				$counter++;
@@ -1133,12 +1134,12 @@ function process_addtl_comp()
 			
 			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$competency = mysql_prep($_POST["comp".$counter]);
+				$competency = mysql_prep($link, $_POST["comp".$counter]);
 				
 				if($competency != '')
 				{
 					$query = "update competencies set competency='$competency' where class_id='$classid' and ordr='$ordr'";
-					mysql_query($query);
+					mysqli_query($link, $query);
 					$ordr++;
 				}
 				$counter++;
@@ -1154,13 +1155,13 @@ function process_addtl_comp()
 			
 			for($i=0; $i<$num_total_rows; $i++)
 			{
-				$competency = mysql_prep($_POST["comp".$counter]);
+				$competency = mysql_prep($link, $_POST["comp".$counter]);
 				
 				if($competency != '')
 				{
 					$query = "insert into competencies values('', '0', '$classid', '$competency', 
 					'1', '0', '$ordr')";
-					mysql_query($query);
+					mysqli_query($link, $query);
 					$ordr++;
 				}
 				$counter++;
@@ -1169,14 +1170,14 @@ function process_addtl_comp()
 	}
 }
 
-function process_addtl_policies()
+function process_addtl_policies($link)
 {
-	$policy = mysql_prep($_POST['policy']);		
+	$policy = mysql_prep($link, $_POST['policy']);		
 	$classid = $_POST['classid'];
 	
 	$query = "select class_id from gradingpolicies where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 0)
 	{
 		$query = "insert into gradingpolicies values('', '0', '$classid', '1', '$policy', '1')";
@@ -1188,14 +1189,14 @@ function process_addtl_policies()
 	else
 	{
 		$del_query = "DELETE FROM gradingpolicies WHERE class_id='$classid'";
-		mysql_query($del_query);
+		mysqli_query($link, $del_query);
 		
 		$query = "insert into gradingpolicies values('', '0', '$classid', '1', '$policy', '1')";	
 	}
-	mysql_query($query);
+	mysqli_query($link, $query);
 }
 
-function process_activities()
+function process_activities($link)
 {
 	$classid = $_POST['classid'];
 	$data = $_POST;
@@ -1205,54 +1206,55 @@ function process_activities()
 		$test = substr($key, 0, 7);
 		if($test == "meeting")
 		{
-			$activity = mysql_prep($value);
+			$activity = mysql_prep($link, $value);
 			$query = "update activities set activity='$activity' where class_id='$classid' and meeting='$meetingnum'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			$meetingnum++;
 		}	
 	}
 }
 
-function process_form($classid)
+function process_form($link, $classid)
 {
 	if(isset($_POST['hwhrs']))
 	{
-		process_class_times('1');
-		if(isset($_POST['day2'])) { process_class_times('2'); }
-		process_class_details();
-		process_eval();
-		process_books();
-		process_addtl_comp();
-		process_addtl_policies();
-		process_activities();
+		process_class_times($link, '1');
+		if(isset($_POST['day2'])) { process_class_times($link, '2'); }
+		process_class_details($link);
+		process_eval($link);
+		process_books($link);
+		process_addtl_comp($link);
+		process_addtl_policies($link);
+		process_activities($link);
 	}
 	
 }
 
 /***************** Displaying Form Data Functions *******************/
 
-function get_class_times($classid, $ordr)
+function get_class_times($link, $classid, $ordr)
 {
 	$query = "select classday, starttime, endtime from class_days_times where class_id = '$classid' and ordr = '$ordr'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		return $row;
 	}
 	else { return NULL; }
 }
 
-function get_class_details($classid)
+function get_class_details($link, $classid)
 {
 	$query = "select * from class_details where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	//print $query;
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		list($id, $classid, $sectnum, $materials, $methods, $tech, $hwhrs, $officehrs, $addreq, $focus) = $row;
 		$data = array('sectnum'=>$sectnum, 'materials'=>$materials, 'methods'=>$methods, 'tech'=>$tech, 
 		'hwhrs'=>$hwhrs, 'officehrs'=>$officehrs, 'addreq'=>$addreq, 'focus'=>$focus);
@@ -1278,12 +1280,12 @@ function parse_class_secttime($data, $match)
 	}
 }
 
-function display_activities($classid)
+function display_activities($link, $classid)
 {	
 	$query = "select activity from activities where class_id='$classid'";
 	$data = array();
-	$results = mysql_query($query);
-	while($rows = mysql_fetch_row($results))
+	$results = mysqli_query($link, $query);
+	while($rows = mysqli_fetch_row($results))
 	{
 		array_push($data, $rows[0]);
 	}
@@ -1293,21 +1295,21 @@ function display_activities($classid)
 
 /****************** Check Form Completion *****************/
 
-function check_syllabus_details($classid)
+function check_syllabus_details($link, $classid)
 {
 	$query = "select classday, starttime, endtime from class_days_times where class_id='$classid'";
-	$results = mysql_query($query);
-	$row = mysql_fetch_row($results);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($results);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		list($classday, $starttime, $endtime)=$row;
 		if($classday != '0' && $starttime != '0' && $endtime != '0')
 		{
 			$query = "select sectnum, materials, methods, tech, hwhrs, officehrs from class_details where class_id='$classid'";
-			$results = mysql_query($query);
-			$row = mysql_fetch_row($results);
-			$numrows = mysql_num_rows($results);
+			$results = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($results);
+			$numrows = mysqli_num_rows($results);
 			if($numrows > 0)
 			{
 				list($sectnum, $materials, $methods, $tech, $hwhrs, $officehrs)=$row;
@@ -1325,15 +1327,15 @@ function check_syllabus_details($classid)
 	else { return FALSE; }	
 }
 
-function check_eval_status($classid)
+function check_eval_status($link, $classid)
 {
 	$query = "select descrip, percent from evalscales where class_id='$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$total = 0;
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($descrip, $percent)=$row;
 			if($descrip != '' && $percent != '')
@@ -1351,16 +1353,16 @@ function check_eval_status($classid)
 	else { return FALSE; }
 }
 
-function check_books($classid, $output)
+function check_books($link, $classid, $output)
 {
 	$query = "select title, author, publisher, pubdate, isbn, booktype from books where class_id='$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$total = 0;
 		$incomplete = 0;
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($title, $author, $publisher, $pubdate, $isbn, $booktype)=$row;
 			if($title == '' || $author == '' || $publisher == '' || $pubdate == '' || $isbn == '' || $booktype == '0')
@@ -1395,16 +1397,16 @@ function book_output($type, $output, $total)
 	}
 }
 
-function check_meetings($classid, $output)
+function check_meetings($link, $classid, $output)
 {
 	$query = "select meeting, activity from activities where class_id='$classid' order by meeting";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$total = 0;
 		$incomplete = 0;
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($meeting, $activity)=$row;
 			if($activity != '')
@@ -1446,17 +1448,17 @@ function output_status($check)
 	}
 }
 
-function add_submit_button($classid)
+function add_submit_button($link, $classid)
 {
-	if(check_syllabus_details($classid) && check_eval_status($classid) && check_books($classid, "no") && check_meetings($classid, "no"))
+	if(check_syllabus_details($link, $classid) && check_eval_status($link, $classid) && check_books($link, $classid, "no") && check_meetings($link, $classid, "no"))
 	{
 		echo "<a class='button link-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
 	}
 }
 
-function check_syllabus_completion($classid)
+function check_syllabus_completion($link, $classid)
 {
-	if(check_syllabus_details($classid) && check_eval_status($classid) && check_books($classid, "no") && check_meetings($classid, "no"))
+	if(check_syllabus_details($link, $classid) && check_eval_status($link, $classid) && check_books($link, $classid, "no") && check_meetings($link, $classid, "no"))
 	{
 		return TRUE;
 	}
@@ -1468,29 +1470,29 @@ function check_syllabus_completion($classid)
 
 /****************** Syllabus Submission ******************/
 
-function get_syllabus_approved_by($classid)
+function get_syllabus_approved_by($link, $classid)
 {
 	$query = "SELECT classes.approvedby, users.fname, users.lname FROM classes, users WHERE 
 	classes.approvedby = users.id AND classes.id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		list($id, $fname, $lname) = $row;
 		$data = array('id'=>$id, 'fname'=>$fname, 'lname'=>$lname);
 		return $data;
 	}
 }
 
-function output_directors()
+function output_directors($link)
 {
 	$query = "select id, fname, lname from users where type='1' and status='1' order by lname";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($id, $fname, $lname)=$row;
 			print "<label><input type='radio' id='$id' name='director' value='$id' /> $fname $lname</label>\n";
@@ -1499,48 +1501,48 @@ function output_directors()
 	
 }
 
-function submit_syllabus_for_review($classid)
+function submit_syllabus_for_review($link, $classid)
 {
 	if(isset($_POST['submitsyllabus']))
 	{
 		if(isset($_POST['director']))
 		{
 			$query = "update classes set status='1' where id='$classid'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			$director = $_POST['director'];
 			$userid = $_SESSION['id'];
-			$message = mysql_prep($_POST['message']);
+			$message = mysql_prep($link, $_POST['message']);
 			$server= THE_SERVER;
 			
 			$query = "SELECT COUNT(class_id) FROM syll_process WHERE class_id = '$classid'";
-			$results = mysql_query($query);
-			$row = mysql_fetch_row($results);
+			$results = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($results);
 			$count = $row[0];
 			
 			if($count == 1)
 			{
 				$query ="update syll_process set director_id='$director', status='1', date_time=NOW(), message='$message' where class_id='$classid'";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 
 			else
 			{
 				$query = "insert into syll_process values('', '$classid', '$userid', '$director', '1', NOW(), '$message')";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 			
 			$query = "select fname, email from users where id = '$director'";
-			$result = mysql_query($query);
-			$row = mysql_fetch_row($result);
+			$result = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($result);
 			list($dirfname, $diremail) = $row;
 			
 			$query = "SELECT courses.coursenum, courses.name, terms.term, terms.year, users.fname, users.lname, users.email 
 			FROM classes, courses, terms, users WHERE classes.course_id = courses.id AND classes.user_id = users.id AND 
 			classes.term_id = terms.id AND classes.id = '$classid'";
 			
-			$results = mysql_query($query);
-			$row = mysql_fetch_row($results);
+			$results = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($results);
 			list($coursenum, $coursename, $term, $year, $fname, $lname, $email) = $row;
 			
 			$termcodes = array('', 'Winter', 'Spring', 'Summer', 'Fall');
@@ -1562,11 +1564,11 @@ $server";
 	}
 }
 
-function display_edit_or_review($classid)
+function display_edit_or_review($link, $classid)
 {
 	$query = "select status from classes where id = '$classid'";
-	$result = mysql_query($query);
-	$rows = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$rows = mysqli_fetch_row($result);
 	$status = $rows[0];
 	
 	switch ($status)
@@ -1578,7 +1580,7 @@ function display_edit_or_review($classid)
 	}
 }
 
-function display_syllabus_process_message()
+function display_syllabus_process_message($link)
 {
 	$type = $_SESSION['type'];
 	$userid = $_SESSION['id'];
@@ -1589,12 +1591,12 @@ function display_syllabus_process_message()
 		syll_process, classes, courses, users WHERE syll_process.class_id = classes.id AND syll_process.user_id = users.id AND
 		classes.course_id = courses.id AND syll_process.status = 1 AND syll_process.director_id = '$userid' order by date_time DESC";
 	
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	
 		if($numrows > 0)
 		{
-			while($rows = mysql_fetch_row($results))
+			while($rows = mysqli_fetch_row($results))
 			{
 				list($classid, $coursenum, $coursename, $fname, $lname) = $rows;
 				
@@ -1611,26 +1613,26 @@ function display_syllabus_process_message()
 	if($type == 0)
 	{
 		$query = "SELECT COUNT(class_id) FROM syll_process WHERE status = 0 OR status = 2 AND user_id = '$userid'";
-		$results = mysql_query($query);
-		$row = mysql_fetch_row($results);
+		$results = mysqli_query($link, $query);
+		$row = mysqli_fetch_row($results);
 		$count = $row[0];
 		
 		if($count > 0)
 		{
-			output_instructor_messages($userid);
+			output_instructor_messages($link, $userid);
 		}
 	}
 }
 
-function include_message_form($classid)
+function include_message_form($link, $classid)
 {
 	$query = "select message from syll_process where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		$message = $row[0];
 		if($message != '')
 		{
@@ -1639,15 +1641,15 @@ function include_message_form($classid)
 	}
 }
 
-function output_message($classid)
+function output_message($link, $classid)
 {
 $query = "select message from syll_process where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		$message = $row[0];
 		if($message != '')
 		{
@@ -1657,7 +1659,7 @@ $query = "select message from syll_process where class_id = '$classid'";
 	}
 }
 
-function output_status_bar($classid)
+function output_status_bar($link, $classid)
 {
 	$type = $_SESSION['type'];
 	$thisuser = $_SESSION['id'];
@@ -1665,19 +1667,19 @@ function output_status_bar($classid)
 	if($type > 0)
 	{
 		$query = "select status from classes where id = '$classid'";
-		$result = mysql_query($query);
-		$row = mysql_fetch_row($result);
+		$result = mysqli_query($link, $query);
+		$row = mysqli_fetch_row($result);
 		
 		if($row[0] == 2)
 		{
 			$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum FROM classes, users, terms, courses 
 			WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
 		
-			$result = mysql_query($query);
-			$numrows = mysql_num_rows($result);
+			$result = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($result);
 			if($numrows == 1)
 			{
-				$row = mysql_fetch_row($result);
+				$row = mysqli_fetch_row($result);
 				list($classid, $lname, $term, $year, $coursenum) = $row;
 				
 				$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
@@ -1686,11 +1688,11 @@ function output_status_bar($classid)
 				$term = $termcodes[$term];
 				
 				$sectquery = "select sectnum from class_details where class_id='$classid'";
-				$sectresult = mysql_query($sectquery);
-				$sectnumrow = mysql_num_rows($sectresult);
+				$sectresult = mysqli_query($link, $sectquery);
+				$sectnumrow = mysqli_num_rows($sectresult);
 				if($sectnumrow == 1)
 				{
-					$row = mysql_fetch_row($sectresult);
+					$row = mysqli_fetch_row($sectresult);
 					$sectnum = $row[0];
 				}
 				else
@@ -1709,8 +1711,8 @@ function output_status_bar($classid)
 		elseif($row[0] == 1)
 		{
 			$query = "select user_id, director_id from syll_process where class_id = '$classid'";
-			$results = mysql_query($query);
-			$row = mysql_fetch_row($results);
+			$results = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($results);
 			list($userid, $directorid) = $row;
 			if($userid == $directorid || $directorid == $thisuser)
 			{
@@ -1724,11 +1726,11 @@ function output_status_bar($classid)
 	if($type == 0)
 	{
 		$query = "select status from classes where id='$classid'";
-		$results = mysql_query($query);
-		$numrows = mysql_num_rows($results);
+		$results = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($results);
 		if($numrows == 1)
 		{
-			$row = mysql_fetch_row($results);
+			$row = mysqli_fetch_row($results);
 			$status = $row[0];
 			
 			if($status == '2')
@@ -1736,11 +1738,11 @@ function output_status_bar($classid)
 				$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum FROM classes, users, terms, courses 
 				WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
 			
-				$result = mysql_query($query);
+				$result = mysqli_query($link, $query);
 				$numrows = mysql_num_rows($result);
 				if($numrows == 1)
 				{
-					$row = mysql_fetch_row($result);
+					$row = mysqli_fetch_row($result);
 					list($classid, $lname, $term, $year, $coursenum) = $row;
 					
 					$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
@@ -1749,11 +1751,11 @@ function output_status_bar($classid)
 					$term = $termcodes[$term];
 					
 					$sectquery = "select sectnum from class_details where class_id='$classid'";
-					$sectresult = mysql_query($sectquery);
-					$sectnumrow = mysql_num_rows($sectresult);
+					$sectresult = mysqli_query($link, $sectquery);
+					$sectnumrow = mysqli_num_rows($sectresult);
 					if($sectnumrow == 1)
 					{
-						$row = mysql_fetch_row($sectresult);
+						$row = mysqli_fetch_row($sectresult);
 						$sectnum = $row[0];
 					}
 					else
@@ -1773,31 +1775,31 @@ function output_status_bar($classid)
 	}
 }
 
-function process_syllabus_review()
+function process_syllabus_review($link)
 {
 	if(isset($_POST['respondsyllabus']))
 	{
 		$response = $_POST['response'];
 		$classid = $_POST['classid'];
-		$message = mysql_prep($_POST['message']);
+		$message = mysql_prep($link, $_POST['message']);
 		if($response == "approve")
 		{
 			$query = "update syll_process set status='2', date_time=NOW(), message='$message' where class_id='$classid'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			$approver = $_SESSION['id'];
 			
 			$query = "update classes set status='2', approvedby='$approver' where id='$classid'";
-			mysql_query($query);
-			write_file($classid);
+			mysqli_query($link, $query);
+			write_file($link, $classid);
 			
 			$query = "SELECT users.email, users.lname, users.fname FROM syll_process, users WHERE syll_process.user_id = users.id AND
 			syll_process.class_id = '$classid'";
-			$results = mysql_query($query);
-			$numrows = mysql_num_rows($results);
+			$results = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($results);
 			if($numrows == 1)
 			{
-				$row = mysql_fetch_row($results);
+				$row = mysqli_fetch_row($results);
 				list($useremail, $userlname, $userfname) = $row;
 				$server= THE_SERVER;
 				$full_address= FULL_ADDRESS;
@@ -1808,21 +1810,21 @@ function process_syllabus_review()
 				syll_process.director_id = users.id AND classes.course_id = courses.id AND classes.term_id = terms.id AND
 				syll_process.class_id = '$classid'";
 				
-				$results = mysql_query($query);
-				$numrows = mysql_num_rows($results);
+				$results = mysqli_query($link, $query);
+				$numrows = mysqli_num_rows($results);
 				if($numrows == 1)
 				{
-					$row = mysql_fetch_row($results);
+					$row = mysqli_fetch_row($results);
 					list($fname, $lname, $email, $coursenum, $coursename, $term, $year) = $row;
 					$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
 					$year = substr($year, -2);
 					
 					$sectquery = "select sectnum from class_details where class_id='$classid'";
-					$sectresult = mysql_query($sectquery);
-					$sectnumrow = mysql_num_rows($sectresult);
+					$sectresult = mysqli_query($link, $sectquery);
+					$sectnumrow = mysqli_num_rows($sectresult);
 					if($sectnumrow == 1)
 					{
-						$row = mysql_fetch_row($sectresult);
+						$row = mysqli_fetch_row($sectresult);
 						$sectnum = $row[0];
 					}
 					else
@@ -1841,17 +1843,17 @@ please go to the " .$full_address. "/repository/" . $coursenum . '_' . $userlnam
 		else
 		{
 			$query = "update syll_process set status='0', date_time=NOW(), message='$message' where class_id='$classid'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			$query = "update classes set status='0' where id='$classid'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			$query = "SELECT users.email FROM syll_process, users WHERE syll_process.user_id = users.id AND
 			syll_process.class_id = '$classid'";
-			$results = mysql_query($query);
-			$numrows = mysql_num_rows($results);
+			$results = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($results);
 			if($numrows == 1)
 			{
-				$row = mysql_fetch_row($results);
+				$row = mysqli_fetch_row($results);
 				$useremail = $row[0];
 				$server= THE_SERVER;
 				$subject = "Syllabus Generator: Please Revise Your Syllabus";
@@ -1861,11 +1863,11 @@ please go to the " .$full_address. "/repository/" . $coursenum . '_' . $userlnam
 				syll_process.director_id = users.id AND classes.course_id = courses.id AND classes.term_id = terms.id AND
 				syll_process.class_id = '$classid'";
 				
-				$results = mysql_query($query);
-				$numrows = mysql_num_rows($results);
+				$results = mysqli_query($link, $query);
+				$numrows = mysqli_num_rows($results);
 				if($numrows == 1)
 				{
-					$row = mysql_fetch_row($results);
+					$row = mysqli_fetch_row($results);
 					list($dbmessage, $fname, $lname, $email, $coursenum, $coursename, $term, $year) = $row;
 					$termcodes = array('', 'Winter', 'Spring', 'Summer', 'Fall');
 					
@@ -1881,11 +1883,11 @@ please go to $server and revise it.";
 	}
 }
 
-function output_approval_radio_button($classid)
+function output_approval_radio_button($link, $classid)
 {
 	$query = "SELECT terms.locked FROM classes, terms WHERE classes.term_id = terms.id AND classes.id = '$classid'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	$locked = $row[0];
 	if($locked == 1)
 	{
@@ -1899,11 +1901,11 @@ function output_approval_radio_button($classid)
 
 /****************** Request Draft Functions *******************/
 
-function check_syllabus_owner($classid)
+function check_syllabus_owner($link, $classid)
 {
 	$query = "select user_id, status from classes where id = '$classid'";
-	$results = mysql_query($query);
-	$row = mysql_fetch_row($results);
+	$results = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($results);
 	$userid = $row[0];
 	$status = $row[1];
 	$thisuser = $_SESSION['id'];
@@ -1914,26 +1916,26 @@ function check_syllabus_owner($classid)
 	else { return false; }
 }
 
-function submit_draft_request()
+function submit_draft_request($link)
 {
 	if(isset($_POST['submitreq']))
 	{
 		$director = $_POST['director'];
 		$classid = $_POST['classid'];
-		$message = mysql_prep($_POST['message']);
+		$message = mysql_prep($link, $_POST['message']);
 		
 		$query = "select id from syll_process where class_id = '$classid'";
-		$results = mysql_query($query);
-		$numrows = mysql_num_rows($results);
+		$results = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($results);
 		if($numrows == 1)
 		{
 			$query = "update syll_process set status ='1', date_time = NOW(), message = '$message' where class_id = '$classid'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			$query = "update classes set status='1', approvedby='0' where id='$classid'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
-			send_draft_request_email($classid, $director);
+			send_draft_request_email($link, $classid, $director);
 		}
 		elseif($numrows == 0)
 		{
@@ -1944,7 +1946,7 @@ function submit_draft_request()
 			$query = "update classes set status='1', approvedby='0' where id='$classid'";
 			mysql_query($query);
 			
-			send_draft_request_email($classid, $director);
+			send_draft_request_email($link, $classid, $director);
 		}
 		else
 		{
@@ -1953,21 +1955,21 @@ function submit_draft_request()
 	}
 }
 
-function send_draft_request_email($classid, $director)
+function send_draft_request_email($link, $classid, $director)
 {
 	$server = THE_SERVER;
 	
 	$query = "select fname, email from users where id = '$director'";
-	$result = mysql_query($query);
-	$row = mysql_fetch_row($result);
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
 	list($dirfname, $diremail) = $row;
 	
 	$query = "SELECT courses.coursenum, courses.name, terms.term, terms.year, users.fname, users.lname, users.email 
 	FROM classes, courses, terms, users WHERE classes.course_id = courses.id AND classes.user_id = users.id AND 
 	classes.term_id = terms.id AND classes.id = '$classid'";
 	
-	$results = mysql_query($query);
-	$row = mysql_fetch_row($results);
+	$results = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($results);
 	list($coursenum, $coursename, $term, $year, $fname, $lname, $email) = $row;
 	
 	$termcodes = array('', 'Winter', 'Spring', 'Summer', 'Fall');
@@ -2008,7 +2010,7 @@ function pull_data_from_array($data, $item, $itemlength)
 	return $data;
 }
 
-function output_instructor_messages($userid)
+function output_instructor_messages($link, $userid)
 {
 	$terms = array('', 'Winter', 'Spring', 'Summer', 'Fall');
 	$query = "SELECT syll_process.class_id, syll_process.status, syll_process.message, courses.coursenum, courses.name, users.fname, users.lname, users.email,
@@ -2016,9 +2018,9 @@ function output_instructor_messages($userid)
 	syll_process.director_id = users.id AND classes.course_id = courses.id AND classes.term_id = terms.id AND syll_process.user_id = $userid AND
 	syll_process.status != 1 order by syll_process.date_time DESC";
 	
-	$results = mysql_query($query);
+	$results = mysqli_query($link, $query);
 	
-	while($rows = mysql_fetch_row($results))
+	while($rows = mysqli_fetch_row($results))
 	{
 		list($classid, $status, $message, $coursenum, $coursename, $fname, $lname, $email, $termnum, $year) = $rows;
 		
@@ -2041,22 +2043,22 @@ function output_instructor_messages($userid)
 	}
 }
 
-function delete_instructor_message()
+function delete_instructor_message($link)
 {
 	if(isset($_GET['del']))
 	{
 		$classid = $_GET['del'];
 		$query = "select status from syll_process where class_id = '$classid'";
-		$results = mysql_query($query);
-		$numrows = mysql_num_rows($results);
+		$results = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($results);
 		if($numrows == 1)
 		{
-			$row = mysql_fetch_row($results);
+			$row = mysqli_fetch_row($results);
 			$status = $row[0];
 			if($status == 2)
 			{
 				$query = "delete from syll_process where class_id = '$classid'";
-				mysql_query($query);
+				mysqli_query($link, $query);
 			}
 		}
 	}
@@ -2064,7 +2066,7 @@ function delete_instructor_message()
 
 /************* Writing the Actual Syllabus PHP file *********************/
 
-function write_file($classid)
+function write_file($link, $classid)
 {
 	$query = "SELECT
 	classes.id,
@@ -2083,11 +2085,11 @@ WHERE
 	classes.term_id = terms.id AND
 	classes.id = '$classid'";
 
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysqli_fetch_row($result);
 		list($classid, $lname, $term, $year, $coursenum) = $row;
 		
 		$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
@@ -2096,11 +2098,11 @@ WHERE
 		$term = $termcodes[$term];
 		
 		$sectquery = "select sectnum from class_details where class_id='$classid'";
-		$sectresult = mysql_query($sectquery);
-		$sectnumrow = mysql_num_rows($sectresult);
+		$sectresult = mysqli_query($link, $sectquery);
+		$sectnumrow = mysqli_num_rows($sectresult);
 		if($sectnumrow == 1)
 		{
-			$row = mysql_fetch_row($sectresult);
+			$row = mysqli_fetch_row($sectresult);
 			$sectnum = $row[0];
 		}
 		else
@@ -2117,30 +2119,30 @@ WHERE
 			
 			fwrite($handle, $content);
 			
-			fwrite($handle, output_basic_content($classid));
-			fwrite($handle, output_classtimes($classid));
-			fwrite($handle, output_prereqs($classid));
-			fwrite($handle, output_coursedescript($classid));
-			fwrite($handle, output_all_competencies($classid));
-			fwrite($handle, output_all_books($classid));
-			fwrite($handle, output_course_details($classid));
-			fwrite($handle, output_class_evaluation($classid));
-			fwrite($handle, output_grading_policies($classid));
-			fwrite($handle, output_global_content($classid));
+			fwrite($handle, output_basic_content($link, $classid));
+			fwrite($handle, output_classtimes($link, $classid));
+			fwrite($handle, output_prereqs($link, $classid));
+			fwrite($handle, output_coursedescript($link, $classid));
+			fwrite($handle, output_all_competencies($link, $classid));
+			fwrite($handle, output_all_books($link, $classid));
+			fwrite($handle, output_course_details($link, $classid));
+			fwrite($handle, output_class_evaluation($link, $classid));
+			fwrite($handle, output_grading_policies($link, $classid));
+			fwrite($handle, output_global_content($link, $classid));
 			
 			$query = "select type from classes where id='$classid'";
-			$result = mysql_query($query);
-			$row = mysql_fetch_row($result);
+			$result = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($result);
 			$classtype = $row[0];
 			
 			switch ($classtype)
 			{
-				case "0": fwrite($handle, output_full_quarter_activities($classid));  break;
-				case "1": fwrite($handle, output_mid_quarter_activities($classid));  break;
-				default: fwrite($handle, output_full_quarter_activities($classid));
+				case "0": fwrite($handle, output_full_quarter_activities($link, $classid));  break;
+				case "1": fwrite($handle, output_mid_quarter_activities($link, $classid));  break;
+				default: fwrite($handle, output_full_quarter_activities($link, $classid));
 			}
 			
-			fwrite($handle, output_page_close($classid));
+			fwrite($handle, output_page_close($link, $classid));
 			
 			fclose($handle);
 			echo "<div class='feedback success'>Syllabus file successfully created!</div>";
@@ -2152,7 +2154,7 @@ WHERE
 	}
 }
 
-function output_basic_content($classid)
+function output_basic_content($link, $classid)
 {
 	$query = "SELECT
 	classes.id,
@@ -2185,11 +2187,11 @@ WHERE
 	classes.term_id = terms.id AND
 	classes.id = $classid";
 	
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysqli_fetch_row($result);
 		list($classid, $type, $officehrs, $sectnum, $coursenum, $coursename, $coursehrs, $lecturehrs, $labhrs, 
 		$credit, $fname, $lname, $phone, $email, $term, $year, $startdate) = $row;
 		
@@ -2237,14 +2239,14 @@ WHERE
 	}
 }
 
-function output_classtimes($classid)
+function output_classtimes($link, $classid)
 {
 	$query = "select classday, starttime, endtime from class_days_times where class_id = '$classid' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		list($classday, $starttime, $endtime) = $row;
 		$classday = escape_quotes($classday);
 		$starttime = escape_quotes($starttime);
@@ -2256,7 +2258,7 @@ function output_classtimes($classid)
 	if($numrows > 1)
 	{
 		$data = '$docx->addTemplateVariable(\'CLASSTIME\', \'';
-		while($rows = mysql_fetch_row($results))
+		while($rows = mysqli_fetch_row($results))
 		{
 			list($classday, $starttime, $endtime) = $rows;
 			$classday = escape_quotes($classday);
@@ -2272,7 +2274,7 @@ function output_classtimes($classid)
 	}	
 }
 
-function output_page_close($classid)
+function output_page_close($link, $classid)
 {
 	$query = "SELECT
 	classes.id,
@@ -2292,11 +2294,11 @@ WHERE
 	classes.term_id = terms.id AND
 	classes.id = '$classid'";
 
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysqli_fetch_row($result);
 		list($classid, $classtype, $lname, $term, $year, $coursenum) = $row;
 		
 		//Not using this mq feature, cause it will mess up downloading old mq syllabi...
@@ -2314,11 +2316,11 @@ WHERE
 		$term = $termcodes[$term];
 		
 		$sectquery = "select sectnum from class_details where class_id='$classid'";
-		$sectresult = mysql_query($sectquery);
-		$sectnumrow = mysql_num_rows($sectresult);
+		$sectresult = mysqli_query($link, $sectquery);
+		$sectnumrow = mysqli_num_rows($sectresult);
 		if($sectnumrow == 1)
 		{
-			$row = mysql_fetch_row($sectresult);
+			$row = mysqli_fetch_row($sectresult);
 			$sectnum = $row[0];
 		}
 		else
@@ -2336,16 +2338,16 @@ WHERE
 
 }
 
-function output_prereqs($classid)
+function output_prereqs($link, $classid)
 {
 	$query = "SELECT prereqs.prereq FROM classes, courses, prereqs WHERE 
 	classes.course_id = courses.id AND courses.id = prereqs.course_id AND classes.id = '$classid' order by ordr";
 	
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		$prereq = escape_quotes($row[0]);
 		$data = '$docx->addTemplateVariable(\'PREREQS\', \''. $prereq . '\');' . "\n";
 		return $data;
@@ -2354,7 +2356,7 @@ function output_prereqs($classid)
 	elseif($numrows > 1)
 	{
 		$data = '$docx->addTemplateVariable(\'PREREQS\', \'';
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($prereq) = $row;
 			$prereq = escape_quotes($prereq);
@@ -2371,15 +2373,15 @@ function output_prereqs($classid)
 	}
 }
 
-function output_coursedescript($classid)
+function output_coursedescript($link, $classid)
 {
 	$query = "SELECT class_details.focus, courses.description FROM classes, class_details, courses WHERE
 	classes.id = class_details.class_id AND classes.course_id = courses.id AND classes.id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($results);
+		$row = mysqli_fetch_row($results);
 		$focus = escape_quotes($row[0]);
 		$description = escape_quotes($row[1]);
 		
@@ -2402,7 +2404,7 @@ function output_coursedescript($classid)
 	}
 }
 
-function output_grading_policies($classid)
+function output_grading_policies($link, $classid)
 {
 	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$data .= '<p><strong>School Wide Grading Policies</strong></p>' . "\n";
@@ -2411,9 +2413,9 @@ function output_grading_policies($classid)
 	$query = "SELECT gradingpolicies.policy FROM classes, terms, gradingpolicies WHERE 
 	classes.term_id = terms.id AND terms.id = gradingpolicies.term_id AND classes.id = '$classid' order by ordr";
 	
-	$results = mysql_query($query);
+	$results = mysqli_query($link, $query);
 	
-	while($rows = mysql_fetch_row($results))
+	while($rows = mysqli_fetch_row($results))
 	{
 		list($policy) = $rows;
 		$policy = escape_quotes($policy);
@@ -2423,12 +2425,12 @@ function output_grading_policies($classid)
 	$data .= '</ul>' . "\n\n";
 	
 	$query = "select policy from gradingpolicies where class_id = '$classid'";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 1)
 	{
 		$data .= '<p><strong>Additional Grading Policies:</strong></p>';
-		while($rows = mysql_fetch_row($results))
+		while($rows = mysqli_fetch_row($results))
 		{
 			list($policy) = $rows;
 			$policy = escape_quotes($policy);
@@ -2441,18 +2443,18 @@ function output_grading_policies($classid)
 	return $data;
 }
 
-function output_global_content($classid)
+function output_global_content($link, $classid)
 {
 	$counter = 1;
 	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin:0; padding:0; } </style>' . "\n";
 	$query = "SELECT sections.title, sections.content FROM classes, terms, sections WHERE
 	classes.term_id = terms.id AND terms.id = sections.term_id AND classes.id = '$classid' order by ordr";
 	
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($title, $content) = $row;
 			$title = escape_quotes($title);
@@ -2478,18 +2480,18 @@ function output_global_content($classid)
 	}
 }
 
-function output_all_competencies($classid)
+function output_all_competencies($link, $classid)
 {
 	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$data .= '<ul>' . "\n";
 	$query = "SELECT competencies.competency, competencies.level FROM classes, competencies WHERE
 	classes.course_id = competencies.course_id AND classes.id = '$classid' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$subliststart = 1;
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($competency, $level) = $row;
 			$competency = escape_quotes($competency);
@@ -2522,13 +2524,13 @@ function output_all_competencies($classid)
 	}
 	
 	$query = "select competency from competencies where class_id = '$classid' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$data .=  "\n" . '<p><strong>Additional Learning Outcomes:</strong></p>' . "\n";
 		$data .= '<ul>' . "\n";
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($competency) = $row;
 			$competency = escape_quotes($competency);
@@ -2547,15 +2549,15 @@ function output_all_competencies($classid)
 	return $data;
 }
 
-function output_course_details($classid)
+function output_course_details($link, $classid)
 {
 	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$query = "select materials, methods, tech, hwhrs, add_req from class_details where class_id='$classid'";
-	$result = mysql_query($query);
-	$numrows = mysql_num_rows($result);
+	$result = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($result);
 	if($numrows == 1)
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysqli_fetch_row($result);
 		list($materials, $methods, $tech, $hwhrs, $add_req) = $row;
 		$materials = escape_quotes($materials);
 		$methods = escape_quotes($methods);
@@ -2595,13 +2597,13 @@ function output_course_details($classid)
 	}	
 }
 
-function output_all_books($classid)
+function output_all_books($link, $classid)
 {
 	$bookt = array('', 'Required Text', 'Recommended Text', 'Suggested Text');
 	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$query = "select title, author, publisher, pubdate, isbn, booktype from books where class_id = '$classid' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows == 0)
 	{
 		$data .= '<p><strong>Required Texts:</strong> None</p>\';' . "\n";
@@ -2609,7 +2611,7 @@ function output_all_books($classid)
 	}
 	else
 	{
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($title, $author, $publisher, $pubdate, $isbn, $bktype) = $row;
 			$booktype = $bookt[$bktype];
@@ -2627,17 +2629,17 @@ function output_all_books($classid)
 	return $data;
 }
 
-function output_class_evaluation($classid)
+function output_class_evaluation($link, $classid)
 {
 	$data = '$html = \'<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$query = "select descrip, percent from evalscales where class_id = '$classid' order by ordr";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$data .= '<p><strong>Process for Evaluation:</strong></p>' . "\n";
 		$data .= '<table>' . "\n";
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($descrip, $percent) = $row;
 			$descrip = escape_quotes($descrip);
@@ -2652,18 +2654,18 @@ function output_class_evaluation($classid)
 	}
 }
 
-function output_full_quarter_activities($classid)
+function output_full_quarter_activities($link, $classid)
 {
-	$termstart = term_start_date($classid);
-	$day = return_day($classid);
+	$termstart = term_start_date($link, $classid);
+	$day = return_day($link, $classid);
 	$data = '$html = \'<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$data .= '<table width="100%">' . "\n";
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($meeting, $activity) = $row;
 			$activity = escape_quotes($activity);
@@ -2678,14 +2680,14 @@ function output_full_quarter_activities($classid)
 	}
 }
 
-function output_mid_quarter_activities($classid)
+function output_mid_quarter_activities($link, $classid)
 {
-	$termstart = term_start_date($classid);
+	$termstart = term_start_date($link, $classid);
 	$startweek = 6;
 	$arrayselect = 1;
 	$counter = 1;
 	
-	$day = return_day($classid);
+	$day = return_day($link, $classid);
 	$data = '$html = \'<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
 	$results = mysql_query($query);
