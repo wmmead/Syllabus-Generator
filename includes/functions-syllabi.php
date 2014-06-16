@@ -26,7 +26,7 @@ function add_syllabus($link)
 			$courseid = mysql_prep($link, $_POST['course']);
 			$classtype = mysql_prep($link, $_POST['classtype']);
 			
-			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0')";
+			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0', '0')";
 			//print $query;
 			mysqli_query($link, $query);
 			
@@ -111,7 +111,7 @@ function copy_syllabus($link)
 			$courseid = $row[0];
 			
 			// Creat the new class
-			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0')";
+			$query = "insert into classes values('', '$courseid', '$userid', '$termid', '$classtype', '0', '0', '0')";
 			mysqli_query($link, $query);
 			
 			$classid = mysqli_insert_id($link);

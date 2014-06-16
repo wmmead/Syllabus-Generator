@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.4
+-- version 4.1.12
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Oct 06, 2013 at 11:39 PM
--- Server version: 5.5.25
--- PHP Version: 5.4.4
+-- Host: localhost:8889
+-- Generation Time: Jun 16, 2014 at 06:05 PM
+-- Server version: 5.5.34
+-- PHP Version: 5.5.10
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `activities`
 --
 
-CREATE TABLE IF NOT EXISTS `activities` (
+CREATE TABLE `activities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
   `meeting` tinyint(2) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `activities` (
 -- Table structure for table `books`
 --
 
-CREATE TABLE IF NOT EXISTS `books` (
+CREATE TABLE `books` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `books` (
 -- Table structure for table `classes`
 --
 
-CREATE TABLE IF NOT EXISTS `classes` (
+CREATE TABLE `classes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `course_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `type` tinyint(2) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `approvedby` int(11) NOT NULL,
+  `exec_sum` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `term_id` (`term_id`),
@@ -82,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `classes` (
 -- Table structure for table `class_days_times`
 --
 
-CREATE TABLE IF NOT EXISTS `class_days_times` (
+CREATE TABLE `class_days_times` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
   `classday` varchar(20) NOT NULL,
@@ -99,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `class_days_times` (
 -- Table structure for table `class_details`
 --
 
-CREATE TABLE IF NOT EXISTS `class_details` (
+CREATE TABLE `class_details` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
   `sectnum` varchar(10) DEFAULT NULL,
@@ -120,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `class_details` (
 -- Table structure for table `competencies`
 --
 
-CREATE TABLE IF NOT EXISTS `competencies` (
+CREATE TABLE `competencies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `course_id` int(11) NOT NULL,
   `class_id` int(11) DEFAULT NULL,
@@ -156,7 +157,7 @@ INSERT INTO `competencies` (`id`, `course_id`, `class_id`, `competency`, `type`,
 -- Table structure for table `courses`
 --
 
-CREATE TABLE IF NOT EXISTS `courses` (
+CREATE TABLE `courses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `coursenum` varchar(20) NOT NULL,
   `name` varchar(200) NOT NULL,
@@ -184,7 +185,7 @@ INSERT INTO `courses` (`id`, `coursenum`, `name`, `description`, `totalhrs`, `le
 -- Table structure for table `dates`
 --
 
-CREATE TABLE IF NOT EXISTS `dates` (
+CREATE TABLE `dates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `term_id` int(11) NOT NULL,
   `date` date NOT NULL,
@@ -208,7 +209,7 @@ INSERT INTO `dates` (`id`, `term_id`, `date`, `day`, `name`, `ordr`) VALUES
 -- Table structure for table `depts`
 --
 
-CREATE TABLE IF NOT EXISTS `depts` (
+CREATE TABLE `depts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `abbrv` varchar(20) NOT NULL,
@@ -237,7 +238,7 @@ INSERT INTO `depts` (`id`, `name`, `abbrv`) VALUES
 -- Table structure for table `evalscales`
 --
 
-CREATE TABLE IF NOT EXISTS `evalscales` (
+CREATE TABLE `evalscales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
   `descrip` varchar(256) NOT NULL,
@@ -250,10 +251,27 @@ CREATE TABLE IF NOT EXISTS `evalscales` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `exec_sum`
+--
+
+CREATE TABLE `exec_sum` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `priv_pub` tinyint(1) NOT NULL,
+  `summary_txt` text NOT NULL,
+  `strengths_txt` text NOT NULL,
+  `challenges_txt` text NOT NULL,
+  `grades_txt` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `gradingpolicies`
 --
 
-CREATE TABLE IF NOT EXISTS `gradingpolicies` (
+CREATE TABLE `gradingpolicies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `term_id` int(11) NOT NULL,
   `class_id` int(11) DEFAULT NULL,
@@ -284,7 +302,7 @@ INSERT INTO `gradingpolicies` (`id`, `term_id`, `class_id`, `type`, `policy`, `o
 -- Table structure for table `prereqs`
 --
 
-CREATE TABLE IF NOT EXISTS `prereqs` (
+CREATE TABLE `prereqs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `course_id` int(11) NOT NULL,
   `prereq` varchar(200) NOT NULL,
@@ -307,7 +325,7 @@ INSERT INTO `prereqs` (`id`, `course_id`, `prereq`, `ordr`) VALUES
 -- Table structure for table `sections`
 --
 
-CREATE TABLE IF NOT EXISTS `sections` (
+CREATE TABLE `sections` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `term_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -337,7 +355,7 @@ INSERT INTO `sections` (`id`, `term_id`, `title`, `content`, `ordr`) VALUES
 -- Table structure for table `syll_process`
 --
 
-CREATE TABLE IF NOT EXISTS `syll_process` (
+CREATE TABLE `syll_process` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `class_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -357,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `syll_process` (
 -- Table structure for table `terms`
 --
 
-CREATE TABLE IF NOT EXISTS `terms` (
+CREATE TABLE `terms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `term` tinyint(1) NOT NULL,
   `year` year(4) NOT NULL,
@@ -380,7 +398,7 @@ INSERT INTO `terms` (`id`, `term`, `year`, `startdate`, `enddate`, `locked`) VAL
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
