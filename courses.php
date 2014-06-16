@@ -19,8 +19,9 @@
 
 <title>AI Syllabus Generator Course Page</title>
 
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,200italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="stylesheets/base.css" type="text/css">
-<link rel="stylesheet" href="stylesheets/skeleton.css" type="text/css">
 <link rel="stylesheet" href="stylesheets/layout.css" type="text/css">
 
 	<!--[if lt IE 9]>
@@ -33,8 +34,6 @@
 </head>
 
 <body>
-
-<div id="logo"><a href="index.php"><img src="images/logo.png" alt="AI Syllabus Generator" /></a></div>
 
 <?php
 		$val = set_codes();
@@ -49,16 +48,21 @@
 ?>
 
 
-<div id="page" class="container">
+<div id="page">
 
 <?php add_course($link); ?>
 <?php edit_course($link); ?>
 
-	<div class="three columns frame nav">
+	<header id="mainheader">
+    	<div>
+        	<h1>Syllabus<br>Generator</h1>
+        </div>
+	<img src="images/aiLogo.png" alt="logo">
+    </header>
 	<?php include('includes/navigation.php'); ?>
-    </div>
+    
 
-	<div class="nine columns">
+	<section class="two-thirds">
     
 	<?php
 	
@@ -76,14 +80,14 @@
 		}
 	
 	?>
-    </div>
+    </section>
     
-    <div class="three columns">
+    <section class="one-third">
     	<h2 class="mainheader">List of Courses</h2>
     	<div class="courselist">
         <p><?php collapsed_course_list($link); ?></p>
     	</div>
-    </div>
+    </section>
 
 </div>
 

@@ -1,7 +1,7 @@
-<div class="nine columns">
+<section class="user-profile whole">
 	<h2 class="mainheader">Individual Profile</h2>
     <img src="resized/<?php echo p_item($link, 'photo'); ?>" class="photo" alt="<?php echo p_item($link, 'fname'); ?> <?php echo p_item($link, 'lname'); ?>" />
-    <div class="profileinfo">
+    <article class="profileinfo">
     <h3><?php echo p_item($link, 'fname'); ?> <?php echo p_item($link, 'lname'); ?>'s Profile</h3>
     <p><strong>Phone:</strong> <?php echo p_item($link, 'phone'); ?></p>
     <p><strong>Email:</strong> <a href="mailto:<?php echo p_item($link, 'email'); ?>"><?php echo p_item($link, 'email'); ?></a></p>
@@ -15,6 +15,6 @@
     }
     
     ?>
-    </div>
+    </article>
 
-</div>
+</section>

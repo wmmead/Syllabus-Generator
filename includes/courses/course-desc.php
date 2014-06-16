@@ -1,5 +1,5 @@
 <?php $id = $_GET['courseid']; ?>
-
+<section class="whole">
 <h2 class="mainheader">View Course</h2>
 
 <?php $active = course_item($link, "active", $id); ?>
@@ -28,3 +28,4 @@ if($active == 0)
 <?php output_prerequisites($link, $id); ?>
 
 <p><a href="courses.php?editcourse=<?php echo $id; ?>">Edit</a></p>
+</section>

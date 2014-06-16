@@ -428,8 +428,8 @@ function get_approved_syllabi($link, $termid, $userid)
 				$year = substr($year, -2);
 				
 				$sectquery = "select sectnum from class_details where class_id='$classid'";
-				$sectresult = mysqli_query($sectquery);
-				$sectnumrow = mysql_num_rows($sectresult);
+				$sectresult = mysqli_query($link, $sectquery);
+				$sectnumrow = mysqli_num_rows($sectresult);
 				if($sectnumrow == 1)
 				{
 					$row = mysqli_fetch_row($sectresult);
@@ -536,7 +536,7 @@ function edit_eval_process($link, $id)
 			list($description, $percent, $order) = $row;
 			print "<p id='eval$order' class='clonedeval'>";
 			print "<input type='text' value='$description' name='desc$order' id='desc$order' class='description' />";
-			print "<input type='text' value='$percent' name='perc$order' id='perc$order' class='percent' /><span style='float:left;display:block;padding:5px;'>%</span>";
+			print "<input type='text' value='$percent' name='perc$order' id='perc$order' class='percent' /><span class='percent-symbol'>&percnt;</span>";
 			print "</p>\n";
 		}
 		print "<p><input type='button' id='addEval' value='add an evaluation item' /></p>\n";
@@ -545,7 +545,7 @@ function edit_eval_process($link, $id)
 	{
 		print "<p id='eval1' class='clonedeval'>";
 		print "<input type='text' name='desc1' id='desc1' class='description' />";
-		print "<input type='text' name='perc1' id='perc1' class='percent' /><span style='float:left;display:block;padding:10px 0;'>%</span>";
+		print "<input type='text' name='perc1' id='perc1' class='percent' /><span class='percent-symbol'>&percnt;</span>";
 		print "</p>\n";
 		print "<p><input type='button' id='addEval' value='add an evaluation item' /></p>\n";
 	}
@@ -1659,87 +1659,35 @@ $query = "select message from syll_process where class_id = '$classid'";
 	}
 }
 
-function output_status_bar($link, $classid)
+function output_status_bar($link)
 {
 	$type = $_SESSION['type'];
 	$thisuser = $_SESSION['id'];
 	
-	if($type > 0)
+	if(isset($_GET['sylledit']))
 	{
-		$query = "select status from classes where id = '$classid'";
-		$result = mysqli_query($link, $query);
-		$row = mysqli_fetch_row($result);
-		
-		if($row[0] == 2)
-		{
-			$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum FROM classes, users, terms, courses 
-			WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
-		
-			$result = mysqli_query($link, $query);
-			$numrows = mysqli_num_rows($result);
-			if($numrows == 1)
-			{
-				$row = mysqli_fetch_row($result);
-				list($classid, $lname, $term, $year, $coursenum) = $row;
-				
-				$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
-				$year = substr($year, -2);
-				
-				$term = $termcodes[$term];
-				
-				$sectquery = "select sectnum from class_details where class_id='$classid'";
-				$sectresult = mysqli_query($link, $sectquery);
-				$sectnumrow = mysqli_num_rows($sectresult);
-				if($sectnumrow == 1)
-				{
-					$row = mysqli_fetch_row($sectresult);
-					$sectnum = $row[0];
-				}
-				else
-				{
-					$sectnum = "none";
-				}
-				
-				$link = FULL_ADDRESS . "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
-			}
-			echo "<div id='updatebar'>\n";
-			echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
-			echo "<a href='index.php?reqdraft=$classid' class='button link-btn'>Request Draft Status</a>";
-			echo "</div>";
-
-		}
-		elseif($row[0] == 1)
-		{
-			$query = "select user_id, director_id from syll_process where class_id = '$classid'";
-			$results = mysqli_query($link, $query);
-			$row = mysqli_fetch_row($results);
-			list($userid, $directorid) = $row;
-			if($userid == $directorid || $directorid == $thisuser)
-			{
-				echo "<div id='updatebar'>\n";
-				echo "<a href='index.php?syllrespond=$classid' class='button link-btn'>Respond to Request</a>";
-				echo "</div>";
-			}
-		}
+		$classid = $_GET['sylledit'];
+	}
+	elseif(isset($_GET['syllreview']))
+	{
+		$classid = $_GET['syllreview'];
 	}
 	
-	if($type == 0)
+	if(isset($classid))
 	{
-		$query = "select status from classes where id='$classid'";
-		$results = mysqli_query($link, $query);
-		$numrows = mysqli_num_rows($results);
-		if($numrows == 1)
+		if($type > 0)
 		{
-			$row = mysqli_fetch_row($results);
-			$status = $row[0];
+			$query = "select status from classes where id = '$classid'";
+			$result = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($result);
 			
-			if($status == '2')
+			if($row[0] == 2)
 			{
 				$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum FROM classes, users, terms, courses 
 				WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
 			
 				$result = mysqli_query($link, $query);
-				$numrows = mysql_num_rows($result);
+				$numrows = mysqli_num_rows($result);
 				if($numrows == 1)
 				{
 					$row = mysqli_fetch_row($result);
@@ -1765,12 +1713,76 @@ function output_status_bar($link, $classid)
 					
 					$link = FULL_ADDRESS . "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
 				}
-				echo "<div id='updatebar'>\n";
+				echo "<div id='updatebar'>";
 				echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
 				echo "<a href='index.php?reqdraft=$classid' class='button link-btn'>Request Draft Status</a>";
 				echo "</div>";
+	
 			}
-			
+			elseif($row[0] == 1)
+			{
+				$query = "select user_id, director_id from syll_process where class_id = '$classid'";
+				$results = mysqli_query($link, $query);
+				$row = mysqli_fetch_row($results);
+				list($userid, $directorid) = $row;
+				if($userid == $directorid || $directorid == $thisuser)
+				{
+					echo "<div id='updatebar'>\n";
+					echo "<a href='index.php?syllrespond=$classid' class='button link-btn'>Respond to Request</a>";
+					echo "</div>";
+				}
+			}
+		}
+		
+		if($type == 0)
+		{
+			$query = "select status from classes where id='$classid'";
+			$results = mysqli_query($link, $query);
+			$numrows = mysqli_num_rows($results);
+			if($numrows == 1)
+			{
+				$row = mysqli_fetch_row($results);
+				$status = $row[0];
+				
+				if($status == '2')
+				{
+					$query = "SELECT classes.id, users.lname, terms.term, terms.year, courses.coursenum FROM classes, users, terms, courses 
+					WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
+				
+					$result = mysqli_query($link, $query);
+					$numrows = mysql_num_rows($result);
+					if($numrows == 1)
+					{
+						$row = mysqli_fetch_row($result);
+						list($classid, $lname, $term, $year, $coursenum) = $row;
+						
+						$termcodes = array('', 'WI', 'SP', 'SU', 'FA');
+						$year = substr($year, -2);
+						
+						$term = $termcodes[$term];
+						
+						$sectquery = "select sectnum from class_details where class_id='$classid'";
+						$sectresult = mysqli_query($link, $sectquery);
+						$sectnumrow = mysqli_num_rows($sectresult);
+						if($sectnumrow == 1)
+						{
+							$row = mysqli_fetch_row($sectresult);
+							$sectnum = $row[0];
+						}
+						else
+						{
+							$sectnum = "none";
+						}
+						
+						$link = FULL_ADDRESS . "repository/" . $coursenum . '_' . $lname . '_' . $term . $year . '_' . $sectnum . '_id' . $classid . '.php';
+					}
+					echo "<div id='updatebar'>\n";
+					echo "<a href='$link' class='button link-btn'>Download Your Syllabus</a>";
+					echo "<a href='index.php?reqdraft=$classid' class='button link-btn'>Request Draft Status</a>";
+					echo "</div>";
+				}
+				
+			}
 		}
 	}
 }

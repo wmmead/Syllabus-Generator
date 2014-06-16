@@ -1,4 +1,4 @@
-<h2 class="mainheader">Add a Course</h2>
+<h2 class="mainheader whole">Add a Course</h2>
 <form action="courses.php" method="post">
 	<div class="frame">
         <h3> Basic Course Information</h3>

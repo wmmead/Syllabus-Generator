@@ -20,8 +20,9 @@
 
 <title>AI Syllabus Generator Main Page</title>
 
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,200italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="stylesheets/base.css" type="text/css">
-<link rel="stylesheet" href="stylesheets/skeleton.css" type="text/css">
 <link rel="stylesheet" href="stylesheets/layout.css" type="text/css">
 
 	<!--[if lt IE 9]>
@@ -30,15 +31,13 @@
 
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-<script type="text/javascript" src="js/tiny_mce/jquery.tinymce.js"></script>
+<script type="text/javascript" src="js/tinymce/jquery.tinymce.min.js"></script>
 <script type="text/javascript" src="js/jquery.calculation.min.js"></script>
 <script type="text/javascript" src="js/script-index.js"></script>
 
 </head>
 
 <body>
-
-<div id="logo"><a href="index.php"><img src="images/logo.png" alt="AI Syllabus Generator" /></a></div>
 
 <?php
 		$val = set_codes();
@@ -55,12 +54,17 @@
 		{
 ?>
 	<?php $userid = $_SESSION['id']; ?>
-<div id="page" class="container">
-	<div class="three columns frame nav">
-		<?php include('includes/navigation.php'); ?>
-    </div>
+<div id="page">
+	<header id="mainheader">
+    	<div>
+        	<h1>Syllabus<br>Generator</h1>
+        </div>
+	<img src="images/aiLogo.png" alt="logo">
+    </header>
+	
+	<?php include('includes/navigation.php'); ?>
     
-    <div class="nine columns">
+    <section class="two-thirds">
     
     <!-- page functions here -->
         <?php add_syllabus($link); ?>
@@ -109,7 +113,6 @@
 		
 		else
 		{
-			print "<h2 class='mainheader'>Your Syllabi</h2>";
 			display_user_terms($link);
 			
 			if($_SESSION['type'] > 0)
@@ -119,9 +122,9 @@
 		}
 		?>
     
-    </div>
+    </section>
     
-    <div class="three columns userlist">
+    <section class="one-third userlist">
     <h2 class="mainheader">Welcome Back</h2>
     <?php $id = $_SESSION['id']; ?>
     
@@ -139,9 +142,10 @@
         <div id="messages">
         	<?php display_syllabus_process_message($link); ?>
         </div>
-    </div><!-- end three columns right side -->
-    
+    </section><!-- end three columns right side -->
+    <?php output_status_bar($link); ?>
 </div>
+
 
 </body>
 </html>

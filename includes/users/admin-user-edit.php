@@ -1,4 +1,4 @@
-<div class="twelve columns frame" style="margin: 0;">
+<div class="whole frame" style="margin: 0;">
 
 <h2 class="mainheader">Manage All People</h2>
 

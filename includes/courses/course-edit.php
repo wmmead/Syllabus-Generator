@@ -1,6 +1,6 @@
 <?php $id = $_GET['editcourse']; ?>
 
-<h2 class="mainheader">Edit Course</h2>
+<h2 class="mainheader whole">Edit Course</h2>
 <form action="courses.php" method="post">
 	<div class="frame">
         <h3> Basic Course Information</h3>

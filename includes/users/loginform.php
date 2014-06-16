@@ -1,7 +1,11 @@
-<div id="loginform">
 
+<img src="images/aiLogo.png" alt="logo" class="small-logo">
+
+<div id="loginform">
+<h1>Syllabus Generator</h1>
+<h2>Login</h2>
 <form method='post' action="index.php">
-<h2>AI Syllabus Generator Login</h2>
+
 <label for="id">Username</label>
 <input name='login' id="login" type='text' />
 

@@ -33,9 +33,9 @@ $(document).ready(function(){
 	});
 	
 	$('.tinymice').tinymce({
-			script_url : 'js/tiny_mce/tiny_mce.js',
-			theme : "advanced",
-			plugins : "spellchecker, paste", 
+			script_url : 'js/tinymce/tinymce.min.js',
+			theme : "modern",
+			plugins : "spellchecker, paste",
 			theme_advanced_buttons1 : "bold,italic,underline,|,bullist,numlist,|,outdent,indent,|,code,|,spellchecker",
 			theme_advanced_buttons2 : "",
 			theme_advanced_buttons3 : "",      

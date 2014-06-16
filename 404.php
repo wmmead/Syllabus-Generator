@@ -18,10 +18,11 @@
 <meta name="author" content="William Mead">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>AI Syllabus Generator Main Page</title>
+<title>Syllabus Generator Page Not Found</title>
 
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,200italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="/stylesheets/base.css" type="text/css">
-<link rel="stylesheet" href="/stylesheets/skeleton.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/layout.css" type="text/css">
 
 	<!--[if lt IE 9]>
@@ -39,8 +40,6 @@
 
 <body>
 
-<div id="logo"><a href="index.php"><img src="/images/logo.png" alt="AI Syllabus Generator" /></a></div>
-
 <?php
 		if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
 		{
@@ -52,13 +51,17 @@
 		{
 ?>
 	<?php $userid = $_SESSION['id']; ?>
-<div id="page" class="container">
+<div id="page">
 
-	<div class="three columns frame nav">
+	<header id="mainheader">
+    	<div>
+        	<h1>Syllabus<br>Generator</h1>
+        </div>
+	<img src="images/aiLogo.png" alt="logo">
+    </header>
 	<?php include('includes/navigation.php'); ?>
-    </div>
 
-	<div class="twelve columns" style="text-align:center">
+	<div style="text-align:center">
     
 	<p>I am affraid you have found your way to a page that does not exist, but here is a picture of a bunny with a pancake on it's head.</p>
 	<img src="http://farm1.staticflickr.com/97/252849242_373d779ccd.jpg" alt="bunny" style="display:block; margin:20px auto 200px auto;">

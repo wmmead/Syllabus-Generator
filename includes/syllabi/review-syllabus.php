@@ -56,9 +56,6 @@
     
     <?php output_activities($link, $classid); ?>
     
-    <?php output_status_bar($link, $classid); ?>
     
     
-   
-
 </div>

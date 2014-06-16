@@ -1,16 +1,19 @@
 <?php $id = $_GET['profileedit']; ?>
 
-<div class="nine columns">
+<section class="whole">
     <h2 class="mainheader">Update Your Profile</h2>
     <form enctype="multipart/form-data" action="users.php" method="post">
     <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
     <input type="hidden" name="id" value="<?php echo $id; ?>" />
     
+    <div class="one-half">
     <img src="resized/<?php echo p_item($link, 'photo'); ?>" class="photo" alt="<?php echo p_item($link, 'fname'); ?> <?php echo p_item($link, 'lname'); ?>" />
     
-    <div style="float:left;">
+    <div style="clear:both;">
+        <div style="padding:20px 0;">
         <label for="photo">New Photo:</label>
         <input type="file" name="photo" id="photo" />
+        </div>
         
         <label for="fname">First Name:</label>
         <input type="text" name="fname" id="fname" value="<?php echo p_item($link, 'fname'); ?>" />
@@ -23,7 +26,9 @@
         
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" value="<?php echo p_item($link, 'password'); ?>" />
-        
+    </div>
+    </div>
+    <div class="one-half">
         <label for="phone">Phone:</label>
         <input type="text" name="phone" id="phone" value="<?php echo p_item($link, 'phone'); ?>" />
         
@@ -34,4 +39,4 @@
         <input type="submit" name="editprofile" value="Save Profile" />
     </div>
     </form>
-</div>
+</section>

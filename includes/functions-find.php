@@ -89,7 +89,7 @@ function display_found_syllabi($link, $query, $flag)
 		$num_rows = mysqli_num_rows($result);
 		if($num_rows > 0)
 		{
-			print "<div>\n <h3>Here are the results of your search...</h3>\n</div>\n";
+			print "<div class='whole'>\n <h3>Here are the results of your search...</h3>\n</div>\n";
 			print "<div class='frame'>\n";
 			
 			while($row = mysqli_fetch_row($result))

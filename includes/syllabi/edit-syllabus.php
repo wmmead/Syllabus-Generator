@@ -93,7 +93,7 @@ else { $section = "xx"; }
     <?php output_status(check_eval_status($link, $classid)); ?>
     <h4 class="fold">Evaluation Process</h4>
         <div class="hide">
-        <p><span class="desclabel">Description</span> Percent</p>
+        <p class="evallabels"><span class="desclabel">Description</span> <span class="percentlabel">Percent</span></p>
         <?php edit_eval_process($link, $classid) ?>
         <p class="rightjustify"><label>Total Percent <input type="text" name="totalpercent" id="totalpercent" readonly /></label></p>
         </div>

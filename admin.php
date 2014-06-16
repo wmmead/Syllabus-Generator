@@ -19,8 +19,9 @@
 
 <title>AI Syllabus Generator Admin Page</title>
 
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,200italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="stylesheets/base.css" type="text/css">
-<link rel="stylesheet" href="stylesheets/skeleton.css" type="text/css">
 <link rel="stylesheet" href="stylesheets/layout.css" type="text/css">
 
 	<!--[if lt IE 9]>
@@ -33,8 +34,6 @@
 </head>
 
 <body>
-
-<div id="logo"><a href="index.php"><img src="images/logo.png" alt="AI Syllabus Generator" /></a></div>
 
 <?php
 		if(!isset($_SESSION['id']))
@@ -59,17 +58,23 @@
 
 <?php add_term($link); lock_term($link); edit_term($link); ?>
 
-<div id="page" class="container">
+<div id="page">
 	<?php  update_departments($link); add_departments($link); delete_departments($link); ?>
-	<div class="three columns frame nav">
-	<?php include('includes/navigation.php'); ?>
-    </div>
     
-    <div class="nine columns">
+    <header id="mainheader">
+    	<div>
+        	<h1>Syllabus<br>Generator</h1>
+        </div>
+	<img src="images/aiLogo.png" alt="logo">
+    </header>
+    
+	<?php include('includes/navigation.php'); ?>
+   
+    <section class="two-thirds">
     <?php if(isset($_GET['departments'])) {?>
-    	<h2 class="mainheader">Manage Departments</h2>
+    	<h2 class="mainheader whole">Manage Departments</h2>
     <?php } else { ?>
-    	<h2 class="mainheader">Manage Terms</h2>
+    	<h2 class="mainheader whole">Manage Terms</h2>
     	<?php } ?>
         
         <!-- page functions here -->
@@ -98,13 +103,13 @@
 			display_terms($link);
 		}
 		?>
-    </div><!-- end nine columns middle -->
+    </section>
     
-    <div class="three columns userlist">
+    <section class="one-third userlist">
     <h2 class="mainheader">Welcome Back</h2>
     <?php $id = $_SESSION['id']; ?>
     
-    <div class="user">
+    <div>
     <img src="thumbs/<?php echo profile_item($link, 'photo', $id); ?>" class="thumb" />
         <div class="miniprofile">
         <p><strong><?php echo profile_item($link, 'fname', $id); ?> <?php echo profile_item($link, 'lname', $id); ?></strong></p>
@@ -114,8 +119,8 @@
         </div>
     </div>
         
-        <h2 class="mainheader">Messages</h2>
-    </div><!-- end three columns right -->
+    <h2 class="mainheader" style="clear:left;">Messages</h2>
+    </section><!-- end three columns right -->
 
 </div>
 

@@ -1,4 +1,4 @@
-<div class="eight columns frame" style="margin: 0;">
+<div class="frame">
 
 <?php
 
