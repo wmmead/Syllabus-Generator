@@ -6,6 +6,12 @@
         <li><a href="index.php?addsyll=yes"><span class="ligsymbol">&#xe041;</span><span class="nav-label">New Syllabus</span></a></li>
         <li><a href="find.php"><span class="ligsymbol">&#xe116;</span><span class="nav-label">Find a Syllabus</span></a></li>
         <li><a href="users.php"><span class="ligsymbol">&#xe051;</span><span class="nav-label">People</span></a></li>
+        <li class="tools"><a href="#"><span class="ligsymbol">&#xE117;</span><span class="nav-label">Tools</span></a>
+        	<ul>
+            	<li><a href="execsum.php">Executive Summaries</a></li>
+               <li><a href="lessonplans.php">Lesson Planning</a></li>
+           </ul>
+        </li>
         <li class="last"><a href="#"><span class="ligsymbol">&#xe137;</span><span class="nav-label">Account</span></a>
         	<ul>
             	<li><a href="index.php?logoff=yes">logout</a></li>
