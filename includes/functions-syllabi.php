@@ -261,9 +261,9 @@ function display_user_terms($link)
 						
 			print "$status_icon[$statusnum]</div>
 				    </div>
-				  <div class='syll-link'><a href='index.php?sylledit=$id'>$coursenum $coursename</a>  ";
+				  <a href='index.php?sylledit=$id class='syll-link'>$coursenum $coursename</a>  ";
 			
-			print "</div></div>\n";
+			print "</div>\n";
 			
 			$section_init = $section;
 		}
