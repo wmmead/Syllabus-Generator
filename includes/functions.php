@@ -93,7 +93,11 @@ function exec_sum_page_loader($link)
 
 function email_user($to, $subject, $message, $from)
 {
-	$headers = 'From: ' . $from . "\r\n" . 'Reply-To: ' . $from . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+	$headers = 'From: ' . $from . "\r\n";
+	$headers .= 'Reply-To: ' . $from . "\r\n";
+	$headers .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$headers .= 'X-Mailer: PHP/' . phpversion();
 	mail($to, $subject, $message, $headers);
 }
 

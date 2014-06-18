@@ -115,16 +115,128 @@ function add_exec_summary($link)
 			{
 				$query = "insert into exec_sum values('', '$class_id', '$priv_pub', '$summary', 
 				'$strengths', '$challenges', '$grades')";
-				
 				mysqli_query($link, $query);
+				
+				$lastid = mysqli_insert_id($link);
 				
 				$query = "update classes set exec_sum = '$priv_pub' where id = '$class_id'";
-				
 				mysqli_query($link, $query);
+				
+				email_exec_summary($link, $lastid);
 			}
 		}
 	}
 }
+
+function email_exec_summary($link, $id)
+{
+	if( isset( $_POST['email-summary'] ) )
+	{
+		if( $_POST['email-summary'] != '' )
+		{
+			$raw_emails = mysql_prep($link, $_POST['email-summary']);
+			$emails = explode(',', $raw_emails);
+			$trimmed_emails = array_map('trim', $emails);
+			
+			$query = "SELECT
+			exec_sum.id,
+			exec_sum.summary_txt,
+			exec_sum.strengths_txt,
+			exec_sum.challenges_txt,
+			exec_sum.grades_txt,
+				courses.coursenum,
+				courses.name,
+				terms.term,
+				terms.year,
+				users.fname,
+				users.lname,
+				users.email
+			FROM
+				exec_sum,
+				classes,
+				courses,
+				terms,
+				users
+			WHERE
+			exec_sum.class_id = classes.id AND
+				classes.course_id = courses.id AND
+				classes.user_id = users.id AND
+				classes.term_id = terms.id AND
+			exec_sum.id = '$id'";
+			
+		$result = mysqli_query($link, $query);
+		$num_rows = mysqli_num_rows($result);
+		
+		if( $num_rows == 1 )
+		{
+			$row = mysqli_fetch_row($result);
+			list($exec_sum_id, $summary_txt, $strengths_txt, $challenges_txt, $grades_txt, 
+			$coursenum, $course, $term, $year, $fname, $lname, $email) = $row;
+			
+			$term_names = array('', 'Winter', 'Spring', 'Summer', 'Fall');
+			$full_term = $term_names[$term];
+			
+			$subject = "Excutive Summary from the Syllabus Generator";
+			
+			$message = "<html><body>";
+			
+			$message .= "
+<h3>Executive Summary for $coursenum &mdash; $course</h3>
+<p><strong>Term:</strong> $full_term $year</p>
+<p><strong>Taught by:</strong> $fname $lname</p>
+
+";
+			if($summary_txt != '')
+			{
+				$message .= "
+<h3>Summary:</h3>
+$summary_txt
+
+";
+			}
+			
+			if($strengths_txt != '')
+			{
+				$message .= "
+<h3>Strengths:</h3>
+$strengths_txt
+
+";
+			}
+			
+			if($challenges_txt != '')
+			{
+				$message .= "
+<h3>Challenges:</h3>
+$challenges_txt
+
+";
+			}
+			
+			if($grades_txt != '')
+			{
+				$message .= "
+<h3>Grades:</h3>
+$grades_txt
+
+";
+			}
+			
+				$message .= "</body></html>";
+			
+			foreach($trimmed_emails as $email_address)
+			{
+				if( preg_match(RE_EMAIL, $email_address) )
+				{
+					email_user($email_address, $subject, $message, $email);
+				}
+			}
+			
+		}//end if one row
+	
+		}//end if empty
+	}//end if isset
+}// end function
 
 
 
