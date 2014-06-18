@@ -819,6 +819,10 @@ table.approvedsyllabi tr:nth-child(even) {
 	color:#666;
 }
 
+/*************** Executive Summary Page Styles ****************/
+
+.tinymice-container {margin-bottom:40px; }
+
 /**************** Ligature Symbol Font Styles ****************/
 
 @font-face {

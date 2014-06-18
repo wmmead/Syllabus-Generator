@@ -55,6 +55,40 @@ function auth_check($link)
 	}
 }
 
+function page_loader($link, $page)
+{
+	$val = set_codes();
+	if(!isset($_SESSION['auth09328']) || $_SESSION['auth09328'] != $val)
+	{
+		include('includes/users/loginform.php');
+	}
+	else
+	{
+		include("$page");	
+	}
+}
+
+function exec_sum_page_loader($link)
+{
+	if(isset($_POST['create-exec-sum']))
+	{
+		$user_id = $_SESSION['id'];
+		$class_id = $_POST['courseselect'];
+		$query = "select count(id) from classes where id='$class_id' and user_id='$user_id'";
+		$result = mysqli_query($link, $query);
+		$row = mysqli_fetch_row($result);
+		if($row[0] == 1)
+		{
+			include('execsum/execsum-new.php');
+		}
+		else { print "<p>Authentication Error - Are you sure this is your class?</p>"; }
+	}
+	else
+	{
+		include('execsum/execsum-main.php');
+	}
+}
+
 
 
 function email_user($to, $subject, $message, $from)

@@ -29,7 +29,7 @@
 	<![endif]-->
 	
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="js/tiny_mce/jquery.tinymce.js"></script>
+<script type="text/javascript" src="js/tinymce/jquery.tinymce.min.js"></script>
 <script type="text/javascript" src="js/script-admin.js"></script>
 </head>
 
