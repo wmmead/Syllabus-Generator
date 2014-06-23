@@ -14,7 +14,7 @@
     
     	<h2>New Executive Summary</h2>
     
-    	<h3><?php echo class_details($link, 'coursenum', $class_id); ?> &mdash; <?php echo class_details($link, 'course', $class_id); ?> &mdash; <?php echo class_details($link, 'term', $class_id); ?> <?php echo class_details($link, 'year', $class_id); ?></h3>
+    	<h3><?php echo class_details($link, 'coursenum', $class_id); ?> <?php echo class_details($link, 'section', $class_id); ?> &mdash; <?php echo class_details($link, 'course', $class_id); ?> &mdash; <?php echo class_details($link, 'term', $class_id); ?> <?php echo class_details($link, 'year', $class_id); ?></h3>
         
         <p class="one-half"><strong>Course Description:</strong> <?php echo class_details($link, 'description', $class_id); ?></p>
         <form action="execsum.php" method="post">
@@ -24,10 +24,10 @@
         <div class="two-thirds">
             <h3 class="remove-bottom">Public?</h3>
             <p class="example">Anyone can read public summaries. Only you and the Director who approved the syllabus can read private summaries.</p>
-            <p class="remove-bottom"><label><input type="radio" name="priv_pub" value="2" checked> Yes</label></p>
-            <p><label><input type="radio" name="priv_pub" value="1"> No</label></p>
+            <p class="remove-bottom"><label><input type="radio" name="priv_pub" value="2" checked> Yes, make it public.</label></p>
+            <p><label><input type="radio" name="priv_pub" value="1"> No, keep it private.</label></p>
         
-        
+        	<p class="example">All of the fields below are optional. Fill in which ever ones are useful for your executive summary. At least one of them must have content for the summary to be saved.</p>
             <h3 class="remove-bottom">Course Summary</h3>
             <p class="example">Provide general information about how the course was structured.</p>
             <div class="tinymice-container">

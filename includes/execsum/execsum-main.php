@@ -17,6 +17,8 @@
     <form action="execsum.php" method="post">
     	<?php generate_exec_sum_select_list($link); ?>
     </form>
+    	<?php $user_id = $_SESSION['id']; ?>
+    	<?php exec_sum_list($link, $user_id); ?>
     
     </section>
     
