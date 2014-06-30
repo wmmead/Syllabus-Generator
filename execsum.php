@@ -40,6 +40,23 @@
 <?php page_loader($link, 'includes/execsum/execsum-pageloader.php'); ?>
 
 </body>
+
+<script type="text/javascript">
+
+document.getElementById('deleteexecsum').onclick = haltDelete;
+
+function haltDelete(evt)
+{
+	if( confirm("Are you sure you want to complete delete this exectutive summary?") ) {
+		return TRUE;
+	}
+	else {
+		 evt.preventDefault();	
+	}
+}
+
+</script>
+
 </html>
 
 <?php db_disconnect($link); ?>

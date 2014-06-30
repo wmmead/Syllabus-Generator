@@ -1,3 +1,4 @@
+<?php delete_exec_sum($link); ?>
 <div id="page">
 
 	<header id="mainheader">
@@ -10,7 +11,7 @@
 
 	<section class="whole">
     
-    <setion class="two-thirds">
+    <section class="two-thirds">
     <h2 class="mainheader">Create &amp; Manage Executive Summaries</h2>
     <p>This page will allow you to create, view and manange executive summaries you have written for classes you have taught, as well as view those of others that have been marked public.</p>
     

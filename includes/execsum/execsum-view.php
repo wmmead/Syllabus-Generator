@@ -1,5 +1,8 @@
 <?php $class_id = get_class_id();?>
 
+<?php email_exec_summary($link, $_GET['execsum']); ?>
+<?php update_priv_pub_status($link, $_GET['execsum'], $class_id); ?>
+
 <div id="page">
 
 	<header id="mainheader">
@@ -23,6 +26,13 @@
 		$strengths = exec_summary_details($link, 'strengths', $class_id);
 		$challenges = exec_summary_details($link, 'challenges', $class_id);
 		$grades = exec_summary_details($link, 'grades', $class_id);
+		$status = exec_summary_details($link, 'priv_pub', $class_id);
+		$exec_sum_id = exec_summary_details($link, 'exec_sum_id', $class_id);
+		switch($status)
+		{
+			case "1": $status = "Private";  break;
+			case "2": $status = "Public";  break;
+		}
 		
 		?>
         
@@ -46,6 +56,60 @@
             <?php print $grades; ?>
         <?php } ?>
         
+        </section>
+        
+        <section class="one-third">
+        	<article class="frame">
+            <h4>Current Status: <?php echo $status; ?></h4>
+            
+            <?php if( exec_sum_owner($link, $class_id) ) { ?>
+            	<form method="post" action="execsum.php?view=<?php echo $class_id; ?>&execsum=<?php echo $exec_sum_id; ?>" class="remove-bottom">
+                
+                	<?php if($status == "Public") {?>
+                    	<input type="hidden" name="priv_pub" value="1">
+                    	<input type="submit" name="change-status" value="Change the Status to Private">
+                    <?php } ?>
+                    
+                    <?php if($status == "Private") {?>
+                    	<input type="hidden" name="priv_pub" value="2">
+                    	<input type="submit" name="change-status" value="Change the Status to Public">
+                    <?php } ?>
+                
+                </form>
+            
+            <?php } ?>
+            
+            </article>
+            
+            <?php if( exec_sum_owner($link, $class_id) ) { ?>
+            
+            <article class="frame">
+            	<nav id="execsum-nav">
+                	<ul class="remove-bottom">
+                    	<li><a href="execsum.php?edit=<?php echo $class_id; ?>&execsum=<?php echo $exec_sum_id; ?>"><span class="ligsymbol">&#xE09f;</span> Edit Executive Summary</a></li>
+                        <li class="remove-bottom"><a id="deleteexecsum" href="execsum.php?deletesum=<?php echo $class_id; ?>&execsum=<?php echo $exec_sum_id; ?>"><span class="ligsymbol">&#xE12c;</span> Delete Executive Summary</a></li>
+                    </ul>
+                </nav>
+            </article>
+            <?php } ?>
+            
+            <?php if( exec_sum_owner($link, $class_id) ) { ?>
+            	<article class="frame">
+            	<h4>Email This Summary</h4>
+                
+                <p class="example">To email multiple people, separate email addresses with commas.</p>
+                
+                <form method="post" action="execsum.php?view=<?php echo $class_id; ?>&execsum=<?php echo $exec_sum_id; ?>">
+                
+                <p><input type="text" name="email-summary" placeholder="email addresses"></p>
+                <input type="submit" name="send-emails" value="Email Summary">
+                
+                
+                </form>
+                
+            	</article>
+            <?php } ?>
+            
         </section>
         
     

@@ -96,6 +96,19 @@ function exec_sum_page_loader($link)
 		}
 		else { print "<p>Authentication Error - You do not have authority to view this executive summary.</p>"; }
 	}
+	elseif( isset( $_GET['edit'] ) )
+	{
+		$user_id = $_SESSION['id'];
+		$class_id = $_GET['edit'];
+		$query = "select count(id) from classes where id='$class_id' and user_id='$user_id'";
+		$result = mysqli_query($link, $query);
+		$row = mysqli_fetch_row($result);
+		if($row[0] == 1)
+		{
+			include('execsum/execsum-edit.php');
+		}
+		else { print "<p>Authentication Error - Are you sure this is your class?</p>"; }
+	}
 	else
 	{
 		include('execsum/execsum-main.php');

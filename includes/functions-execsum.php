@@ -60,6 +60,21 @@ function get_class_id()
 		$class_id = $_GET['view'];
 		return $class_id;
 	}
+	elseif( isset( $_GET['edit'] ) )
+	{
+		$class_id = $_GET['edit'];
+		return $class_id;
+	}
+}
+
+function exec_sum_owner($link, $class_id)
+{
+	$user_id = $_SESSION['id'];
+	$query = "select user_id from classes where id = '$class_id'";
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
+	if( $row[0] == $user_id ) { return TRUE; }
+	else { return FALSE; }
 }
 
 function class_details($link, $item, $class_id)
@@ -134,6 +149,46 @@ function add_exec_summary($link)
 				if( $_POST['email-summary'] != '' )
 				{
 					email_exec_summary($link, $lastid);
+				}
+			}
+		}
+	}
+}
+
+function update_exec_summary($link)
+{
+	if( isset($_POST['update-summary']) )
+	{
+		if( !empty( $_POST['summary'] ) || 
+		!empty( $_POST['strengths'] ) || 
+		!empty( $_POST['challenges'] )|| 
+		!empty( $_POST['grades']))
+		{
+			$exec_sum_id = mysql_prep($link, $_POST['execsumid']);
+			$priv_pub = mysql_prep($link, $_POST['priv_pub']);
+			$class_id = mysql_prep($link, $_POST['classid']);
+			$summary = mysql_prep($link, $_POST['summary']);
+			$strengths = mysql_prep($link, $_POST['strengths']);
+			$challenges = mysql_prep($link, $_POST['challenges']);
+			$grades = mysql_prep($link, $_POST['grades']);
+			
+			$query = "select count(id) from classes where id = '$class_id' and exec_sum > 0";
+			$result = mysqli_query($link, $query);
+			$row = mysqli_fetch_row($result);
+			
+			if( $row[0] == 1 )
+			{
+				$query = "update exec_sum set priv_pub = '$priv_pub', summary_txt = '$summary', strengths_txt = '$strengths', 
+				challenges_txt = '$challenges', grades_txt = '$grades' where id = '$exec_sum_id'";
+				//print $query;
+				mysqli_query($link, $query);
+				
+				$query = "update classes set exec_sum = '$priv_pub' where id = '$class_id'";
+				mysqli_query($link, $query);
+				
+				if( $_POST['email-summary'] != '' )
+				{
+					email_exec_summary($link, $exec_sum_id);
 				}
 			}
 		}
@@ -313,6 +368,41 @@ function exec_summary_details($link, $item, $class_id)
 	$exec_sum_info = array_combine($field_names, $row);
 	$the_item = $exec_sum_info[$item];
 	return $the_item;
+}
+
+function update_priv_pub_status($link, $exec_sum_id, $class_id)
+{
+	if( isset( $_POST['change-status']) )
+	{
+		if( exec_sum_owner($link, $class_id) )
+		{
+			$priv_pub = $_POST['priv_pub'];
+			
+			$query = "update exec_sum set priv_pub = '$priv_pub' where id = '$exec_sum_id'";
+			mysqli_query($link, $query);
+			
+			$query = "update classes set exec_sum = '$priv_pub' where id = '$class_id'";
+			mysqli_query($link, $query);
+		}
+	}
+}
+
+function delete_exec_sum($link)
+{
+	if( isset( $_GET['deletesum'] ) )
+	{
+		$exec_sum_id = $_GET['execsum'];
+		$class_id = $_GET['deletesum'];
+		
+		if( exec_sum_owner($link, $class_id) )
+		{
+			$query = "delete from exec_sum where id = '$exec_sum_id'";
+			mysqli_query($link, $query);
+			
+			$query = "update classes set exec_sum = '0' where id = '$class_id'";
+			mysqli_query($link, $query);
+		}
+	}
 }
 
 
