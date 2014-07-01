@@ -20,6 +20,15 @@
     </form>
     	<?php $user_id = $_SESSION['id']; ?>
     	<?php exec_sum_list($link, $user_id); ?>
+        
+        <?php display_subordinate_exec_summaries($link); ?>
+    
+    </section>
+    
+    <section class="one-third">
+    
+    <h4>Public Executive Summaries</h4>
+    <?php display_public_exec_summaries($link); ?>
     
     </section>
     

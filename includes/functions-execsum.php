@@ -405,6 +405,111 @@ function delete_exec_sum($link)
 	}
 }
 
+function display_public_exec_summaries($link)
+{
+	$term_codes = array('', 'WI', 'SP', 'SU', 'FA' );
+	$query = "SELECT
+			classes.id,
+			terms.term,
+			terms.year,
+			users.lname,
+			exec_sum.id,
+			courses.coursenum,
+			courses.name,
+			class_details.sectnum
+		FROM
+			classes,
+			terms,
+			users,
+			exec_sum,
+			courses,
+			class_details
+		WHERE
+			classes.id = exec_sum.class_id AND
+			classes.id = class_details.class_id AND
+			classes.course_id = courses.id AND
+			classes.user_id = users.id AND
+			classes.term_id = terms.id AND
+			classes.exec_sum = 2
+		ORDER BY
+			terms.year desc,
+			terms.term desc";
+	
+	$results = mysqli_query($link, $query);
+	
+	print "<ul>";
+	
+	while( $row = mysqli_fetch_row($results) )
+	{
+		list( $class_id, $term, $year, $lname, $exec_sum_id, $coursenum, $coursename, $sectnum ) = $row;
+		print "<li class='frame'><a href='execsum.php?view=$class_id&execsum=$exec_sum_id'>";
+		//print "<span class='ligsymbol'>&#xE020;</span>";
+		print " $term_codes[$term] $year &mdash; $coursenum $sectnum <br>$coursename &mdash; $lname";
+		print "</a></li>";
+	}
+	print "</ul>";
+	
+}
+
+function display_subordinate_exec_summaries($link)
+{
+	$term_codes = array('', 'WI', 'SP', 'SU', 'FA' );
+	$priv_pub_labels = array('', 'Private', 'Public');
+	$user_id = $_SESSION['id'];
+	$user_type = $_SESSION['type'];
+	if( $user_type > 0)
+	{
+		$query = "SELECT
+				classes.id,
+				terms.term,
+				terms.year,
+				users.lname,
+				exec_sum.id,
+				exec_sum.priv_pub,
+				courses.coursenum,
+				courses.name,
+				class_details.sectnum
+			FROM
+				classes,
+				terms,
+				users,
+				exec_sum,
+				courses,
+				class_details
+			WHERE
+				classes.id = exec_sum.class_id AND
+				classes.id = class_details.class_id AND
+				classes.course_id = courses.id AND
+				classes.user_id = users.id AND
+				classes.term_id = terms.id AND
+				classes.approvedby = '$user_id' AND
+				users.id != '$user_id'
+			ORDER BY
+				users.lname asc,
+				terms.year desc,
+				terms.term desc";
+				
+		$results = mysqli_query($link, $query);
+		$numrows = mysqli_num_rows($results);
+		
+		if( $numrows > 0 )
+		{
+			print "<h3>Subordinates&rsquo; Executive Summaries</h3>";
+			print "<ol>";
+			
+			while( $row = mysqli_fetch_row($results) )
+			{
+				list($class_id, $term, $year, $lname, $exec_sum_id, $priv_pub, $coursenum, $coursename, $sectnum) = $row;
+				print "<li><a href='execsum.php?view=$class_id&execsum=$exec_sum_id'>";
+				print "$lname &mdash; $term_codes[$term] $year &mdash; $coursenum $sectnum <br>$coursename";
+				print "</a> <span class='example'>$priv_pub_labels[$priv_pub]</span></li>";
+			}
+			print "</ol>";
+		}
+		
+	}
+}
+
 
 
 
