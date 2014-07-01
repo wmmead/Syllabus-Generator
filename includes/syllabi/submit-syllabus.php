@@ -1,5 +1,7 @@
 <?php $classid = $_GET['syllsubmit']; ?>
 
+<?php process_form($link, $classid); ?>
+
 <?php if (check_syllabus_completion($link, $classid)) { ?>
 
 <div class="frame">

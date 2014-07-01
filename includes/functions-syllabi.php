@@ -261,7 +261,7 @@ function display_user_terms($link)
 						
 			print "$status_icon[$statusnum]</div>
 				    </div>
-				  <a href='index.php?sylledit=$id class='syll-link'>$coursenum $coursename</a>  ";
+				  <a href='index.php?sylledit=$id' class='syll-link'>$coursenum $coursename</a>  ";
 			
 			print "</div>\n";
 			
@@ -1452,7 +1452,8 @@ function add_submit_button($link, $classid)
 {
 	if(check_syllabus_details($link, $classid) && check_eval_status($link, $classid) && check_books($link, $classid, "no") && check_meetings($link, $classid, "no"))
 	{
-		echo "<a class='button link-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
+		echo "<input type='submit' name='approvalbttn' formaction='index.php?syllsubmit=$classid' class='submitbttn' value='Submit for Approval'>";
+		//echo "<a class='button link-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
 	}
 }
 
