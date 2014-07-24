@@ -37,7 +37,7 @@ else { $section = "xx"; }
 
 </div>
 
-	<form method="post" action="index.php?sylledit=<?php echo $classid; ?>">
+	<form method="post" action="index.php?sylledit=<?php echo $classid; ?>" id="sylleditform">
     <input type="hidden" name="classid" value="<?php echo $classid; ?>" />
 	<div class="frame">
     <?php output_status(check_syllabus_details($link, $classid)); ?>

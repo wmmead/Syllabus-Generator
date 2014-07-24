@@ -148,6 +148,23 @@
 
 
 </body>
+
+
+<!--[if lt IE 10]>
+<script type="text/javascript">
+// This handles the formaction attribute on the submit syllbus for approval form for older version of IE
+var myForm = $('#sylleditform');
+myForm.on('click', '#approvalbttn', function (e) {
+    var attr = this.getAttribute('formAction');
+
+    if (attr) {
+        this.form.action = attr;
+    }
+});
+</script>
+<![endif]-->
+
+
 </html>
 
 <?php } ?>

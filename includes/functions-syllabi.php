@@ -146,7 +146,7 @@ function copy_syllabus($link)
 					list($title, $author, $publisher, $pubdate, $isbn, $booklink, $booktype, $ordr) = $row;
 					$query = "insert into books values('', '$classid', '$title', '$author', 
 					'$publisher', '$pubdate', '$isbn', '$booklink', '$booktype', '$ordr')";
-					print $query;
+					//print $query;
 					mysqli_query($link, $query);
 				}
 			}
@@ -1452,8 +1452,7 @@ function add_submit_button($link, $classid)
 {
 	if(check_syllabus_details($link, $classid) && check_eval_status($link, $classid) && check_books($link, $classid, "no") && check_meetings($link, $classid, "no"))
 	{
-		echo "<input type='submit' name='approvalbttn' formaction='index.php?syllsubmit=$classid' class='submitbttn' value='Submit for Approval'>";
-		//echo "<a class='button link-btn' href='index.php?syllsubmit=$classid'>Submit for Approval</a>";
+		echo "<input type='submit' id='approvalbttn' name='approvalbttn' formaction='index.php?syllsubmit=$classid' class='submitbttn' value='Submit for Approval'>";
 	}
 }
 
@@ -1751,7 +1750,7 @@ function output_status_bar($link)
 					WHERE classes.course_id = courses.id AND classes.user_id = users.id AND classes.term_id = terms.id AND classes.id = '$classid'";
 				
 					$result = mysqli_query($link, $query);
-					$numrows = mysql_num_rows($result);
+					$numrows = mysqli_num_rows($result);
 					if($numrows == 1)
 					{
 						$row = mysqli_fetch_row($result);
@@ -1954,10 +1953,10 @@ function submit_draft_request($link)
 		{
 			$userid = $_SESSION['id'];
 			$query = "insert into syll_process values('', '$classid', '$userid', '$director', '1', NOW(), '$message')";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			$query = "update classes set status='1', approvedby='0' where id='$classid'";
-			mysql_query($query);
+			mysqli_query($link, $query);
 			
 			send_draft_request_email($link, $classid, $director);
 		}
