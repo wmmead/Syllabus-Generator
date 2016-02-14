@@ -2702,12 +2702,12 @@ function output_mid_quarter_activities($link, $classid)
 	$day = return_day($link, $classid);
 	$data = '$html = \'<style> p, ul, table { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 	$query = "select meeting, activity from activities where class_id = '$classid' order by meeting";
-	$results = mysql_query($query);
-	$numrows = mysql_num_rows($results);
+	$results = mysqli_query($link, $query);
+	$numrows = mysqli_num_rows($results);
 	if($numrows > 0)
 	{
 		$data .= '<table width="100%">' . "\n";
-		while($row = mysql_fetch_row($results))
+		while($row = mysqli_fetch_row($results))
 		{
 			list($meeting, $activity) = $row;
 			$activity = escape_quotes($activity);
