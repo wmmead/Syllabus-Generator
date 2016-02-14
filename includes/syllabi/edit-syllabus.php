@@ -47,7 +47,8 @@ else { $section = "xx"; }
     <?php edit_meeting_times($link, $classid); ?>
     
     <label for="sectday">Section Number</label> 
-    <p class="example">i.e. A2 Would be Monday at 1 pm. Mid-Quarter classes add first day section only.</p>
+    <p class="example">i.e. A2 Would be Monday at 1 pm.<br>
+ Mid-Quarter classes add the section that runs in the beginning of the week only.</p>
     
     <div id="sectcontrols">
     <select name="sectday" id="sectday">
