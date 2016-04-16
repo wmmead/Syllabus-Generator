@@ -127,6 +127,23 @@ function email_user($to, $subject, $message, $from)
 	mail($to, $subject, $message, $headers);
 }
 
+function email_user_and_director($to, $subject, $message, $from, $link)
+{
+	$director = $_SESSION['id'];
+	$query = "SELECT email FROM users WHERE id = $director";
+	$result = mysqli_query($link, $query);
+	$row = mysqli_fetch_row($result);
+	$director_email = $row[0];
+	
+	$headers = 'From: ' . $from . "\r\n";
+	$headers .= 'Reply-To: ' . $from . "\r\n";
+	$headers .= 'Cc: ' . $director_email . "\r\n";
+	$headers .= 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$headers .= 'X-Mailer: PHP/' . phpversion();
+	mail($to, $subject, $message, $headers);
+}
+
 
 
 //Department Select List

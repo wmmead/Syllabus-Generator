@@ -1,7 +1,8 @@
 <?php $data = get_class_times($link, $classid, 1); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
 
 <div class="timeblock">
-<label for="day1">First Class Meeting Day</label>
+<label for="day1">Class meeting day in the first half of the week</label>
+<p class="example">Generally a Monday, Tuesday or Wednesday</p>
 <select name="day1" id="day1">
 	<option value="0"> --- </option>
     <?php weekday_select_list($selected = $day) ?>
@@ -27,7 +28,8 @@
 <?php $data = get_class_times($link, $classid, 2); $day = $data[0]; $stime = $data[1]; $etime = $data[2]; ?>
 
 <div class="timeblock">
-<label for="day2">Second Class Meeting Day</label>
+<label for="day2">Class meeting day in the second half of the week</label>
+<p class="example">Generally a Thursday or Friday</p>
 <select name="day2" id="day2">
 	<option value="0"> --- </option>
     <?php weekday_select_list($selected = $day) ?>

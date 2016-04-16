@@ -36,6 +36,7 @@ function add_syllabus($link)
 			{
 				case "0": $meetings = 11;  break;
 				case "1": $meetings = 11;  break;
+				case "2": $meetings = 22;  break;
 				default: $meetings = 11;
 			}
 			
@@ -501,7 +502,8 @@ function edit_meeting_times($link, $classid)
 	switch($classtype)
 	{
 		case "0": include('syllabi/once-per-week.php');  break;
-		case "1": include('syllabi/twice-per-week.php');  break;
+		case "1": include('syllabi/twice-per-week-MQ.php');  break;
+		case "2": include('syllabi/twice-per-week.php');  break;
 		default: include('syllabi/once-per-week.php');
 	}
 	
@@ -517,7 +519,8 @@ function display_activity_form($link, $classid)
 	switch($classtype)
 	{
 		case "0": include('syllabi/activities-once-per-week.php');  break;
-		case "1": include('syllabi/activities-twice-per-week.php');  break;
+		case "1": include('syllabi/activities-twice-per-week-MQ.php');  break;
+		case "2": include('syllabi/activities-twice-per-week.php');  break;
 		default: include('syllabi/activities-once-per-week.php');
 	}
 }
@@ -1887,7 +1890,10 @@ please go to the " .$full_address. "/repository/" . $coursenum . '_' . $userlnam
 $emailmessage = "$fname $lname has requested that you revise the syllabus for $coursenum $coursename for $term $year. Here is the message: \"$dbmessage\"
 please go to $server and revise it.";
 				
-				email_user($useremail, $subject, $emailmessage, $email);
+				//email_user($useremail, $subject, $emailmessage, $email);
+				
+				//The updated function below sends a CC of the message to the Director...
+				email_user_and_director($useremail, $subject, $emailmessage, $email, $link);
 				
 				}
 			}
@@ -2151,6 +2157,7 @@ WHERE
 			{
 				case "0": fwrite($handle, output_full_quarter_activities($link, $classid));  break;
 				case "1": fwrite($handle, output_mid_quarter_activities($link, $classid));  break;
+				case "2": fwrite($handle, output_full_quarter_activities($link, $classid));  break;
 				default: fwrite($handle, output_full_quarter_activities($link, $classid));
 			}
 			
