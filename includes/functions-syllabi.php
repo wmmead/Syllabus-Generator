@@ -2133,7 +2133,7 @@ WHERE
 
 		if($handle = fopen($file, 'w'))
 		{
-			$content = '<?php' . "\n" . 'require_once(\'../../' . PHPDOCX . '/classes/CreateDocx.inc\');' . "\n\n" . '$docx = new CreateDocx();' . "\n\n" . '$docx->addTemplate(\'../templates/' . THE_TEMPLATE . '\');' . "\n";
+			$content = '<?php' . "\n" . 'require_once(\'../../' . PHPDOCX . '/classes/CreateDocx.inc\');' . "\n\n" . '$docx = new CreateDocxFromTemplate(\'../templates/' . THE_TEMPLATE . '\');' . "\n";
 			
 			fwrite($handle, $content);
 			
@@ -2239,20 +2239,24 @@ WHERE
 		$term = escape_quotes($term);
 		$year = escape_quotes($year);
 		$startdate = escape_quotes($startdate);
-		$data = '$docx->addTemplateVariable(\'COURSENUM\', \''. $coursenum . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'COURSETITLE\', \''. $coursename . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'SESSION\', \''. $term . ' ' . $year . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'INSTRUCTOR\', \''. $fname. ' ' . $lname . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'EMAIL\', \''. $email . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'PHONE\', \''. $phone . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'AVAILABILITY\', \''. $officehrs . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'SECTNUM\', \''. $sectnum . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'WEEKS\', \''. $type . '\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'HOURS\', \''. $coursehrs . ' Hours\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'LECTURE\', \''. $lecturehrs . ' Hours\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'LAB\', \''. $labhrs . ' Hours\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'CREDITS\', \''. $credit . ' Credits\');' . "\n";
-		$data .= '$docx->addTemplateVariable(\'REVISED\', \''. $startdate . '\');' . "\n";
+		
+		
+		
+		
+		$data = '$docx->replaceVariableByText(array(\'COURSENUM\' => \''. $coursenum . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'COURSETITLE\' => \''. $coursename . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'SESSION\' => \''. $term . ' ' . $year . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'INSTRUCTOR\' => \''. $fname. ' ' . $lname . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'EMAIL\' => \''. $email . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'PHONE\' => \''. $phone . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'AVAILABILITY\' => \''. $officehrs . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'SECTNUM\' => \''. $sectnum . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'WEEKS\' => \''. $type . '\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'HOURS\' => \''. $coursehrs . ' Hours\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'LECTURE\' => \''. $lecturehrs . ' Hours\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'LAB\' => \''. $labhrs . ' Hours\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'CREDITS\' => \''. $credit . ' Credits\'));' . "\n";
+		$data .= '$docx->replaceVariableByText(array(\'REVISED\' => \''. $startdate . '\'), array(\'target\' => \'footer\'));' . "\n";
 		
 		return $data;
 	}
@@ -2270,13 +2274,13 @@ function output_classtimes($link, $classid)
 		$classday = escape_quotes($classday);
 		$starttime = escape_quotes($starttime);
 		$endtime = escape_quotes($endtime);
-		$data = '$docx->addTemplateVariable(\'CLASSTIME\', \''. $classday . 's from '. $starttime . ' to ' . $endtime . '\');' . "\n";
+		$data = '$docx->replaceVariableByText(array(\'CLASSTIME\' => \''. $classday . 's from '. $starttime . ' to ' . $endtime . '\'));' . "\n";
 		return $data;
 	}
 	
 	if($numrows > 1)
 	{
-		$data = '$docx->addTemplateVariable(\'CLASSTIME\', \'';
+		$data = '$docx->replaceVariableByText(array(\'CLASSTIME\' => \'';
 		while($rows = mysqli_fetch_row($results))
 		{
 			list($classday, $starttime, $endtime) = $rows;
@@ -2288,7 +2292,7 @@ function output_classtimes($link, $classid)
 		}
 		
 		$data = substr($data, 0, -5);
-		$data .= '\');' . "\n";
+		$data .= '\'));' . "\n";
 		return $data;
 	}	
 }
@@ -2368,13 +2372,13 @@ function output_prereqs($link, $classid)
 	{
 		$row = mysqli_fetch_row($results);
 		$prereq = escape_quotes($row[0]);
-		$data = '$docx->addTemplateVariable(\'PREREQS\', \''. $prereq . '\');' . "\n";
+		$data = '$docx->replaceVariableByText(array(\'PREREQS\' => \''. $prereq . '\'));' . "\n";
 		return $data;
 	}
 	
 	elseif($numrows > 1)
 	{
-		$data = '$docx->addTemplateVariable(\'PREREQS\', \'';
+		$data = '$docx->replaceVariableByText(array(\'PREREQS\' => \'';
 		while($row = mysqli_fetch_row($results))
 		{
 			list($prereq) = $row;
@@ -2382,12 +2386,12 @@ function output_prereqs($link, $classid)
 			$data .= $prereq . ', ';	
 		}
 		$data = substr($data, 0, -2);
-		$data .= '\');' . "\n";
+		$data .= '\'));' . "\n";
 		return $data;
 	}
 	else
 	{
-		$data = '$docx->addTemplateVariable(\'PREREQS\', \''. 'None \');' . "\n";
+		$data = '$docx->replaceVariableByText(array(\'PREREQS\' => \''. 'None \'));' . "\n";
 		return $data;
 	}
 }
@@ -2408,7 +2412,7 @@ function output_coursedescript($link, $classid)
 		{
 			$data = '$html = \'<style> p { font-family:"Arial Narrow"; font-size:10pt; margin:0; padding:0; } </style>' . "\n";
 			$data .= '<p><strong>Course Description:</strong><br />' . $description . '</p>\';' . "\n\n";
-			$data .= '$docx->replaceTemplateVariableByHTML(\'COURSEDESCRIPTION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+			$data .= '$docx->replaceVariableByHTML(\'COURSEDESCRIPTION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 			return $data;
 		}
 		else
@@ -2417,7 +2421,7 @@ function output_coursedescript($link, $classid)
 			$data = '$html = \'<style> p { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 			$data .= '<p><strong>Course Description:</strong><br />' . $description . '</p>' . "\n";
 			$data .= $focus . '\';' . "\n\n";
-			$data .= '$docx->replaceTemplateVariableByHTML(\'COURSEDESCRIPTION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+			$data .= '$docx->replaceVariableByHTML(\'COURSEDESCRIPTION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 			return $data;
 		}
 	}
@@ -2457,7 +2461,7 @@ function output_grading_policies($link, $classid)
 		}
 	}
 	
-	$data .= '$docx->replaceTemplateVariableByHTML(\'GRADINGPOLICIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+	$data .= '$docx->replaceVariableByHTML(\'GRADINGPOLICIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 
 	return $data;
 }
@@ -2465,7 +2469,7 @@ function output_grading_policies($link, $classid)
 function output_global_content($link, $classid)
 {
 	$counter = 1;
-	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin:0; padding:0; } </style>' . "\n";
+	$data = '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin:0 0 10pt 0; padding:0; } </style>' . "\n";
 	$query = "SELECT sections.title, sections.content FROM classes, terms, sections WHERE
 	classes.term_id = terms.id AND terms.id = sections.term_id AND classes.id = '$classid' order by ordr";
 	
@@ -2482,8 +2486,8 @@ function output_global_content($link, $classid)
 			if($counter == 1)
 			{
 				$data .= '<p><strong>' . $title . '</strong></p>' . $content . '\';' . "\n";
-				$data .= '$docx->replaceTemplateVariableByHTML(\'SECTION1\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
-				$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin:0; } </style>' . "\n";
+				$data .= '$docx->replaceVariableByHTML(\'SECTION1\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+				$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; margin:0 0 10pt 0; } </style>' . "\n";
 			}
 			else
 			{
@@ -2493,7 +2497,7 @@ function output_global_content($link, $classid)
 		}
 		
 		$data .= '\';' . "\n\n";
-		$data .= '$docx->replaceTemplateVariableByHTML(\'SECTION2\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		$data .= '$docx->replaceVariableByHTML(\'SECTION2\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 		
 		return $data;
 	}
@@ -2563,7 +2567,7 @@ function output_all_competencies($link, $classid)
 		$data .= '\';' . "\n\n";
 	}
 	
-	$data .= '$docx->replaceTemplateVariableByHTML(\'COMPETENCIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+	$data .= '$docx->replaceVariableByHTML(\'COMPETENCIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 		
 	return $data;
 }
@@ -2593,7 +2597,7 @@ function output_course_details($link, $classid)
 		$data .= '<p><strong>Estimated Homework Hours:</strong> ' . $hwhrs . '</p>';
 		$data .= $tech;
 		$data .= '\';' . "\n\n";
-		$data .= '$docx->replaceTemplateVariableByHTML(\'DETAILS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
+		$data .= '$docx->replaceVariableByHTML(\'DETAILS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
 		
 		if($add_req != '')
 		{
@@ -2601,14 +2605,14 @@ function output_course_details($link, $classid)
 			$add_req=substr_replace($add_req, '<strong>Additional Course Requirements:</strong><br />', 3, 0);
 			$data .= $add_req . "\n";
 			$data .= '\';' . "\n\n";
-			$data .= '$docx->replaceTemplateVariableByHTML(\'ADDREQ\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
+			$data .= '$docx->replaceVariableByHTML(\'ADDREQ\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
 		}
 		else
 		{
 			$data .= '$html = \'<style> p, ul { font-family:"Arial Narrow"; font-size:10pt; } </style>' . "\n";
 			$data .= $add_req . "\n";
 			$data .= '\';' . "\n\n";
-			$data .= '$docx->replaceTemplateVariableByHTML(\'ADDREQ\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
+			$data .= '$docx->replaceVariableByHTML(\'ADDREQ\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
 		}
 		
 		return $data;
@@ -2626,7 +2630,7 @@ function output_all_books($link, $classid)
 	if($numrows == 0)
 	{
 		$data .= '<p><strong>Required Texts:</strong> None</p>\';' . "\n";
-		$data .= '$docx->replaceTemplateVariableByHTML(\'BOOKS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
+		$data .= '$docx->replaceVariableByHTML(\'BOOKS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n";
 	}
 	else
 	{
@@ -2643,7 +2647,7 @@ function output_all_books($link, $classid)
 			
 		}
 		$data .= '\';' . "\n\n";
-		$data .= '$docx->replaceTemplateVariableByHTML(\'BOOKS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		$data .= '$docx->replaceVariableByHTML(\'BOOKS\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 	}
 	return $data;
 }
@@ -2667,7 +2671,7 @@ function output_class_evaluation($link, $classid)
 		}
 		$data .= '<tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>' . "\n";
 		$data .= '</table> \';' . "\n\n";
-		$data .= '$docx->replaceTemplateVariableByHTML(\'EVALUATION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		$data .= '$docx->replaceVariableByHTML(\'EVALUATION\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 		
 		return $data;
 	}
@@ -2693,7 +2697,7 @@ function output_full_quarter_activities($link, $classid)
 			$data .= '<tr><td width="25%"><p><strong>Meeting #</strong>' . $meeting . '<br />' . $classdate . '</p></td><td width="75%">' . $activity . '</td></tr>' . "\n";		
 		}
 		$data .= '</table> \';' . "\n\n";
-		$data .= '$docx->replaceTemplateVariableByHTML(\'ACTIVITIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		$data .= '$docx->replaceVariableByHTML(\'ACTIVITIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 		
 		return $data;
 	}
@@ -2735,7 +2739,7 @@ function output_mid_quarter_activities($link, $classid)
 			$data .= '<tr><td width="25%"><p><strong>Meeting #</strong>' . $meeting . '<br />' . $classdate . '</p></td><td width="75%">' . $activity . '</td></tr>' . "\n";		
 		}
 		$data .= '</table> \';' . "\n\n";
-		$data .= '$docx->replaceTemplateVariableByHTML(\'ACTIVITIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
+		$data .= '$docx->replaceVariableByHTML(\'ACTIVITIES\', \'block\', $html , array(\'isFile\' => false, \'parseDivsAsPs\' => false, \'downloadImages\' => false));' . "\n\n";
 		
 		return $data;
 	}
