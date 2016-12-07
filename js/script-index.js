@@ -35,6 +35,7 @@ $(document).ready(function(){
 	$('.tinymice').tinymce({
 			script_url : 'js/tinymce/tinymce.min.js',
 			theme : "modern",
+			height: "400",
 			plugins : "spellchecker, paste",
 			theme_advanced_buttons1 : "bold,italic,underline,|,bullist,numlist,|,outdent,indent,|,code,|,spellchecker",
 			theme_advanced_buttons2 : "",

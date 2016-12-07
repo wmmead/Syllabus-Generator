@@ -1283,14 +1283,40 @@ function parse_class_secttime($data, $match)
 	}
 }
 
+/*********
+
+Function updated to include the template for activities...
+
+***********/
+
 function display_activities($link, $classid)
 {	
+	$file = file_get_contents('./includes/syllabi/template-class-outline.php', FILE_USE_INCLUDE_PATH);
+	
 	$query = "select activity from activities where class_id='$classid'";
 	$data = array();
 	$results = mysqli_query($link, $query);
+	
 	while($rows = mysqli_fetch_row($results))
 	{
-		array_push($data, $rows[0]);
+		$activity_contents = $rows[0];
+		if( $activity_contents == '' || strpos($activity_contents, 'STUDENT LEARNING OBJECTIVE(S) addressed during') !== false ){
+			
+			
+			if( $activity_contents == '' ){
+				
+				array_push($data, $file);
+			}
+			else {
+				array_push($data, $activity_contents);
+			}
+			
+		}
+		else{
+			$new_contents = $file . $activity_contents;
+			array_push($data, $new_contents);
+		}
+		
 	}
 	
 	return $data;
