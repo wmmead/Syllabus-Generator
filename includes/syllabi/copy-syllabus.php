@@ -14,8 +14,12 @@
     
     <p><strong>Is this a full term or mid-quarter class?</strong></p>
    
-    <label><input type="radio" name="classtype" value="0" id="once11" checked="checked" /> Class meets once per week for eleven weeks.</label>
-    <label><input type="radio" name="classtype" value="1" id="twice5" /> Class meets twice per week for five and half weeks.</label></p>
+    <p><label><input type="radio" name="classtype" value="0" id="once11" checked="checked" /> Class meets once per week for eleven weeks.</label></p>
+
+	<p><label><input type="radio" name="classtype" value="2" id="twice11" /> Class meets twice per week for eleven weeks.</label>
+    </p>
+
+   <p> <label><input type="radio" name="classtype" value="1" id="twice5" /> Class meets twice per week for five and half weeks.</label></p>
     
 	<p><input type="submit" name="copysyll" value="Make Copy" /></p>
 </form>
