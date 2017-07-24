@@ -79,14 +79,21 @@ else { $section = "xx"; }
     <label for="officehrs">Instructor Availability Outside of Class <br><span class="example">i.e. Wednesdays from 12 - 1 pm and by appointment</span></label>
     <input type="text" name="officehrs" id="officehrs" value="<?php echo $data['officehrs']; ?>" class="fullwidth" />
     
+    <p>
     <label for="materials">Materials Required for the Course</label>
     <textarea name="materials" class="tinymice" id="materials" cols=55 rows="5"><?php echo $data['materials']; ?></textarea>
-    
+    </p>
+
+    <p>
     <label for="methods">Methods of Instruction</label>
     <textarea name="methods" class="tinymice" id="methods" cols=55 rows="5"><?php echo $data['methods']; ?></textarea>
-    
+    </p>
+
+    <p>
     <label for="tech">Technology Required</label>
     <textarea name="tech" class="tinymice" id="tech" cols=55 rows="5"><?php echo $data['tech']; ?></textarea>
+    </p>
+    
     </div><!-- end hide -->
     </div><!-- end frame -->
     
