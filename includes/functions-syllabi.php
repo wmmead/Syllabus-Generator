@@ -1151,7 +1151,8 @@ function process_addtl_comp($link)
 		else
 		{
 			$del_query = "DELETE FROM competencies WHERE class_id='$classid'";
-			mysql_query($del_query);
+			//print $del_query;
+			mysqli_query($link, $del_query);
 			
 			$counter = 1;
 			$ordr = 1;
