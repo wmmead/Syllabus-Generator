@@ -6,8 +6,9 @@
 if( $data['sectnum'] != "")
 {
 	$section = $data['sectnum'];
+	$sect_field_value = "value = '$section'";
 }
-else { $section = "xx"; }
+//else { $section = "xx"; }
 ?>
 
 <div class="frame">
@@ -47,11 +48,14 @@ else { $section = "xx"; }
     <?php edit_meeting_times($link, $classid); ?>
     
     <label for="sectday">Section Number</label> 
-    <p class="example">i.e. A2 Would be Monday at 1 pm.<br>
- Mid-Quarter classes add the section that runs in the beginning of the week only.</p>
+    <p class="example">Get the section number from the Brightspace LMS or from the Registrar.<br>
+	(10 character max length)</p>
     
     <div id="sectcontrols">
-    <select name="sectday" id="sectday">
+	
+	<input type="text" name="classsection" id="classsection" <?php print $sect_field_value; ?></input>
+		
+    <!--<select name="sectday" id="sectday">
     	<option value="">----</option>
     	<option value="A" <?php parse_class_sectday($section, "A") ?>>A (Monday)</option>
         <option value="B" <?php parse_class_sectday($section, "B") ?>>B (Tuesday)</option>
@@ -66,11 +70,11 @@ else { $section = "xx"; }
     	<option value="">----</option>
     	<option value="1" <?php parse_class_secttime($section, "1") ?>>1 (8:00 am)</option>
         <option value="2" <?php parse_class_secttime($section, "2") ?>>2 (1:00 pm)</option>
-        <option value="3" <?php parse_class_secttime($section, "3") ?>>3 (5:30 pm)</option>
+        <option value="3" <?php parse_class_secttime($section, "3") ?>>3 (6:00 pm)</option>
         <option value="4" <?php parse_class_secttime($section, "4") ?>>4</option>
         <option value="5" <?php parse_class_secttime($section, "5") ?>>5</option>
         <option value="6" <?php parse_class_secttime($section, "6") ?>>6</option>
-    </select> 
+    </select>--> 
     </div>
     
     <label for="hwhrs">Estimated Homework Hours <span class="example">i.e. 4 hours per week</span></label>

@@ -857,8 +857,11 @@ function process_class_times($link, $num)
 function process_class_details($link)
 {
 	$classid = $_POST['classid'];
-	$sectday = mysql_prep($link, $_POST['sectday']);
-	$secttime = mysql_prep($link, $_POST['secttime']);
+	$sectnum = mysql_prep($link, $_POST['classsection']);
+	
+	//The two below are changed from when I had two fields for day and time.
+	//$sectday = mysql_prep($link, $_POST['sectday']);
+	//$secttime = mysql_prep($link, $_POST['secttime']);
 	$hwhrs = mysql_prep($link, $_POST['hwhrs']);
 	$officehrs = mysql_prep($link, $_POST['officehrs']);
 	$materials = mysql_prep($link, $_POST['materials']);
@@ -867,14 +870,17 @@ function process_class_details($link)
 	$focus = mysql_prep($link, $_POST['focus']);
 	$additional = mysql_prep($link, $_POST['additional']);
 	
-	if($sectday !="" && $secttime !="")
+	
+	$sectnum = trim(substr(strtoupper($sectnum), 0, 10)); //uppercase, then only 10 characters, then trimmed.
+	
+	/*if($sectday !="" && $secttime !="")
 	{
 		$sectnum = $sectday . $secttime;
 	}
 	else
 	{
 		$sectnum ="";
-	}
+	}*/
 	
 	$hwhrslength = strlen($hwhrs);
 	$officehrslength = strlen($officehrs);

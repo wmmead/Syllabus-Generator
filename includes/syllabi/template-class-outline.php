@@ -1,13 +1,3 @@
-
-<p>****************************************<br>
-	<span style="text-align: center">NEW FORMAT FOR WEEKLY COURSE OUTLINE</span><br>
-	For Winter 2017, either use this new format for your weekly outline, or delete it from
-	each weekly activity. As of Spring 2017 this format will be required for every class.<br><br>
-	Be sure to delete this comment before submitting your syllabus.<br>
-	
-	******************************************</p>
-
-
 <h3>STUDENT LEARNING OBJECTIVE(S) addressed during this week’s lesson</h3>
 
 <p>Add the Student Learning Objective(s) addressed during this week’s lesson. Copy and paste from course details above, or from first page of syllabus.</p>
